@@ -369,8 +369,8 @@ def test_extract_charges_each_call_and_stops_when_the_cap_is_reached(tmp_path):
     with pytest.raises(llm.BudgetExceeded):
         extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call)
     assert len(calls) == 2 and budget.spent("claude") == pytest.approx(
-        0.10
-    )  # the call over the cap is refused, nothing follows it
+        0.20
+    )  # the second call crossed the cap: its cost is recorded, then the batch stops and nothing follows it
 
 
 def test_extract_refuses_an_unpriced_model_before_it_spends(tmp_path):
