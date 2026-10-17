@@ -1,0 +1,312 @@
+[
+ {
+  "id": "DEV-01",
+  "question": "For January 5\u201330, 2026, how many therapy sessions did Rowan attend, by service type and in total, and on how many distinct days? Provide a reviewable abstraction with source support and explain records that could lead to duplicate or ineligible counts.",
+  "plan": {
+   "kind": "computed",
+   "metric": "sessions",
+   "attendance": "attended",
+   "service_type": "any",
+   "group_by": "service_type",
+   "patients": [
+    "HG-M042"
+   ],
+   "date_range": {
+    "start": "2026-01-05",
+    "end": "2026-01-30",
+    "label": "2026-01-05 to 2026-01-30"
+   },
+   "readings": {
+    "metric": {
+     "rules": [
+      "sessions"
+     ],
+     "decision_model": [
+      "sessions",
+      1.0
+     ]
+    },
+    "attendance": {
+     "rules": [
+      "attended"
+     ],
+     "decision_model": [
+      "attended",
+      1.0
+     ]
+    },
+    "service_type": {
+     "rules": [],
+     "decision_model": [
+      "any",
+      0.99
+     ]
+    },
+    "group_by": {
+     "rules": [
+      "service_type"
+     ],
+     "decision_model": [
+      "service_type",
+      0.99
+     ]
+    }
+   },
+   "warnings": []
+  },
+  "interpretation": "Interpreted as: sessions, attended, HG-M042, 2026-01-05 to 2026-01-30, by service type",
+  "warnings": [],
+  "citations_broken": [],
+  "answer": "Interpreted as: sessions, attended, HG-M042, 2026-01-05 to 2026-01-30, by service type\n\n## Sessions, Rowan Mercer (HG-M042)\n\n2026-01-05 to 2026-01-30: **12 therapy sessions on 11 distinct days** (5 individual (210-220 min), 5 group (300 min), 2 family (75 min)).\n\n| Service type | Records | Therapy sessions | Therapy days | Minutes | Hours |\n|---|---|---|---|---|---|\n| individual_psychotherapy | 5 | 5 | 5 | 210-220 | 3.5-3.67 |\n| group_psychotherapy | 5 | 5 | 5 | 300 | 5 |\n| family_psychotherapy | 2 | 2 | 2 | 75 | 1.25 |\n\n| Date | Encounter | Service | Status | Counted | Minutes | Calculation or reason | Sources |\n|---|---|---|---|---|---|---|---|\n| 2026-01-05 | HG-E101 | individual_psychotherapy (in_person) | attended | yes | 50 | 09:00-09:50 present (50 min) = 50 min | BH-D002 L6-9, BH-D002 L13, BH-D006 L10 |\n| 2026-01-06 | HG-E102 | group_psychotherapy (in_person) | attended_partial | yes | 45 | 10:15-11:15 present (60 min), minus break 10:45-11:00 = 15 min (BH-D004 L12) = 45 min | BH-D004 L4-8, BH-D004 L12, BH-D004 L14, BH-D005 L10, BH-D005 L13, BH-D005 L17, BH-D006 L11 |\n| 2026-01-08 | 2026-01-08 outreach_or_scheduling_call | outreach_or_scheduling_call (phone) | not_documented | no | 0 | outreach or scheduling call does not count toward the plan goal | BH-D015 L13, BH-D015 L15, BH-D015 L17 |\n| 2026-01-08 | HG-E103 | individual_psychotherapy (unknown) | no_show | no | 0 | not delivered (no show) | BH-D006 L12, BH-D006 L20, BH-D015 L6, BH-D015 L9, BH-D015 L11 |\n| 2026-01-09 | HG-E104 | family_psychotherapy (in_person) | attended | yes | 45 | 14:00-14:45 present (45 min) = 45 min | BH-D007 L4, BH-D007 L6-10, BH-D008 L6-9, BH-D008 L11, BH-D006 L13 |\n| 2026-01-12 | HG-E105 | group_psychotherapy (in_person) | attended | yes | 75 | 10:00-11:30 present (90 min), minus break 10:40-10:55 = 15 min (BH-D009 L12) = 75 min | BH-D005 L11, BH-D005 L15, BH-D005 L17, BH-D009 L4-8, BH-D009 L12, BH-D009 L14, BH-D009 L16, BH-D006 L14 |\n| 2026-01-13 | HG-E106 | medication_management (unknown) | attended | no | 25 | 09:00-09:25 present (25 min) = 25 min | BH-D010 L6-9, BH-D010 L11, BH-D010 L17, BH-D006 L15 |\n| 2026-01-14 | HG-E107 | individual_psychotherapy (unknown) | attended | yes | 45 | 11:00-11:45 present (45 min) = 45 min | BH-D011 L4, BH-D011 L6-9, BH-D006 L16 |\n| 2026-01-15 | 2026-01-15 outreach_or_scheduling_call | outreach_or_scheduling_call (phone) | attended | no | 0 | outreach or scheduling call does not count toward the plan goal | BH-D016 L13, BH-D016 L15 |\n| 2026-01-15 | HG-E108 | group_psychotherapy (in_person) | cancelled_by_clinic | no | 0 | not delivered (cancelled by clinic) | BH-D016 L6, BH-D016 L9, BH-D016 L11, BH-D016 L15, BH-D006 L17, BH-D006 L20 |\n| 2026-01-16 | 2026-01-16 assessment_review | assessment_review (unknown) | not_documented | no | 0 | assessment review does not count toward the plan goal | BH-D013 L9, BH-D013 L13, BH-D013 L15 |\n| 2026-01-16 | HG-E109 | collateral_contact (unknown) | patient_absent | no | 0 | collateral contact does not count toward the plan goal | BH-D012 L6-9, BH-D012 L11, BH-D012 L17, BH-D006 L18, BH-D006 L20 |\n| 2026-01-19 | HG-E110 | group_psychotherapy (in_person) | attended | yes | 60 | 10:00-11:15 present (75 min), minus break 10:45-11:00 = 15 min (BH-D101 L6, BH-D101 L8) = 60 min; departure time 11:30 corrected to 11:15 (BH-D103 L7) | BH-D101 L3-4, BH-D101 L6, BH-D101 L8, BH-D101 L10, BH-D101 L14, BH-D102 L4, BH-D102 L6, BH-D102 L8-10, BH-D102 L18, BH-D103 L5, BH-D103 L7, BH-D103 L9 |\n| 2026-01-19 | HG-E111 | individual_psychotherapy (in_person) | attended | yes | 30 | 11:15-11:45 present (30 min) = 30 min | BH-D105 L3, BH-D105 L5-7, BH-D105 L15 |\n| 2026-01-21 | HG-E112 | individual_psychotherapy (video) | attended | yes | 45 | 13:00-13:20, 13:30-13:55 present (45 min), minus disconnect 13:20-13:30 = 10 min (BH-D106 L7, BH-D106 L17-18) = 45 min | BH-D106 L3, BH-D106 L5, BH-D106 L7, BH-D106 L13, BH-D106 L17-19 |\n| 2026-01-22 | HG-E113 | group_psychotherapy (unknown) | attended | yes | 45 | 10:30-11:30 present (60 min), minus break 10:45-11:00 = 15 min (BH-D107 L8, BH-D107 L17) = 45 min | BH-D107 L7-10, BH-D108 L9, BH-D108 L14 |\n| 2026-01-23 | HG-E114 | care_coordination (phone) | patient_absent | no | 0 | care coordination does not count toward the plan goal | BH-D109 L3, BH-D109 L5-7, BH-D109 L13, BH-D109 L15 |\n| 2026-01-26 | HG-E115 | individual_psychotherapy (in_person) | attended | yes | 40-50 | range 40-50 min: BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 gives 09:10-09:50 = 40 min | BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16, BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 |\n| 2026-01-27 | 2026-01-27 outreach_or_scheduling_call | outreach_or_scheduling_call (unknown) | patient_absent | no | 0 | outreach or scheduling call does not count toward the plan goal | BH-D108 L16 |\n| 2026-01-27 | HG-E116 | group_psychotherapy (unknown) | no_show | no | 0 | not delivered (no show) | BH-D108 L10, BH-D108 L16, BH-D112 L7-11, BH-D112 L13-14, BH-D112 L19-23 |\n| 2026-01-28 | HG-E117 | individual_psychotherapy (unknown) | cancelled_by_patient | no | 0 | not delivered (cancelled by patient) | BH-D108 L11, BH-D108 L18 |\n| 2026-01-29 | HG-E118 | group_psychotherapy (unknown) | attended | yes | 75 | 10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (BH-D107 L13, BH-D107 L17) = 75 min | BH-D107 L12-15, BH-D108 L12, BH-D108 L20 |\n| 2026-01-30 | 2026-01-30 assessment_review | assessment_review (unknown) | not_documented | no | 0 | assessment review does not count toward the plan goal | BH-D115 L5-6, BH-D115 L14, BH-D115 L16 |\n| 2026-01-30 | HG-E119 | family_psychotherapy (in_person) | attended | yes | 30 | 13:15-13:45 present (30 min), minus patient not present 13:00-13:15 = 15 min (BH-D113 L7, BH-D113 L9) = 30 min | BH-D113 L3, BH-D113 L5-7, BH-D113 L9, BH-D113 L11, BH-D113 L15 |\n| 2026-01-30 | HG-E120 | medication_management (unknown) | attended | no | 20 | 15:00-15:20 present (20 min) = 20 min | BH-D114 L3, BH-D114 L5-6, BH-D114 L14-15 |\n\nFlags on these records:\n\n- HG-E103 (possible_omission): BH-D015 L9 states 11:12, inside the session window of HG-E103, which no extracted item carries; a break or a time may be missing. [BH-D015 L9]\n- HG-E115 (unresolved_minutes_conflict): Signed records of HG-E115 disagree on patient-present minutes: BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 gives 09:10-09:50 = 40 min. No correction or addendum resolves it, so HG-E115 is carried as a range 40-50 min. [BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16, BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17] An addendum or signed note stating the start time of HG-E115 would settle it.\n- HG-E116 (charge_for_undelivered_service): Charge CH-116 (Group psychotherapy, status Posted, BH-D112 L19-23) is posted for HG-E116, which the signed records show as no show. [BH-D112 L19-23, BH-D108 L10, BH-D108 L16, BH-D112 L7-11, BH-D112 L13-14]\n- HG-E116 (unsupported_record_for_undelivered_service): BH-D112 L7-11, BH-D112 L13-14; BH-D112 L19-23 (labelled billing charge, draft or template) exists for HG-E116, which the signed records show as no show; it is not evidence that care was delivered. [BH-D112 L7-11, BH-D112 L13-14, BH-D112 L19-23, BH-D108 L10, BH-D108 L16]\n",
+  "verdict": "COMPUTED",
+  "cost_usd": 4.6e-05,
+  "latency_seconds": 0.387
+ },
+ {
+  "id": "DEV-02",
+  "question": "How many therapy minutes and hours did Rowan actually receive during the review period, overall and for each Monday\u2013Sunday week? Show calculations or supporting detail, and report any conclusion the available documents do not settle.",
+  "plan": {
+   "kind": "computed",
+   "metric": "minutes",
+   "attendance": "attended",
+   "service_type": "any",
+   "group_by": "week",
+   "patients": [
+    "HG-M042"
+   ],
+   "date_range": null,
+   "readings": {
+    "metric": {
+     "rules": [
+      "minutes"
+     ],
+     "decision_model": [
+      "minutes",
+      1.0
+     ]
+    },
+    "attendance": {
+     "rules": [],
+     "decision_model": [
+      "attended",
+      1.0
+     ]
+    },
+    "service_type": {
+     "rules": [],
+     "decision_model": [
+      "any",
+      0.94
+     ]
+    },
+    "group_by": {
+     "rules": [
+      "week"
+     ],
+     "decision_model": [
+      "week",
+      1.0
+     ]
+    }
+   },
+   "warnings": []
+  },
+  "interpretation": "Interpreted as: minutes, attended, HG-M042, all dates, by week",
+  "warnings": [],
+  "citations_broken": [],
+  "answer": "Interpreted as: minutes, attended, HG-M042, all dates, by week\n\n## Minutes and hours, Rowan Mercer (HG-M042)\n\nAll dates: **585-595 minutes (9.75-9.92 hours)** of patient-present therapy.\n\n| Week | Records | Therapy sessions | Therapy days | Minutes | Hours |\n|---|---|---|---|---|---|\n| 2026-01-05 to 2026-01-11 | 3 | 3 | 3 | 140 | 2.33 |\n| 2026-01-12 to 2026-01-18 | 2 | 2 | 2 | 120 | 2 |\n| 2026-01-19 to 2026-01-25 | 4 | 4 | 3 | 180 | 3 |\n| 2026-01-26 to 2026-01-30 | 3 | 3 | 3 | 145-155 | 2.42-2.58 |\n\n| Date | Encounter | Service | Status | Counted | Minutes | Calculation or reason | Sources |\n|---|---|---|---|---|---|---|---|\n| 2026-01-05 | HG-E101 | individual_psychotherapy (in_person) | attended | yes | 50 | 09:00-09:50 present (50 min) = 50 min | BH-D002 L6-9, BH-D002 L13, BH-D006 L10 |\n| 2026-01-06 | HG-E102 | group_psychotherapy (in_person) | attended_partial | yes | 45 | 10:15-11:15 present (60 min), minus break 10:45-11:00 = 15 min (BH-D004 L12) = 45 min | BH-D004 L4-8, BH-D004 L12, BH-D004 L14, BH-D005 L10, BH-D005 L13, BH-D005 L17, BH-D006 L11 |\n| 2026-01-09 | HG-E104 | family_psychotherapy (in_person) | attended | yes | 45 | 14:00-14:45 present (45 min) = 45 min | BH-D007 L4, BH-D007 L6-10, BH-D008 L6-9, BH-D008 L11, BH-D006 L13 |\n| 2026-01-12 | HG-E105 | group_psychotherapy (in_person) | attended | yes | 75 | 10:00-11:30 present (90 min), minus break 10:40-10:55 = 15 min (BH-D009 L12) = 75 min | BH-D005 L11, BH-D005 L15, BH-D005 L17, BH-D009 L4-8, BH-D009 L12, BH-D009 L14, BH-D009 L16, BH-D006 L14 |\n| 2026-01-14 | HG-E107 | individual_psychotherapy (unknown) | attended | yes | 45 | 11:00-11:45 present (45 min) = 45 min | BH-D011 L4, BH-D011 L6-9, BH-D006 L16 |\n| 2026-01-19 | HG-E110 | group_psychotherapy (in_person) | attended | yes | 60 | 10:00-11:15 present (75 min), minus break 10:45-11:00 = 15 min (BH-D101 L6, BH-D101 L8) = 60 min; departure time 11:30 corrected to 11:15 (BH-D103 L7) | BH-D101 L3-4, BH-D101 L6, BH-D101 L8, BH-D101 L10, BH-D101 L14, BH-D102 L4, BH-D102 L6, BH-D102 L8-10, BH-D102 L18, BH-D103 L5, BH-D103 L7, BH-D103 L9 |\n| 2026-01-19 | HG-E111 | individual_psychotherapy (in_person) | attended | yes | 30 | 11:15-11:45 present (30 min) = 30 min | BH-D105 L3, BH-D105 L5-7, BH-D105 L15 |\n| 2026-01-21 | HG-E112 | individual_psychotherapy (video) | attended | yes | 45 | 13:00-13:20, 13:30-13:55 present (45 min), minus disconnect 13:20-13:30 = 10 min (BH-D106 L7, BH-D106 L17-18) = 45 min | BH-D106 L3, BH-D106 L5, BH-D106 L7, BH-D106 L13, BH-D106 L17-19 |\n| 2026-01-22 | HG-E113 | group_psychotherapy (unknown) | attended | yes | 45 | 10:30-11:30 present (60 min), minus break 10:45-11:00 = 15 min (BH-D107 L8, BH-D107 L17) = 45 min | BH-D107 L7-10, BH-D108 L9, BH-D108 L14 |\n| 2026-01-26 | HG-E115 | individual_psychotherapy (in_person) | attended | yes | 40-50 | range 40-50 min: BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 gives 09:10-09:50 = 40 min | BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16, BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 |\n| 2026-01-29 | HG-E118 | group_psychotherapy (unknown) | attended | yes | 75 | 10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (BH-D107 L13, BH-D107 L17) = 75 min | BH-D107 L12-15, BH-D108 L12, BH-D108 L20 |\n| 2026-01-30 | HG-E119 | family_psychotherapy (in_person) | attended | yes | 30 | 13:15-13:45 present (30 min), minus patient not present 13:00-13:15 = 15 min (BH-D113 L7, BH-D113 L9) = 30 min | BH-D113 L3, BH-D113 L5-7, BH-D113 L9, BH-D113 L11, BH-D113 L15 |\n\nFlags on these records:\n\n- HG-E115 (unresolved_minutes_conflict): Signed records of HG-E115 disagree on patient-present minutes: BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 gives 09:10-09:50 = 40 min. No correction or addendum resolves it, so HG-E115 is carried as a range 40-50 min. [BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16, BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17] An addendum or signed note stating the start time of HG-E115 would settle it.\n",
+  "verdict": "COMPUTED",
+  "cost_usd": 4.5e-05,
+  "latency_seconds": 0.32
+ },
+ {
+  "id": "DEV-03",
+  "question": "For each week, did the delivered therapy meet the goal documented in Rowan\u2019s treatment plan? State the goal, the relevant therapy-day and minute totals, and whether it was met, not met, or cannot be determined from the current record.",
+  "plan": {
+   "kind": "computed",
+   "metric": "goal_status",
+   "attendance": "not_applicable",
+   "service_type": "any",
+   "group_by": "none",
+   "patients": [
+    "HG-M042"
+   ],
+   "date_range": null,
+   "readings": {
+    "metric": {
+     "rules": [
+      "goal_status",
+      "minutes"
+     ],
+     "decision_model": [
+      "goal_status",
+      1.0
+     ]
+    },
+    "attendance": {
+     "rules": [],
+     "decision_model": [
+      "attended",
+      0.87
+     ]
+    },
+    "service_type": {
+     "rules": [],
+     "decision_model": [
+      "any",
+      0.93
+     ]
+    },
+    "group_by": {
+     "rules": [
+      "week"
+     ],
+     "decision_model": [
+      "week",
+      0.99
+     ]
+    }
+   },
+   "warnings": []
+  },
+  "interpretation": "Interpreted as: goal_status, HG-M042, all dates",
+  "warnings": [],
+  "citations_broken": [],
+  "answer": "Interpreted as: goal_status, HG-M042, all dates\n\n## Treatment-plan goal by week, Rowan Mercer (HG-M042)\n\nPlan version 1 (2026-01-05 to 2026-01-30): at least 3 therapy days and 150 patient-present minutes per Monday-Sunday week; counts individual_psychotherapy, group_psychotherapy, family_psychotherapy [BH-D003 L6, BH-D003 L12].\n\n| Week | Dates | Therapy days | Minutes | Goal | Status |\n|---|---|---|---|---|---|\n| 1 | 2026-01-05 to 2026-01-11 | 3 | 140 | 3 days, 150 min | **not met** |\n| 2 | 2026-01-12 to 2026-01-18 | 2 | 120 | 3 days, 150 min | **not met** |\n| 3 | 2026-01-19 to 2026-01-25 | 3 | 180 | 3 days, 150 min | **met** |\n| 4 | 2026-01-26 to 2026-01-30 | 3 | 145-155 | 3 days, 150 min | **cannot be determined** |\n\n- Week 1: 3 therapy days and 140 minutes miss the goal of 3 therapy days and 150 minutes (140 minutes < 150).\n- Week 2: 2 therapy days and 120 minutes miss the goal of 3 therapy days and 150 minutes (2 therapy days < 3; 120 minutes < 150).\n- Week 3: 3 therapy days and 180 minutes meet the goal of 3 therapy days and 150 minutes.\n- Week 4: 3 therapy days and 145-155 minutes: the goal of 3 therapy days and 150 minutes is met at the high bound but not at the low bound, so it depends on an unresolved record; partial week (2026-01-26 to 2026-01-30) inside the review period. An addendum or signed note stating the start time of HG-E115 would settle it.\n\nConsecutive weeks below goal: established 2026-01-05 and 2026-01-12; depending on unresolved records none.\n",
+  "verdict": "COMPUTED",
+  "cost_usd": 4.5e-05,
+  "latency_seconds": 0.274
+ },
+ {
+  "id": "DEV-04",
+  "question": "Reconstruct the care on January 19 and January 21. How many therapy contacts and patient therapy minutes occurred on each date, and how do the attendance records, clinical notes, later documents, and telehealth records affect your answer?",
+  "plan": {
+   "kind": "computed",
+   "metric": "sessions",
+   "attendance": "attended",
+   "service_type": "any",
+   "group_by": "day",
+   "patients": [
+    "HG-M042"
+   ],
+   "date_range": {
+    "start": "2026-01-19",
+    "end": "2026-01-21",
+    "label": "2026-01-19 to 2026-01-21"
+   },
+   "readings": {
+    "metric": {
+     "rules": [
+      "minutes",
+      "sessions"
+     ],
+     "decision_model": [
+      "sessions",
+      0.72
+     ]
+    },
+    "attendance": {
+     "rules": [
+      "any"
+     ],
+     "decision_model": [
+      "attended",
+      0.91
+     ]
+    },
+    "service_type": {
+     "rules": [],
+     "decision_model": [
+      "any",
+      0.77
+     ]
+    },
+    "group_by": {
+     "rules": [
+      "day"
+     ],
+     "decision_model": [
+      "day",
+      1.0
+     ]
+    }
+   },
+   "warnings": [
+    "disputed attendance: rules say any, decision model says attended (0.91)",
+    "disputed service_type: rules say nothing, decision model says any (0.77)"
+   ]
+  },
+  "interpretation": "Interpreted as: sessions, attended, HG-M042, 2026-01-19 to 2026-01-21, by day",
+  "warnings": [
+   "disputed attendance: rules say any, decision model says attended (0.91)",
+   "disputed service_type: rules say nothing, decision model says any (0.77)"
+  ],
+  "citations_broken": [],
+  "answer": "Interpreted as: sessions, attended, HG-M042, 2026-01-19 to 2026-01-21, by day\n\n## Sessions, Rowan Mercer (HG-M042)\n\n2026-01-19 to 2026-01-21: **3 therapy sessions on 2 distinct days** (1 group (60 min), 2 individual (75 min)).\n\n| Date | Records | Therapy sessions | Therapy days | Minutes | Hours |\n|---|---|---|---|---|---|\n| 2026-01-19 | 2 | 2 | 1 | 90 | 1.5 |\n| 2026-01-21 | 1 | 1 | 1 | 45 | 0.75 |\n\n| Date | Encounter | Service | Status | Counted | Minutes | Calculation or reason | Sources |\n|---|---|---|---|---|---|---|---|\n| 2026-01-19 | HG-E110 | group_psychotherapy (in_person) | attended | yes | 60 | 10:00-11:15 present (75 min), minus break 10:45-11:00 = 15 min (BH-D101 L6, BH-D101 L8) = 60 min; departure time 11:30 corrected to 11:15 (BH-D103 L7) | BH-D101 L3-4, BH-D101 L6, BH-D101 L8, BH-D101 L10, BH-D101 L14, BH-D102 L4, BH-D102 L6, BH-D102 L8-10, BH-D102 L18, BH-D103 L5, BH-D103 L7, BH-D103 L9 |\n| 2026-01-19 | HG-E111 | individual_psychotherapy (in_person) | attended | yes | 30 | 11:15-11:45 present (30 min) = 30 min | BH-D105 L3, BH-D105 L5-7, BH-D105 L15 |\n| 2026-01-21 | HG-E112 | individual_psychotherapy (video) | attended | yes | 45 | 13:00-13:20, 13:30-13:55 present (45 min), minus disconnect 13:20-13:30 = 10 min (BH-D106 L7, BH-D106 L17-18) = 45 min | BH-D106 L3, BH-D106 L5, BH-D106 L7, BH-D106 L13, BH-D106 L17-19 |\n\nFlags on these records:\n\n- none\n",
+  "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91); disputed service_type: rules say nothing, decision model says any (0.77)",
+  "cost_usd": 4.6e-05,
+  "latency_seconds": 0.29
+ },
+ {
+  "id": "DEV-05",
+  "question": "Summarize the documented symptom course during the episode and the reason for the additional individual contact on January 19. Which symptom assessments are distinct, and what conclusions about progress can and cannot be supported?",
+  "plan": {
+   "kind": "computed",
+   "metric": "progress",
+   "attendance": "not_applicable",
+   "service_type": "any",
+   "group_by": "none",
+   "patients": [
+    "HG-M042"
+   ],
+   "date_range": {
+    "start": "2026-01-19",
+    "end": "2026-01-19",
+    "label": "2026-01-19"
+   },
+   "readings": {
+    "metric": {
+     "rules": [
+      "progress",
+      "sessions"
+     ],
+     "decision_model": [
+      "progress",
+      1.0
+     ]
+    },
+    "attendance": {
+     "rules": [],
+     "decision_model": [
+      "attended",
+      0.5
+     ]
+    },
+    "service_type": {
+     "rules": [
+      "individual_psychotherapy"
+     ],
+     "decision_model": [
+      "individual_psychotherapy",
+      0.35
+     ]
+    },
+    "group_by": {
+     "rules": [],
+     "decision_model": [
+      "day",
+      0.69
+     ]
+    }
+   },
+   "warnings": []
+  },
+  "interpretation": "Interpreted as: progress, HG-M042, 2026-01-19",
+  "warnings": [],
+  "citations_broken": [],
+  "answer": "Interpreted as: progress, HG-M042, 2026-01-19\n\n## Symptom course and progress, Rowan Mercer (HG-M042)\n\n3 distinct administrations; repeats and imports are merged into the original.\n\n| Completed | Instrument | Total | Band | Source | Copies |\n|---|---|---|---|---|---|\n| 2026-01-05 | PHQ-9 | 18 | moderately severe | [BH-D002 L15] | - |\n| 2026-01-16 | PHQ-9 | 14 | moderate | [BH-D013 L6-8] | repeated in [BH-D014 L13, BH-D014 L17], not a new administration |\n| 2026-01-30 | PHQ-9 | 10 | moderate | [BH-D115 L5-6] | - |\n\nCan be supported:\n\n- PHQ-9 total fell 8 points, from 18 (moderately severe) on 2026-01-05 to 10 (moderate) on 2026-01-30, a 44.4 percent reduction [BH-D002 L15, BH-D115 L5-6].\n- the change is at least the 5-point threshold commonly used for a meaningful change.\n\nCannot be supported:\n\n- that therapy caused the change: the record has no comparison condition.\n- treatment response: needs a 50 percent reduction, observed 44.4 percent.\n- remission: needs a total below 5, last total 10.\n- a measured change in anxiety or sleep: no instrument for them is recorded, only narrative notes.\n\nCourse by symptom area, first and last statement in the record (verbatim):\n\n- mood: 2026-01-05 \"Presenting needs include depressed mood.\" [BH-D003 L10] ... 2026-01-30 \"Mood felt less persistently low than earlier in the month.\" [BH-D114 L8]\n- anxiety: 2026-01-05 \"Anxiety about resuming work responsibilities.\" [BH-D003 L10] ... 2026-01-30 \"Rowan remained anxious about the work conversation but could explain the intended first step.\" [BH-D113 L13]\n- sleep: 2026-01-05 \"Fragmented sleep, waking in the night and checking the time repeatedly.\" [BH-D002 L11, BH-D002 L13] ... 2026-01-30 \"Sleep was still variable.\" [BH-D114 L8]\n- avoidance: 2026-01-05 \"Avoidance of tasks and communication.\" [BH-D003 L10] ... 2026-01-30 \"Reminders about contacting work led to long discussion and Rowan withdrawing from the task.\" [BH-D113 L11]\n- functioning: 2026-01-06 \"Rowan practiced breathing, chose reading the message before responding, and seemed receptive to peers.\" [BH-D004 L14] ... 2026-01-30 \"Patient reported a limited plan felt more manageable.\" [BH-D113 L13]\n- safety: 2026-01-05 \"No immediate safety concern was identified.\" [BH-D002 L13] ... 2026-01-30 \"Patient denied current suicidal thoughts; no new acute safety issue.\" [BH-D114 L10]\n\nReason for contact on 2026-01-19 (verbatim):\n\n- 2026-01-19: \"Patient attended the opening check-in, accepted the handout, and requested additional help from the individual clinician.\" [BH-D104 L18]\n- 2026-01-19: \"Patient requested additional help and staff arranged access to the individual clinician.\" [BH-D102 L14]\n- 2026-01-19: \"Visit added because the patient became anxious during group and needed individual grounding.\" [BH-D105 L9]\n",
+  "verdict": "COMPUTED",
+  "cost_usd": 4.5e-05,
+  "latency_seconds": 0.298
+ }
+]

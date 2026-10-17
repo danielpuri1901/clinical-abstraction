@@ -490,7 +490,7 @@
     ]
   },
   "jev": {
-    "total_usd": 0.00462378,
+    "total_usd": 0.00485079,
     "entries": [
       {
         "at": "2026-10-17T20:20:10+00:00",
@@ -891,6 +891,31 @@
         "at": "2026-10-17T20:46:28+00:00",
         "usd": 5.7498000000000004e-05,
         "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:37+00:00",
+        "usd": 4.586400000000001e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:48:37+00:00",
+        "usd": 4.5150000000000006e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:48:38+00:00",
+        "usd": 4.5402000000000003e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:48:38+00:00",
+        "usd": 4.552800000000001e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:48:38+00:00",
+        "usd": 4.5066000000000005e-05,
+        "note": "jev metric, attendance, service_type, group_by"
       }
     ]
   }
