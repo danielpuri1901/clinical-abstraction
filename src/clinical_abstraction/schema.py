@@ -94,7 +94,10 @@ class ServiceEvent(BaseModel):
 class Correction(BaseModel):
     encounter_id: str | None
     service_date: str | None = Field(description="YYYY-MM-DD of the corrected service, else null")
-    field: Literal["patient_arrival", "patient_departure", "attendance", "service_type", "patient_minutes", "other"]
+    field: Literal["patient_arrival", "patient_departure", "attendance", "service_type", "patient_minutes", "other"] = Field(
+        description="The field this correction changes. A corrected start time of the patient contact is patient_arrival, "
+        "and a corrected end time of the patient contact is patient_departure. Use other only when no other value fits."
+    )
     corrected_value: str
     replaced_value: str | None = Field(description="The earlier value this correction replaces, if stated")
     lines: list[int] = LINES
