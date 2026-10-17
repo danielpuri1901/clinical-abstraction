@@ -1,0 +1,1074 @@
+{
+ "arm": "claude-haiku-5-5",
+ "model": "claude-haiku-5-5",
+ "run": "run1",
+ "manifest": "outputs/experiments/synthetic/manifest.json",
+ "store": "outputs/experiments/tier-haiku-run1/abstraction.db",
+ "stopped": null,
+ "missing_from_store": [],
+ "run_logs": [
+  {
+   "log": "ingest-20261017-222743.jsonl",
+   "documents": 311,
+   "cost_usd": 0.282365,
+   "total_seconds": 252.189
+  },
+  {
+   "log": "ingest-20261017-223840.jsonl",
+   "documents": 0,
+   "cost_usd": 0,
+   "total_seconds": 0.357
+  },
+  {
+   "log": "ingest-20261017-224126.jsonl",
+   "documents": 311,
+   "cost_usd": 0.276557,
+   "total_seconds": 229.13
+  }
+ ],
+ "items": [
+  {
+   "id": "SY-M07001",
+   "input": {
+    "mrn": "SY-M07001",
+    "template": "C",
+    "hazards": [
+     "correction",
+     "conflicting_notes",
+     "clinic_cancellation",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 11
+   },
+   "expected_output": {
+    "sessions": 8,
+    "by_service_type": {
+     "group_psychotherapy": 3,
+     "family_psychotherapy": 1,
+     "individual_psychotherapy": 4
+    },
+    "therapy_days": 8,
+    "minutes": [
+     415,
+     430
+    ]
+   },
+   "output": {
+    "passed": 60,
+    "total": 60,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.008986,
+    "seconds": null
+   },
+   "comment": "60 of 60 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07002",
+   "input": {
+    "mrn": "SY-M07002",
+    "template": "A",
+    "hazards": [
+     "conflicting_notes",
+     "addendum",
+     "clinic_cancellation",
+     "partner_only_minutes"
+    ],
+    "documents": 14
+   },
+   "expected_output": {
+    "sessions": 14,
+    "by_service_type": {
+     "group_psychotherapy": 7,
+     "family_psychotherapy": 1,
+     "individual_psychotherapy": 6
+    },
+    "therapy_days": 12,
+    "minutes": [
+     820,
+     820
+    ]
+   },
+   "output": {
+    "passed": 86,
+    "total": 86,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.012782,
+    "seconds": null
+   },
+   "comment": "86 of 86 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07003",
+   "input": {
+    "mrn": "SY-M07003",
+    "template": "B",
+    "hazards": [
+     "conflicting_notes",
+     "imported_copy",
+     "video_disconnect",
+     "partner_only_minutes"
+    ],
+    "documents": 12
+   },
+   "expected_output": {
+    "sessions": 10,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "family_psychotherapy": 2,
+     "group_psychotherapy": 4
+    },
+    "therapy_days": 10,
+    "minutes": [
+     530,
+     545
+    ]
+   },
+   "output": {
+    "passed": 75,
+    "total": 75,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.012374,
+    "seconds": null
+   },
+   "comment": "75 of 75 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07004",
+   "input": {
+    "mrn": "SY-M07004",
+    "template": "C",
+    "hazards": [
+     "correction",
+     "conflicting_notes",
+     "addendum",
+     "video_disconnect",
+     "partner_only_minutes",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 15
+   },
+   "expected_output": {
+    "sessions": 10,
+    "by_service_type": {
+     "individual_psychotherapy": 5,
+     "group_psychotherapy": 2,
+     "family_psychotherapy": 3
+    },
+    "therapy_days": 9,
+    "minutes": [
+     465,
+     465
+    ]
+   },
+   "output": {
+    "passed": 68,
+    "total": 68,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.01169,
+    "seconds": null
+   },
+   "comment": "68 of 68 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07005",
+   "input": {
+    "mrn": "SY-M07005",
+    "template": "A",
+    "hazards": [
+     "plan_change",
+     "duplicate",
+     "clinic_cancellation",
+     "imported_copy",
+     "partner_only_minutes"
+    ],
+    "documents": 14
+   },
+   "expected_output": {
+    "sessions": 12,
+    "by_service_type": {
+     "individual_psychotherapy": 5,
+     "family_psychotherapy": 3,
+     "group_psychotherapy": 4
+    },
+    "therapy_days": 10,
+    "minutes": [
+     665,
+     665
+    ]
+   },
+   "output": {
+    "passed": 84,
+    "total": 84,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011503,
+    "seconds": null
+   },
+   "comment": "84 of 84 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07006",
+   "input": {
+    "mrn": "SY-M07006",
+    "template": "B",
+    "hazards": [
+     "correction",
+     "conflicting_notes",
+     "video_disconnect"
+    ],
+    "documents": 14
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "individual_psychotherapy": 5,
+     "group_psychotherapy": 4
+    },
+    "therapy_days": 8,
+    "minutes": [
+     445,
+     455
+    ]
+   },
+   "output": {
+    "passed": 73,
+    "total": 73,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011289,
+    "seconds": null
+   },
+   "comment": "73 of 73 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07007",
+   "input": {
+    "mrn": "SY-M07007",
+    "template": "C",
+    "hazards": [
+     "correction",
+     "draft_and_charge",
+     "video_disconnect",
+     "partner_only_minutes",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 12
+   },
+   "expected_output": {
+    "sessions": 13,
+    "by_service_type": {
+     "family_psychotherapy": 1,
+     "group_psychotherapy": 8,
+     "individual_psychotherapy": 4
+    },
+    "therapy_days": 12,
+    "minutes": [
+     775,
+     775
+    ]
+   },
+   "output": {
+    "passed": 82,
+    "total": 82,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011433,
+    "seconds": null
+   },
+   "comment": "82 of 82 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07008",
+   "input": {
+    "mrn": "SY-M07008",
+    "template": "A",
+    "hazards": [
+     "plan_change",
+     "duplicate",
+     "correction",
+     "conflicting_notes",
+     "clinic_cancellation",
+     "imported_copy"
+    ],
+    "documents": 13
+   },
+   "expected_output": {
+    "sessions": 11,
+    "by_service_type": {
+     "individual_psychotherapy": 6,
+     "group_psychotherapy": 5
+    },
+    "therapy_days": 9,
+    "minutes": [
+     605,
+     635
+    ]
+   },
+   "output": {
+    "passed": 75,
+    "total": 75,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011971,
+    "seconds": null
+   },
+   "comment": "75 of 75 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07009",
+   "input": {
+    "mrn": "SY-M07009",
+    "template": "B",
+    "hazards": [
+     "plan_change",
+     "duplicate",
+     "correction",
+     "conflicting_notes",
+     "addendum",
+     "video_disconnect",
+     "partner_only_minutes"
+    ],
+    "documents": 12
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "family_psychotherapy": 1,
+     "individual_psychotherapy": 5,
+     "group_psychotherapy": 3
+    },
+    "therapy_days": 9,
+    "minutes": [
+     455,
+     455
+    ]
+   },
+   "output": {
+    "passed": 70,
+    "total": 70,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.012805,
+    "seconds": null
+   },
+   "comment": "70 of 70 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07010",
+   "input": {
+    "mrn": "SY-M07010",
+    "template": "C",
+    "hazards": [
+     "duplicate",
+     "partner_only_minutes",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 13
+   },
+   "expected_output": {
+    "sessions": 12,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "family_psychotherapy": 4,
+     "group_psychotherapy": 4
+    },
+    "therapy_days": 11,
+    "minutes": [
+     640,
+     640
+    ]
+   },
+   "output": {
+    "passed": 80,
+    "total": 80,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.010465,
+    "seconds": null
+   },
+   "comment": "80 of 80 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07011",
+   "input": {
+    "mrn": "SY-M07011",
+    "template": "A",
+    "hazards": [
+     "plan_change",
+     "conflicting_notes",
+     "imported_copy"
+    ],
+    "documents": 11
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "group_psychotherapy": 4,
+     "family_psychotherapy": 1
+    },
+    "therapy_days": 8,
+    "minutes": [
+     535,
+     550
+    ]
+   },
+   "output": {
+    "passed": 64,
+    "total": 64,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.009828,
+    "seconds": null
+   },
+   "comment": "64 of 64 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07012",
+   "input": {
+    "mrn": "SY-M07012",
+    "template": "B",
+    "hazards": [
+     "correction",
+     "late_copy",
+     "draft_and_charge",
+     "partner_only_minutes"
+    ],
+    "documents": 15
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "group_psychotherapy": 4,
+     "family_psychotherapy": 1
+    },
+    "therapy_days": 7,
+    "minutes": [
+     465,
+     465
+    ]
+   },
+   "output": {
+    "passed": 60,
+    "total": 60,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011451,
+    "seconds": null
+   },
+   "comment": "60 of 60 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07013",
+   "input": {
+    "mrn": "SY-M07013",
+    "template": "C",
+    "hazards": [
+     "plan_change",
+     "draft_and_charge",
+     "conflicting_notes",
+     "addendum",
+     "clinic_cancellation",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 10
+   },
+   "expected_output": {
+    "sessions": 11,
+    "by_service_type": {
+     "individual_psychotherapy": 6,
+     "group_psychotherapy": 5
+    },
+    "therapy_days": 11,
+    "minutes": [
+     640,
+     640
+    ]
+   },
+   "output": {
+    "passed": 75,
+    "total": 75,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011032,
+    "seconds": null
+   },
+   "comment": "75 of 75 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07014",
+   "input": {
+    "mrn": "SY-M07014",
+    "template": "A",
+    "hazards": [
+     "correction"
+    ],
+    "documents": 15
+   },
+   "expected_output": {
+    "sessions": 12,
+    "by_service_type": {
+     "individual_psychotherapy": 7,
+     "group_psychotherapy": 4,
+     "family_psychotherapy": 1
+    },
+    "therapy_days": 11,
+    "minutes": [
+     650,
+     650
+    ]
+   },
+   "output": {
+    "passed": 78,
+    "total": 78,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.01039,
+    "seconds": null
+   },
+   "comment": "78 of 78 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07015",
+   "input": {
+    "mrn": "SY-M07015",
+    "template": "B",
+    "hazards": [
+     "plan_change",
+     "duplicate",
+     "clinic_cancellation"
+    ],
+    "documents": 13
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "family_psychotherapy": 1,
+     "individual_psychotherapy": 3,
+     "group_psychotherapy": 5
+    },
+    "therapy_days": 8,
+    "minutes": [
+     550,
+     550
+    ]
+   },
+   "output": {
+    "passed": 67,
+    "total": 67,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.010485,
+    "seconds": null
+   },
+   "comment": "67 of 67 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07016",
+   "input": {
+    "mrn": "SY-M07016",
+    "template": "C",
+    "hazards": [
+     "correction",
+     "clinic_cancellation",
+     "partner_only_minutes",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 13
+   },
+   "expected_output": {
+    "sessions": 12,
+    "by_service_type": {
+     "family_psychotherapy": 2,
+     "individual_psychotherapy": 5,
+     "group_psychotherapy": 5
+    },
+    "therapy_days": 12,
+    "minutes": [
+     680,
+     680
+    ]
+   },
+   "output": {
+    "passed": 80,
+    "total": 80,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.010453,
+    "seconds": null
+   },
+   "comment": "80 of 80 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07017",
+   "input": {
+    "mrn": "SY-M07017",
+    "template": "A",
+    "hazards": [
+     "duplicate",
+     "clinic_cancellation",
+     "partner_only_minutes"
+    ],
+    "documents": 13
+   },
+   "expected_output": {
+    "sessions": 13,
+    "by_service_type": {
+     "family_psychotherapy": 3,
+     "group_psychotherapy": 7,
+     "individual_psychotherapy": 3
+    },
+    "therapy_days": 10,
+    "minutes": [
+     770,
+     770
+    ]
+   },
+   "output": {
+    "passed": 81,
+    "total": 81,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.012371,
+    "seconds": null
+   },
+   "comment": "81 of 81 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07018",
+   "input": {
+    "mrn": "SY-M07018",
+    "template": "B",
+    "hazards": [
+     "draft_and_charge",
+     "clinic_cancellation"
+    ],
+    "documents": 15
+   },
+   "expected_output": {
+    "sessions": 8,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "family_psychotherapy": 1,
+     "group_psychotherapy": 3
+    },
+    "therapy_days": 8,
+    "minutes": [
+     395,
+     395
+    ]
+   },
+   "output": {
+    "passed": 70,
+    "total": 70,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.010335,
+    "seconds": null
+   },
+   "comment": "70 of 70 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07019",
+   "input": {
+    "mrn": "SY-M07019",
+    "template": "C",
+    "hazards": [
+     "conflicting_notes",
+     "addendum",
+     "clinic_cancellation",
+     "video_disconnect",
+     "partner_only_minutes",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 11
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "group_psychotherapy": 2,
+     "family_psychotherapy": 3
+    },
+    "therapy_days": 9,
+    "minutes": [
+     435,
+     435
+    ]
+   },
+   "output": {
+    "passed": 73,
+    "total": 73,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.011463,
+    "seconds": null
+   },
+   "comment": "73 of 73 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07020",
+   "input": {
+    "mrn": "SY-M07020",
+    "template": "A",
+    "hazards": [
+     "plan_change",
+     "duplicate",
+     "correction",
+     "draft_and_charge",
+     "clinic_cancellation"
+    ],
+    "documents": 11
+   },
+   "expected_output": {
+    "sessions": 6,
+    "by_service_type": {
+     "family_psychotherapy": 2,
+     "group_psychotherapy": 4
+    },
+    "therapy_days": 6,
+    "minutes": [
+     360,
+     360
+    ]
+   },
+   "output": {
+    "passed": 63,
+    "total": 63,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.010216,
+    "seconds": null
+   },
+   "comment": "63 of 63 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07021",
+   "input": {
+    "mrn": "SY-M07021",
+    "template": "B",
+    "hazards": [
+     "duplicate",
+     "correction",
+     "video_disconnect",
+     "partner_only_minutes"
+    ],
+    "documents": 15
+   },
+   "expected_output": {
+    "sessions": 13,
+    "by_service_type": {
+     "family_psychotherapy": 3,
+     "group_psychotherapy": 5,
+     "individual_psychotherapy": 5
+    },
+    "therapy_days": 11,
+    "minutes": [
+     735,
+     735
+    ]
+   },
+   "output": {
+    "passed": 89,
+    "total": 89,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.01456,
+    "seconds": null
+   },
+   "comment": "89 of 89 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07022",
+   "input": {
+    "mrn": "SY-M07022",
+    "template": "C",
+    "hazards": [
+     "conflicting_notes",
+     "video_disconnect",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 10
+   },
+   "expected_output": {
+    "sessions": 9,
+    "by_service_type": {
+     "individual_psychotherapy": 6,
+     "group_psychotherapy": 3
+    },
+    "therapy_days": 8,
+    "minutes": [
+     495,
+     525
+    ]
+   },
+   "output": {
+    "passed": 65,
+    "total": 65,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.009048,
+    "seconds": null
+   },
+   "comment": "65 of 65 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07023",
+   "input": {
+    "mrn": "SY-M07023",
+    "template": "A",
+    "hazards": [],
+    "documents": 11
+   },
+   "expected_output": {
+    "sessions": 14,
+    "by_service_type": {
+     "individual_psychotherapy": 4,
+     "group_psychotherapy": 8,
+     "family_psychotherapy": 2
+    },
+    "therapy_days": 12,
+    "minutes": [
+     840,
+     840
+    ]
+   },
+   "output": {
+    "passed": 88,
+    "total": 88,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.009713,
+    "seconds": null
+   },
+   "comment": "88 of 88 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07024",
+   "input": {
+    "mrn": "SY-M07024",
+    "template": "B",
+    "hazards": [
+     "partner_only_minutes"
+    ],
+    "documents": 12
+   },
+   "expected_output": {
+    "sessions": 11,
+    "by_service_type": {
+     "group_psychotherapy": 4,
+     "individual_psychotherapy": 5,
+     "family_psychotherapy": 2
+    },
+    "therapy_days": 10,
+    "minutes": [
+     600,
+     600
+    ]
+   },
+   "output": {
+    "passed": 76,
+    "total": 76,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.009629,
+    "seconds": null
+   },
+   "comment": "76 of 76 checks passed",
+   "metadata": {}
+  },
+  {
+   "id": "SY-M07025",
+   "input": {
+    "mrn": "SY-M07025",
+    "template": "C",
+    "hazards": [
+     "plan_change",
+     "correction",
+     "late_copy",
+     "conflicting_notes",
+     "addendum",
+     "clinic_cancellation",
+     "day_first_dates",
+     "twelve_hour_times",
+     "bare_times"
+    ],
+    "documents": 14
+   },
+   "expected_output": {
+    "sessions": 8,
+    "by_service_type": {
+     "group_psychotherapy": 4,
+     "individual_psychotherapy": 3,
+     "family_psychotherapy": 1
+    },
+    "therapy_days": 8,
+    "minutes": [
+     465,
+     465
+    ]
+   },
+   "output": {
+    "passed": 59,
+    "total": 59,
+    "failures": [],
+    "missing_from_store": false
+   },
+   "scores": {
+    "gold_accuracy": 1.0,
+    "gold_passed": 1.0,
+    "cost_usd": 0.010286,
+    "seconds": null
+   },
+   "comment": "59 of 59 checks passed",
+   "metadata": {}
+  }
+ ],
+ "scores": {
+  "gold_accuracy": 1.0,
+  "gold_passed": 1.0,
+  "cost_usd": 0.011062,
+  "seconds": null
+ },
+ "created_at": "2026-10-17T20:57:50+00:00"
+}

@@ -1,0 +1,3813 @@
+{
+ "arm": "agreement",
+ "store": "outputs/experiments/held-out/abstraction.db",
+ "questions": "evals/questions.json",
+ "items": [
+  {
+   "id": "DEV-01",
+   "input": "For January 5\u201330, 2026, how many therapy sessions did Rowan attend, by service type and in total, and on how many distinct days? Provide a reviewable abstraction with source support and explain records that could lead to duplicate or ineligible counts.",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "service_type",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-05",
+     "2026-01-30"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "service_type",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-05",
+     "2026-01-30"
+    ],
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "attended"
+      ],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "service_type"
+      ],
+      "decision_model": [
+       "service_type",
+       0.99
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Development question 1. The sessions answer also reports distinct days.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "DEV-02",
+   "input": "How many therapy minutes and hours did Rowan actually receive during the review period, overall and for each Monday\u2013Sunday week? Show calculations or supporting detail, and report any conclusion the available documents do not settle.",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.94
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "week",
+       1.0
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Development question 2. The review period is the whole record, so there is no date range.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "DEV-03",
+   "input": "For each week, did the delivered therapy meet the goal documented in Rowan\u2019s treatment plan? State the goal, the relevant therapy-day and minute totals, and whether it was met, not met, or cannot be determined from the current record.",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status",
+       "minutes"
+      ],
+      "decision_model": [
+       "goal_status",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.87
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.93
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "week",
+       0.99
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Development question 3. The goal table is always weekly, so goal_status uses no filters or grouping.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "DEV-04",
+   "input": "Reconstruct the care on January 19 and January 21. How many therapy contacts and patient therapy minutes occurred on each date, and how do the attendance records, clinical notes, later documents, and telehealth records affect your answer?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "any",
+    "service_type": "any",
+    "group_by": "day",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-19",
+     "2026-01-21"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91); disputed service_type: rules say nothing, decision model says any (0.77)",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "day",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-19",
+     "2026-01-21"
+    ],
+    "warnings": [
+     "disputed attendance: rules say any, decision model says attended (0.91)",
+     "disputed service_type: rules say nothing, decision model says any (0.77)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes",
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       0.72
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "any"
+      ],
+      "decision_model": [
+       "attended",
+       0.91
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.77
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "day"
+      ],
+      "decision_model": [
+       "day",
+       1.0
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 0.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric minutes, attendance any, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-21']; got metric sessions, attendance attended, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-21']; verdict COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91); disputed service_type: rules say nothing, decision model says any (0.77)",
+   "metadata": {
+    "note": "Development question 4. No patient is named, so every known patient is in scope. The two dates become the span January 19 to 21 with one row per day; attendance is any because the question reconstructs every record.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "DEV-05",
+   "input": "Summarize the documented symptom course during the episode and the reason for the additional individual contact on January 19. Which symptom assessments are distinct, and what conclusions about progress can and cannot be supported?",
+   "expected_output": {
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-19",
+     "2026-01-19"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-19",
+     "2026-01-19"
+    ],
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "progress",
+       "sessions"
+      ],
+      "decision_model": [
+       "progress",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.5
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "individual_psychotherapy"
+      ],
+      "decision_model": [
+       "individual_psychotherapy",
+       0.35
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "day",
+       0.69
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Development question 5. No patient is named, so every known patient is in scope. The date names the contact whose reason is asked; the progress answer must not cut the symptom course to that day.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-01",
+   "input": "How many hours of therapy did Rowan get in the week of January 12?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-12",
+     "2026-01-18"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.64)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-12",
+     "2026-01-18"
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.64)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.97
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.95
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.64
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.64)",
+   "metadata": {
+    "note": "Review Q01, handled before. Hours are minutes divided by 60.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-02",
+   "input": "How many family therapy sessions did Rowan have?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "family_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "family_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.94
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "family_psychotherapy"
+      ],
+      "decision_model": [
+       "family_psychotherapy",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.95
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q02: the old headline counted all 12 sessions and hid the 2 family sessions.",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "REVIEW-03",
+   "input": "What happened on January 27?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "any",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-27",
+     "2026-01-27"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.66); disputed group_by: rules say nothing, decision model says day (0.45)",
+    "metric": "sessions",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "day",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-27",
+     "2026-01-27"
+    ],
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says not_applicable (0.66)",
+     "disputed group_by: rules say nothing, decision model says day (0.45)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.66
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "day",
+       0.45
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric sessions, attendance any, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-27', '2026-01-27']; got metric sessions, attendance not_applicable, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-27', '2026-01-27']; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.66); disputed group_by: rules say nothing, decision model says day (0.45)",
+   "metadata": {
+    "note": "Review Q03, handled before. No patient is named, so every known patient is in scope; any attendance shows the no-show.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-04",
+   "input": "What does the treatment plan require each week?",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status"
+      ],
+      "decision_model": [
+       "goal_status",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.51
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "week",
+       0.7
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q04, handled before. The goal table states the requirement for each week.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-05",
+   "input": "Which weeks fell short of the plan?",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "goal_status",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.31
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "week",
+       0.95
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q05: went to the paid agent because 'plan' without 'treatment' matched no rule.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-06",
+   "input": "Was Rowan billed for any session that did not happen?",
+   "expected_output": {
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "billing_integrity",
+       "sessions"
+      ],
+      "decision_model": [
+       "billing_integrity",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "missed_by_patient",
+       0.26
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.96
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.73
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q06, handled before.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-07",
+   "input": "Is Rowan getting better?",
+   "expected_output": {
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "progress",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.97
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.89
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q07: went to the paid agent; it asks for progress.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-08",
+   "input": "How did Rowan's depression scores change over the episode?",
+   "expected_output": {
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "progress",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.7
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.94
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "day",
+       0.41
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q08: went to the paid agent; depression scores are the PHQ-9 part of the progress answer.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-09",
+   "input": "Compare Rowan and Jordan: weekly therapy hours for each.",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.86); disputed service_type: rules say nothing, decision model says individual_psychotherapy (0.41); disputed group_by: rules say week, decision model says none (0.52)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "individual_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says attended (0.86)",
+     "disputed service_type: rules say nothing, decision model says individual_psychotherapy (0.41)",
+     "disputed group_by: rules say week, decision model says none (0.52)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.86
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "individual_psychotherapy",
+       0.41
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "none",
+       0.52
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric minutes, attendance attended, service_type any, group_by week, patients ['HG-M042', 'NF-20817'], date_range None; got metric minutes, attendance attended, service_type individual_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.86); disputed service_type: rules say nothing, decision model says individual_psychotherapy (0.41); disputed group_by: rules say week, decision model says none (0.52)",
+   "metadata": {
+    "note": "Review Q09, handled before.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-10",
+   "input": "Across the collection, which patients had two consecutive weeks below their goal?",
+   "expected_output": {
+    "metric": "consecutive_shortfall",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "consecutive_shortfall",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "consecutive_shortfall",
+       "goal_status"
+      ],
+      "decision_model": [
+       "consecutive_shortfall",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.37
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.4
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q10, handled at two patients; the collection answer must stay limited at 2,000 patients.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-11",
+   "input": "Which clinician wrote the January 22 group note?",
+   "expected_output": {
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-22",
+     "2026-01-22"
+    ]
+   },
+   "output": {
+    "verdict": "AGENT",
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-22",
+     "2026-01-22"
+    ],
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "other",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.76
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "group_psychotherapy"
+      ],
+      "decision_model": [
+       "group_psychotherapy",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.84
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "AGENT",
+   "metadata": {
+    "note": "Review Q11: correctly an open question for the agent.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-12",
+   "input": "How many sessions did Rowan miss?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "missed_by_patient",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "sessions",
+    "attendance": "missed_by_patient",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "missed_by_patient"
+      ],
+      "decision_model": [
+       "missed_by_patient",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.98
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.97
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q12: the old headline said 12 therapy sessions; the missed sessions sat in a side table.",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "REVIEW-13",
+   "input": "How many sessions were cancelled by the clinic?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "cancelled_by_clinic",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "sessions",
+    "attendance": "cancelled_by_clinic",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "cancelled_by_clinic"
+      ],
+      "decision_model": [
+       "cancelled_by_clinic",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.97
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q13: the old headline said 12; the answer is 1 (HG-E108).",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "REVIEW-14",
+   "input": "How many sessions did Rowan attend between January 12 and January 25?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-12",
+     "2026-01-25"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.79)",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-12",
+     "2026-01-25"
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.79)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "attended"
+      ],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.79
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.79)",
+   "metadata": {
+    "note": "Review Q14: the old router dropped the range; the answer is 6.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-15",
+   "input": "How many therapy minutes did Rowan receive from January 12 to 25?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-12",
+     "2026-01-25"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.87); disputed group_by: rules say nothing, decision model says none (0.76)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-12",
+     "2026-01-25"
+    ],
+    "warnings": [
+     "disputed service_type: rules say nothing, decision model says any (0.87)",
+     "disputed group_by: rules say nothing, decision model says none (0.76)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.99
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.87
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.76
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.87); disputed group_by: rules say nothing, decision model says none (0.76)",
+   "metadata": {
+    "note": "Review Q15: the old router dropped the range; the answer is 300.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-16",
+   "input": "How many minutes did Rowan receive after January 19?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-20",
+     null
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-20",
+     null
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.73)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.96
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.95
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.73
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+   "metadata": {
+    "note": "Review Q16: the old router dropped 'after'; the answer is 235 to 245.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-17",
+   "input": "Was the 150-minute weekly target met in the week of January 26?",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-26",
+     "2026-02-01"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say minutes, decision model says goal_status (1.00)",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-26",
+     "2026-02-01"
+    ],
+    "warnings": [
+     "disputed metric: rules say minutes, decision model says goal_status (1.00)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "goal_status",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.74
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "none",
+       0.65
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed metric: rules say minutes, decision model says goal_status (1.00)",
+   "metadata": {
+    "note": "Review Q17: the old router showed minutes with no met or not-met status.",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "REVIEW-18",
+   "input": "Which weeks had fewer than 3 therapy days?",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.61); disputed service_type: rules say nothing, decision model says any (0.89)",
+    "metric": "days",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says attended (0.61)",
+     "disputed service_type: rules say nothing, decision model says any (0.89)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "days",
+       0.97
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.61
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.89
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "week",
+       0.95
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 0.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric goal_status, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric days, attendance attended, service_type any, group_by week, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.61); disputed service_type: rules say nothing, decision model says any (0.89)",
+   "metadata": {
+    "note": "Review Q18: went to the paid agent; the goal table lists therapy days per week (week 2 for Rowan).",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-19",
+   "input": "How much time did Rowan spend in therapy in January?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-01",
+     "2026-01-31"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.77); disputed group_by: rules say nothing, decision model says none (0.76)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-01",
+     "2026-01-31"
+    ],
+    "warnings": [
+     "disputed service_type: rules say nothing, decision model says any (0.77)",
+     "disputed group_by: rules say nothing, decision model says none (0.76)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.94
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.77
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.76
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.77); disputed group_by: rules say nothing, decision model says none (0.76)",
+   "metadata": {
+    "note": "Review Q19: went to the paid agent because 'time' is neither 'minutes' nor 'hours'.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-20",
+   "input": "How did Jordan's care change after the plan was revised?",
+   "expected_output": {
+    "metric": "plan_change",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "plan_change",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "plan_change",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.79
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "plan_version",
+       0.87
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q20: went to the paid agent; it is the before-and-after plan comparison.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-21",
+   "input": "Did Jordan's attendance change after the treatment plan was updated?",
+   "expected_output": {
+    "metric": "plan_change",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.49); disputed attendance: rules say nothing, decision model says attended (0.74)",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "plan_version",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed metric: rules say goal_status, decision model says sessions (0.49)",
+     "disputed attendance: rules say nothing, decision model says attended (0.74)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status"
+      ],
+      "decision_model": [
+       "sessions",
+       0.49
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.74
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "plan_version",
+       0.92
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 0.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric plan_change, attendance not_applicable, service_type any, group_by none, patients ['NF-20817'], date_range None; got metric sessions, attendance attended, service_type any, group_by plan_version, patients ['NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.49); disputed attendance: rules say nothing, decision model says attended (0.74)",
+   "metadata": {
+    "note": "Review Q21: the old router showed the weekly goal table instead of the before-and-after comparison.",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "REVIEW-22",
+   "input": "How many sessions did Alex Smith attend?",
+   "expected_output": {
+    "refused": "unknown patient: Alex Smith"
+   },
+   "output": {
+    "verdict": "REFUSED: unknown patient: Alex Smith",
+    "refused": "unknown patient: Alex Smith"
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "REFUSED: unknown patient: Alex Smith",
+   "metadata": {
+    "note": "Review Q22: the old router answered for Rowan Mercer. Refused; patients is null because the name is unknown.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-23",
+   "input": "What happened on February 30?",
+   "expected_output": {
+    "refused": "February 30 is not a valid date"
+   },
+   "output": {
+    "verdict": "REFUSED: February 30 is not a valid date",
+    "refused": "February 30 is not a valid date"
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "REFUSED: February 30 is not a valid date",
+   "metadata": {
+    "note": "Review Q23: the old router crashed with a ValueError. Refused; date_range is null because the date is impossible.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-24",
+   "input": "Did the PHQ-9 decrease 5 points or more?",
+   "expected_output": {
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "progress",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "progress"
+      ],
+      "decision_model": [
+       "progress",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.84
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.94
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q24, handled before; 'decrease 5' must not be read as December 5.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-25",
+   "input": "List the services that were charged but never delivered.",
+   "expected_output": {
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "billing_integrity"
+      ],
+      "decision_model": [
+       "billing_integrity",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.65
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "service_type",
+       0.68
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q25, handled before.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-26",
+   "input": "Which encounters have conflicting records?",
+   "expected_output": {
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "AGENT",
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "other",
+       0.98
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.61
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.74
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "AGENT",
+   "metadata": {
+    "note": "Review Q26: no executor lists conflict flags, so this is an open question for the agent.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-27",
+   "input": "How many minutes of the January 30 family session was the patient absent for?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "family_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-30",
+     "2026-01-30"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says missed_by_patient (0.65); disputed group_by: rules say nothing, decision model says none (0.76)",
+    "metric": "minutes",
+    "attendance": "missed_by_patient",
+    "service_type": "family_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-30",
+     "2026-01-30"
+    ],
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says missed_by_patient (0.65)",
+     "disputed group_by: rules say nothing, decision model says none (0.76)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes",
+       "sessions"
+      ],
+      "decision_model": [
+       "minutes",
+       0.92
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "missed_by_patient",
+       0.65
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "family_psychotherapy"
+      ],
+      "decision_model": [
+       "family_psychotherapy",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.76
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric minutes, attendance attended, service_type family_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-30', '2026-01-30']; got metric minutes, attendance missed_by_patient, service_type family_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-30', '2026-01-30']; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says missed_by_patient (0.65); disputed group_by: rules say nothing, decision model says none (0.76)",
+   "metadata": {
+    "note": "Review Q27: the old router printed whole-period tables. The 15 absent minutes are the excluded interval in this session's minutes calculation.",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "REVIEW-28",
+   "input": "For Jordan Reyes, which weeks met the goal?",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status"
+      ],
+      "decision_model": [
+       "goal_status",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.46
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "week",
+       0.94
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q28, handled before.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-29",
+   "input": "What medications is Rowan taking?",
+   "expected_output": {
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "AGENT",
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "other",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.99
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "medication_management",
+       0.95
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.95
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "AGENT",
+   "metadata": {
+    "note": "Review Q29: correctly an open question for the agent.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-30",
+   "input": "Did Rowan attend group on January 22?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "group_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-22",
+     "2026-01-22"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.42)",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "group_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-22",
+     "2026-01-22"
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.42)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "attended"
+      ],
+      "decision_model": [
+       "attended",
+       0.94
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "group_psychotherapy"
+      ],
+      "decision_model": [
+       "group_psychotherapy",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.42
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.42)",
+   "metadata": {
+    "note": "Review Q30, handled before: 45 minutes with a late arrival.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-31",
+   "input": "How many individual sessions happened in week 2?",
+   "expected_output": {
+    "refused": "week 2 is not a date"
+   },
+   "output": {
+    "verdict": "REFUSED: week 2 is not a date; name the week by a date, for example the week of January 12",
+    "refused": "week 2 is not a date; name the week by a date, for example the week of January 12"
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "REFUSED: week 2 is not a date; name the week by a date, for example the week of January 12",
+   "metadata": {
+    "note": "Review Q31: the old router ignored 'week 2'. Week numbers differ per patient's episode, so the parser refuses and asks for a date; date_range is null.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-32",
+   "input": "Which patients' inclusion depends on unresolved documentation?",
+   "expected_output": {
+    "metric": "consecutive_shortfall",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "consecutive_shortfall",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "consecutive_shortfall"
+      ],
+      "decision_model": [
+       "consecutive_shortfall",
+       0.97
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.95
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.9
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q32, handled before: the collection answer lists patients whose inclusion depends on unresolved documents.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-33",
+   "input": "Was any session documented only by a draft note?",
+   "expected_output": {
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "billing_integrity",
+       "sessions"
+      ],
+      "decision_model": [
+       "billing_integrity",
+       0.75
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.42
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.86
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Review Q33, handled before: HG-E116 has only a draft note.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "REVIEW-34",
+   "input": "How many group sessions were authorized, and how many were used?",
+   "expected_output": {
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.80)",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "group_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says attended (0.80)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       0.98
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.8
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "group_psychotherapy"
+      ],
+      "decision_model": [
+       "group_psychotherapy",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.9
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 0.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric sessions, attendance attended, service_type group_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.80)",
+   "metadata": {
+    "note": "Review Q34: authorizations have no executor, so this is an open question; a sessions count would answer only half.",
+    "rules_wrong": true
+   }
+  },
+  {
+   "id": "PARAPHRASE-01",
+   "input": "On how many distinct days did Rowan receive therapy in each week?",
+   "expected_output": {
+    "metric": "days",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "days",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "days",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "week",
+       0.82
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Days metric, grouped by week.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-02",
+   "input": "How many therapy days did Jordan have after February 8?",
+   "expected_output": {
+    "metric": "days",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-02-09",
+     null
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.74); disputed group_by: rules say nothing, decision model says none (0.64)",
+    "metric": "days",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-02-09",
+     null
+    ],
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says attended (0.74)",
+     "disputed group_by: rules say nothing, decision model says none (0.64)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "days",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.74
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.96
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.64
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.74); disputed group_by: rules say nothing, decision model says none (0.64)",
+   "metadata": {
+    "note": "Open-ended range: after February 8 starts on February 9.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-03",
+   "input": "How many therapy sessions did HG-M042 attend from 2026-01-05 to 2026-01-30?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-05",
+     "2026-01-30"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-05",
+     "2026-01-30"
+    ],
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "attended"
+      ],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.98
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.91
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Patient by MRN; ISO dates.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-04",
+   "input": "What happened on Jan. 19?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "any",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-19",
+     "2026-01-19"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.51); disputed group_by: rules say nothing, decision model says day (0.54)",
+    "metric": "sessions",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "day",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": [
+     "2026-01-19",
+     "2026-01-19"
+    ],
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says not_applicable (0.51)",
+     "disputed group_by: rules say nothing, decision model says day (0.54)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "not_applicable",
+       0.51
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "day",
+       0.54
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric sessions, attendance any, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-19']; got metric sessions, attendance not_applicable, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-19']; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.51); disputed group_by: rules say nothing, decision model says day (0.54)",
+   "metadata": {
+    "note": "Abbreviated month with a period.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-05",
+   "input": "Show Rowan's sessions on 1/21, whatever their status.",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "any",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-21",
+     "2026-01-21"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.37)",
+    "metric": "sessions",
+    "attendance": "any",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-21",
+     "2026-01-21"
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.37)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.37
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.37)",
+   "metadata": {
+    "note": "Numeric month/day date without a year takes the default year.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-06",
+   "input": "How many minutes of group therapy did Rowan receive on the 22nd of January?",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "group_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-22",
+     "2026-01-22"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "group_psychotherapy",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-22",
+     "2026-01-22"
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.73)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes",
+       "sessions"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [
+       "group_psychotherapy"
+      ],
+      "decision_model": [
+       "group_psychotherapy",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.73
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+   "metadata": {
+    "note": "Day-first ordinal date.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-07",
+   "input": "How many no-shows did Rowan have in the week of January 26?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "missed_by_patient",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-26",
+     "2026-02-01"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.66)",
+    "metric": "sessions",
+    "attendance": "missed_by_patient",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": [
+     "2026-01-26",
+     "2026-02-01"
+    ],
+    "warnings": [
+     "disputed group_by: rules say nothing, decision model says none (0.66)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "sessions",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "missed_by_patient"
+      ],
+      "decision_model": [
+       "missed_by_patient",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.99
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.66
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.66)",
+   "metadata": {
+    "note": "No-shows are sessions missed by the patient; the week runs Monday to Sunday.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-08",
+   "input": "Did Jordan meet the weekly therapy requirement before February 9?",
+   "expected_output": {
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": [
+     null,
+     "2026-02-08"
+    ]
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": [
+     null,
+     "2026-02-08"
+    ],
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status"
+      ],
+      "decision_model": [
+       "goal_status",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.95
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.53
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "week",
+       0.57
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Open-ended range: before February 9 ends on February 8.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-09",
+   "input": "Which patients fell below their weekly requirement two weeks in a row?",
+   "expected_output": {
+    "metric": "consecutive_shortfall",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "consecutive_shortfall",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "consecutive_shortfall",
+       "goal_status"
+      ],
+      "decision_model": [
+       "consecutive_shortfall",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.41
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "none",
+       0.65
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Paraphrase of the collection question.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-10",
+   "input": "Compare the care Jordan received before and after the treatment-plan change.",
+   "expected_output": {
+    "metric": "plan_change",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "plan_change",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "plan_change"
+      ],
+      "decision_model": [
+       "plan_change",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.51
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       1.0
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "plan_version",
+       0.99
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Paraphrase of the plan-change question.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-11",
+   "input": "How many sessions did Jordan attend under each version of the treatment plan?",
+   "expected_output": {
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "plan_version",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.84)",
+    "metric": "sessions",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "plan_version",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed service_type: rules say nothing, decision model says any (0.84)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status",
+       "sessions"
+      ],
+      "decision_model": [
+       "sessions",
+       0.93
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "attended"
+      ],
+      "decision_model": [
+       "attended",
+       1.0
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.84
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "plan_version",
+       1.0
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.84)",
+   "metadata": {
+    "note": "Grouping by plan version.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-12",
+   "input": "Were any charges posted for a session Rowan did not attend?",
+   "expected_output": {
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED",
+    "metric": "billing_integrity",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [],
+    "readings": {
+     "metric": {
+      "rules": [
+       "billing_integrity",
+       "sessions"
+      ],
+      "decision_model": [
+       "billing_integrity",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [
+       "missed_by_patient"
+      ],
+      "decision_model": [
+       "missed_by_patient",
+       0.97
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.94
+      ]
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": [
+       "none",
+       0.7
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "COMPUTED",
+   "metadata": {
+    "note": "Paraphrase of the billing question; 'did not attend' must not read as attended.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-13",
+   "input": "Give Rowan Mercer's therapy hours per Monday\u2013Sunday week.",
+   "expected_output": {
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "week",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.34); disputed group_by: rules say week, decision model says day (0.40)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "day",
+    "patients": [
+     "HG-M042"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed attendance: rules say nothing, decision model says attended (0.34)",
+     "disputed group_by: rules say week, decision model says day (0.40)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "minutes"
+      ],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.34
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.93
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "day",
+       0.4
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric minutes, attendance attended, service_type any, group_by week, patients ['HG-M042'], date_range None; got metric minutes, attendance attended, service_type any, group_by day, patients ['HG-M042'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.34); disputed group_by: rules say week, decision model says day (0.40)",
+   "metadata": {
+    "note": "Full name with a possessive; weekday names are not patients.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-14",
+   "input": "How many sessions did HG-M999 attend?",
+   "expected_output": {
+    "refused": "unknown patient: HG-M999"
+   },
+   "output": {
+    "verdict": "REFUSED: unknown patient: HG-M999",
+    "refused": "unknown patient: HG-M999"
+   },
+   "scores": {
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "REFUSED: unknown patient: HG-M999",
+   "metadata": {
+    "note": "An MRN shaped like a known one but missing from the store is refused, never answered for every patient.",
+    "rules_wrong": false
+   }
+  },
+  {
+   "id": "PARAPHRASE-15",
+   "input": "Across the collection, what was the average weekly therapy time per patient?",
+   "expected_output": {
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null
+   },
+   "output": {
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says none (0.97)",
+    "metric": "minutes",
+    "attendance": "attended",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "disputed group_by: rules say week, decision model says none (0.97)"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [],
+      "decision_model": [
+       "minutes",
+       1.0
+      ]
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": [
+       "attended",
+       0.9
+      ]
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": [
+       "any",
+       0.98
+      ]
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": [
+       "none",
+       0.97
+      ]
+     }
+    }
+   },
+   "scores": {
+    "metric_exact": 0.0,
+    "attendance_exact": 0.0,
+    "date_range_exact": 1.0,
+    "no_wrong_plain_computed": 1.0
+   },
+   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric minutes, attendance attended, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says none (0.97)",
+   "metadata": {
+    "note": "From the review's extra probes: no executor computes averages, so this is an open question for the agent.",
+    "rules_wrong": false
+   }
+  }
+ ],
+ "scores": {
+  "metric_exact": 0.907407,
+  "attendance_exact": 0.851852,
+  "date_range_exact": 1.0,
+  "no_wrong_plain_computed": 1.0
+ },
+ "created_at": "2026-10-17T20:57:44+00:00"
+}

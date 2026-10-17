@@ -1,6 +1,6 @@
 {
   "claude": {
-    "total_usd": 0.6096261000000002,
+    "total_usd": 0.6473085000000001,
     "entries": [
       {
         "at": "2026-10-17T20:20:07+00:00",
@@ -486,11 +486,31 @@
         "at": "2026-10-17T20:46:27+00:00",
         "usd": 0.012391,
         "note": "extract BH-D115"
+      },
+      {
+        "at": "2026-10-17T20:54:53+00:00",
+        "usd": 0.0046875,
+        "note": "agent claude-sonnet-5-5"
+      },
+      {
+        "at": "2026-10-17T20:54:55+00:00",
+        "usd": 0.0066383,
+        "note": "agent claude-sonnet-5-5"
+      },
+      {
+        "at": "2026-10-17T20:54:56+00:00",
+        "usd": 0.009990299999999999,
+        "note": "agent claude-sonnet-5-5"
+      },
+      {
+        "at": "2026-10-17T20:55:00+00:00",
+        "usd": 0.0163663,
+        "note": "agent claude-sonnet-5-5"
       }
     ]
   },
   "jev": {
-    "total_usd": 0.00485079,
+    "total_usd": 0.006869730000000003,
     "entries": [
       {
         "at": "2026-10-17T20:20:10+00:00",
@@ -915,6 +935,236 @@
       {
         "at": "2026-10-17T20:48:38+00:00",
         "usd": 4.5066000000000005e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:54:51+00:00",
+        "usd": 4.431e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:25+00:00",
+        "usd": 4.41e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:26+00:00",
+        "usd": 4.3764e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:26+00:00",
+        "usd": 4.368e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:26+00:00",
+        "usd": 4.3722e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:26+00:00",
+        "usd": 4.368e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:27+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:27+00:00",
+        "usd": 4.3596e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:27+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:27+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:28+00:00",
+        "usd": 4.3932e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:28+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:28+00:00",
+        "usd": 4.368e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:28+00:00",
+        "usd": 4.3722e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:29+00:00",
+        "usd": 4.41e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:29+00:00",
+        "usd": 4.41e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:29+00:00",
+        "usd": 4.389e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:29+00:00",
+        "usd": 4.4142000000000005e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:30+00:00",
+        "usd": 4.3764e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:30+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:30+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:31+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:31+00:00",
+        "usd": 4.389e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:31+00:00",
+        "usd": 4.3764e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:32+00:00",
+        "usd": 4.3596e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:32+00:00",
+        "usd": 4.4058e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:32+00:00",
+        "usd": 4.3764e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:32+00:00",
+        "usd": 4.3638000000000005e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:33+00:00",
+        "usd": 4.380600000000001e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:33+00:00",
+        "usd": 4.3722e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:33+00:00",
+        "usd": 4.3764e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:33+00:00",
+        "usd": 4.389e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:34+00:00",
+        "usd": 4.3932e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:34+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:34+00:00",
+        "usd": 4.4856e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:35+00:00",
+        "usd": 4.3722e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:35+00:00",
+        "usd": 4.401600000000001e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:35+00:00",
+        "usd": 4.4142000000000005e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:35+00:00",
+        "usd": 4.41e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:36+00:00",
+        "usd": 4.3848000000000004e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:36+00:00",
+        "usd": 4.389e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:36+00:00",
+        "usd": 4.389e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:36+00:00",
+        "usd": 4.3932e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:38+00:00",
+        "usd": 4.389e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:38+00:00",
+        "usd": 4.3932e-05,
+        "note": "jev metric, attendance, service_type, group_by"
+      },
+      {
+        "at": "2026-10-17T20:57:38+00:00",
+        "usd": 4.3932e-05,
         "note": "jev metric, attendance, service_type, group_by"
       }
     ]
