@@ -145,8 +145,7 @@ What I would do next:
 
 Other gaps:
 
-- "Week 2" is refused, because week numbers differ by patient. Ask with a date.
-- A clinician name in a question is refused as an unknown patient.
+- "Week 2" works when the question names one patient (the second week of that patient's episode); across several patients it is refused, because their weeks differ.
 - A date without a year matches any year.
 - Corrections of dates or service types are flagged, not applied.
 - A document with no patient id stays unassigned and `ingest` exits with code 1.

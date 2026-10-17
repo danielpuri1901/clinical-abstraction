@@ -1765,11 +1765,11 @@
    "id": "REVIEW-31",
    "input": "How many individual sessions happened in week 2?",
    "expected_output": {
-    "refused": "week 2 is not a date"
+    "refused": "week 2 differs per patient"
    },
    "output": {
-    "verdict": "REFUSED: week 2 is not a date; name the week by a date, for example the week of January 12",
-    "refused": "week 2 is not a date; name the week by a date, for example the week of January 12"
+    "verdict": "REFUSED: week 2 differs per patient; name one patient, or name the week by a date",
+    "refused": "week 2 differs per patient; name one patient, or name the week by a date"
    },
    "scores": {
     "metric_exact": 1.0,
@@ -1777,9 +1777,9 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "REFUSED: week 2 is not a date; name the week by a date, for example the week of January 12",
+   "comment": "REFUSED: week 2 differs per patient; name one patient, or name the week by a date",
    "metadata": {
-    "note": "Review Q31: the old router ignored 'week 2'. Week numbers differ per patient's episode, so the parser refuses and asks for a date; date_range is null.",
+    "note": "Review Q31: the old router ignored 'week 2'. A week number resolves against one named patient; with no patient named it is refused and the message asks for a patient or a date.",
     "rules_wrong": false
    }
   },
@@ -2663,5 +2663,5 @@
   "date_range_exact": 0.592593,
   "no_wrong_plain_computed": 1.0
  },
- "created_at": "2026-10-17T22:55:22+00:00"
+ "created_at": "2026-10-17T23:31:30+00:00"
 }

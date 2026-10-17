@@ -358,3 +358,25 @@ def test_cli_answers_saves_and_verifies_without_a_decision_model(tmp_path, monke
     assert cli.main([*base, "verify-answers"]) == 0 and "Q-01: COMPUTED" in capsys.readouterr().out
     assert cli.main([*base, "ask", "How many sessions did Alex Smith attend?"]) == 1
     assert "REFUSED: unknown patient: Alex Smith" in capsys.readouterr().out
+
+
+def test_week_numbers_resolve_against_the_one_patient_in_scope():
+    weeks = {"HG-M042": [("2026-01-05", "2026-01-11"), ("2026-01-12", "2026-01-18")]}
+    jev = FakeJev({"metric": ("minutes", 1.0), "attendance": ("attended", 1.0), "service_type": ("any", 0.95), "group_by": ("none", 0.95)})
+    plan = answer.plan_question("How many minutes did Rowan get in week 2?", KNOWN, 2026, jev, week_ranges=weeks)
+    assert plan.date_range == DateRange(date(2026, 1, 12), date(2026, 1, 18), "week 2: 2026-01-12 to 2026-01-18")
+    with pytest.raises(PlanError, match="out of range"):
+        answer.plan_question("How many minutes did Rowan get in week 9?", KNOWN, 2026, jev, week_ranges=weeks)
+    with pytest.raises(PlanError, match="name one patient"):
+        answer.plan_question("How many minutes were delivered in week 2?", KNOWN, 2026, jev, week_ranges=weeks)
+
+
+def test_a_clinician_name_is_not_an_unknown_patient_and_opens_the_question():
+    clinicians = ["Leah Chen, LCSW", "Mira Patel, LCSW"]
+    assert parse_patients("What did Leah Chen write about Rowan?", KNOWN, clinicians) == ["HG-M042"]
+    assert parse_patients("Which notes did Chen sign?", KNOWN, clinicians) == ["HG-M042", "NF-20817"]
+    with pytest.raises(PlanError, match="unknown patient: Alex Smith"):
+        parse_patients("What did Alex Smith write?", KNOWN, clinicians)
+    jev = FakeJev({"metric": ("sessions", 0.95), "attendance": ("attended", 0.9), "service_type": ("any", 0.9), "group_by": ("none", 0.9)})
+    plan = answer.plan_question("What did Leah Chen document about Rowan's participation?", KNOWN, 2026, jev, clinicians=clinicians)
+    assert plan.kind == "open" and plan.patients == ["HG-M042"]

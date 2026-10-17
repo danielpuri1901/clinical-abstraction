@@ -120,13 +120,13 @@ def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: read
     return answer.Plan(kind, **values, patients=patients, date_range=date_range, readings=readings, warnings=[])
 
 
-def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev: read.Jev | None) -> dict:
+def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev: read.Jev | None, week_ranges=None, clinicians=()) -> dict:
     """What one arm makes of one question, as plain data: the verdict a person would see and the plan behind it."""
     try:
         if arm == "jev":
             plan = _jev_alone(question, known, year, jev)
         else:
-            plan = answer.plan_question(question, known, year, jev if arm == "agreement" else None)
+            plan = answer.plan_question(question, known, year, jev if arm == "agreement" else None, week_ranges=week_ranges, clinicians=clinicians)
     except answer.PlanError as error:
         return {"verdict": f"REFUSED: {error}", "refused": str(error)}
     if plan.kind == "open":
@@ -189,6 +189,7 @@ def routing(db: Path, questions_path: Path, arm: Arm, jev: read.Jev | None, *, o
     connection = store.connect(db)
     try:
         known, year = store.known_patients(connection), store.episode_year(connection)
+        week_ranges, clinicians = store.week_ranges(connection), store.known_clinicians(connection)
     finally:
         connection.close()
     missing = sorted({mrn for entry in entries for mrn in entry["expected"]["patients"] or []} - {mrn for mrn, _ in known})
@@ -198,7 +199,7 @@ def routing(db: Path, questions_path: Path, arm: Arm, jev: read.Jev | None, *, o
         )
     items = []
     for entry in entries:
-        output = _read(arm, entry["question"], known, year, jev)
+        output = _read(arm, entry["question"], known, year, jev, week_ranges, clinicians)
         scores, comment = _routing_scores(entry, output)
         items.append(
             {

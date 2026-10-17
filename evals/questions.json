@@ -2,336 +2,901 @@
   {
     "id": "DEV-01",
     "question": "For January 5–30, 2026, how many therapy sessions did Rowan attend, by service type and in total, and on how many distinct days? Provide a reviewable abstraction with source support and explain records that could lead to duplicate or ineligible counts.",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "any", "group_by": "service_type", "patients": ["HG-M042"], "date_range": ["2026-01-05", "2026-01-30"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "service_type",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-05",
+        "2026-01-30"
+      ]
+    },
     "note": "Development question 1. The sessions answer also reports distinct days."
   },
   {
     "id": "DEV-02",
     "question": "How many therapy minutes and hours did Rowan actually receive during the review period, overall and for each Monday–Sunday week? Show calculations or supporting detail, and report any conclusion the available documents do not settle.",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "week", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "week",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Development question 2. The review period is the whole record, so there is no date range."
   },
   {
     "id": "DEV-03",
     "question": "For each week, did the delivered therapy meet the goal documented in Rowan’s treatment plan? State the goal, the relevant therapy-day and minute totals, and whether it was met, not met, or cannot be determined from the current record.",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Development question 3. The goal table is always weekly, so goal_status uses no filters or grouping."
   },
   {
     "id": "DEV-04",
     "question": "Reconstruct the care on January 19 and January 21. How many therapy contacts and patient therapy minutes occurred on each date, and how do the attendance records, clinical notes, later documents, and telehealth records affect your answer?",
-    "expected": {"metric": "minutes", "attendance": "any", "service_type": "any", "group_by": "day", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-19", "2026-01-21"]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "any",
+      "service_type": "any",
+      "group_by": "day",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-19",
+        "2026-01-21"
+      ]
+    },
     "note": "Development question 4. No patient is named, so every known patient is in scope. The two dates become the span January 19 to 21 with one row per day; attendance is any because the question reconstructs every record."
   },
   {
     "id": "DEV-05",
     "question": "Summarize the documented symptom course during the episode and the reason for the additional individual contact on January 19. Which symptom assessments are distinct, and what conclusions about progress can and cannot be supported?",
-    "expected": {"metric": "progress", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-19", "2026-01-19"]},
+    "expected": {
+      "metric": "progress",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-19",
+        "2026-01-19"
+      ]
+    },
     "note": "Development question 5. No patient is named, so every known patient is in scope. The date names the contact whose reason is asked; the progress answer must not cut the symptom course to that day."
   },
   {
     "id": "REVIEW-01",
     "question": "How many hours of therapy did Rowan get in the week of January 12?",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-12", "2026-01-18"]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-12",
+        "2026-01-18"
+      ]
+    },
     "note": "Review Q01, handled before. Hours are minutes divided by 60."
   },
   {
     "id": "REVIEW-02",
     "question": "How many family therapy sessions did Rowan have?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "family_psychotherapy", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "family_psychotherapy",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "rules_wrong": true,
     "note": "Review Q02: the old headline counted all 12 sessions and hid the 2 family sessions."
   },
   {
     "id": "REVIEW-03",
     "question": "What happened on January 27?",
-    "expected": {"metric": "sessions", "attendance": "any", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-27", "2026-01-27"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "any",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-27",
+        "2026-01-27"
+      ]
+    },
     "note": "Review Q03, handled before. No patient is named, so every known patient is in scope; any attendance shows the no-show."
   },
   {
     "id": "REVIEW-04",
     "question": "What does the treatment plan require each week?",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q04, handled before. The goal table states the requirement for each week."
   },
   {
     "id": "REVIEW-05",
     "question": "Which weeks fell short of the plan?",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q05: went to the paid agent because 'plan' without 'treatment' matched no rule."
   },
   {
     "id": "REVIEW-06",
     "question": "Was Rowan billed for any session that did not happen?",
-    "expected": {"metric": "billing_integrity", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "billing_integrity",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Review Q06, handled before."
   },
   {
     "id": "REVIEW-07",
     "question": "Is Rowan getting better?",
-    "expected": {"metric": "progress", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "progress",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Review Q07: went to the paid agent; it asks for progress."
   },
   {
     "id": "REVIEW-08",
     "question": "How did Rowan's depression scores change over the episode?",
-    "expected": {"metric": "progress", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "progress",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Review Q08: went to the paid agent; depression scores are the PHQ-9 part of the progress answer."
   },
   {
     "id": "REVIEW-09",
     "question": "Compare Rowan and Jordan: weekly therapy hours for each.",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "week", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "week",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q09, handled before."
   },
   {
     "id": "REVIEW-10",
     "question": "Across the collection, which patients had two consecutive weeks below their goal?",
-    "expected": {"metric": "consecutive_shortfall", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "consecutive_shortfall",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q10, handled at two patients; the collection answer must stay limited at 2,000 patients."
   },
   {
     "id": "REVIEW-11",
     "question": "Which clinician wrote the January 22 group note?",
-    "expected": {"metric": "other", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-22", "2026-01-22"]},
+    "expected": {
+      "metric": "other",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-22",
+        "2026-01-22"
+      ]
+    },
     "note": "Review Q11: correctly an open question for the agent."
   },
   {
     "id": "REVIEW-12",
     "question": "How many sessions did Rowan miss?",
-    "expected": {"metric": "sessions", "attendance": "missed_by_patient", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "missed_by_patient",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "rules_wrong": true,
     "note": "Review Q12: the old headline said 12 therapy sessions; the missed sessions sat in a side table."
   },
   {
     "id": "REVIEW-13",
     "question": "How many sessions were cancelled by the clinic?",
-    "expected": {"metric": "sessions", "attendance": "cancelled_by_clinic", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "cancelled_by_clinic",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "rules_wrong": true,
     "note": "Review Q13: the old headline said 12; the answer is 1 (HG-E108)."
   },
   {
     "id": "REVIEW-14",
     "question": "How many sessions did Rowan attend between January 12 and January 25?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-12", "2026-01-25"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-12",
+        "2026-01-25"
+      ]
+    },
     "note": "Review Q14: the old router dropped the range; the answer is 6."
   },
   {
     "id": "REVIEW-15",
     "question": "How many therapy minutes did Rowan receive from January 12 to 25?",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-12", "2026-01-25"]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-12",
+        "2026-01-25"
+      ]
+    },
     "note": "Review Q15: the old router dropped the range; the answer is 300."
   },
   {
     "id": "REVIEW-16",
     "question": "How many minutes did Rowan receive after January 19?",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-20", null]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-20",
+        null
+      ]
+    },
     "note": "Review Q16: the old router dropped 'after'; the answer is 235 to 245."
   },
   {
     "id": "REVIEW-17",
     "question": "Was the 150-minute weekly target met in the week of January 26?",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-26", "2026-02-01"]},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-26",
+        "2026-02-01"
+      ]
+    },
     "rules_wrong": true,
     "note": "Review Q17: the old router showed minutes with no met or not-met status."
   },
   {
     "id": "REVIEW-18",
     "question": "Which weeks had fewer than 3 therapy days?",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q18: went to the paid agent; the goal table lists therapy days per week (week 2 for Rowan)."
   },
   {
     "id": "REVIEW-19",
     "question": "How much time did Rowan spend in therapy in January?",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-01", "2026-01-31"]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-01",
+        "2026-01-31"
+      ]
+    },
     "note": "Review Q19: went to the paid agent because 'time' is neither 'minutes' nor 'hours'."
   },
   {
     "id": "REVIEW-20",
     "question": "How did Jordan's care change after the plan was revised?",
-    "expected": {"metric": "plan_change", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "plan_change",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q20: went to the paid agent; it is the before-and-after plan comparison."
   },
   {
     "id": "REVIEW-21",
     "question": "Did Jordan's attendance change after the treatment plan was updated?",
-    "expected": {"metric": "plan_change", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "plan_change",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "rules_wrong": true,
     "note": "Review Q21: the old router showed the weekly goal table instead of the before-and-after comparison."
   },
   {
     "id": "REVIEW-22",
     "question": "How many sessions did Alex Smith attend?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": null, "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": null,
+      "date_range": null
+    },
     "refused": "unknown patient: Alex Smith",
     "note": "Review Q22: the old router answered for Rowan Mercer. Refused; patients is null because the name is unknown."
   },
   {
     "id": "REVIEW-23",
     "question": "What happened on February 30?",
-    "expected": {"metric": "sessions", "attendance": "any", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "any",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "refused": "February 30 is not a valid date",
     "note": "Review Q23: the old router crashed with a ValueError. Refused; date_range is null because the date is impossible."
   },
   {
     "id": "REVIEW-24",
     "question": "Did the PHQ-9 decrease 5 points or more?",
-    "expected": {"metric": "progress", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "progress",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q24, handled before; 'decrease 5' must not be read as December 5."
   },
   {
     "id": "REVIEW-25",
     "question": "List the services that were charged but never delivered.",
-    "expected": {"metric": "billing_integrity", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "billing_integrity",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q25, handled before."
   },
   {
     "id": "REVIEW-26",
     "question": "Which encounters have conflicting records?",
-    "expected": {"metric": "other", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "other",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q26: no executor lists conflict flags, so this is an open question for the agent."
   },
   {
     "id": "REVIEW-27",
     "question": "How many minutes of the January 30 family session was the patient absent for?",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "family_psychotherapy", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-30", "2026-01-30"]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "family_psychotherapy",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-30",
+        "2026-01-30"
+      ]
+    },
     "rules_wrong": true,
     "note": "Review Q27: the old router printed whole-period tables. The 15 absent minutes are the excluded interval in this session's minutes calculation."
   },
   {
     "id": "REVIEW-28",
     "question": "For Jordan Reyes, which weeks met the goal?",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q28, handled before."
   },
   {
     "id": "REVIEW-29",
     "question": "What medications is Rowan taking?",
-    "expected": {"metric": "other", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "other",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Review Q29: correctly an open question for the agent."
   },
   {
     "id": "REVIEW-30",
     "question": "Did Rowan attend group on January 22?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "group_psychotherapy", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-22", "2026-01-22"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "group_psychotherapy",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-22",
+        "2026-01-22"
+      ]
+    },
     "note": "Review Q30, handled before: 45 minutes with a late arrival."
   },
   {
     "id": "REVIEW-31",
     "question": "How many individual sessions happened in week 2?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "individual_psychotherapy", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
-    "refused": "week 2 is not a date",
-    "note": "Review Q31: the old router ignored 'week 2'. Week numbers differ per patient's episode, so the parser refuses and asks for a date; date_range is null."
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "individual_psychotherapy",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
+    "refused": "week 2 differs per patient",
+    "note": "Review Q31: the old router ignored 'week 2'. A week number resolves against one named patient; with no patient named it is refused and the message asks for a patient or a date."
   },
   {
     "id": "REVIEW-32",
     "question": "Which patients' inclusion depends on unresolved documentation?",
-    "expected": {"metric": "consecutive_shortfall", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "consecutive_shortfall",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q32, handled before: the collection answer lists patients whose inclusion depends on unresolved documents."
   },
   {
     "id": "REVIEW-33",
     "question": "Was any session documented only by a draft note?",
-    "expected": {"metric": "billing_integrity", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "billing_integrity",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Review Q33, handled before: HG-E116 has only a draft note."
   },
   {
     "id": "REVIEW-34",
     "question": "How many group sessions were authorized, and how many were used?",
-    "expected": {"metric": "other", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "other",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "rules_wrong": true,
     "note": "Review Q34: authorizations have no executor, so this is an open question; a sessions count would answer only half."
   },
   {
     "id": "PARAPHRASE-01",
     "question": "On how many distinct days did Rowan receive therapy in each week?",
-    "expected": {"metric": "days", "attendance": "attended", "service_type": "any", "group_by": "week", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "days",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "week",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Days metric, grouped by week."
   },
   {
     "id": "PARAPHRASE-02",
     "question": "How many therapy days did Jordan have after February 8?",
-    "expected": {"metric": "days", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["NF-20817"], "date_range": ["2026-02-09", null]},
+    "expected": {
+      "metric": "days",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-02-09",
+        null
+      ]
+    },
     "note": "Open-ended range: after February 8 starts on February 9."
   },
   {
     "id": "PARAPHRASE-03",
     "question": "How many therapy sessions did HG-M042 attend from 2026-01-05 to 2026-01-30?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-05", "2026-01-30"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-05",
+        "2026-01-30"
+      ]
+    },
     "note": "Patient by MRN; ISO dates."
   },
   {
     "id": "PARAPHRASE-04",
     "question": "What happened on Jan. 19?",
-    "expected": {"metric": "sessions", "attendance": "any", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": ["2026-01-19", "2026-01-19"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "any",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": [
+        "2026-01-19",
+        "2026-01-19"
+      ]
+    },
     "note": "Abbreviated month with a period."
   },
   {
     "id": "PARAPHRASE-05",
     "question": "Show Rowan's sessions on 1/21, whatever their status.",
-    "expected": {"metric": "sessions", "attendance": "any", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-21", "2026-01-21"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "any",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-21",
+        "2026-01-21"
+      ]
+    },
     "note": "Numeric month/day date without a year takes the default year."
   },
   {
     "id": "PARAPHRASE-06",
     "question": "How many minutes of group therapy did Rowan receive on the 22nd of January?",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "group_psychotherapy", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-22", "2026-01-22"]},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "group_psychotherapy",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-22",
+        "2026-01-22"
+      ]
+    },
     "note": "Day-first ordinal date."
   },
   {
     "id": "PARAPHRASE-07",
     "question": "How many no-shows did Rowan have in the week of January 26?",
-    "expected": {"metric": "sessions", "attendance": "missed_by_patient", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": ["2026-01-26", "2026-02-01"]},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "missed_by_patient",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": [
+        "2026-01-26",
+        "2026-02-01"
+      ]
+    },
     "note": "No-shows are sessions missed by the patient; the week runs Monday to Sunday."
   },
   {
     "id": "PARAPHRASE-08",
     "question": "Did Jordan meet the weekly therapy requirement before February 9?",
-    "expected": {"metric": "goal_status", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["NF-20817"], "date_range": [null, "2026-02-08"]},
+    "expected": {
+      "metric": "goal_status",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": [
+        null,
+        "2026-02-08"
+      ]
+    },
     "note": "Open-ended range: before February 9 ends on February 8."
   },
   {
     "id": "PARAPHRASE-09",
     "question": "Which patients fell below their weekly requirement two weeks in a row?",
-    "expected": {"metric": "consecutive_shortfall", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "consecutive_shortfall",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Paraphrase of the collection question."
   },
   {
     "id": "PARAPHRASE-10",
     "question": "Compare the care Jordan received before and after the treatment-plan change.",
-    "expected": {"metric": "plan_change", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "plan_change",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Paraphrase of the plan-change question."
   },
   {
     "id": "PARAPHRASE-11",
     "question": "How many sessions did Jordan attend under each version of the treatment plan?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "any", "group_by": "plan_version", "patients": ["NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "plan_version",
+      "patients": [
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "Grouping by plan version."
   },
   {
     "id": "PARAPHRASE-12",
     "question": "Were any charges posted for a session Rowan did not attend?",
-    "expected": {"metric": "billing_integrity", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "billing_integrity",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Paraphrase of the billing question; 'did not attend' must not read as attended."
   },
   {
     "id": "PARAPHRASE-13",
     "question": "Give Rowan Mercer's therapy hours per Monday–Sunday week.",
-    "expected": {"metric": "minutes", "attendance": "attended", "service_type": "any", "group_by": "week", "patients": ["HG-M042"], "date_range": null},
+    "expected": {
+      "metric": "minutes",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "week",
+      "patients": [
+        "HG-M042"
+      ],
+      "date_range": null
+    },
     "note": "Full name with a possessive; weekday names are not patients."
   },
   {
     "id": "PARAPHRASE-14",
     "question": "How many sessions did HG-M999 attend?",
-    "expected": {"metric": "sessions", "attendance": "attended", "service_type": "any", "group_by": "none", "patients": null, "date_range": null},
+    "expected": {
+      "metric": "sessions",
+      "attendance": "attended",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": null,
+      "date_range": null
+    },
     "refused": "unknown patient: HG-M999",
     "note": "An MRN shaped like a known one but missing from the store is refused, never answered for every patient."
   },
   {
     "id": "PARAPHRASE-15",
     "question": "Across the collection, what was the average weekly therapy time per patient?",
-    "expected": {"metric": "other", "attendance": "not_applicable", "service_type": "any", "group_by": "none", "patients": ["HG-M042", "NF-20817"], "date_range": null},
+    "expected": {
+      "metric": "other",
+      "attendance": "not_applicable",
+      "service_type": "any",
+      "group_by": "none",
+      "patients": [
+        "HG-M042",
+        "NF-20817"
+      ],
+      "date_range": null
+    },
     "note": "From the review's extra probes: no executor computes averages, so this is an open question for the agent."
   }
 ]

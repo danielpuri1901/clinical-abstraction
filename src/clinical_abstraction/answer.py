@@ -186,12 +186,24 @@ _NAME_RUN = re.compile(rf"(?<![\w'\u2019]){_NAME_WORD}(?:\s+{_NAME_WORD})*(?![\w
 _SENTENCE_START = re.compile(r"(?:^|[.?!:])[\s\"'(\u201c\u2018]*$")
 
 
-def parse_patients(question: str, known: list[tuple[str, str]]) -> list[str]:
+def clinician_named(words: list[str], clinicians: list[str]) -> str | None:
+    """The clinician a run of capitalized words names: a full name, or a single word that is one clinician's first or last name.
+    Credentials after a comma ("Leah Chen, LCSW") are ignored."""
+    text = " ".join(words).lower()
+    for clinician in clinicians:
+        name = clinician.split(",")[0].strip()
+        parts = name.lower().split()
+        if text == name.lower() or (len(words) == 1 and text in parts):
+            return name
+    return None
+
+
+def parse_patients(question: str, known: list[tuple[str, str]], clinicians: list[str] = ()) -> list[str]:
     """MRNs of the patients a question names, in store order. No name means every known patient (collection scope).
 
     A run of capitalized words that is not a month, a weekday, or the first word of a sentence must be a known full name
     or a unique first name; otherwise the question names an unknown patient and PlanError is raised. An MRN shaped like
-    a known one but missing from the store is refused the same way.
+    a known one but missing from the store is refused the same way. A clinician's name is neither a patient nor an error.
     ponytail: a lone unknown name opening a sentence ("Morgan attended...") reads as an ordinary word; add a word list if
     that bites.
     """
@@ -223,9 +235,27 @@ def parse_patients(question: str, known: list[tuple[str, str]]) -> list[str]:
         if words:
             mrn = lookup(words)
             if mrn is None:
+                if clinician_named(words, clinicians):
+                    continue
                 raise PlanError(f"unknown patient: {' '.join(words)}")
             named.add(mrn)
     return [mrn for mrn, _ in known if mrn in named] or [mrn for mrn, _ in known]
+
+
+def week_number_range(question: str, patients: list[str], week_ranges: dict[str, list[tuple[str, str]]]) -> DateRange | None:
+    """"Week 2" resolved against the one patient in scope: the second week of that patient's episode. None when the question
+    names no week number. Several patients have different weeks, so the question must name one patient."""
+    found = _WEEK_NUMBER.search(question)
+    if not found:
+        return None
+    number = int(re.search(r"\d+", found.group()).group())
+    if len(patients) != 1:
+        raise PlanError(f"{found.group()} differs per patient; name one patient, or name the week by a date")
+    weeks = week_ranges.get(patients[0], [])
+    if not 1 <= number <= len(weeks):
+        raise PlanError(f"{found.group()} is out of range; {patients[0]} has {len(weeks)} weeks")
+    start, end = weeks[number - 1]
+    return DateRange(date.fromisoformat(start), date.fromisoformat(end), f"week {number}: {start} to {end}")
 
 
 # ---- The two readers ----
@@ -346,11 +376,21 @@ def _default_filter(field: str, metric: str) -> str:
     return RULES_ONLY_DEFAULT[field]
 
 
-def plan_question(question: str, known_patients: list[tuple[str, str]], default_year: int, jev: Jev | None) -> Plan:
+def plan_question(
+    question: str,
+    known_patients: list[tuple[str, str]],
+    default_year: int,
+    jev: Jev | None,
+    week_ranges: dict[str, list[tuple[str, str]]] | None = None,
+    clinicians: list[str] = (),
+) -> Plan:
     """Parse patients and dates by code, then let the two readers settle the enum values; see the top of this section."""
-    patients = parse_patients(question, known_patients)
-    date_range = parse_dates(question, default_year)
+    patients = parse_patients(question, known_patients, clinicians)
+    date_range = week_number_range(question, patients, week_ranges or {}) or parse_dates(question, default_year)
     candidates = rule_candidates(question)
+    named_clinician = next((name for run in _NAME_RUN.finditer(question) if (name := clinician_named(run.group().split(), clinicians))), None)
+    if named_clinician:
+        candidates["metric"] = {"other"}  # a question about what a clinician wrote is about documents, not a count
     answers = jev.ask(question, JEV_QUESTIONS) if jev else {}  # after the code checks, so a refused question costs nothing
     defaulted = set()
     if answers:
@@ -929,7 +969,14 @@ def answer(connection, question: str, jev: Jev | None, budget: read.Budget, mode
     started, spent_before = time.perf_counter(), _spent(budget)
     result = {"question": question, "plan": None, "interpretation": None, "warnings": [], "citations_broken": []}
     try:
-        plan = plan_question(question, store.known_patients(connection), store.episode_year(connection), jev)
+        plan = plan_question(
+            question,
+            store.known_patients(connection),
+            store.episode_year(connection),
+            jev,
+            week_ranges=store.week_ranges(connection),
+            clinicians=store.known_clinicians(connection),
+        )
     except PlanError as error:
         result |= {"answer": f"Not answered: {error}.", "verdict": f"REFUSED: {error}"}
     else:

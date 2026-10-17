@@ -11,7 +11,7 @@ import json
 import re
 import sqlite3
 import time
-from collections import Counter
+from collections import Counter, defaultdict
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
@@ -264,6 +264,23 @@ def document_lines(connection: sqlite3.Connection, doc_id: str) -> list[str]:
     """The lines of a stored document, or [] when the store has no document with that id."""
     row = connection.execute("SELECT text FROM documents WHERE doc_id = ?", (doc_id,)).fetchone()
     return row[0].splitlines() if row else []
+
+
+def week_ranges(connection: sqlite3.Connection) -> dict[str, list[tuple[str, str]]]:
+    """Each patient's weeks in order, as (week_start, week_end) ISO dates, so a question can say "week 2" of one patient."""
+    ranges = defaultdict(list)
+    for row in connection.execute("SELECT mrn, week_start, week_end FROM weeks ORDER BY mrn, week_start"):
+        ranges[row["mrn"]].append((row["week_start"], row["week_end"]))
+    return dict(ranges)
+
+
+def known_clinicians(connection: sqlite3.Connection) -> list[str]:
+    """Every clinician name the model read on any service event, so a question naming one is not refused as an unknown patient."""
+    names = set()
+    for (payload,) in connection.execute("SELECT payload FROM extractions"):
+        for event in json.loads(payload).get("service_events", []):
+            names.update(name for name in event.get("clinicians", []) if name)
+    return sorted(names)
 
 
 def episode_year(connection: sqlite3.Connection) -> int:
