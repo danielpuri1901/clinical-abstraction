@@ -8,10 +8,13 @@ import json
 import socket
 import sys
 import types
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
 from langfuse import Langfuse
+from langfuse._client.datasets import DatasetClient
+from langfuse.api import Dataset, DatasetItem, DatasetStatus
 
 from clinical_abstraction import extract, llm, pipeline, store
 from clinical_abstraction.reconcile import build_patient
@@ -81,6 +84,7 @@ def test_routing_scores_the_mini_store_with_a_fake_jev(tmp_path, two_patient_sto
     always_right = ScriptedJev({item["question"]: FakeJev.from_expected(item["expected"]) for item in development})
     result = experiments.routing(two_patient_store, questions_path, "agreement", always_right, out=tmp_path / "experiments")
     assert result["arm"] == "agreement" and [item["id"] for item in result["items"]] == [f"DEV-0{n}" for n in range(1, 6)]
+    assert result["dataset"] == "routing"
     assert result["scores"] == dict.fromkeys(SCORES, 1.0)
     saved = tmp_path / "experiments" / "routing-agreement.json"
     assert json.loads(saved.read_text()) == result  # everything in the result is plain data
@@ -184,21 +188,64 @@ def test_record_is_skipped_without_keys(tmp_path, monkeypatch):
     assert tried == []
 
 
+NOW = datetime(2026, 10, 17, tzinfo=UTC)
+
+
 class LangfuseWithoutNetwork:
-    """The real Langfuse client with tracing off, so experiments run their tasks and evaluators and send nothing."""
+    """The real Langfuse client with tracing off, plus an in-memory stand-in for its dataset calls, so nothing is sent.
+
+    get_dataset returns the SDK's own DatasetClient over the stored items, so run_experiment on it is the SDK's code.
+    """
 
     def __init__(self):
         self.client = Langfuse(
             public_key="pk-lf-test", secret_key="sk-lf-test", base_url="http://localhost:9", tracing_enabled=False
         )
-        self.result, self.flushes, self.down = None, 0, False
+        self.datasets, self.calls, self.result = {}, [], None
+        self.flushes, self.down, self.break_items = 0, False, False
 
     def auth_check(self):
         return not self.down
 
-    def run_experiment(self, **options):
-        if self.down:
+    def create_dataset(self, **options):
+        self.calls.append(("create_dataset", options))
+        if options["name"] in self.datasets:
+            raise RuntimeError("Dataset already exists")
+        self.datasets[options["name"]] = {}
+
+    def create_dataset_item(self, *, dataset_name, id, input, expected_output, metadata):
+        self.calls.append(
+            (
+                "create_dataset_item",
+                {
+                    "dataset_name": dataset_name,
+                    "id": id,
+                    "input": input,
+                    "expected_output": expected_output,
+                    "metadata": metadata,
+                },
+            )
+        )
+        if self.break_items:
             raise RuntimeError("Langfuse is down")
+        self.datasets[dataset_name][id] = DatasetItem(
+            id=id,
+            status=DatasetStatus.ACTIVE,
+            input=input,
+            expected_output=expected_output,
+            metadata=metadata,
+            dataset_id=dataset_name,
+            dataset_name=dataset_name,
+            created_at=NOW,
+            updated_at=NOW,
+            media_references=[],
+        )
+
+    def get_dataset(self, name):
+        dataset = Dataset(id=name, name=name, description=None, metadata=None, project_id="p", created_at=NOW, updated_at=NOW)
+        return DatasetClient(dataset=dataset, items=list(self.datasets[name].values()), langfuse_client=self)
+
+    def run_experiment(self, **options):  # the DatasetClient calls this
         self.result = self.client.run_experiment(**options)
         return self.result
 
@@ -206,7 +253,7 @@ class LangfuseWithoutNetwork:
         self.flushes += 1
 
 
-def test_record_mirrors_the_local_scores_into_the_experiment_and_never_raises(tmp_path, monkeypatch):
+def test_record_mirrors_the_local_scores_into_a_dataset_run_and_never_raises(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
     monkeypatch.setenv("LANGFUSE_PUBLIC_KEY", "pk-lf-test")
     monkeypatch.setenv("LANGFUSE_SECRET_KEY", "sk-lf-test")
@@ -216,6 +263,7 @@ def test_record_mirrors_the_local_scores_into_the_experiment_and_never_raises(tm
     monkeypatch.setattr("langfuse.get_client", lambda *_args, **_kwargs: langfuse)
     result = {
         "arm": "agreement",
+        "dataset": "routing",
         "items": [
             {
                 "id": "Q1",
@@ -241,19 +289,52 @@ def test_record_mirrors_the_local_scores_into_the_experiment_and_never_raises(tm
     try:
         run_name = experiments.record(result, "routing-agreement")
         mirrored = langfuse.result
-        assert run_name and run_name.startswith("routing-agreement") and mirrored.run_name == run_name
-        assert {r.item["metadata"]["id"]: r.output for r in mirrored.item_results} == {
+        assert [call[0] for call in langfuse.calls] == ["create_dataset", "create_dataset_item", "create_dataset_item"]
+        assert langfuse.calls[0][1]["name"] == "routing"
+        assert [call[1] for call in langfuse.calls[1:]] == [
+            {
+                "dataset_name": "routing",
+                "id": "Q1",
+                "input": "How many sessions did Rowan attend?",
+                "expected_output": {"metric": "sessions"},
+                "metadata": {"id": "Q1", "note": "first"},
+            },
+            {
+                "dataset_name": "routing",
+                "id": "Q2",
+                "input": "Which weeks fell short of the plan?",
+                "expected_output": {"metric": "goal_status"},
+                "metadata": {"id": "Q2"},
+            },
+        ]
+        assert run_name.startswith("routing-agreement") and mirrored.run_name == run_name and mirrored.name == run_name
+        assert [r.item.id for r in mirrored.item_results] == ["Q1", "Q2"]
+        assert {r.item.dataset_name for r in mirrored.item_results} == {"routing"}  # the run belongs to the dataset
+        assert {r.item.id: r.output for r in mirrored.item_results} == {
             "Q1": {"verdict": "COMPUTED", "metric": "sessions"},
             "Q2": {"verdict": "REFUSED: cannot interpret the question"},
         }
-        assert {
-            r.item["metadata"]["id"]: {e.name: (e.value, e.comment) for e in r.evaluations} for r in mirrored.item_results
-        } == {
+        assert {r.item.id: {e.name: (e.value, e.comment) for e in r.evaluations} for r in mirrored.item_results} == {
             "Q1": {"metric_exact": (1.0, "right")},  # a score with no value is not sent
             "Q2": {"metric_exact": (0.0, "refused"), "cost_usd": (0.25, "refused")},
         }
         assert langfuse.flushes == 1
-        langfuse.down = True  # a Langfuse outage must not stop the eval that produced the scores
+
+        # Another arm on the same dataset: it exists already, the items are upserted again, and a run that covers one item runs one.
+        langfuse.calls.clear()
+        assert experiments.record({**result, "items": result["items"][:1]}, "routing-jev")
+        assert [call[0] for call in langfuse.calls] == ["create_dataset", "create_dataset_item"]
+        assert [r.item.id for r in langfuse.result.item_results] == ["Q1"]
+
+        # Results saved before they named a dataset are placed by their keys, so the files already in outputs/ can be recorded.
+        saved_earlier = [{"dataset": "other"}, {"questions": "evals/questions.json"}, {"manifest": "synthetic/manifest.json"}]
+        assert [experiments.dataset_of(saved) for saved in saved_earlier] == ["other", "routing", "extraction-tier"]
+
+        # A Langfuse failure, before or while the dataset is filled, must not stop the eval that produced the scores.
+        langfuse.calls.clear()
+        langfuse.down = True
+        assert experiments.record(result, "routing-agreement") is None and langfuse.calls == []
+        langfuse.down, langfuse.break_items = False, True
         assert experiments.record(result, "routing-agreement") is None
         assert tried == []
     finally:
@@ -276,6 +357,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
         folder / "manifest.json", "m", budget, extractor=replay, workers=2, out=tmp_path / "experiments"
     )
     assert ingested["run"] == "run1" and (tmp_path / "experiments" / "tier-m-run1.json").is_file()
+    assert ingested["dataset"] == "extraction-tier"
     assert [item["id"] for item in ingested["items"]] == list(truth)
     assert ingested["scores"]["gold_accuracy"] == 1.0 and ingested["scores"]["gold_passed"] == 1.0
     for item in ingested["items"]:  # the replay costs 0.001 for each distinct document of the patient

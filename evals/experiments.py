@@ -10,8 +10,9 @@ decision model alone, `agreement` is questions.plan with both readers. The plans
 tier: the abstraction of each synthetic patient, made by one extraction model, is scored against the gold file generated with the
 patient. The abstractions come from an ingest of that patient's documents, or from a store a run already made (`--store`).
 
-Every score is computed here and written to outputs/experiments/. When Langfuse keys exist, record() mirrors the same scores as an
-experiment run; without keys, or when Langfuse fails, the local result is all there is (decision D6.2).
+Every score is computed here and written to outputs/experiments/. When Langfuse keys exist, record() mirrors the same scores as a
+run on a Langfuse dataset (one dataset per kind of experiment, one run per arm or model, so the Experiments view can compare
+them); without keys, or when Langfuse fails, the local result is all there is (decision D6.2).
 """
 
 import argparse
@@ -30,9 +31,12 @@ from clinical_abstraction.jev import Jev
 from clinical_abstraction.llm import Budget
 from evals import score
 
+logger = logging.getLogger(__name__)
+
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUTS = ROOT / "outputs"
 EXPERIMENTS = OUTPUTS / "experiments"
+ROUTING_DATASET, TIER_DATASET = "routing", "extraction-tier"  # the Langfuse datasets the two experiments record their runs on
 
 Arm = Literal["rules", "jev", "agreement"]
 ARMS = ("rules", "jev", "agreement")
@@ -192,7 +196,14 @@ def routing(db: Path, questions_path: Path, arm: Arm, jev: Jev | None, *, out: P
                 "metadata": {"note": entry.get("note"), "rules_wrong": bool(entry.get("rules_wrong"))},
             }
         )
-    result = {"arm": arm, "store": _shown(db), "questions": _shown(questions_path), "items": items, "scores": _means(items)}
+    result = {
+        "arm": arm,
+        "dataset": ROUTING_DATASET,
+        "store": _shown(db),
+        "questions": _shown(questions_path),
+        "items": items,
+        "scores": _means(items),
+    }
     return _save(result, Path(out) / f"routing-{arm}.json")
 
 
@@ -346,6 +357,7 @@ def extraction_tier(
             break  # the cap is reached: another patient would spend past it
     result = {
         "arm": model,
+        "dataset": TIER_DATASET,
         "model": model,
         "run": run,
         "manifest": _shown(manifest),
@@ -369,49 +381,68 @@ def _langfuse_keys() -> bool:
     return bool(os.environ.get("LANGFUSE_PUBLIC_KEY") and os.environ.get("LANGFUSE_SECRET_KEY") and host)
 
 
-def record(result: dict, name: str) -> str | None:
-    """Mirror a result as a Langfuse experiment run, so the run carries exactly the local scores. Returns the run name.
+def dataset_of(result: dict) -> str:
+    """The Langfuse dataset a result belongs to. It names one; results saved before they did are told apart by their keys."""
+    return result.get("dataset") or (TIER_DATASET if "manifest" in result else ROUTING_DATASET)
 
-    The task of the run returns the output the local run stored, and one evaluator per local score returns that item's stored
-    value, so nothing is computed again and no model is called. A score an item has no value for is not sent.
-    Returns None without keys, and never raises: a Langfuse failure is logged and the local result stays the record.
+
+def record(result: dict, name: str) -> str | None:
+    """Mirror a result into Langfuse as a run on a dataset, so the run carries exactly the local scores. Returns the run name.
+
+    The dataset (see dataset_of) is created when it does not exist, and holds one item per local item, upserted by id. Every
+    arm or model that is recorded runs over the same items, so the Experiments view can compare the runs. The task of a run
+    returns the output the local run stored, and one evaluator per local score returns that item's stored value, so nothing is
+    computed again and no model is called. A score an item has no value for is not sent. Only fictional and synthetic records
+    belong here. Returns None without keys, and never raises: a Langfuse failure is logged and the local result stays the record.
     """
     if not _langfuse_keys():
         return None
     try:
         from langfuse import Evaluation, get_client  # imported late: without keys nothing of Langfuse starts
 
+        dataset_name = dataset_of(result)
         by_id = {item["id"]: item for item in result["items"]}
-        data = [
-            {
-                "input": item["input"],
-                "expected_output": item["expected_output"],
-                "metadata": {"id": item["id"], **item["metadata"]},
-            }
-            for item in result["items"]
-        ]
 
-        def task(*, item, **_):
-            return by_id[item["metadata"]["id"]]["output"]
+        def task(*, item, **_):  # item is the dataset item, whose id is the local item's
+            return by_id[item.id]["output"]
 
-        def evaluator(name: str):
+        def evaluator(score_name: str):
             def evaluate(*, metadata, **_):
                 item = by_id[metadata["id"]]
-                value = item["scores"].get(name)
-                return [] if value is None else Evaluation(name=name, value=value, comment=item.get("comment"))
+                value = item["scores"].get(score_name)
+                return [] if value is None else Evaluation(name=score_name, value=value, comment=item.get("comment"))
 
-            evaluate.__name__ = name
+            evaluate.__name__ = score_name
             return evaluate
 
         client = get_client()
         if not client.auth_check():
             raise RuntimeError("Langfuse is not set up to send")
+        try:
+            client.create_dataset(
+                name=dataset_name, description=f"{dataset_name} items of evals/experiments.py; synthetic records only"
+            )
+        except Exception as error:  # noqa: BLE001 - the usual reason is that it exists; get_dataset below fails if it is not there
+            logger.debug("create_dataset %s did not create it: %s", dataset_name, error)
+        for item in result["items"]:
+            client.create_dataset_item(
+                dataset_name=dataset_name,
+                id=item["id"],
+                input=item["input"],
+                expected_output=item["expected_output"],
+                metadata={"id": item["id"], **item["metadata"]},
+            )
+        dataset = client.get_dataset(dataset_name)
+        dataset.items = [item for item in dataset.items if item.id in by_id]  # the dataset also holds items other runs recorded
+        if len(dataset.items) != len(by_id):
+            raise RuntimeError(
+                f"Langfuse dataset {dataset_name} lacks {len(by_id) - len(dataset.items)} of the items just upserted"
+            )
         run_name = f"{name} {datetime.now(UTC):%Y-%m-%d %H:%M:%S}"
-        client.run_experiment(
-            name=name,
+        dataset.run_experiment(
+            name=run_name,
             run_name=run_name,
             description=f"Scores computed locally by evals/experiments.py: {', '.join(result['scores'])}",
-            data=data,
             task=task,
             evaluators=[evaluator(score_name) for score_name in result["scores"]],
             max_concurrency=10,
@@ -420,7 +451,7 @@ def record(result: dict, name: str) -> str | None:
         client.flush()
         return run_name
     except Exception as error:  # noqa: BLE001 - a Langfuse outage must not cost the scores that were just computed
-        logging.getLogger(__name__).warning("Langfuse recording failed; the local result is unaffected: %s", error)
+        logger.warning("Langfuse recording failed; the local result is unaffected: %s", error)
         return None
 
 
