@@ -63,6 +63,14 @@ def usage_cost(model: str, usage: dict) -> float:
     return sum(price[_PRICE_KEYS[key]] * (usage.get(key) or 0) for key in USAGE_KEYS) / 1e6
 
 
+def _save_json(path: Path, data: dict, indent: int | None = None) -> None:
+    """Write JSON to a scratch file, then rename it over the target, so a crash never leaves half a file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    scratch = path.with_name(path.name + ".tmp")
+    scratch.write_text(json.dumps(data, indent=indent))
+    scratch.replace(path)
+
+
 class BudgetExceeded(RuntimeError):
     """A charge would pass the cap of its account. The batch stops."""
 
@@ -93,10 +101,7 @@ class Budget:
             total = ledger[account]["total_usd"] + cost
             ledger[account]["total_usd"] = total
             ledger[account]["entries"].append({"at": datetime.now(UTC).isoformat(timespec="seconds"), "usd": cost, "note": note})
-            self.ledger.parent.mkdir(parents=True, exist_ok=True)
-            scratch = self.ledger.with_name(self.ledger.name + ".tmp")
-            scratch.write_text(json.dumps(ledger, indent=2))
-            scratch.replace(self.ledger)  # a crash never leaves half a ledger
+            _save_json(self.ledger, ledger, indent=2)
         if total > self.caps[account] + 1e-9:  # the tolerance absorbs float sums such as 0.1 + 0.2
             raise BudgetExceeded(f"{account} spend reached ${total:.4f}, over the ${self.caps[account]:.2f} cap ({note})")
 
@@ -397,10 +402,7 @@ class Jev:
             self.budget.charge("jev", cost, f"jev {', '.join(questions)}")
             with self._lock:
                 self._answers[key] = {"model": data["model"], "answers": data["answers"]}
-                self.cache.parent.mkdir(parents=True, exist_ok=True)
-                scratch = self.cache.with_name(self.cache.name + ".tmp")
-                scratch.write_text(json.dumps(self._answers))
-                scratch.replace(self.cache)  # a crash never leaves half a cache
+                _save_json(self.cache, self._answers)
         answers = self._answers[key]["answers"]
         return {
             name: ChoiceAnswer(answers[name]["choice"], answers[name]["confidence"], answers[name]["probabilities"])
