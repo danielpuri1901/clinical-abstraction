@@ -1274,37 +1274,25 @@ def _assessments(docs: list[Doc]) -> list[dict]:
     """Distinct administrations only; a copy of an earlier result is named on its original, never counted again."""
     distinct: dict[tuple, dict] = {}
     copies = []
+
+    def entry(assessment, completed_on: str | None, note: str | None = None) -> dict:
+        found = {"instrument": assessment.instrument, "completed_on": completed_on, "total_score": assessment.total_score}
+        return found | {"copies": [], "sources": [], "note": note}
+
     for doc in docs:
         for assessment in doc.extraction.assessments:
             same = (assessment.instrument.upper().replace(" ", ""), _date(assessment.completed_on), assessment.total_score)
             citations = _citations(doc.doc_id, assessment)
             if assessment.is_copy_of_earlier_result:
                 copies.append((same, assessment, citations))
-                continue
-            entry = distinct.setdefault(
-                same,
-                {
-                    "instrument": assessment.instrument,
-                    "completed_on": same[1],
-                    "total_score": assessment.total_score,
-                    "copies": [],
-                    "sources": [],
-                    "note": None,
-                },
-            )
-            entry["sources"] += citations
+            else:
+                distinct.setdefault(same, entry(assessment, same[1]))["sources"] += citations
     for same, assessment, citations in copies:
         if same in distinct:
             distinct[same]["copies"] += citations
         else:
-            distinct[same] = {
-                "instrument": assessment.instrument,
-                "completed_on": same[1],
-                "total_score": assessment.total_score,
-                "copies": [],
-                "sources": citations,
-                "note": "known only from a copy; the original form is not in the record",
-            }
+            note = "known only from a copy; the original form is not in the record"
+            distinct[same] = entry(assessment, same[1], note) | {"sources": citations}
     return sorted(
         distinct.values(),
         key=lambda row: (row["completed_on"] or "", row["instrument"], -1 if row["total_score"] is None else row["total_score"]),
