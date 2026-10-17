@@ -168,6 +168,8 @@ def test_times_and_dates_normalize():
     assert verify.normalize_date("30 January 2026") == "2026-01-30"
     assert verify.normalize_date("January 19, 2026") == "2026-01-19" == verify.normalize_date("01/19/2026")
     assert verify.normalize_date("Jan 5", default_year=2026) == "2026-01-05"
+    assert verify.normalize_date("Jan05", default_year=2026) == "2026-01-05"  # the appointment export writes dates this way
+    assert verify.value_in_lines("2026-01-05", "date", ["HG-E101   | Jan05 | Individual therapy"])
     assert verify.normalize_date("19th of January 2026") == "2026-01-19"
     assert verify.normalize_date("February 30, 2026") is None
 

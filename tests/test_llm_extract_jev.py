@@ -136,7 +136,8 @@ def test_budget_stops_at_the_cap(tmp_path):
     budget.charge("claude", 0.3, "b")
     with pytest.raises(llm.BudgetExceeded):
         budget.charge("claude", 0.2, "c")
-    assert llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5}).spent("claude") == pytest.approx(0.9)
+    # The call that crossed the cap already cost money, so the ledger records it before the batch stops.
+    assert llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5}).spent("claude") == pytest.approx(1.1)
 
 
 def test_budget_ledger_lists_every_account_with_its_entries(tmp_path):

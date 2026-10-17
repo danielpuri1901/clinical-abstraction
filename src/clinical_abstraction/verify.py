@@ -36,7 +36,7 @@ _YEAR = r"(?:,?\s+(?P<year>(?:19|20)\d{2})(?!\d))?"
 _DATE_FORMS = [  # tried in this order; each match is blanked so the next form cannot reuse its digits
     re.compile(r"(?<![\w/-])(?P<year>(?:19|20)\d{2})[-/](?P<month>\d{1,2})[-/](?P<day>\d{1,2})(?!\d)"),  # 2026-01-19
     re.compile(r"(?<![\w/.-])(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<year>(?:19|20)\d{2})(?!\d)"),  # 01/19/2026, month first
-    re.compile(rf"(?<![A-Za-z]){_MONTH}\s+(?P<day>\d{{1,2}})(?:st|nd|rd|th)?(?!\d){_YEAR}", re.IGNORECASE),  # January 19, 2026
+    re.compile(rf"(?<![A-Za-z]){_MONTH}\s*(?P<day>\d{{1,2}})(?:st|nd|rd|th)?(?!\d){_YEAR}", re.IGNORECASE),  # January 19, 2026; Jan05
     re.compile(
         rf"(?<![\w:./-])(?P<day>\d{{1,2}})(?:st|nd|rd|th)?\s+(?:of\s+)?{_MONTH}{_YEAR}", re.IGNORECASE
     ),  # 19th of January 2026

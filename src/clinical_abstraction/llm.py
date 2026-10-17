@@ -61,18 +61,21 @@ class Budget:
         return self._load()[account]["total_usd"]
 
     def charge(self, account: Literal["claude", "jev"], cost: float, note: str) -> None:
-        """Add the cost of one call. Over the cap, raise BudgetExceeded and record nothing."""
+        """Record the cost of one call that already happened, then raise BudgetExceeded once the cap is passed.
+
+        The money is spent by the time this runs, so the ledger always records it; the exception stops the batch.
+        """
         with self._lock:
             ledger = self._load()
             total = ledger[account]["total_usd"] + cost
-            if total > self.caps[account] + 1e-9:  # the tolerance absorbs float sums such as 0.1 + 0.2
-                raise BudgetExceeded(f"{account} spend would reach ${total:.4f}, over the ${self.caps[account]:.2f} cap ({note})")
             ledger[account]["total_usd"] = total
             ledger[account]["entries"].append({"at": datetime.now(UTC).isoformat(timespec="seconds"), "usd": cost, "note": note})
             self.ledger.parent.mkdir(parents=True, exist_ok=True)
             scratch = self.ledger.with_name(self.ledger.name + ".tmp")
             scratch.write_text(json.dumps(ledger, indent=2))
             scratch.replace(self.ledger)  # a crash never leaves half a ledger
+        if total > self.caps[account] + 1e-9:  # the tolerance absorbs float sums such as 0.1 + 0.2
+            raise BudgetExceeded(f"{account} spend reached ${total:.4f}, over the ${self.caps[account]:.2f} cap ({note})")
 
 
 @functools.cache
