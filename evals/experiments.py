@@ -396,17 +396,7 @@ TEMPLATE_DOCUMENTS = (
     "FROM documents d JOIN extractions e ON e.sha = d.sha AND e.version = :version "
     "LEFT JOIN label_checks c ON c.sha = d.sha AND c.version = :version WHERE d.patient_id = :mrn ORDER BY d.doc_id"
 )
-COUNTED_TABLES = (
-    "documents",
-    "extractions",
-    "label_checks",
-    "patients",
-    "encounters",
-    "weeks",
-    "flags",
-    "assessments",
-    "observations",
-)
+COUNTED_TABLES = ("documents", "extractions", "label_checks", "patients", *store.PATIENT_TABLES)
 
 
 def _timed(function, repeat: int) -> dict:
