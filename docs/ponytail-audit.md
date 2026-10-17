@@ -1,7 +1,8 @@
 # Ponytail audit
 
 Repository-wide audit for over-engineering on 2026-10-18, on `main` at `7db7cdc`: 9,856 lines of Python in `src/`, `evals/`, and `tests/`.
-Findings are ranked by the lines they cut, biggest first, and `~` marks an estimate.
+Findings are ranked by the lines they were expected to cut, biggest first, and `~` marks an estimate.
+Every finding except 21 is applied on the branch `refactor`, and the closing line gives the measured result: 9,479 lines.
 Every cut keeps behavior: the CLI commands and flags, the store schema, the JSON in `outputs/`, the extractor versions, and the Jev cache keys stay the same.
 
 1. `delete:` 156 files in `outputs/experiments/tier-sonnet-run1/documents/` (1,772 lines of data) that are byte-identical copies of the SY-M07001 to SY-M07012 files in `outputs/experiments/synthetic/documents/` (same git blobs), plus `tier-haiku-run1/ingest-summary.json` (the `ingest_finished` event of its log) and the empty `ingest-stderr.txt`. Nothing; the run log keeps the file names and `docs/experiments.md` says where the files are. Data, not counted in the net. [outputs/experiments/]
@@ -24,19 +25,23 @@ Every cut keeps behavior: the CLI commands and flags, the store schema, the JSON
 18. `yagni:` `render.to_json`, one line with one caller. Inline into the export. -3. [src/clinical_abstraction/render.py]
 19. `shrink:` the loop in `jev._header_length`. `next((n for n, line in enumerate(lines[:HEADER_LINES]) if not line.strip()), min(len(lines), HEADER_LINES))`. -3. [src/clinical_abstraction/jev.py]
 20. `shrink:` the key folder `~/.config/backbone-take-home/` is built in `cli.load_keys` and in `experiments._langfuse_keys`. One `read.load_keys(*names)`. ~-2. [src/clinical_abstraction/cli.py, evals/experiments.py]
-21. `shrink:` `llm.PRICES` uses its own key names and `_PRICE_KEYS` translates them. Key the prices by the usage keys and drop the translation. -2. [src/clinical_abstraction/llm.py]
+21. `shrink:` `llm.PRICES` uses its own key names and `_PRICE_KEYS` translates them. Key the prices by the usage keys and drop the translation. -2. Not applied: keyed by the usage names, each price line passes 130 characters, and the short labels read better. [src/clinical_abstraction/llm.py]
 22. `shrink:` second copies of constants: `questions._MONTH_KEYS` is `verify._MONTH_NAMES`, and `fakes.NEUTRAL` is `questions.NEUTRAL`. Import them. -2. [src/clinical_abstraction/questions.py, tests/fakes.py]
 23. `shrink:` the export file name `re.sub(r"[^\w.-]", "_", mrn)` is built twice in `pipeline`. One `_export_path(out, mrn, suffix)`. -1. [src/clinical_abstraction/pipeline.py]
 24. `shrink:` `calculate.plan_for` converts a date with `str()` for its one caller, which already holds the ISO string. Pass the string. -1. [src/clinical_abstraction/calculate.py]
 25. `shrink:` `experiments.Arm` and `ARMS` spell the same three names twice. `ARMS = get_args(Arm)`. 0. [evals/experiments.py]
+26. `shrink:` found while applying: the benchmark's run list and the tier experiment's run logs each parse the `ingest_finished` event of every ingest log. One `_finished_runs(logs)`. -5. [evals/experiments.py]
+27. `shrink:` found while applying: `test_times_and_dates_normalize` repeats five cases of the two parametrized date and time tests. Keep only the forms they do not cover. -4. [tests/test_reconcile.py]
 
 Not cut, on purpose:
 
-- `schema.py`, `extract.SYSTEM_PROMPT`, the tool definition, and the Jev criteria texts: they are hashed into the extractor version and the Jev cache keys, so any edit re-extracts every document or misses the cache.
+- The field definitions in `schema.py`, `extract.SYSTEM_PROMPT`, the tool definition, and the Jev criteria texts: they are hashed into the extractor version and the Jev cache keys, so any edit re-extracts every document or misses the cache.
+- `evals/score.load_gold`, which no code calls: the gold gates are run with it by hand.
+- One-key-per-line dict literals in `evals/synthetic.py` and the test builders: putting them on fewer lines cuts lines, not complexity.
 - `cli.CITATION` next to `agent.CITATION`: the CLI accepts any id ("NOPE L1") and reports it as missing, which the agent's stricter pattern refuses.
 - `langfuse`: it is the documented mirror of the eval scores (decision D6.2), and only a dev dependency.
 - The two thread-pool loops in `pipeline.extract_missing` and `pipeline.backfill_label_checks`: one shared generator saves about five lines and moves the budget-stop logic out of sight.
 - `httpx`, the one possible dependency cut: `jev.py` can use `httpx2`, which the anthropic SDK already installs with the same `Client`, `HTTPTransport(retries=)`, and `MockTransport`.
   Not applied, because it changes `pyproject.toml` and `uv.lock`, and installs need Daniel's approval.
 
-net: -430 lines, -1 deps possible.
+net: -377 lines, -1 deps possible.
