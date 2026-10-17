@@ -236,10 +236,9 @@ def _stored_run(path: Path, mrn: str) -> tuple[dict | None, float | None]:
         raise FileNotFoundError(f"no store at {path}")
     connection = store.connect(path)
     try:
-        row = connection.execute("SELECT abstraction FROM patients WHERE mrn = ?", (mrn,)).fetchone()
-        if row is None:
+        abstraction = store.stored_abstraction(connection, mrn)
+        if abstraction is None:
             return None, None
-        abstraction = json.loads(row["abstraction"])
         version = (abstraction.get("built_with") or {}).get("extractor_version")
         cost = connection.execute(
             "SELECT SUM(json_extract(e.usage, '$.cost_usd')) FROM documents d "

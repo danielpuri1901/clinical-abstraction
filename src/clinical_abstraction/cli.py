@@ -78,11 +78,11 @@ def main(argv: list[str] | None = None) -> int:
     connection = store.connect(args.db)
     if args.command == "report":
         if args.patient:
-            row = connection.execute("SELECT abstraction FROM patients WHERE mrn = ?", (args.patient,)).fetchone()
-            if row is None:
+            abstraction = store.stored_abstraction(connection, args.patient)
+            if abstraction is None:
                 print(f"No patient {args.patient} in the store.", file=sys.stderr)
                 return 1
-            print(store.markdown(json.loads(row["abstraction"])))
+            print(store.markdown(abstraction))
             return 0
         for row in connection.execute("SELECT mrn, name, incomplete FROM patients ORDER BY mrn"):
             pending = len(json.loads(row["incomplete"]))
@@ -94,11 +94,10 @@ def main(argv: list[str] | None = None) -> int:
             print("Give a citation such as 'BH-D103 L7' or 'BH-D103 L7-8'.", file=sys.stderr)
             return 2
         for doc_id, first, last in citations:
-            row = connection.execute("SELECT text FROM documents WHERE doc_id = ?", (doc_id,)).fetchone()
-            if row is None:
+            lines, start, end = store.document_lines(connection, doc_id), int(first), int(last or first)
+            if not lines:
                 print(f"No document {doc_id} in the store.", file=sys.stderr)
                 return 1
-            lines, start, end = row["text"].splitlines(), int(first), int(last or first)
             if not 1 <= start <= end <= len(lines):
                 print(f"{doc_id} L{first}{'-' + last if last else ''} is outside the document, which has {len(lines)} lines.", file=sys.stderr)
                 return 1

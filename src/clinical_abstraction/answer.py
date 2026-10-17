@@ -464,12 +464,6 @@ def _listed(items: list[str]) -> str:
     return (", ".join(items[:LISTED]) + more) or "none"
 
 
-def _stored(connection, mrn: str, path: str):
-    """One part of a patient's stored abstraction; SQLite reads the JSON, so Python parses only that part."""
-    row = connection.execute("SELECT json_extract(abstraction, ?) FROM patients WHERE mrn = ?", (path, mrn)).fetchone()
-    return json.loads(row[0]) if row and row[0] else None
-
-
 def _flag_line(flag) -> str:
     settles = f" {flag['settles']}" if flag["settles"] else ""
     return f"- {flag['encounter'] or 'patient'} ({flag['kind']}): {flag['text']} {_cites(json.loads(flag['citations']))}{settles}"
@@ -577,7 +571,7 @@ def _filtered(connection, plan: Plan, mrn: str) -> str:
     listed = rows if plan.metric == "sessions" and plan.attendance == "attended" else matching
     if not listed:
         return "\n\n".join(parts)
-    calculations = {row["encounter"]: row.get("calculation") for row in _stored(connection, mrn, "$.encounters") or []}
+    calculations = {row["encounter"]: row.get("calculation") for row in store.stored_abstraction(connection, mrn, "$.encounters") or []}
     table = [
         [
             row["service_date"],
@@ -616,7 +610,7 @@ def _goal_text(plan_row: dict, short: bool = False) -> str:
 
 
 def _goal(connection, plan: Plan, mrn: str) -> str:
-    plans = _stored(connection, mrn, "$.plans") or []
+    plans = store.stored_abstraction(connection, mrn, "$.plans") or []
     lines = [
         f"Plan version {row['version']} ({row['effective_date'] or 'start not stated'} to {row['effective_end'] or 'open'}): "
         f"at least {_goal_text(row)} per {reconcile.DAYS[row['week_start_day']].capitalize()}-"
@@ -688,7 +682,7 @@ def _collection(connection, plan: Plan) -> str:
 
 
 def _plan_change(connection, plan: Plan, mrn: str) -> str:
-    compared = _stored(connection, mrn, "$.plan_versions_compared") or {"versions": [], "note": "No treatment plan is stored."}
+    compared = store.stored_abstraction(connection, mrn, "$.plan_versions_compared") or {"versions": [], "note": "No treatment plan is stored."}
     rows = [
         [
             f"{row['plan_version']} {_cites(row['sources'])}",
@@ -1041,18 +1035,12 @@ def search_source(connection, mrn: str, query: str, limit: int = 20) -> list[dic
     return [{"citation": f"{doc_id} L{number}", "line": line} for _, doc_id, number, line in sorted(hits)[:limit]]
 
 
-def _line_count(connection, doc_id: str) -> int:
-    row = connection.execute("SELECT text FROM documents WHERE doc_id = ?", (doc_id,)).fetchone()
-    return len(row[0].splitlines()) if row else 0
-
-
 def source_lines(connection, citation: str) -> list[dict] | dict:
     found = CITATION.fullmatch(citation.strip())
     if not found:
         return {"error": "give a citation such as 'BH-D103 L7' or 'BH-D103 L7-9'"}
     doc_id, first, last = found[1], int(found[2]), int(found[3] or found[2])
-    row = connection.execute("SELECT text FROM documents WHERE doc_id = ?", (doc_id,)).fetchone()
-    lines = row[0].splitlines() if row else []
+    lines = store.document_lines(connection, doc_id)
     if not 1 <= first <= last <= len(lines):
         return {"error": f"{citation} does not point at lines of a stored document"}
     return [{"citation": f"{doc_id} L{number}", "line": lines[number - 1]} for number in range(first, last + 1)]
@@ -1101,7 +1089,7 @@ def broken_citations(connection, text: str) -> list[str]:
     for found in CITATION.finditer(text):
         doc_id, first, last = found[1], int(found[2]), int(found[3] or found[2])
         if doc_id not in sizes:
-            sizes[doc_id] = _line_count(connection, doc_id)
+            sizes[doc_id] = len(store.document_lines(connection, doc_id))
         if not 1 <= first <= last <= sizes[doc_id]:
             broken.append(found.group())
     return list(dict.fromkeys(broken))

@@ -251,6 +251,21 @@ def known_patients(connection: sqlite3.Connection) -> list[tuple[str, str]]:
     return [(row["mrn"], row["name"] or "") for row in connection.execute("SELECT mrn, name FROM patients ORDER BY mrn")]
 
 
+def stored_abstraction(connection: sqlite3.Connection, mrn: str, part: str = "$"):
+    """A patient's stored abstraction, or the part of it at a JSON path, or None for an unknown patient.
+
+    SQLite reads the JSON, so Python parses only the part asked for.
+    """
+    row = connection.execute("SELECT json_extract(abstraction, ?) FROM patients WHERE mrn = ?", (part, mrn)).fetchone()
+    return json.loads(row[0]) if row and row[0] else None
+
+
+def document_lines(connection: sqlite3.Connection, doc_id: str) -> list[str]:
+    """The lines of a stored document, or [] when the store has no document with that id."""
+    row = connection.execute("SELECT text FROM documents WHERE doc_id = ?", (doc_id,)).fetchone()
+    return row[0].splitlines() if row else []
+
+
 def episode_year(connection: sqlite3.Connection) -> int:
     """The year of the earliest service date in the store, else the current year, for dates written without a year."""
     earliest = connection.execute("SELECT MIN(service_date) FROM encounters").fetchone()[0]
