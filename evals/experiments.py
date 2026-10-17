@@ -39,7 +39,7 @@ import tempfile
 import time
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal
+from typing import Literal, get_args
 
 from clinical_abstraction import answer, read, store
 from clinical_abstraction.schema import DocumentExtraction
@@ -54,7 +54,7 @@ QUESTIONS = ROOT / "evals" / "questions.json"
 ROUTING_DATASET, TIER_DATASET = "routing", "extraction-tier"  # the Langfuse datasets the two experiments record their runs on
 
 Arm = Literal["rules", "jev", "agreement"]
-ARMS = ("rules", "jev", "agreement")
+ARMS = get_args(Arm)
 EXACT = ("metric_exact", "attendance_exact", "date_range_exact")
 FIELDS = (*answer.ENUMS, "patients", "date_range")  # what a plan must match for the question to be answered right
 NOTHING = {  # the abstraction of a patient the store has none for: every gold check fails

@@ -1411,8 +1411,8 @@ def weeks_between(start: str, end: str, first_day: int = 0) -> list[tuple[date, 
     return weeks
 
 
-def plan_for(plans: list[dict], day: date | str) -> dict | None:
-    day = str(day)  # str(date) is the ISO form
+def plan_for(plans: list[dict], day: str) -> dict | None:
+    """The plan version in force on an ISO date."""
     return next((plan for plan in plans if (plan["effective_date"] or "0000") <= day <= (plan["effective_end"] or "9999")), None)
 
 
@@ -1502,7 +1502,7 @@ def weekly(abstraction: dict) -> list[dict]:
             if encounter["counts_as_therapy"] in COUNTED and any(start <= day <= end for day in _dates(encounter))
         ]
         totals = _week_totals(abstraction["encounters"], start, end)
-        plan = plan_for(plans, first)
+        plan = plan_for(plans, start)
         status, explanation = goal_status(plan, *(totals[key] for key in TOTALS))
         open_questions = []
         moving = [encounter["encounter"] for encounter in counted if len(_dates(encounter)) > 1]
