@@ -9,7 +9,11 @@ Updated 2026-10-17 at the start of the rebuild.
 - First real run, 2026-10-17: `abstraction ingest documents/ --model claude-haiku-5-5` read 31 documents in 46 s for $0.042 (33 calls, 0 failures, 0 repair turns); gold 95 of 95; weeks 140, 120, 180, 145 to 155 with the last "cannot_determine". Jev second reads: 16 disputes at the 0.7 bar, 3 at the 0.9 bar with specific labels only (two are the decision model reading a cancellation notice and a no-show row as outreach calls; harmless, counts unchanged).
 - Held-out patient with Haiku 5.5 into `outputs/experiments/held-out/`: 14 new documents, 1 duplicate recognized, 14.7 s, $0.018, gold 53 of 53.
 - Synthetic set (seed 7, 25 patients, 319 documents) generated into `outputs/experiments/synthetic/`; first Haiku 5.5 pass into `outputs/experiments/tier-haiku-run1/`: 252 s, $0.28, 20 of 25 patients perfect (1,813 of 1,841 checks). Two root causes: addendum corrections labelled `other` were not applied, and a signed note with stated minutes but no interval did not establish delivery. Both fixed in the reconciler; rebuilt from the same extractions at zero cost: 25 of 25 (1,841 of 1,841), with the real records still 95 of 95 and 53 of 53. The extraction prompt is being tightened for the same two cases (new extractor version; all stores must be re-extracted once it lands).
-- Spend so far: $0.34 Claude, $0.03 Jev.
+- Prompt tightened (new extractor versions `d6d18c7eb1e3` Haiku, `0c78c0f988fd` Sonnet); every set re-extracted with Haiku 5.5: 95 of 95, 53 of 53, synthetic 25 of 25, no correction left labelled `other`.
+- Variance: three Haiku 5.5 passes over the 319 synthetic documents (`tier-haiku-run1` to `run3`), each 25 of 25 patients and 1,841 of 1,841 checks, about $0.27 and 235 s each.
+- Frontier tier: Sonnet 5.5 on the supplied record (main store, 95 of 95, $0.53, 23 s) and on 12 synthetic patients (`tier-sonnet-run1`, 877 of 877, $1.52, 93 s). Both tiers pass every gate; Haiku costs about one eleventh per document.
+- Answers: `answer-questions questions.json` on the main store with the real Jev gave five COMPUTED answers (DEV-04 with a visible attendance warning), about 0.3 s and $0.00005 each; `verify-answers` exits 0.
+- Spend so far across every ledger (`outputs/**/logs/spend.json`): $3.29 Claude, $0.10 Jev.
 
 ## Earlier state
 

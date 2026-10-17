@@ -1,0 +1,22 @@
+{
+  "claude": {
+    "total_usd": 0.029279,
+    "entries": [
+      {
+        "at": "2026-10-17T20:54:35+00:00",
+        "usd": 0.029279,
+        "note": "extract BH-D116"
+      }
+    ]
+  },
+  "jev": {
+    "total_usd": 6.144600000000001e-05,
+    "entries": [
+      {
+        "at": "2026-10-17T20:54:35+00:00",
+        "usd": 6.144600000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      }
+    ]
+  }
+}
