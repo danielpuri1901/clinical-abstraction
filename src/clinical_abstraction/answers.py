@@ -14,8 +14,7 @@ import time
 from datetime import date
 from pathlib import Path
 
-from clinical_abstraction import agent, llm, questions, reconcile, store
-from clinical_abstraction.jev import Jev
+from clinical_abstraction import agent, questions, read, reconcile, store
 from clinical_abstraction.questions import DateRange, Plan, PlanError
 from clinical_abstraction.render import _range, _runs, _table
 
@@ -522,11 +521,11 @@ def _plan_from_json(data: dict) -> Plan:
     return Plan(**{**data, "date_range": window})
 
 
-def _spent(budget: llm.Budget) -> float:
+def _spent(budget: read.Budget) -> float:
     return sum(budget.spent(account) for account in budget.caps)
 
 
-def answer(connection, question: str, jev: Jev | None, budget: llm.Budget, model: str, force_agent: bool = False) -> dict:
+def answer(connection, question: str, jev: read.Jev | None, budget: read.Budget, model: str, force_agent: bool = False) -> dict:
     """Plan the question, answer it by code (or by the agent for open questions), save it with its plan, and return it."""
     started, spent_before = time.perf_counter(), _spent(budget)
     result = {"question": question, "plan": None, "interpretation": None, "warnings": [], "citations_broken": []}
@@ -540,7 +539,7 @@ def answer(connection, question: str, jev: Jev | None, budget: llm.Budget, model
             lines, warnings = _header(connection, plan)
             try:
                 reply = agent.answer_open(connection, question, model, budget, patients=plan.patients)
-            except llm.BudgetExceeded:
+            except read.BudgetExceeded:
                 raise
             except Exception as error:  # noqa: BLE001 - one failed agent call must not lose a batch of answers
                 reply = {"answer": "", "verdict": f"AGENT: not answered ({type(error).__name__}: {error})"[:300]}

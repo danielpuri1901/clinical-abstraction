@@ -13,8 +13,7 @@ from datetime import date
 
 import pytest
 
-from clinical_abstraction import cli, extract, llm, pipeline, store
-from clinical_abstraction.jev import Jev
+from clinical_abstraction import cli, pipeline, read, store
 from clinical_abstraction.pipeline import ingest
 from clinical_abstraction.reconcile import build_patient
 from clinical_abstraction.schema import Interval
@@ -71,7 +70,7 @@ class CapReachedExtractor(FixtureExtractor):
             if over:
                 self.seen.append(f"{doc_id} (refused)")
         if over:
-            raise llm.BudgetExceeded("claude spend reached $10.0100, over the $10.00 cap (extract)")
+            raise read.BudgetExceeded("claude spend reached $10.0100, over the $10.00 cap (extract)")
         return super().__call__(doc_id, text)
 
 
@@ -151,8 +150,8 @@ def test_duplicate_file_changes_nothing_and_costs_nothing(tmp_path, mini_files, 
 
 def test_version_change_rebuilds_every_touched_patient(tmp_path, mini_files, fixture_extractor, monkeypatch):
     run(tmp_path, mini_files, fixture_extractor)
-    old_version, old_fingerprint = extract.extractor_version("m"), scalar(tmp_path, "SELECT fingerprint FROM patients")
-    monkeypatch.setattr(extract, "extractor_version", lambda model: "new-version-1")
+    old_version, old_fingerprint = read.extractor_version("m"), scalar(tmp_path, "SELECT fingerprint FROM patients")
+    monkeypatch.setattr(read, "extractor_version", lambda model: "new-version-1")
     again = run(tmp_path, mini_files, fixture_extractor)
     assert again["extraction"]["documents"] == 10 and again["rebuilt"] == ["T-M001"]
     assert scalar(tmp_path, "SELECT fingerprint FROM patients") != old_fingerprint
@@ -174,7 +173,7 @@ def test_provisional_patient_id():
 def replicated_store_5000_docs(tmp_path):
     """500 patients with the ten mini documents each, inserted as rows; every patient already has its abstraction."""
     connection = store.connect(tmp_path / "replicated.db")
-    version = extract.extractor_version("m")
+    version = read.extractor_version("m")
     docs = mini_patient_docs()
     payloads = {doc.doc_id: doc.extraction.model_dump_json() for doc in docs}
     abstraction = build_patient("T-M001", docs)
@@ -336,7 +335,7 @@ def test_cli_ingests_reports_and_cites_without_a_model(tmp_path, mini_files, fix
         seen.update(model=model, budget=budget)
         return fixture_extractor(document_id, text)
 
-    monkeypatch.setattr(extract, "extract_document", fake_extract_document)
+    monkeypatch.setattr(read, "extract_document", fake_extract_document)
     monkeypatch.setenv("HOME", str(tmp_path / "home"))  # no key files to load
     monkeypatch.setenv("MODEL_BUDGET_USD", "7.5")
     monkeypatch.setenv("JEV_BUDGET_USD", "0.25")
@@ -347,9 +346,9 @@ def test_cli_ingests_reports_and_cites_without_a_model(tmp_path, mini_files, fix
     assert seen["budget"].ledger == tmp_path / "out" / "logs" / "spend.json"
     assert json.loads(capsys.readouterr().out)["rebuilt"] == ["T-M001"]
     # A Jev client exists only when its key does.
-    assert cli.jev_client(tmp_path / "out", seen["budget"]) is None
+    assert read.jev_client(tmp_path / "out", seen["budget"]) is None
     monkeypatch.setenv("JEV_API_KEY", "test-key")
-    assert isinstance(cli.jev_client(tmp_path / "out", seen["budget"]), Jev)
+    assert isinstance(read.jev_client(tmp_path / "out", seen["budget"]), read.Jev)
     assert cli.main([*base, "report", "--patient", "T-M001"]) == 0 and "40-50" in capsys.readouterr().out
     assert cli.main([*base, "report"]) == 0 and "T-M001" in capsys.readouterr().out
     assert cli.main([*base, "report", "--patient", "NOPE"]) == 1 and "NOPE" in capsys.readouterr().err

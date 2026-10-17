@@ -7,7 +7,6 @@ the patient stale in the same transaction; ingest then rebuilds a stale patient 
 """
 
 import json
-import os
 import re
 import time
 from collections import Counter
@@ -17,15 +16,14 @@ from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 
-from clinical_abstraction import extract, llm, reconcile, render, store
-from clinical_abstraction.jev import Jev, second_read
-from clinical_abstraction.reconcile import Doc, Problem
+from clinical_abstraction import read, reconcile, render, store
+from clinical_abstraction.reconcile import Doc
 from clinical_abstraction.schema import DocumentExtraction
 
-Extractor = Callable[[str, str], tuple[DocumentExtraction, list[Problem], dict]]  # (doc_id, text) -> extraction, problems, usage
+Extractor = Callable[[str, str], read.Extracted]  # (doc_id, text) -> extraction, problems, usage
 
 PRINTED_ID = re.compile(r"Document ID:\s*([A-Za-z0-9][A-Za-z0-9._-]*)")
-SUMMED = ("calls", "cost_usd", "repair_turns", "unrepaired_problems", *llm.USAGE_KEYS)
+SUMMED = ("calls", "cost_usd", "repair_turns", "unrepaired_problems", *read.USAGE_KEYS)
 
 
 class RunLog:
@@ -42,12 +40,6 @@ class RunLog:
 
     def close(self) -> None:
         self._file.close()
-
-
-def default_budget(out: Path) -> llm.Budget:
-    """The spend ledger under out/logs, capped by MODEL_BUDGET_USD (default 10.0) and JEV_BUDGET_USD (default 0.50)."""
-    caps = {"claude": float(os.environ.get("MODEL_BUDGET_USD", "10.0")), "jev": float(os.environ.get("JEV_BUDGET_USD", "0.50"))}
-    return llm.Budget(Path(out) / "logs" / "spend.json", caps)
 
 
 def register(connection, paths: list[Path], log: RunLog) -> tuple[list[str], int]:
@@ -84,7 +76,7 @@ def confirmed_patient_id(extraction: DocumentExtraction, text: str) -> str | Non
     return mrn if mrn and re.search(rf"(?<![\w-]){re.escape(mrn)}(?![\w-])", text) else None
 
 
-def extract_missing(connection, version: str, model: str, workers: int, read: Extractor, log: RunLog):
+def extract_missing(connection, version: str, model: str, workers: int, extractor: Extractor, log: RunLog):
     """Extract every document with no extraction row for this version. Returns the summary and why the batch stopped, if it did.
 
     A failure is recorded with its attempt count and the batch goes on; BudgetExceeded stops it. Workers only call the model;
@@ -112,7 +104,7 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
 
     pool = ThreadPoolExecutor(max_workers=workers)
     try:
-        futures = {pool.submit(read, row["doc_id"], row["text"]): row for row in rows}
+        futures = {pool.submit(extractor, row["doc_id"], row["text"]): row for row in rows}
         for future in as_completed(futures):
             if future.cancelled():
                 continue
@@ -132,7 +124,7 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
                 totals["failed"] += 1
                 errors[message] += 1
                 log.write("extraction_failed", doc=row["doc_id"], sha=row["sha"][:12], error=message)
-                if isinstance(error, llm.BudgetExceeded):
+                if isinstance(error, read.BudgetExceeded):
                     stop(error)
                 continue
             patient = confirmed_patient_id(extraction, row["text"]) or row["patient_id"]
@@ -168,7 +160,7 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
     return totals, stopped
 
 
-def backfill_label_checks(connection, version: str, workers: int, jev: Jev, log: RunLog):
+def backfill_label_checks(connection, version: str, workers: int, jev: read.Jev, log: RunLog):
     """Second-read every extracted document that has no label check for this version, and mark its patient stale.
 
     A new document, a read that failed earlier, and a row deleted on purpose after a change to the dispute rule all look the
@@ -193,7 +185,7 @@ def backfill_label_checks(connection, version: str, workers: int, jev: Jev, log:
 
     def read_labels(row: dict) -> list[dict]:  # runs in a worker thread and never touches the connection
         extraction = DocumentExtraction.model_validate_json(row["payload"])
-        return getattr(jev, "second_read", second_read)(row["doc_id"], row["text"], extraction, jev)
+        return getattr(jev, "second_read", read.second_read)(row["doc_id"], row["text"], extraction, jev)
 
     pool = ThreadPoolExecutor(max_workers=workers)
     try:
@@ -207,7 +199,7 @@ def backfill_label_checks(connection, version: str, workers: int, jev: Jev, log:
             except Exception as error:  # noqa: BLE001 - a Jev outage leaves a document unchecked, never unextracted
                 totals["failed"] += 1
                 log.write("second_read_failed", doc=row["doc_id"], sha=row["sha"][:12], error=f"{type(error).__name__}: {error}"[:500])
-                if isinstance(error, llm.BudgetExceeded):
+                if isinstance(error, read.BudgetExceeded):
                     stopped = stopped or str(error)
                     for other in futures:
                         other.cancel()
@@ -300,8 +292,8 @@ def ingest(
     workers: int = 8,
     rebuild_all: bool = False,
     extractor: Extractor | None = None,
-    budget: llm.Budget | None = None,
-    jev: Jev | None = None,
+    budget: read.Budget | None = None,
+    jev: read.Jev | None = None,
 ) -> dict:
     """Register the files, extract what is missing, rebuild the patients that changed, and export them. Returns a summary.
 
@@ -310,19 +302,19 @@ def ingest(
     and are part of the patient's fingerprint, so a new or changed check rebuilds the patient.
     """
     started, out = time.perf_counter(), Path(out)
-    budget = budget or default_budget(out)
+    budget = budget or read.default_budget(out)
 
-    def read(doc_id: str, text: str):
+    def extract(doc_id: str, text: str):
         if extractor is not None:
             return extractor(doc_id, text)
-        return extract.extract_document(doc_id, text, model, budget)  # looked up now, so a test's replacement applies
+        return read.extract_document(doc_id, text, model, budget)  # looked up now, so a test's replacement applies
 
-    version = extract.extractor_version(model)
+    version = read.extractor_version(model)
     connection = store.connect(db)
     log = RunLog(out / "logs" / f"ingest-{datetime.now().strftime('%Y%m%d-%H%M%S')}.jsonl")
     try:
         new, known = register(connection, [Path(p) for p in paths], log)
-        extraction, stopped = extract_missing(connection, version, model, workers, read, log)
+        extraction, stopped = extract_missing(connection, version, model, workers, extract, log)
         label_checks = {"documents": 0, "stored": 0, "failed": 0}
         if jev is not None:
             label_checks, label_stopped = backfill_label_checks(connection, version, workers, jev, log)

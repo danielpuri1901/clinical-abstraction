@@ -22,7 +22,7 @@ import tempfile
 import time
 from pathlib import Path
 
-from clinical_abstraction import extract, llm, pipeline, store
+from clinical_abstraction import pipeline, read, store
 from clinical_abstraction.schema import DocumentExtraction
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -108,15 +108,15 @@ def _template(connection) -> dict:
     patient = connection.execute("SELECT mrn, abstraction FROM patients ORDER BY mrn LIMIT 1").fetchone()
     if patient is None:
         raise ValueError("the store has no patient to copy")
-    read = connection.execute(
+    built = connection.execute(
         "SELECT e.version, e.model FROM extractions e JOIN documents d ON d.sha = e.sha WHERE d.patient_id = ? "
         "GROUP BY e.version, e.model ORDER BY COUNT(*) DESC",
         (patient["mrn"],),
     ).fetchone()
-    if read is None:
+    if built is None:
         raise ValueError(f"patient {patient['mrn']} has no extracted documents to copy")
-    rows = [dict(row) for row in connection.execute(TEMPLATE_DOCUMENTS, {"version": read["version"], "mrn": patient["mrn"]})]
-    return {"mrn": patient["mrn"], "model": read["model"], "abstraction": json.loads(patient["abstraction"]), "documents": rows}
+    rows = [dict(row) for row in connection.execute(TEMPLATE_DOCUMENTS, {"version": built["version"], "mrn": patient["mrn"]})]
+    return {"mrn": patient["mrn"], "model": built["model"], "abstraction": json.loads(patient["abstraction"]), "documents": rows}
 
 
 def _warm_rerun(db: Path, documents: Path, model: str, folder: Path) -> dict:
@@ -127,7 +127,7 @@ def _warm_rerun(db: Path, documents: Path, model: str, folder: Path) -> dict:
         calls.append(doc_id)
         raise RuntimeError("the benchmark makes no model call")
 
-    budget = llm.Budget(folder / "warm-spend.json", {"claude": 0.0, "jev": 0.0})
+    budget = read.Budget(folder / "warm-spend.json", {"claude": 0.0, "jev": 0.0})
     started = time.perf_counter()
     summary = pipeline.ingest([documents], db, folder / "warm", model, extractor=no_model, budget=budget)
     seconds = round(time.perf_counter() - started, 4)
@@ -141,7 +141,7 @@ def _warm_rerun(db: Path, documents: Path, model: str, folder: Path) -> dict:
 
 def _build(db: Path, template: dict, count: int) -> None:
     """Fill a new store with `count` patients: the template, then copies with their own MRN, name, document ids, and shas."""
-    mrn_of_template, version = template["mrn"], extract.extractor_version(template["model"])  # the current version: all are read
+    mrn_of_template, version = template["mrn"], read.extractor_version(template["model"])  # the current version: all are read
     connection = store.connect(db)
     for number in range(count):
         mrn = mrn_of_template if number == 0 else f"BM-{number:05d}"
@@ -180,7 +180,7 @@ def _one_document_ingest(db: Path, template: dict, count: int, folder: Path) -> 
     if donor is None:
         raise ValueError("no document of the template patient prints its MRN, so a new one could not be filed under a patient")
     extraction = DocumentExtraction.model_validate_json(donor["payload"].replace(mrn_of_template, target))
-    budget = llm.Budget(folder / "ingest-spend.json", {"claude": 0.0, "jev": 0.0})  # a cap of zero: a model call would raise
+    budget = read.Budget(folder / "ingest-spend.json", {"claude": 0.0, "jev": 0.0})  # a cap of zero: a model call would raise
     samples = []
     for number in range(REPEAT):
         new = folder / f"new-{number}"
@@ -209,7 +209,7 @@ def _one_document_ingest(db: Path, template: dict, count: int, folder: Path) -> 
     }
 
 
-def _answer_row(connection, answers, model: str, budget: llm.Budget, item: dict, count: int) -> dict:
+def _answer_row(connection, answers, model: str, budget: read.Budget, item: dict, count: int) -> dict:
     """Latency of one question answered by code, with a decision model that always gives the plan questions.json expects."""
     from tests.fakes import FakeJev  # the fakes the tests share; nothing here calls a model
 
@@ -246,7 +246,7 @@ def _scale(template: dict, patients: int, answers) -> tuple[list[dict], list[dic
             }
             if answers is not None and count in (1, patients):
                 connection = store.connect(folder / "scale.db")
-                budget = llm.Budget(folder / "answer-spend.json", {"claude": 0.0, "jev": 0.0})
+                budget = read.Budget(folder / "answer-spend.json", {"claude": 0.0, "jev": 0.0})
                 latency += [_answer_row(connection, answers, template["model"], budget, item, count) for item in development]
                 if count == patients:
                     collection = _answer_row(connection, answers, template["model"], budget, items[COLLECTION_QUESTION], count)

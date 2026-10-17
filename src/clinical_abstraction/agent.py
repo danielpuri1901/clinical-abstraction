@@ -10,7 +10,7 @@ import json
 import re
 import time
 
-from clinical_abstraction import llm, store
+from clinical_abstraction import read, store
 
 MAX_MODEL_CALLS = 8
 LISTED = 50  # patients named in the system prompt; the rest are counted
@@ -163,9 +163,9 @@ def unbound_numbers(answer_text: str, tool_outputs: list[str]) -> list[str]:
     return [number for number in quantities(answer_text) if float(number) not in bound]
 
 
-def answer_open(connection, question: str, model: str, budget: llm.Budget, call=None, patients: list[str] | None = None) -> dict:
+def answer_open(connection, question: str, model: str, budget: read.Budget, call=None, patients: list[str] | None = None) -> dict:
     """Let Claude answer an open question through the tools, at most MAX_MODEL_CALLS calls, then check its numbers and citations."""
-    call = call or llm.call_anthropic  # looked up now, so a test's replacement applies
+    call = call or read.call_anthropic  # looked up now, so a test's replacement applies
     started = time.perf_counter()
     names = dict(store.known_patients(connection))
     scope = list(names) if patients is None else patients
@@ -176,7 +176,7 @@ def answer_open(connection, question: str, model: str, budget: llm.Budget, call=
     outputs, tool_calls, cost, text = [], [], 0.0, None
     for calls in range(1, MAX_MODEL_CALLS + 1):
         response = call(model, system, messages, TOOLS)
-        charge = llm.usage_cost(model, response["usage"])
+        charge = read.usage_cost(model, response["usage"])
         cost += charge
         budget.charge("claude", charge, f"agent {model}")
         messages.append({"role": "assistant", "content": response["content"]})

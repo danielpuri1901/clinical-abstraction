@@ -7,7 +7,7 @@ from datetime import date
 
 import pytest
 
-from clinical_abstraction import agent, answers, cli, llm, reconcile, store
+from clinical_abstraction import agent, answers, cli, read, reconcile, store
 from clinical_abstraction.questions import DateRange, Plan
 from clinical_abstraction.schema import Observation
 from tests.fakes import FakeJev
@@ -67,7 +67,7 @@ def mini_store_incomplete(tmp_path):
 
 @pytest.fixture
 def budget(tmp_path):
-    return llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
+    return read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
 
 
 def plan_for(metric, attendance="attended", service_type="any", group_by="none", patients=("T-M001",), date_range=None) -> Plan:
@@ -181,7 +181,7 @@ def test_open_questions_go_to_the_agent_and_numbers_must_come_from_tools(mini_st
         sent.append(messages[-1])
         return next(replies)
 
-    monkeypatch.setattr(llm, "call_anthropic", scripted_call)
+    monkeypatch.setattr(read, "call_anthropic", scripted_call)
     other = FakeJev({"metric": ("other", 1.0)})
     result = answers.answer(mini_store, "Which clinician wrote the January 26 note?", other, budget, "claude-haiku-5-5")
     assert result["answer"].splitlines()[0] == "Interpreted as: open question, T-M001, 2026-01-26"

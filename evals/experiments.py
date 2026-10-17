@@ -26,9 +26,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
-from clinical_abstraction import cli, llm, pipeline, questions, store
-from clinical_abstraction.jev import Jev
-from clinical_abstraction.llm import Budget
+from clinical_abstraction import pipeline, questions, read, store
 from evals import score
 
 logger = logging.getLogger(__name__)
@@ -82,7 +80,7 @@ def _window(date_range: questions.DateRange | None) -> list | None:
     return None if date_range is None else [day.isoformat() if day else None for day in (date_range.start, date_range.end)]
 
 
-def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: Jev) -> questions.Plan:
+def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: read.Jev) -> questions.Plan:
     """The decision model's choices when it is at least 0.9 sure of every field the answer uses, else a refusal.
 
     Patients and dates are read by code, as in every arm. The fields that count are the metric, and the three filters when the
@@ -105,7 +103,7 @@ def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: Jev)
     return questions.Plan(kind, **values, patients=patients, date_range=date_range, readings=readings, warnings=[])
 
 
-def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev: Jev | None) -> dict:
+def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev: read.Jev | None) -> dict:
     """What one arm makes of one question, as plain data: the verdict a person would see and the plan behind it."""
     try:
         if arm == "jev":
@@ -158,7 +156,7 @@ def _describe(values: dict) -> str:
     return ", ".join(f"{field} {values.get(field)}" for field in FIELDS)
 
 
-def routing(db: Path, questions_path: Path, arm: Arm, jev: Jev | None, *, out: Path = EXPERIMENTS) -> dict:
+def routing(db: Path, questions_path: Path, arm: Arm, jev: read.Jev | None, *, out: Path = EXPERIMENTS) -> dict:
     """Plan every question in questions_path with one arm against the store, score the plans, and write routing-<arm>.json.
 
     The store must hold the patients the questions name, or refusals for an unknown patient would count as routing errors.
@@ -236,7 +234,7 @@ def _stored_run(path: Path, mrn: str) -> tuple[dict | None, float | None]:
     return abstraction, None if cost is None else round(cost, 6)
 
 
-def _ingest_patient(manifest: Path, entry: dict, model: str, budget: Budget, extractor, workers: int) -> tuple[dict | None, dict]:
+def _ingest_patient(manifest: Path, entry: dict, model: str, budget: read.Budget, extractor, workers: int) -> tuple[dict | None, dict]:
     """Ingest one synthetic patient's documents into a temporary store. Returns the abstraction and the ingest summary."""
     paths = [manifest.parent / "documents" / name for name in entry["files"]]
     with tempfile.TemporaryDirectory() as folder:
@@ -281,7 +279,7 @@ def _next_run(out: Path, model: str) -> str:
 def extraction_tier(
     manifest: Path,
     model: str,
-    budget: Budget | None,
+    budget: read.Budget | None,
     patients: list[str] | None = None,
     *,
     store: Path | None = None,
@@ -376,7 +374,7 @@ def extraction_tier(
 
 def _langfuse_keys() -> bool:
     """True when the three Langfuse variables are set, after loading the key file for any that are missing."""
-    llm.load_env_file(Path.home() / ".config" / "backbone-take-home" / "langfuse.env")
+    read.load_env_file(Path.home() / ".config" / "backbone-take-home" / "langfuse.env")
     host = os.environ.get("LANGFUSE_BASE_URL") or os.environ.get("LANGFUSE_HOST")
     return bool(os.environ.get("LANGFUSE_PUBLIC_KEY") and os.environ.get("LANGFUSE_SECRET_KEY") and host)
 
@@ -483,8 +481,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "routing":
             jev = None
             if args.arm != "rules":
-                cli.load_keys()
-                jev = cli.jev_client(OUTPUTS, pipeline.default_budget(OUTPUTS))
+                read.load_keys()
+                jev = read.jev_client(OUTPUTS, read.default_budget(OUTPUTS))
                 if jev is None:
                     raise ValueError("JEV_API_KEY is not set, and the jev and agreement arms need the decision model")
             result = routing(args.db, args.questions, args.arm, jev)
@@ -492,17 +490,17 @@ def main(argv: list[str] | None = None) -> int:
         else:
             budget = None
             if args.store is None:
-                cli.load_keys()
+                read.load_keys()
                 if not os.environ.get("ANTHROPIC_API_KEY"):
                     raise ValueError(
                         "ANTHROPIC_API_KEY is not set, and an ingest run needs the extraction model (--store scores a finished run)"
                     )
-                budget = pipeline.default_budget(OUTPUTS)
+                budget = read.default_budget(OUTPUTS)
             result = extraction_tier(
                 args.manifest, args.model, budget, args.patients, store=args.store, workers=args.workers, run=args.run
             )
             name = f"tier-{args.model}-{result['run']}"
-    except (FileNotFoundError, ValueError, llm.BudgetExceeded) as error:
+    except (FileNotFoundError, ValueError, read.BudgetExceeded) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
     if result.get("missing_from_store"):

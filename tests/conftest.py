@@ -8,7 +8,7 @@ def no_model_calls(monkeypatch):
     def refuse(*_args, **_kwargs):
         raise RuntimeError("tests must not call a model; inject a fake call or transport")
 
-    for target in ("clinical_abstraction.llm.call_anthropic", "clinical_abstraction.jev.default_transport"):
+    for target in ("clinical_abstraction.read.call_anthropic", "clinical_abstraction.read.default_transport"):
         try:
             monkeypatch.setattr(target, refuse)
         except (AttributeError, ImportError):

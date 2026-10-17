@@ -2,32 +2,17 @@
 
 import argparse
 import json
-import os
 import re
 import sys
 from pathlib import Path
 
-from clinical_abstraction import answers, llm, pipeline, render, store
-from clinical_abstraction.jev import Jev
+from clinical_abstraction import answers, pipeline, read, render, store
 
 DEFAULT_OUT = Path("outputs")
 DEFAULT_DB = DEFAULT_OUT / "abstraction.db"
 DEFAULT_MODEL = "claude-sonnet-5-5"
-KEY_FILES = ("anthropic.env", "jev.env")
 CITATION = re.compile(r"([^\s,;]+) L(\d+)(?:-(\d+))?")
 NO_JEV = "warning: JEV_API_KEY is not set, so keyword rules alone read each question, and every answer carries that warning."
-
-
-def load_keys() -> None:
-    """Set missing keys from ~/.config/backbone-take-home. A key never leaves the environment: nothing here prints it."""
-    for name in KEY_FILES:
-        llm.load_env_file(Path.home() / ".config" / "backbone-take-home" / name)
-
-
-def jev_client(out: Path, budget: llm.Budget) -> Jev | None:
-    """A Jev client when JEV_API_KEY is set, else None (the pipeline then skips the second read)."""
-    key = os.environ.get("JEV_API_KEY")
-    return Jev(key, budget, Path(out) / "jev_cache.json") if key else None
 
 
 def verified(verdict: str) -> bool:
@@ -76,9 +61,9 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "ingest":
-        load_keys()
-        budget = pipeline.default_budget(args.out)
-        client = jev_client(args.out, budget)
+        read.load_keys()
+        budget = read.default_budget(args.out)
+        client = read.jev_client(args.out, budget)
         summary = pipeline.ingest(
             args.paths, args.db, args.out, args.model, args.workers, args.rebuild_all, budget=budget, jev=client
         )
@@ -128,9 +113,9 @@ def main(argv: list[str] | None = None) -> int:
         for result in results:
             print(f"{result.get('id', result['question'])}: {result['verdict']}")
         return 0 if all(verified(result["verdict"]) for result in results) else 1
-    load_keys()
-    budget = pipeline.default_budget(args.out)
-    client = jev_client(args.out, budget)
+    read.load_keys()
+    budget = read.default_budget(args.out)
+    client = read.jev_client(args.out, budget)
     if client is None:
         print(NO_JEV, file=sys.stderr)
     if args.command == "ask":

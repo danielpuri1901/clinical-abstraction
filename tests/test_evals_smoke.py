@@ -16,7 +16,7 @@ from langfuse import Langfuse
 from langfuse._client.datasets import DatasetClient
 from langfuse.api import Dataset, DatasetItem, DatasetStatus
 
-from clinical_abstraction import extract, llm, pipeline, store
+from clinical_abstraction import pipeline, read, store
 from clinical_abstraction.reconcile import build_patient
 from evals import benchmark, experiments, synthetic
 from tests.fakes import FakeJev
@@ -346,7 +346,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
     manifest = synthetic.generate(seed=7, patients=3, out=folder)
     truth = {entry["mrn"]: synthetic.truth_extractions(entry) for entry in manifest["patients"]}
     replay = Replay([doc for docs in truth.values() for doc in docs])
-    budget = llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
+    budget = read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
     documents = sum(len(docs) for docs in truth.values())
     first, *others = truth
 
@@ -375,7 +375,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
     assert [log["documents"] for log in stored["run_logs"]] == [documents]
 
     # A new prompt extracts every document again into the same store. The old rows stay, and the cost is still one pass.
-    monkeypatch.setattr(extract, "extractor_version", lambda model: "tightened-prompt")
+    monkeypatch.setattr(read, "extractor_version", lambda model: "tightened-prompt")
     pipeline.ingest([folder / "documents"], run / "abstraction.db", run, "m", extractor=replay, budget=budget)
     again = tier(store=run / "abstraction.db")
     assert [item["scores"]["cost_usd"] for item in again["items"]] == pytest.approx(
@@ -406,7 +406,7 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
     documents.mkdir()
     for doc in mini_patient_docs():
         (documents / f"{doc.doc_id}.txt").write_text(doc.text)
-    budget = llm.Budget(out / "logs" / "spend.json", {"claude": 1.0, "jev": 0.5})
+    budget = read.Budget(out / "logs" / "spend.json", {"claude": 1.0, "jev": 0.5})
     budget.charge("claude", 0.01, "extract")
     pipeline.ingest([documents], out / "abstraction.db", out, "m", extractor=Replay(mini_patient_docs()), budget=budget)
     options = {"db": out / "abstraction.db", "documents": documents, "out": out}

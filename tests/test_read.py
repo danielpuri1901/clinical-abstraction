@@ -1,4 +1,4 @@
-"""Model clients: prices and budget, one-document extraction with repair, and the Jev choice client. No test calls a model."""
+"""read.py: prices and the budget, one-document extraction with its repair turn, and the Jev client. No test calls a model."""
 
 import json
 import os
@@ -10,12 +10,12 @@ import httpx
 import httpx2
 import pytest
 
-from clinical_abstraction import extract, jev, llm
+from clinical_abstraction import read
 from clinical_abstraction.reconcile import Problem
 from clinical_abstraction.schema import Attendance, DocumentExtraction, RecordRole, ServiceEvent, ServiceType
 
-# conftest replaces llm.call_anthropic for every test. This keeps the real function for the one test that checks its request.
-REAL_CALL_ANTHROPIC = llm.call_anthropic
+# conftest replaces read.call_anthropic for every test. This keeps the real function for the one test that checks its request.
+REAL_CALL_ANTHROPIC = read.call_anthropic
 
 DOC_TEXT = "Scheduled group: 10:00-11:30.\nPatient arrival: 10:00 | Patient departure: 11:15\nService date: January 19, 2026\n"
 DOC_AS_SENT = (
@@ -92,7 +92,7 @@ NO_TOOL_CALL = reply({"type": "text", "text": "Here is a summary."}, stop_reason
 
 
 def scripted(*replies: dict):
-    """A fake for llm.call_anthropic: answers from the list in order and records what each call received."""
+    """A fake for read.call_anthropic: answers from the list in order and records what each call received."""
     calls = []
 
     def fake_call(model, system, messages, tools, max_tokens=3000):
@@ -103,41 +103,41 @@ def scripted(*replies: dict):
     return fake_call, calls
 
 
-def budget_in(directory, claude: float = 1.0, jev_cap: float = 0.5) -> llm.Budget:
-    return llm.Budget(directory / "spend.json", {"claude": claude, "jev": jev_cap})
+def budget_in(directory, claude: float = 1.0, jev_cap: float = 0.5) -> read.Budget:
+    return read.Budget(directory / "spend.json", {"claude": claude, "jev": jev_cap})
 
 
 def extract_with(tmp_path, *replies: dict, claude: float = 1.0):
     """Run extract_document against scripted replies; returns (result tuple, calls, budget)."""
     fake_call, calls = scripted(*replies)
     budget = budget_in(tmp_path, claude=claude)
-    return extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call), calls, budget
+    return read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call), calls, budget
 
 
 # ---- prices and budget ----
 
 
 def test_usage_cost_uses_list_prices():
-    assert llm.usage_cost("claude-sonnet-5-5", {"input_tokens": 1000, "output_tokens": 1000}) == pytest.approx(0.012)
-    assert llm.usage_cost("claude-haiku-5-5", {"input_tokens": 1000, "output_tokens": 1000}) == pytest.approx(0.0006)
-    assert llm.usage_cost("claude-sonnet-5-5", {"cache_read_input_tokens": 1_000_000}) == pytest.approx(0.10)
-    assert llm.usage_cost("claude-sonnet-5-5", {"cache_creation_input_tokens": 1_000_000}) == pytest.approx(2.50)
-    assert llm.usage_cost("claude-haiku-5-5", {"cache_read_input_tokens": 1_000_000}) == pytest.approx(0.01)
+    assert read.usage_cost("claude-sonnet-5-5", {"input_tokens": 1000, "output_tokens": 1000}) == pytest.approx(0.012)
+    assert read.usage_cost("claude-haiku-5-5", {"input_tokens": 1000, "output_tokens": 1000}) == pytest.approx(0.0006)
+    assert read.usage_cost("claude-sonnet-5-5", {"cache_read_input_tokens": 1_000_000}) == pytest.approx(0.10)
+    assert read.usage_cost("claude-sonnet-5-5", {"cache_creation_input_tokens": 1_000_000}) == pytest.approx(2.50)
+    assert read.usage_cost("claude-haiku-5-5", {"cache_read_input_tokens": 1_000_000}) == pytest.approx(0.01)
 
 
 def test_usage_cost_refuses_a_model_without_a_price():
     with pytest.raises(KeyError, match="claude-unpriced-9"):  # a model billed at zero would never reach the budget cap
-        llm.usage_cost("claude-unpriced-9", {"input_tokens": 1})
+        read.usage_cost("claude-unpriced-9", {"input_tokens": 1})
 
 
 def test_budget_stops_at_the_cap(tmp_path):
-    budget = llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
+    budget = read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
     budget.charge("claude", 0.6, "a")
     budget.charge("claude", 0.3, "b")
-    with pytest.raises(llm.BudgetExceeded):
+    with pytest.raises(read.BudgetExceeded):
         budget.charge("claude", 0.2, "c")
     # The call that crossed the cap already cost money, so the ledger records it before the batch stops.
-    assert llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5}).spent("claude") == pytest.approx(1.1)
+    assert read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5}).spent("claude") == pytest.approx(1.1)
 
 
 def test_budget_ledger_lists_every_account_with_its_entries(tmp_path):
@@ -149,7 +149,7 @@ def test_budget_ledger_lists_every_account_with_its_entries(tmp_path):
 
 
 def test_budget_creates_the_ledger_directory_and_keeps_every_charge_from_threads(tmp_path):
-    budget = llm.Budget(tmp_path / "outputs" / "logs" / "spend.json", {"claude": 100.0, "jev": 0.5})
+    budget = read.Budget(tmp_path / "outputs" / "logs" / "spend.json", {"claude": 100.0, "jev": 0.5})
     with ThreadPoolExecutor(8) as pool:
         list(pool.map(lambda number: budget.charge("claude", 0.01, f"call {number}"), range(200)))
     assert budget.spent("claude") == pytest.approx(2.0)
@@ -161,7 +161,7 @@ def test_load_env_file_sets_only_missing_variables(tmp_path, monkeypatch):
     keys = tmp_path / "keys.env"
     lines = ["# a comment", "# TEST_COMMENTED=never", "", "TEST_NEW=plain-value", 'TEST_DOUBLE="two words"', "TEST_SINGLE='one'"]
     keys.write_text("\n".join([*lines, "export TEST_EXPORTED=exported-value", "TEST_KEPT=from-file"]))
-    llm.load_env_file(keys)
+    read.load_env_file(keys)
     assert os.environ == {
         "TEST_KEPT": "from-shell",
         "TEST_NEW": "plain-value",
@@ -169,7 +169,7 @@ def test_load_env_file_sets_only_missing_variables(tmp_path, monkeypatch):
         "TEST_SINGLE": "one",
         "TEST_EXPORTED": "exported-value",
     }
-    llm.load_env_file(tmp_path / "missing.env")  # a missing file is not an error
+    read.load_env_file(tmp_path / "missing.env")  # a missing file is not an error
     assert len(os.environ) == 5
 
 
@@ -207,7 +207,7 @@ def test_call_anthropic_caches_the_system_prompt_and_returns_plain_data(monkeypa
     sdk = anthropic.Anthropic(
         api_key="not-a-real-key", max_retries=0, http_client=httpx2.Client(transport=httpx2.MockTransport(handler))
     )
-    monkeypatch.setattr(llm, "_client", lambda: sdk)
+    monkeypatch.setattr(read, "_client", lambda: sdk)
     tool = {
         "name": "record_extraction",
         "description": "Record the extraction.",
@@ -250,8 +250,8 @@ def test_extract_validates_admits_and_repairs_once(tmp_path):
             "stop_reason": "tool_use",
         }
 
-    budget = llm.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
-    result, problems, usage = extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call)
+    budget = read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
+    result, problems, usage = read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call)
     assert result.service_events[0].patient_departure == "11:15" and problems == []
     assert usage["calls"] == 2 and usage["repair_turns"] == 1 and "repair" in str(calls[1][-1]).lower()
 
@@ -259,7 +259,7 @@ def test_extract_validates_admits_and_repairs_once(tmp_path):
 def test_extract_sends_numbered_lines_the_prompt_and_the_record_tool(tmp_path):
     _, calls, _ = extract_with(tmp_path, reply(TOOL_USE_WITH_DEPARTURE_1115))
     first = calls[0]
-    assert first["model"] == "claude-haiku-5-5" and first["system"] == extract.SYSTEM_PROMPT and first["max_tokens"] == 3000
+    assert first["model"] == "claude-haiku-5-5" and first["system"] == read.SYSTEM_PROMPT and first["max_tokens"] == 3000
     assert first["messages"] == [{"role": "user", "content": DOC_AS_SENT}]
     [tool] = first["tools"]
     assert tool["name"] == "record_extraction" and tool["input_schema"] == DocumentExtraction.model_json_schema()
@@ -329,8 +329,8 @@ def test_extract_asks_again_with_a_larger_cap_when_the_reply_is_cut_off(tmp_path
 
 def test_extract_gives_up_when_the_reply_is_cut_off_at_the_larger_cap(tmp_path):
     fake_call, calls = scripted(CUT_OFF, CUT_OFF)
-    with pytest.raises(extract.ExtractionError, match="cut off"):
-        extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path), call=fake_call)
+    with pytest.raises(read.ExtractionError, match="cut off"):
+        read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path), call=fake_call)
     assert [call["max_tokens"] for call in calls] == [3000, 8000]
 
 
@@ -348,15 +348,15 @@ def test_extract_returns_schema_errors_to_the_model_and_accepts_the_third_attemp
 
 def test_extract_stops_after_three_invalid_attempts(tmp_path):
     fake_call, calls = scripted(reply(INVALID_TOOL_USE), reply(INVALID_TOOL_USE), reply(INVALID_TOOL_USE))
-    with pytest.raises(extract.ExtractionError, match="3 attempts"):
-        extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path), call=fake_call)
+    with pytest.raises(read.ExtractionError, match="3 attempts"):
+        read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path), call=fake_call)
     assert len(calls) == 3
 
 
 def test_extract_stops_at_once_when_the_model_refuses(tmp_path):
     fake_call, calls = scripted(reply({"type": "text", "text": "I cannot help."}, stop_reason="refusal"))
-    with pytest.raises(extract.ExtractionError, match="refus"):
-        extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path), call=fake_call)
+    with pytest.raises(read.ExtractionError, match="refus"):
+        read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path), call=fake_call)
     assert len(calls) == 1
 
 
@@ -366,8 +366,8 @@ def test_extract_charges_each_call_and_stops_when_the_cap_is_reached(tmp_path):
         reply(TOOL_USE_WITH_DEPARTURE_1130, usage=expensive), reply(TOOL_USE_WITH_DEPARTURE_1115, usage=expensive), NO_TOOL_CALL
     )
     budget = budget_in(tmp_path, claude=0.15)
-    with pytest.raises(llm.BudgetExceeded):
-        extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call)
+    with pytest.raises(read.BudgetExceeded):
+        read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call)
     assert len(calls) == 2 and budget.spent("claude") == pytest.approx(
         0.20
     )  # the second call crossed the cap: its cost is recorded, then the batch stops and nothing follows it
@@ -376,7 +376,7 @@ def test_extract_charges_each_call_and_stops_when_the_cap_is_reached(tmp_path):
 def test_extract_refuses_an_unpriced_model_before_it_spends(tmp_path):
     fake_call, calls = scripted(reply(TOOL_USE_WITH_DEPARTURE_1115))
     with pytest.raises(KeyError, match="claude-unpriced-9"):
-        extract.extract_document("D1", DOC_TEXT, "claude-unpriced-9", budget_in(tmp_path), call=fake_call)
+        read.extract_document("D1", DOC_TEXT, "claude-unpriced-9", budget_in(tmp_path), call=fake_call)
     assert calls == []  # a call that the ledger cannot bill must never happen
 
 
@@ -384,25 +384,25 @@ def test_extract_resolves_the_default_call_at_run_time(tmp_path, monkeypatch):
     def reached_the_sdk():
         raise AssertionError("the real Anthropic client was reached")
 
-    monkeypatch.setattr(llm, "_client", reached_the_sdk)  # if the default were bound at import, the real function would run
-    with pytest.raises(RuntimeError, match="must not call a model"):  # conftest's replacement of llm.call_anthropic
-        extract.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path))
+    monkeypatch.setattr(read, "_client", reached_the_sdk)  # if the default were bound at import, the real function would run
+    with pytest.raises(RuntimeError, match="must not call a model"):  # conftest's replacement of read.call_anthropic
+        read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget_in(tmp_path))
 
 
 def test_extractor_version_follows_the_model_the_prompt_and_the_tool(monkeypatch):
-    sonnet, haiku = extract.extractor_version("claude-sonnet-5-5"), extract.extractor_version("claude-haiku-5-5")
+    sonnet, haiku = read.extractor_version("claude-sonnet-5-5"), read.extractor_version("claude-haiku-5-5")
     assert len(sonnet) == 12 and int(sonnet, 16) >= 0 and sonnet != haiku
-    assert extract.extractor_version("claude-sonnet-5-5") == sonnet
-    monkeypatch.setitem(extract.EXTRACTOR_VERSION_INPUTS, "system_prompt", extract.SYSTEM_PROMPT + " More.")
-    changed_prompt = extract.extractor_version("claude-sonnet-5-5")
+    assert read.extractor_version("claude-sonnet-5-5") == sonnet
+    monkeypatch.setitem(read.EXTRACTOR_VERSION_INPUTS, "system_prompt", read.SYSTEM_PROMPT + " More.")
+    changed_prompt = read.extractor_version("claude-sonnet-5-5")
     assert changed_prompt != sonnet
-    monkeypatch.setitem(extract.EXTRACTOR_VERSION_INPUTS, "tool", {**extract.RECORD_TOOL, "description": "Changed."})
-    assert extract.extractor_version("claude-sonnet-5-5") not in (sonnet, changed_prompt)
+    monkeypatch.setitem(read.EXTRACTOR_VERSION_INPUTS, "tool", {**read.RECORD_TOOL, "description": "Changed."})
+    assert read.extractor_version("claude-sonnet-5-5") not in (sonnet, changed_prompt)
 
 
 # ---- Jev ----
 
-CHOICE = jev.Choice("Which quantity?", {"sessions": "count", "other": "none"})
+CHOICE = read.Choice("Which quantity?", {"sessions": "count", "other": "none"})
 JEV_REPLY = {
     "model": "jev-1.13.0",
     "answers": {"metric": {"type": "choice", "choice": "sessions", "confidence": 1.0, "probabilities": {"sessions": 1.0}}},
@@ -412,7 +412,7 @@ JEV_COST = 100 * 0.042 / 1e6
 
 
 def jev_client(directory, transport=None, jev_cap: float = 0.5):
-    return jev.Jev("test-key", budget_in(directory, jev_cap=jev_cap), directory / "jev-cache.json", transport=transport)
+    return read.Jev("test-key", budget_in(directory, jev_cap=jev_cap), directory / "jev-cache.json", transport=transport)
 
 
 def flaky(statuses: list[int]):
@@ -444,16 +444,16 @@ def test_jev_request_shape_cache_and_budget(tmp_path):
             },
         )
 
-    client = jev.Jev(
+    client = read.Jev(
         "k",
-        llm.Budget(tmp_path / "s.json", {"claude": 1, "jev": 0.5}),
+        read.Budget(tmp_path / "s.json", {"claude": 1, "jev": 0.5}),
         tmp_path / "jev.json",
         transport=httpx.MockTransport(handler),
     )
     answer = client.ask(
-        "How many sessions did Rowan miss?", {"metric": jev.Choice("Which quantity?", {"sessions": "count", "other": "none"})}
+        "How many sessions did Rowan miss?", {"metric": read.Choice("Which quantity?", {"sessions": "count", "other": "none"})}
     )
-    assert answer["metric"] == jev.ChoiceAnswer("sessions", 1.0, {"sessions": 1.0})
+    assert answer["metric"] == read.ChoiceAnswer("sessions", 1.0, {"sessions": 1.0})
     assert seen[0]["questions"]["metric"] == {
         "type": "choice",
         "instructions": "Which quantity?",
@@ -463,14 +463,14 @@ def test_jev_request_shape_cache_and_budget(tmp_path):
     assert str(requests[0].url) == "https://api.typesafe.ai/v1/systemone" and requests[0].method == "POST"
     assert requests[0].headers["Authorization"] == "Bearer k"
     client.ask(
-        "How many sessions did Rowan miss?", {"metric": jev.Choice("Which quantity?", {"sessions": "count", "other": "none"})}
+        "How many sessions did Rowan miss?", {"metric": read.Choice("Which quantity?", {"sessions": "count", "other": "none"})}
     )
     assert len(seen) == 1 and client.budget.spent("jev") == pytest.approx(574 * 0.042 / 1e6)
 
 
 def test_jev_retries_429_and_529_with_exponential_backoff(tmp_path, monkeypatch):
     delays = []
-    monkeypatch.setattr(jev.time, "sleep", delays.append)
+    monkeypatch.setattr(read.time, "sleep", delays.append)
     transport, seen = flaky([429, 529, 200])
     client = jev_client(tmp_path, transport)
     assert client.ask("state", {"metric": CHOICE})["metric"].choice == "sessions"
@@ -479,7 +479,7 @@ def test_jev_retries_429_and_529_with_exponential_backoff(tmp_path, monkeypatch)
 
 
 def test_jev_gives_up_after_three_attempts_without_charging_or_caching(tmp_path, monkeypatch):
-    monkeypatch.setattr(jev.time, "sleep", lambda seconds: None)
+    monkeypatch.setattr(read.time, "sleep", lambda seconds: None)
     transport, seen = flaky([429, 429, 429, 200])
     client = jev_client(tmp_path, transport)
     with pytest.raises(httpx.HTTPStatusError):
@@ -491,7 +491,7 @@ def test_jev_gives_up_after_three_attempts_without_charging_or_caching(tmp_path,
 
 
 def test_jev_does_not_retry_other_errors(tmp_path, monkeypatch):
-    monkeypatch.setattr(jev.time, "sleep", lambda seconds: pytest.fail("a 401 must not wait and retry"))
+    monkeypatch.setattr(read.time, "sleep", lambda seconds: pytest.fail("a 401 must not wait and retry"))
     transport, seen = flaky([401])
     with pytest.raises(httpx.HTTPStatusError):
         jev_client(tmp_path, transport).ask("state", {"metric": CHOICE})
@@ -503,9 +503,9 @@ def test_jev_cache_key_covers_the_state_the_questions_and_the_model(tmp_path):
     client = jev_client(tmp_path, transport)
     client.ask("state", {"metric": CHOICE})
     client.ask("other state", {"metric": CHOICE})
-    client.ask("state", {"metric": jev.Choice("Another question?", CHOICE.criteria)})
-    client.ask("state", {"metric": jev.Choice(CHOICE.instructions, {"sessions": "a count"})})
-    other_model = jev.Jev("test-key", client.budget, tmp_path / "jev-cache.json", model="jev-1.13.0", transport=transport)
+    client.ask("state", {"metric": read.Choice("Another question?", CHOICE.criteria)})
+    client.ask("state", {"metric": read.Choice(CHOICE.instructions, {"sessions": "a count"})})
+    other_model = read.Jev("test-key", client.budget, tmp_path / "jev-cache.json", model="jev-1.13.0", transport=transport)
     other_model.ask("state", {"metric": CHOICE})
     assert len(seen) == 5  # each of these differs from the first request, so none came from the cache
     client.ask("state", {"metric": CHOICE})
@@ -521,13 +521,13 @@ def test_jev_cache_survives_a_new_client(tmp_path):
 
 def test_jev_stops_at_its_budget_cap(tmp_path):
     transport, _ = flaky([200])
-    with pytest.raises(llm.BudgetExceeded):
+    with pytest.raises(read.BudgetExceeded):
         jev_client(tmp_path, transport, jev_cap=1e-6).ask("state", {"metric": CHOICE})  # one answer costs 4.2e-06
 
 
 def test_jev_builds_its_transport_at_call_time(tmp_path):
     client = jev_client(tmp_path)  # no transport: building the client must not reach for the network
-    with pytest.raises(RuntimeError, match="must not call a model"):  # conftest's replacement of jev.default_transport
+    with pytest.raises(RuntimeError, match="must not call a model"):  # conftest's replacement of read.default_transport
         client.ask("state", {"metric": CHOICE})
 
 
@@ -606,18 +606,18 @@ def jev_says_no_show_for_e1(name, state, confidence=0.9):
 
 def test_second_read_reports_disagreements(tmp_path):
     transport, _ = jev_transport(jev_says_no_show_for_e1)
-    disputes = jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "disagree", transport))
+    disputes = read.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "disagree", transport))
     assert disputes == [
         {"encounter_id": "E1", "field": "attendance", "model_value": "attended", "jev_value": "no_show", "confidence": 0.9}
     ]
     transport, _ = jev_transport(jev_agrees)
-    assert jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "agree", transport)) == []
+    assert read.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "agree", transport)) == []
 
 
 @pytest.mark.parametrize("confidence, reported", [(0.89, 0), (0.9, 1)])
 def test_second_read_ignores_disagreement_below_the_confidence_threshold(tmp_path, confidence, reported):
     transport, _ = jev_transport(lambda name, state: jev_says_no_show_for_e1(name, state, confidence))
-    assert len(jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path, transport))) == reported
+    assert len(read.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path, transport))) == reported
 
 
 def test_second_read_compares_all_four_labels(tmp_path):
@@ -630,7 +630,7 @@ def test_second_read_compares_all_four_labels(tmp_path):
     transport, _ = jev_transport(
         lambda name, state: (other[name], 0.95) if "Status: Attended" in state else jev_agrees(name, state)
     )
-    disputes = jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path, transport))
+    disputes = read.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path, transport))
     assert [(d["encounter_id"], d["field"], d["model_value"], d["jev_value"], d["confidence"]) for d in disputes] == [
         ("E1", "record_role", "attendance_record", "copy_of_another_record", 0.95),
         ("E1", "attendance", "attended", "patient_absent", 0.95),
@@ -654,7 +654,7 @@ def test_second_read_turns_the_models_role_and_copy_flag_into_a_copy_or_draft_la
     document = roster_extraction(
         first=event(encounter_id="E1", lines=[5, 6], record_role=record_role), is_copy_or_retransmission=is_copy
     )
-    disputes = jev.second_read("D2", ROSTER_TEXT, document, jev_client(tmp_path, transport))
+    disputes = read.second_read("D2", ROSTER_TEXT, document, jev_client(tmp_path, transport))
     assert [
         (d["model_value"], d["jev_value"]) for d in disputes if d["field"] == "copy_or_draft" and d["encounter_id"] == "E1"
     ] == [(label, other)]
@@ -663,7 +663,7 @@ def test_second_read_turns_the_models_role_and_copy_flag_into_a_copy_or_draft_la
 def test_second_read_sends_one_request_per_event_with_its_lines_the_header_and_the_schema_labels(tmp_path):
     transport, seen = jev_transport(jev_agrees)
     client = jev_client(tmp_path, transport)
-    jev.second_read("D2", ROSTER_TEXT, roster_extraction(), client)
+    read.second_read("D2", ROSTER_TEXT, roster_extraction(), client)
     assert [body["state"] for body in seen] == [STATE_E1, STATE_E2]  # not line 7, and not the other event's lines
     questions = seen[0]["questions"]
     assert list(questions) == ["record_role", "attendance", "service_type", "copy_or_draft"]
@@ -675,20 +675,20 @@ def test_second_read_sends_one_request_per_event_with_its_lines_the_header_and_t
     }
     assert all(question["type"] == "choice" for question in questions.values())
     assert all("E1" in question["instructions"] and "2026-01-19" in question["instructions"] for question in questions.values())
-    jev.second_read("D2", ROSTER_TEXT, roster_extraction(), client)
+    read.second_read("D2", ROSTER_TEXT, roster_extraction(), client)
     assert len(seen) == 2  # the same events a second time come from the cache
 
 
 def test_second_read_header_stops_at_the_first_blank_line_or_at_eight_lines(tmp_path):
     transport, seen = jev_transport(jev_agrees)
     twelve_lines = "\n".join(f"line {number}" for number in range(1, 13))
-    jev.second_read("D3", twelve_lines, extraction(event(encounter_id="E9", lines=[12])), jev_client(tmp_path, transport))
+    read.second_read("D3", twelve_lines, extraction(event(encounter_id="E9", lines=[12])), jev_client(tmp_path, transport))
     assert seen[0]["state"] == "\n".join([f"line {number}" for number in range(1, 9)] + ["line 12"])
 
 
 def test_second_read_requests_do_not_depend_on_the_models_labels(tmp_path):
     transport, asked = jev_transport(jev_agrees)
-    jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "first", transport))
+    read.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "first", transport))
     relabelled = event(
         encounter_id="E1",
         lines=[5, 6],
@@ -697,5 +697,5 @@ def test_second_read_requests_do_not_depend_on_the_models_labels(tmp_path):
         record_role="clinical_note",
     )
     transport, asked_again = jev_transport(jev_agrees)
-    jev.second_read("D2", ROSTER_TEXT, roster_extraction(first=relabelled), jev_client(tmp_path / "second", transport))
+    read.second_read("D2", ROSTER_TEXT, roster_extraction(first=relabelled), jev_client(tmp_path / "second", transport))
     assert asked == asked_again  # an independent reader never sees the labels it is checking

@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 from typing import Literal, get_args
 
-from clinical_abstraction.jev import Choice, ChoiceAnswer, Jev
+from clinical_abstraction.read import Choice, ChoiceAnswer, Jev
 from clinical_abstraction.reconcile import normalize_date
 
 Metric = Literal[
