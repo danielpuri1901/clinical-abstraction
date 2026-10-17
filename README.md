@@ -86,8 +86,7 @@ A changed prompt or model gets a new version; `ingest` then reads every document
 | Tests | 203 pass, none calls a model |
 | Spend for the whole build, at list prices | $6.30 Claude, $0.12 Jev |
 
-The expected values for the supplied record were derived by the coding assistant, not by a person.
-`docs/gold-checklist.md` prints every cited source line under each value so a person can confirm them.
+The expected values for the supplied record were derived by the coding assistant and confirmed by me against the cited source lines on 2026-10-18 (`docs/gold-checklist.md` prints every cited line under each value).
 The synthetic truth and the program have the same author, so a blind spot could sit in both.
 
 ## What I tested: cheap model or large model?
