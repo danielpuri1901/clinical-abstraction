@@ -69,7 +69,7 @@ Spend caps: `MODEL_BUDGET_USD` (default 10) and `JEV_BUDGET_USD` (default 0.50).
 | Make synthetic patients with known truth | `python -m evals.synthetic --seed 7 --patients 25 --out outputs/experiments/synthetic` | 0 | $0 |
 | Score a saved extraction run against the truth | `python -m evals.experiments tier --model claude-haiku-5-5 --store outputs/experiments/tier-haiku-run1/abstraction.db` | 0 | $0 |
 | Measure how well questions are read | `python -m evals.experiments routing --arm agreement --db outputs/experiments/held-out/abstraction.db` | 54 Jev calls | $0.003 |
-| Quick benchmark | `python -m evals.benchmark --patients 50 --db outputs/abstraction.db --out outputs/quick` | 0 | $0, about 5 s |
+| Quick benchmark | `python -m evals.experiments benchmark --patients 50 --db outputs/abstraction.db --out outputs/quick` | 0 | $0, about 5 s |
 
 Prefix each command with `uv run --frozen`.
 A changed prompt or model gets a new version; `ingest` then reads every document again, and the old readings stay in the store.
@@ -157,7 +157,7 @@ The 2,000 and 20,000 patients are copies of the one real patient with new ids (`
 
 ## At one million documents (estimates from the measured numbers)
 
-Reading is the first bottleneck: one model call per document (`extract.extract_document`, run by `pipeline.extract_missing`).
+Reading is the first bottleneck: one model call per document (`read.extract_document`, run by `store.extract_missing`).
 
 | For 1,000,000 documents | Haiku 5.5 | Sonnet 5.5 |
 |---|---|---|
@@ -167,7 +167,7 @@ Reading is the first bottleneck: one model call per document (`extract.extract_d
 | Time with 8 workers, estimate | about 9 days | about 7 days |
 
 Changes, in order: make the model write less, use the cheapest model that passes the checks, run backfills as batch jobs at half price, then add workers up to the account's token limit.
-After that: the code that looks for pending work scans every document (`pipeline.extract_missing`), which is why one document costs 2.4 s at 620,000 documents; it needs a pending-work table, then Postgres when more than one process writes.
+After that: the code that looks for pending work scans every document (`store.extract_missing`), which is why one document costs 2.4 s at 620,000 documents; it needs a pending-work table, then Postgres when more than one process writes.
 
 ## Models, settings, and help from AI
 
@@ -180,8 +180,8 @@ After that: the code that looks for pending work scans every document (`pipeline
 
 ## Where things are
 
-- `src/clinical_abstraction/`: `extract` (read), `verify` (check), `jev` (second opinion), `reconcile` and `calculate` (merge and count), `store` and `pipeline` (store), `questions` and `answers` (answer), `agent` (open questions), `cli`.
+- `src/clinical_abstraction/`: `read` (every model call: extraction, the Jev second opinion, and the spend ledger), `reconcile` (check, merge, and count), `store` (the SQLite store, ingest, and exports), `answer` (read the question, answer it, and the open-question agent), `schema` (what the model may claim), `cli`.
 - `outputs/`: the saved store, the patient record (`abstraction/HG-M042.md`), the five answers, logs, experiments, `benchmarks.json`.
-- `evals/`: expected values, the scorer, the synthetic patient generator, the experiments, the benchmark, the 54 questions.
+- `evals/`: expected values, the scorer, the synthetic patient generator, the experiments and the benchmark (`experiments.py`), the 54 questions.
 - `docs/`: [design.md](docs/design.md) (every rule and why), [experiments.md](docs/experiments.md) (every run), [decisions.md](docs/decisions.md), the gold checklist.
 - `documents/`, `questions.json`, `examples/`: the supplied record, the five questions, a held-out patient and an addendum (both synthetic).

@@ -6,7 +6,7 @@ Daniel confirms the gold labels and sends the submission.
 
 ## What exists
 
-- Code: 14 modules in `src/clinical_abstraction/` (see the README repository map).
+- Code: 6 modules in `src/clinical_abstraction/` (see the README repository map): `schema`, `read`, `reconcile`, `store`, `answer`, and `cli`.
   The plan is `docs/plans/2026-10-17-rebuild.md`, and every decision is in `docs/decisions.md`.
 - Main store: `outputs/abstraction.db`, built with Sonnet 5.5 (extractor version `0c78c0f988fd`).
   It holds 31 documents for 1 patient (HG-M042), 25 encounters, 4 weeks, 3 PHQ-9 administrations, and 6 flags.
@@ -39,7 +39,7 @@ On main at `203741e`, 2026-10-17:
   The rules arm of the routing study replays to the saved scores (0.519, 0.481, 0.574).
 - Offline commands on a copy of the store: `ask` without keys gives a rules-only answer with its warning, and it refuses an unknown patient, a week number, and an impossible date.
   `report` and `source` print the saved abstraction and source lines.
-- `evals.benchmark --patients 50 --db outputs/abstraction.db --out <folder>` finishes in about 5 s with no model call.
+- `evals.experiments benchmark --patients 50 --db outputs/abstraction.db --out <folder>` finishes in about 5 s with no model call.
 
 ## Open
 
@@ -48,9 +48,9 @@ On main at `203741e`, 2026-10-17:
 2. Daniel sends the submission.
    The brief names manan@backbonesystems.ai and andrew@backbonesystems.ai, and asks for a ZIP file or a GitHub link.
    No agent pushes, publishes, or emails.
-3. Done: the aggregation override in `questions.plan` now has the unit test `test_an_aggregation_no_renderer_computes_routes_to_the_open_path`.
+3. Done: the aggregation override in `answer.plan_question` now has the unit test `test_an_aggregation_no_renderer_computes_routes_to_the_open_path`.
 4. The one-document ingest costs 2.4 s at 620,000 documents.
-   Profile it, then replace the pending-work scans in `pipeline.extract_missing` and `pipeline.backfill_label_checks` with a pending table.
+   Profile it, then replace the pending-work scans in `store.extract_missing` and `store.backfill_label_checks` with a pending table.
    Move the budget ledger and the Jev cache to SQLite or append-only lines.
 5. Confirm in the Langfuse project `backbone` that the dataset runs exist (datasets `routing` and `extraction-tier`).
    The saved result files do not store the run names.
@@ -68,7 +68,7 @@ On main at `203741e`, 2026-10-17:
 - Use `uv run --frozen` for every command.
   Every command and key rule is in the README.
 - A new document: work on a copy of the store, and ingest with the model that built it.
-  If a new format loses facts, add the format to `verify.py` with a test first.
+  If a new format loses facts, add the format to the referee in `reconcile.py` with a test first.
 - A new prompt or model: it gets a new extractor version, and the old rows stay.
   Score it with `evals.experiments tier --store`, compare with `docs/experiments.md`, and add a dated entry to `docs/decisions.md`.
 - A new rule: write the failing test, implement the minimum, update `docs/design.md`, and re-measure the numbers it touches.

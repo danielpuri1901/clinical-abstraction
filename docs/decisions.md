@@ -109,3 +109,22 @@ Decided 2026-10-17.
 - D6.1 Development: the smallest end-to-end slice per task, run on the real path, output inspected. A fresh implementer per independent task (Sonnet 5.5 for bounded work, Opus for design-heavy tasks), test first, no per-task review passes; errors are found by running tests, gates, and the benchmark.
 - D6.2 Evals run through Langfuse datasets and experiments when keys exist; every score is computed locally and written to `outputs/experiments/`, so reviewers can run the evals without an account.
 - D6.3 On the follow-up call: a five-minute narrative, then three deep dives: the question interface with two readers, incremental ingestion with fingerprints and incompleteness, and accuracy at scale with synthetic truth and the cheap tier.
+
+### Round 7: repository simplification
+
+Decided 2026-10-18.
+
+- D7.1 Six source modules, one per responsibility.
+  `schema.py` says what the model may claim.
+  `read.py` holds every model call, the spend ledger, and the Jev cache (it was `llm.py`, `extract.py`, and `jev.py`).
+  `reconcile.py` checks, merges, and counts (it was `verify.py`, `reconcile.py`, and `calculate.py`).
+  `store.py` persists, ingests, and exports (it was `store.py`, `pipeline.py`, and `render.py`).
+  `answer.py` reads a question, answers it, and runs the open-question agent (it was `questions.py`, `answers.py`, and `agent.py`).
+  `cli.py` is unchanged.
+  The tests follow, with one test file per module, and the benchmark is a command of `evals/experiments.py`.
+  The entries above this one use the old module names.
+- D7.2 `questions.plan` is now `answer.plan_question`, so the function no longer shares a name with the plan variables of the answer code.
+- D7.3 Output files that duplicate other tracked files are removed: the 156 synthetic documents copied into `outputs/experiments/tier-sonnet-run1/documents/`, and `tier-haiku-run1/ingest-summary.json` and `ingest-stderr.txt`.
+- Rejected: a shared helper module beside the six, and one module per old file.
+- Check: `docs/ponytail-audit.md` lists every cut.
+  After each commit, ruff and pytest pass, the stores rebuilt from the saved extractions score 95 of 95 and 53 of 53 and match the previous build row for row, and `verify-answers` exits 0.

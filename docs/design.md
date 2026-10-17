@@ -10,14 +10,14 @@ This file lists each rule, the reason for it, and the check that fails when the 
 
 | Step | Done by | Reason |
 |---|---|---|
-| Read one document and cite line numbers | Claude, one call per document (`extract.py`) | Reading messy text is what a model does well. |
-| Check each cited value against its cited lines | Code (`verify.py`, the referee) | A model can state a value that the text does not hold. |
-| Second-read four labels of each contact | Jev, the decision model (`jev.py`) | The value check cannot see a wrong label. |
-| Merge records, apply corrections, compute minutes, ranges, and weeks | Code (`reconcile.py`, `calculate.py`) | The same extractions must give the same numbers, and each number must trace to lines. |
-| Read patients and dates in a question | Code (`questions.py`) | A made-up patient is worse than a parse error. |
-| Pick metric, attendance filter, service type, and grouping | Keyword rules and Jev, as two readers (`questions.py`) | Two independent readers expose a misread. |
-| Compute and write the answer | Code (`answers.py`) | Every number comes from stored rows and cites source lines. |
-| Answer an open question | A Claude agent with read-only tools, then code checks its numbers (`agent.py`) | No fixed renderer exists for these questions. |
+| Read one document and cite line numbers | Claude, one call per document (`read.py`) | Reading messy text is what a model does well. |
+| Check each cited value against its cited lines | Code (`reconcile.py`, the referee) | A model can state a value that the text does not hold. |
+| Second-read four labels of each contact | Jev, the decision model (`read.py`) | The value check cannot see a wrong label. |
+| Merge records, apply corrections, compute minutes, ranges, and weeks | Code (`reconcile.py`) | The same extractions must give the same numbers, and each number must trace to lines. |
+| Read patients and dates in a question | Code (`answer.py`) | A made-up patient is worse than a parse error. |
+| Pick metric, attendance filter, service type, and grouping | Keyword rules and Jev, as two readers (`answer.py`) | Two independent readers expose a misread. |
+| Compute and write the answer | Code (`answer.py`) | Every number comes from stored rows and cites source lines. |
+| Answer an open question | A Claude agent with read-only tools, then code checks its numbers (`answer.py`) | No fixed renderer exists for these questions. |
 
 ## Why not retrieval plus an answer
 
@@ -31,7 +31,7 @@ A question costs the decision model about $0.000044 on average (52 measured call
 Search has one role.
 The open-question agent searches one patient's lines by keyword, and code then checks that each number came from a tool result.
 
-## The referee (`verify.py`)
+## The referee (`reconcile.py`, section 1)
 
 The extraction model is untrusted.
 The referee checks every claim before reconciliation uses it.
@@ -50,7 +50,7 @@ The referee checks every claim before reconciliation uses it.
 
 Known limits: a date with no year matches any year, bare `HHMM` times are accepted but not scanned by the coverage check, and `authored_at` is not checked against the text.
 
-## Reconciliation (`reconcile.py`, `calculate.py`)
+## Reconciliation (`reconcile.py`, sections 2 and 3)
 
 The code applies these rules in this order.
 
@@ -128,11 +128,11 @@ The code applies these rules in this order.
   A result known only from a copy is marked.
   Check: `test_assessments_keep_distinct_administrations_and_name_copies`.
 - Progress conclusions.
-  The PHQ-9 bands, the 5-point change, the 50 percent response, and the remission bar are fixed constants in `answers.py`.
+  The PHQ-9 bands, the 5-point change, the 50 percent response, and the remission bar are fixed constants in `answer.py`.
   They are general references, not patient facts.
   Each answer lists what the record can and cannot support.
 
-## The question interface (`questions.py`, `answers.py`, `agent.py`)
+## The question interface (`answer.py`)
 
 - Code reads patients and dates.
   A patient is an MRN or a name matched against the store.
@@ -161,8 +161,7 @@ The code applies these rules in this order.
   When the rules read an average, mean, median, ratio, percent of patients, or per patient, the question goes to the open path even if Jev is sure of a metric.
   The routing study found the decision model alone answering "average weekly therapy time per patient" as plain minutes.
   No renderer computes an average.
-  This rule has no unit test yet.
-  The routing result for PARAPHRASE-15 is its only check.
+  Checks: `test_an_aggregation_no_renderer_computes_routes_to_the_open_path`, and the routing result for PARAPHRASE-15.
 - Collection limit.
   A question that names no patient covers every patient.
   An answer lists at most 50 patients one by one and then counts the rest.
@@ -176,7 +175,7 @@ The code applies these rules in this order.
   The verdict names both.
   Check: `test_open_questions_go_to_the_agent_and_numbers_must_come_from_tools`.
 
-## Storage (`store.py`, `pipeline.py`)
+## Storage (`store.py`)
 
 - A document is its normalized text.
   A byte-order mark, line endings, and trailing spaces are removed.
@@ -226,13 +225,13 @@ The code applies these rules in this order.
 - Gold gates.
   `evals/gold/HG-M042.json` has 95 checks and `evals/gold/NF-20817.json` has 53.
   Every check is exact, and there is no judge model.
-  `evals/score.py` is unchanged from the previous attempt.
+  `evals/score.py` is the scorer of the previous attempt; only its import changed.
   The coding assistant derived the HG-M042 labels, and a person has not confirmed them yet (`docs/gold-checklist.md`).
   The NF-20817 values were written with the held-out documents before the pipeline saw them.
 - Synthetic truth (`evals/synthetic.py`).
   A seeded generator draws the truth first: the treatment plan, each contact with its real intervals, breaks, disconnects, partner-only minutes, PHQ-9 administrations, and hazards at fixed rates.
   Documents are rendered from that truth in three templates.
-  The gold weeks come from the generator's own arithmetic, not from `calculate.weekly`, so the scorer does not depend on the reconciler.
+  The gold weeks come from the generator's own arithmetic, not from `reconcile.weekly`, so the scorer does not depend on the reconciler.
   `truth_extractions()` renders what a perfect extractor reports, so the reconciler is scored with no model.
   Unsettled conflicts sit so that the week straddles the goal (5 of 100 weeks are `cannot_determine`).
   Checks: `test_truth_replay_scores_perfectly`, `test_unsettled_conflicts_straddle_the_weekly_goal`, `test_generation_is_deterministic_and_complete`.
@@ -252,7 +251,7 @@ The code applies these rules in this order.
   It does not show that an extracted fact is true to the document, and every failure so far sat in extraction or in reconciliation inputs.
   Seeded property checks cover the range arithmetic.
 - Tests never call a model.
-  `tests/conftest.py` makes `llm.call_anthropic` and `jev.default_transport` raise, and `tests/fakes.py` supplies the fakes.
+  `tests/conftest.py` makes `read.call_anthropic` and `read.default_transport` raise, and `tests/fakes.py` supplies the fakes.
 
 ## Decided but not built
 

@@ -36,7 +36,7 @@ Change a decision by adding a dated entry to `docs/decisions.md`, not by editing
 
 - Extraction: `claude-sonnet-5-5` for production runs, `claude-haiku-5-5` for development runs (`--model`).
 - Decisions: Jev `jev-latest` at `https://api.typesafe.ai/v1/systemone`.
-- Every call goes through `llm.Budget`; caps `MODEL_BUDGET_USD` (default 10.0) and `JEV_BUDGET_USD` (default 0.50); the ledger is `outputs/logs/spend.json`.
+- Every call goes through `read.Budget`; caps `MODEL_BUDGET_USD` (default 10.0) and `JEV_BUDGET_USD` (default 0.50); the ledger is `outputs/logs/spend.json`.
 - Keys come from the environment or from `~/.config/backbone-take-home/anthropic.env`, `jev.env`, and `langfuse.env` (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL`; project `backbone` on Langfuse cloud, used only for evals and only with fictional or synthetic records).
 - Keys never appear in code, tests, logs, exports, commits, or chat.
 
