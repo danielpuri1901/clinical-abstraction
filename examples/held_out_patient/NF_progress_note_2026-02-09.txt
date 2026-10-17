@@ -1,0 +1,7 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - PROGRESS NOTE (INDIVIDUAL PSYCHOTHERAPY)
+Client: Jordan Reyes | DOB 1987-09-30 | Record #: NF-20817 | Visit #: NF-V3104
+Date of service: 02/09/2026 | Time in: 10:00 | Time out: 10:45 | Client present throughout.
+Clinician: Priya Raman, LMFT. Electronically signed 02/09/2026 11:20.
+
+Jordan reported two panic episodes after missing the interview. Reviewed the fear hierarchy and planned a short bus ride with a support person. Discussed the updated care plan and increased weekly schedule.

@@ -1,0 +1,6 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - PRESCRIBER VISIT
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3103 | Date of service: 02/06/2026
+Time in 09:30, time out 09:45. Prescriber: Dana Cole, PMHNP. Signed 02/06/2026 10:02.
+
+Medication review only; no psychotherapy provided. Sleep remains irregular. No changes to the current prescription.

@@ -1,0 +1,6 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - CO-THERAPIST ENTRY
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3107 | Date of service: 02/16/2026
+Co-therapist: Luis Ortega, LPC. Signed 02/16/2026 13:05.
+
+Jordan arrived at 10:15 after a late bus; the session with Jordan ran from 10:15 to 10:50, 35 minutes of client-present psychotherapy. I led the exposure planning segment.

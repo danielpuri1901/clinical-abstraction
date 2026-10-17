@@ -1,0 +1,31 @@
+{
+  "_about": "Expected values for the held-out synthetic patient in examples/held_out_patient. Written together with those documents, before the pipeline saw them. Used only by tests and evals.",
+  "mrn": "NF-20817",
+  "review_period": ["2026-02-02", "2026-02-20"],
+  "encounters": {
+    "NF-V3101": {"service_date": "2026-02-02", "service_type": "individual_psychotherapy", "counts_as_therapy": "yes", "minutes": [50, 50]},
+    "NF-V3102": {"service_date": "2026-02-04", "service_type": "group_psychotherapy", "counts_as_therapy": "yes", "minutes": [75, 75]},
+    "NF-V3103": {"service_date": "2026-02-06", "service_type": "medication_management", "counts_as_therapy": "no"},
+    "NF-V3104": {"service_date": "2026-02-09", "service_type": "individual_psychotherapy", "counts_as_therapy": "yes", "minutes": [45, 45]},
+    "NF-V3105": {"service_date": "2026-02-11", "service_type": "group_psychotherapy", "counts_as_therapy": "yes", "minutes": [55, 55]},
+    "NF-V3106": {"service_date": "2026-02-13", "service_type": "collateral_contact", "counts_as_therapy": "no"},
+    "NF-V3107": {"service_date": "2026-02-16", "service_type": "individual_psychotherapy", "counts_as_therapy": "yes", "minutes": [35, 50]},
+    "NF-V3108": {"service_date": "2026-02-17", "service_type": "individual_psychotherapy", "counts_as_therapy": "yes", "minutes": [45, 45], "modality": "video"},
+    "NF-V3109": {"service_date": "2026-02-18", "service_type": "group_psychotherapy", "counts_as_therapy": "yes", "minutes": [60, 60]}
+  },
+  "counted_encounters": ["NF-V3101", "NF-V3102", "NF-V3104", "NF-V3105", "NF-V3107", "NF-V3108", "NF-V3109"],
+  "weeks": [
+    {"week_start": "2026-02-02", "therapy_days": [2, 2], "minutes": [125, 125], "status": "met"},
+    {"week_start": "2026-02-09", "therapy_days": [2, 2], "minutes": [100, 100], "status": "not_met"},
+    {"week_start": "2026-02-16", "therapy_days": [3, 3], "minutes": [140, 155], "status": "cannot_determine"}
+  ],
+  "totals": {
+    "sessions": 7,
+    "by_service_type": {"individual_psychotherapy": 4, "group_psychotherapy": 3},
+    "therapy_days": 7,
+    "minutes": [365, 380]
+  },
+  "assessments": [{"instrument": "PHQ-9", "completed_on": "2026-02-02", "total_score": 16}],
+  "required_flags": [["unresolved_minutes_conflict", "NF-V3107"]],
+  "consecutive_weeks_below_goal": {"run_length": 2, "established": [], "depends_on_unresolved_records": [["2026-02-09", "2026-02-16"]]}
+}

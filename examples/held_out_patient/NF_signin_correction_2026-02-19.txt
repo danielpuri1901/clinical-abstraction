@@ -1,0 +1,5 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - SIGN-IN CORRECTION
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3109 | Date of service: 02/18/2026
+Correction entered by Owen Hart, LCSW, 02/19/2026 09:10.
+Corrected sign-out time for Jordan: 14:15, replacing 14:30. The sheet was closed with the scheduled end time; Jordan left at 14:15 for a medical appointment, as noted in the group note.

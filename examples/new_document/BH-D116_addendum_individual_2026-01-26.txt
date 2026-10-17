@@ -1,0 +1,13 @@
+Document ID: BH-D116
+SYNTHETIC TEST RECORD - written for this take-home to demonstrate a new document arriving; not part of the supplied dataset.
+HARBOR GROVE BEHAVIORAL HEALTH
+Addendum to individual psychotherapy record | Encounter HG-E115 | Appointment HG-A115
+Rowan Mercer | DOB: 1991-04-12 | MRN: HG-M042
+Original service date: January 26, 2026
+Author: Mira Patel, LCSW | Addendum entered January 31, 2026, 10:05
+
+Correction: patient psychotherapy contact for HG-E115 began at 09:10, replacing the start time of 09:00 in my January 26 record. My original entry carried the scheduled start. Rowan entered the treatment room at 09:10 and the session ended at 09:50, 40 minutes of patient psychotherapy contact.
+
+This addendum changes only the start time. The clinical content of the January 26 record is unchanged.
+
+Electronically signed: Mira Patel, LCSW | January 31, 2026, 10:05

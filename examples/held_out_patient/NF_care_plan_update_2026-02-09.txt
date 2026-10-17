@@ -1,0 +1,7 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - CARE PLAN UPDATE
+Client: Jordan Reyes | Record #: NF-20817
+Update authored by Priya Raman, LMFT, signed February 9, 2026 at 12:30.
+
+Reason: panic episodes increased after the client missed the rescheduled interview. The team increased the intensity of care.
+Revised attendance standard, effective February 9, 2026 through the end of the episode on February 20, 2026: psychotherapy on at least 3 days in every Monday through Sunday week, totaling no less than 150 minutes of client-present psychotherapy per week. Counting rules are unchanged from the February 2 plan.

@@ -1,0 +1,4 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - GROUP SIGN-IN SHEET (CLIENT ROW)
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3109 | Date of service: 02/18/2026
+Group scheduled 13:00 to 14:30. Signed in: 13:00. Signed out: 14:30. Sheet closed by Owen Hart, LCSW, 02/18/2026 14:40.

@@ -1,0 +1,8 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - SKILLS GROUP NOTE WITH SIGN-IN
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3105 | Date of service: 02/11/2026
+Group scheduled 13:00 to 14:30. Facilitator: Owen Hart, LCSW. Signed 02/11/2026 15:05.
+Sign-in: Jordan signed in late at 13:20 (bus delay) and signed out at 14:30.
+Recess for the whole group from 13:45 to 14:00; no therapeutic activity during the recess.
+
+Topic: cognitive restructuring of catastrophic predictions. Jordan joined after the opening exercise and contributed an example about the missed interview.

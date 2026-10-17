@@ -1,0 +1,6 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - FAMILY SERVICE NOTE
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3106 | Date of service: 02/13/2026
+Time in 16:00, time out 16:50. Clinician: Priya Raman, LMFT. Signed 02/13/2026 17:15.
+
+Participants: Sam Reyes (spouse) only. Jordan did not attend and was not present by phone or video. Discussed how Sam can support exposure practice without reassurance seeking. No psychotherapy was provided to Jordan.

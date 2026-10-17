@@ -1,0 +1,7 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - VIDEO PSYCHOTHERAPY NOTE
+Client: Jordan Reyes | Record #: NF-20817 | Visit #: NF-V3108 | Date of service: 02/17/2026
+Clinician: Priya Raman, LMFT. Signed 02/17/2026 17:30.
+Video contact 16:00 to 16:20, then 16:25 to 16:50 after the client's connection dropped; no therapy from 16:20 to 16:25. Same visit continued on reconnection. Client-present psychotherapy: 45 minutes.
+
+Jordan reported completing a solo bus ride. Reviewed sleep routine.

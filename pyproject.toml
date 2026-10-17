@@ -1,0 +1,35 @@
+[project]
+name = "clinical-abstraction"
+version = "0.1.0"
+description = "Clinical abstraction of behavioral-health records: a model reads each document once, code checks, merges, counts, and answers."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "anthropic>=1.13,<2",
+    "pydantic>=2.14,<3",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+abstraction = "clinical_abstraction.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.8",
+    "inspect-ai>=0.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clinical_abstraction"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 130

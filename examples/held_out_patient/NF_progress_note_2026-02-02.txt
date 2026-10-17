@@ -1,0 +1,7 @@
+SYNTHETIC TEST RECORD - written for this take-home's generalization test; not part of the supplied dataset.
+NORTHFIELD BEHAVIORAL HEALTH - PROGRESS NOTE (INDIVIDUAL PSYCHOTHERAPY)
+Client: Jordan Reyes | DOB 1987-09-30 | Record #: NF-20817 | Visit #: NF-V3101
+Date of service: 02/02/2026 | Time in: 10:00 | Time out: 10:50 | Client present for the full session.
+Clinician: Priya Raman, LMFT. Electronically signed 02/02/2026 12:05.
+
+Jordan described panic symptoms when riding the bus and has postponed a job interview twice. PHQ-9 administered today: total 16. Jordan denied thoughts of self-harm. We built a fear hierarchy and practiced slow breathing. Plan: attend skills group on Wednesday and record one exposure step.
