@@ -6,7 +6,7 @@
  "review_period": {
   "start": "2026-02-02",
   "end": "2026-02-27",
-  "basis": "treatment plan dates (SY-M07005_01_treatment_plan L7-8)"
+  "basis": "treatment plan dates (SY-M07005_01_treatment_plan L6-8)"
  },
  "encounters": [
   {
@@ -27,7 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07005_02_questionnaire_review L6-7",
+    "SY-M07005_02_questionnaire_review L7",
     "SY-M07005_02_questionnaire_review L9-10"
    ],
    "flags": []
@@ -67,7 +67,7 @@
    "reason": "medication management does not count toward the plan goal",
    "minutes_low": 25,
    "minutes_high": 25,
-   "scheduled": null,
+   "scheduled": "15:00-15:25 (25 min)",
    "patient_present": [
     "15:00-15:25"
    ],
@@ -91,7 +91,7 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": null,
+   "scheduled": "09:00-09:45 (45 min)",
    "patient_present": [
     "09:00-09:45"
    ],
@@ -182,19 +182,19 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 35,
    "minutes_high": 35,
-   "scheduled": "14:00-14:50 (50 min)",
+   "scheduled": null,
    "patient_present": [
     "14:15-14:50"
    ],
    "excluded": [
-    "patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L15-16)"
+    "patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L16)"
    ],
-   "calculation": "14:15-14:50 present (35 min), minus patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L15-16) = 35 min",
+   "calculation": "14:15-14:50 present (35 min), minus patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L16) = 35 min",
    "sources": [
     "SY-M07005_08_service_record L14-17"
    ],
@@ -218,11 +218,10 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07005_05_cancellation_notice L6-9"
+    "SY-M07005_05_cancellation_notice L6-7",
+    "SY-M07005_05_cancellation_notice L9"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0700509",
@@ -398,7 +397,8 @@
    "excluded": [],
    "calculation": "14:00-14:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07005_13_service_record L6-9"
+    "SY-M07005_13_service_record L6-7",
+    "SY-M07005_13_service_record L9"
    ],
    "flags": []
   },
@@ -447,7 +447,7 @@
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
     "SY-M07005_12_questionnaire_review L3",
-    "SY-M07005_12_questionnaire_review L6",
+    "SY-M07005_12_questionnaire_review L7",
     "SY-M07005_12_questionnaire_review L9-10"
    ],
    "flags": []
@@ -490,7 +490,7 @@
     "family_psychotherapy"
    ],
    "sources": [
-    "SY-M07005_01_treatment_plan L7-8"
+    "SY-M07005_01_treatment_plan L6-8"
    ],
    "version": 1
   },
@@ -517,7 +517,8 @@
    "completed_on": "2026-02-02",
    "total_score": 20,
    "copies": [
-    "SY-M07005_06_imported_result L8-10"
+    "SY-M07005_06_imported_result L8",
+    "SY-M07005_06_imported_result L10"
    ],
    "sources": [
     "SY-M07005_02_questionnaire_review L6-8"
@@ -538,48 +539,15 @@
  "observations": [
   {
    "observed_on": "2026-02-02",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07005_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-02-02",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07005_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-02-02",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07005_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-02-16",
    "category": "reason_for_contact",
-   "text": "The treatment team adjusted the intensity of care after the first two weeks.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07005_07_plan_update L8"
+    "SY-M07005_01_treatment_plan L9"
    ]
   }
  ],
  "charges": [],
  "flags": [
-  {
-   "kind": "label_disputed",
-   "encounter": "SY-E0700508",
-   "text": "The decision model reads SY-M07005_05_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.96); the extraction says group_psychotherapy. That reading would not change whether SY-E0700508 counts.",
-   "citations": [
-    "SY-M07005_05_cancellation_notice L6-9"
-   ],
-   "settles": "A reviewer reading SY-M07005_05_cancellation_notice L6-9, or a signed record stating the service type of SY-E0700508, would settle it."
-  },
   {
    "kind": "possible_omission",
    "encounter": "SY-E0700509",
@@ -610,20 +578,12 @@
  ],
  "coverage_notes": [
   {
-   "citation": "SY-M07005_02_questionnaire_review L9",
-   "value": "09:05"
-  },
-  {
    "citation": "SY-M07005_03_service_record L8",
    "value": "10:10"
   },
   {
    "citation": "SY-M07005_03_service_record L13",
    "value": "15:45"
-  },
-  {
-   "citation": "SY-M07005_03_service_record L17",
-   "value": "11:00"
   },
   {
    "citation": "SY-M07005_08_service_record L8",
@@ -638,20 +598,8 @@
    "value": "15:40"
   },
   {
-   "citation": "SY-M07005_08_service_record L22",
-   "value": "12:45"
-  },
-  {
-   "citation": "SY-M07005_09_service_record L9",
-   "value": "15:20"
-  },
-  {
    "citation": "SY-M07005_09_service_record L14",
    "value": "10:20"
-  },
-  {
-   "citation": "SY-M07005_10_service_record L9",
-   "value": "15:45"
   },
   {
    "citation": "SY-M07005_10_service_record L14",
@@ -664,10 +612,6 @@
   {
    "citation": "SY-M07005_13_service_record L14",
    "value": "15:20"
-  },
-  {
-   "citation": "SY-M07005_13_service_record L19",
-   "value": "17:25"
   }
  ],
  "incomplete": [],
@@ -757,7 +701,7 @@
     "goal_days": 3,
     "goal_minutes": 150,
     "sources": [
-     "SY-M07005_01_treatment_plan L7-8"
+     "SY-M07005_01_treatment_plan L6-8"
     ],
     "sessions_low": 5,
     "sessions_high": 5,
@@ -826,7 +770,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 13,
   "documents_pending": 0
  }

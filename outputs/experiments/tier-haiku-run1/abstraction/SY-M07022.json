@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-02-09 assessment_review",
-   "service_date": "2026-02-09",
-   "service_dates": [
-    "2026-02-09"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07022_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0702201",
    "service_date": "2026-02-10",
    "service_dates": [
@@ -49,10 +27,10 @@
     "14:00-15:00"
    ],
    "excluded": [],
-   "calculation": "range 30-60 min: SY-M07022_03_service_record L6-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L5-8 gives 14:30-15:00 = 30 min",
+   "calculation": "range 30-60 min: SY-M07022_03_service_record L6-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L6-8 gives 14:30-15:00 = 30 min",
    "sources": [
     "SY-M07022_03_service_record L6-8",
-    "SY-M07022_04_cotherapist_record L5-8"
+    "SY-M07022_04_cotherapist_record L6-8"
    ],
    "flags": [
     "unresolved_minutes_conflict"
@@ -104,7 +82,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07022_06_service_record L6-8"
+    "SY-M07022_06_service_record L5-8"
    ],
    "flags": []
   },
@@ -128,7 +106,7 @@
    "excluded": [],
    "calculation": "15:00-15:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07022_07_service_record L5-8"
+    "SY-M07022_07_service_record L6-8"
    ],
    "flags": []
   },
@@ -162,7 +140,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
@@ -179,29 +157,9 @@
    "sources": [
     "SY-M07022_07_service_record L16-21"
    ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-03-02 assessment_review",
-   "service_date": "2026-03-02",
-   "service_dates": [
-    "2026-03-02"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07022_08_questionnaire_review L8-9"
-   ],
-   "flags": []
+   "flags": [
+    "label_disputed"
+   ]
   },
   {
    "encounter": "SY-E0702207",
@@ -225,7 +183,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:40-11:00 = 20 min (SY-M07022_09_service_record L9) = 70 min",
    "sources": [
-    "SY-M07022_09_service_record L6-10"
+    "SY-M07022_09_service_record L5-10"
    ],
    "flags": []
   },
@@ -249,7 +207,7 @@
    "excluded": [],
    "calculation": "15:00-15:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07022_09_service_record L13-16"
+    "SY-M07022_09_service_record L12-16"
    ],
    "flags": []
   },
@@ -273,7 +231,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07022_09_service_record L19-21"
+    "SY-M07022_09_service_record L18-21"
    ],
    "flags": []
   },
@@ -299,7 +257,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07022_10_service_record L9) = 75 min",
    "sources": [
-    "SY-M07022_10_service_record L5-10"
+    "SY-M07022_10_service_record L6-10"
    ],
    "flags": []
   },
@@ -323,7 +281,7 @@
    "excluded": [],
    "calculation": "15:00-15:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07022_10_service_record L12-16"
+    "SY-M07022_10_service_record L13-16"
    ],
    "flags": []
   }
@@ -372,7 +330,7 @@
   {
    "observed_on": "2026-02-09",
    "category": "anxiety",
-   "text": "Presenting need listed as worry about daily tasks.",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07022_01_treatment_plan L8"
    ]
@@ -380,7 +338,7 @@
   {
    "observed_on": "2026-02-09",
    "category": "mood",
-   "text": "Presenting need listed as low mood.",
+   "text": "Presenting needs include low mood.",
    "sources": [
     "SY-M07022_01_treatment_plan L8"
    ]
@@ -388,7 +346,7 @@
   {
    "observed_on": "2026-02-09",
    "category": "sleep",
-   "text": "Presenting need listed as irregular sleep.",
+   "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07022_01_treatment_plan L8"
    ]
@@ -397,12 +355,21 @@
  "charges": [],
  "flags": [
   {
+   "kind": "label_disputed",
+   "encounter": "SY-E0702206",
+   "text": "The decision model reads SY-M07022_07_service_record L16-21 as attendance attended (confidence 0.96); the extraction says attended_partial. That reading would not change whether SY-E0702206 counts.",
+   "citations": [
+    "SY-M07022_07_service_record L16-21"
+   ],
+   "settles": "A reviewer reading SY-M07022_07_service_record L16-21, or a signed record stating the attendance of SY-E0702206, would settle it."
+  },
+  {
    "kind": "unresolved_minutes_conflict",
    "encounter": "SY-E0702201",
-   "text": "Signed records of SY-E0702201 disagree on patient-present minutes: SY-M07022_03_service_record L6-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L5-8 gives 14:30-15:00 = 30 min. No correction or addendum resolves it, so SY-E0702201 is carried as a range 30-60 min.",
+   "text": "Signed records of SY-E0702201 disagree on patient-present minutes: SY-M07022_03_service_record L6-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L6-8 gives 14:30-15:00 = 30 min. No correction or addendum resolves it, so SY-E0702201 is carried as a range 30-60 min.",
    "citations": [
     "SY-M07022_03_service_record L6-8",
-    "SY-M07022_04_cotherapist_record L5-8"
+    "SY-M07022_04_cotherapist_record L6-8"
    ],
    "settles": "An addendum or signed note stating the start time of SY-E0702201 would settle it."
   }
@@ -527,7 +494,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 10,
   "documents_pending": 0
  }

@@ -27,6 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07002_02_questionnaire_review L6-7",
     "SY-M07002_02_questionnaire_review L9-10"
    ],
    "flags": []
@@ -335,8 +336,7 @@
    "sources": [
     "SY-M07002_07_service_record L6-8",
     "SY-M07002_08_cotherapist_record L6-8",
-    "SY-M07002_12_addendum L6-7",
-    "SY-M07002_12_addendum L9"
+    "SY-M07002_12_addendum L6-7"
    ],
    "flags": []
   },
@@ -361,29 +361,6 @@
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
     "SY-M07002_09_service_record L6-8"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-03-02 assessment_review",
-   "service_date": "2026-03-02",
-   "service_dates": [
-    "2026-03-02"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07002_10_questionnaire_review L6-7",
-    "SY-M07002_10_questionnaire_review L9-10"
    ],
    "flags": []
   },
@@ -453,11 +430,10 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07002_13_cancellation_notice L6-9"
+    "SY-M07002_13_cancellation_notice L6-7",
+    "SY-M07002_13_cancellation_notice L9"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0700217",
@@ -527,24 +503,8 @@
  "observations": [
   {
    "observed_on": "2026-02-09",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07002_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07002_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
+   "category": "reason_for_contact",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07002_01_treatment_plan L9"
    ]
@@ -552,24 +512,6 @@
  ],
  "charges": [],
  "flags": [
-  {
-   "kind": "label_disputed",
-   "encounter": "SY-E0700216",
-   "text": "The decision model reads SY-M07002_13_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.97); the extraction says group_psychotherapy. That reading would not change whether SY-E0700216 counts.",
-   "citations": [
-    "SY-M07002_13_cancellation_notice L6-9"
-   ],
-   "settles": "A reviewer reading SY-M07002_13_cancellation_notice L6-9, or a signed record stating the service type of SY-E0700216, would settle it."
-  },
-  {
-   "kind": "possible_omission",
-   "encounter": null,
-   "text": "SY-M07002_05_service_record L37 states 16:05, inside the session window of SY-E0700205, SY-E0700207, which no extracted item carries; a break or a time may be missing.",
-   "citations": [
-    "SY-M07002_05_service_record L37"
-   ],
-   "settles": null
-  },
   {
    "kind": "possible_omission",
    "encounter": "SY-E0700202",
@@ -581,10 +523,6 @@
   }
  ],
  "coverage_notes": [
-  {
-   "citation": "SY-M07002_04_service_record L9",
-   "value": "11:50"
-  },
   {
    "citation": "SY-M07002_04_service_record L14",
    "value": "10:05"
@@ -614,16 +552,8 @@
    "value": "12:45"
   },
   {
-   "citation": "SY-M07002_05_service_record L37",
-   "value": "16:05"
-  },
-  {
    "citation": "SY-M07002_11_service_record L9",
    "value": "15:40"
-  },
-  {
-   "citation": "SY-M07002_11_service_record L13",
-   "value": "10:10"
   }
  ],
  "incomplete": [],
@@ -746,7 +676,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 14,
   "documents_pending": 0
  }

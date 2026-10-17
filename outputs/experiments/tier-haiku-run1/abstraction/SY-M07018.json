@@ -27,7 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07018_02_questionnaire_review L6",
+    "SY-M07018_02_questionnaire_review L5-6",
     "SY-M07018_02_questionnaire_review L8-9"
    ],
    "flags": []
@@ -79,7 +79,8 @@
    "excluded": [],
    "calculation": "09:00-09:25 present (25 min) = 25 min",
    "sources": [
-    "SY-M07018_05_service_record L5-8"
+    "SY-M07018_05_service_record L5-6",
+    "SY-M07018_05_service_record L8"
    ],
    "flags": []
   },
@@ -175,7 +176,8 @@
    "excluded": [],
    "calculation": "15:00-15:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07018_09_service_record L5-8"
+    "SY-M07018_09_service_record L5-6",
+    "SY-M07018_09_service_record L8"
    ],
    "flags": []
   },
@@ -295,7 +297,8 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07018_13_cancellation_notice L5-8"
+    "SY-M07018_13_cancellation_notice L5-6",
+    "SY-M07018_13_cancellation_notice L8"
    ],
    "flags": []
   },
@@ -317,6 +320,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07018_14_questionnaire_review L5-6",
     "SY-M07018_14_questionnaire_review L8-9"
    ],
    "flags": []
@@ -416,7 +420,7 @@
   {
    "observed_on": "2026-01-19",
    "category": "reason_for_contact",
-   "text": "Presenting needs include low mood, worry about daily tasks, and irregular sleep.",
+   "text": "Presenting needs: low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07018_01_treatment_plan L8"
    ]
@@ -461,20 +465,16 @@
  ],
  "coverage_notes": [
   {
+   "citation": "SY-M07018_03_draft_and_charge L7",
+   "value": "11:00"
+  },
+  {
    "citation": "SY-M07018_03_draft_and_charge L15",
    "value": "18:06"
   },
   {
-   "citation": "SY-M07018_11_service_record L8",
-   "value": "15:20"
-  },
-  {
    "citation": "SY-M07018_11_service_record L13",
    "value": "12:20"
-  },
-  {
-   "citation": "SY-M07018_15_service_record L8",
-   "value": "15:05"
   },
   {
    "citation": "SY-M07018_15_service_record L13",
@@ -599,7 +599,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 15,
   "documents_pending": 0
  }

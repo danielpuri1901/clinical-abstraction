@@ -10,30 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-12 assessment_review",
-   "service_date": "2026-01-12",
-   "service_dates": [
-    "2026-01-12"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07015_02_questionnaire_review L2",
-    "SY-M07015_02_questionnaire_review L5",
-    "SY-M07015_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-V0701501",
    "service_date": "2026-01-12",
    "service_dates": [
@@ -101,7 +77,8 @@
    "excluded": [],
    "calculation": "09:00-09:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07015_04_service_record L5-8"
+    "SY-M07015_04_service_record L5-6",
+    "SY-M07015_04_service_record L8"
    ],
    "flags": []
   },
@@ -275,11 +252,10 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07015_10_cancellation_notice L5-8"
+    "SY-M07015_10_cancellation_notice L5-6",
+    "SY-M07015_10_cancellation_notice L8"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-V0701511",
@@ -349,7 +325,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07015_12_questionnaire_review L6",
     "SY-M07015_12_questionnaire_review L8-9"
    ],
    "flags": []
@@ -414,47 +389,32 @@
  "observations": [
   {
    "observed_on": "2026-01-12",
-   "category": "reason_for_contact",
-   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
+   "category": "anxiety",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07015_01_treatment_plan L8"
    ]
   },
   {
-   "observed_on": "2026-01-13",
-   "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
+   "observed_on": "2026-01-12",
+   "category": "mood",
+   "text": "Presenting needs include low mood.",
    "sources": [
-    "SY-M07015_04_service_record L5",
-    "SY-M07015_04_service_record L7"
+    "SY-M07015_01_treatment_plan L8"
    ]
   },
   {
-   "observed_on": "2026-02-06",
-   "category": "mood",
-   "text": "Patient-completed PHQ-9 total score was 17.",
+   "observed_on": "2026-01-12",
+   "category": "sleep",
+   "text": "Presenting needs include irregular sleep.",
    "sources": [
-    "SY-M07015_12_questionnaire_review L6-7"
+    "SY-M07015_01_treatment_plan L8"
    ]
   }
  ],
  "charges": [],
- "flags": [
-  {
-   "kind": "label_disputed",
-   "encounter": "SY-V0701510",
-   "text": "The decision model reads SY-M07015_10_cancellation_notice L5-8 as service_type outreach_or_scheduling_call (confidence 0.91); the extraction says group_psychotherapy. That reading would not change whether SY-V0701510 counts.",
-   "citations": [
-    "SY-M07015_10_cancellation_notice L5-8"
-   ],
-   "settles": "A reviewer reading SY-M07015_10_cancellation_notice L5-8, or a signed record stating the service type of SY-V0701510, would settle it."
-  }
- ],
+ "flags": [],
  "coverage_notes": [
-  {
-   "citation": "SY-M07015_03_service_record L8",
-   "value": "10:40"
-  },
   {
    "citation": "SY-M07015_03_service_record L13",
    "value": "15:05"
@@ -466,14 +426,6 @@
   {
    "citation": "SY-M07015_04_service_record L12",
    "value": "17:40"
-  },
-  {
-   "citation": "SY-M07015_04_service_record L17",
-   "value": "15:45"
-  },
-  {
-   "citation": "SY-M07015_11_service_record L8",
-   "value": "14:50"
   },
   {
    "citation": "SY-M07015_11_service_record L13",
@@ -627,7 +579,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }

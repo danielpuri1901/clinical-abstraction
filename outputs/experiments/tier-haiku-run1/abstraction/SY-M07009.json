@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-02-09 assessment_review",
-   "service_date": "2026-02-09",
-   "service_dates": [
-    "2026-02-09"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07009_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-V0700901",
    "service_date": "2026-02-09",
    "service_dates": [
@@ -39,7 +17,7 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 30,
@@ -111,7 +89,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
@@ -187,7 +165,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
@@ -327,28 +305,6 @@
    "flags": []
   },
   {
-   "encounter": "2026-03-04 assessment_review",
-   "service_date": "2026-03-04",
-   "service_dates": [
-    "2026-03-04"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07009_10_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-V0700913",
    "service_date": "2026-03-06",
    "service_dates": [
@@ -434,34 +390,10 @@
  "observations": [
   {
    "observed_on": "2026-02-09",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
+   "category": "reason_for_contact",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07009_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07009_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07009_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-03-04",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 on the portal with a total score of 14.",
-   "sources": [
-    "SY-M07009_10_questionnaire_review L5-7"
    ]
   }
  ],
@@ -487,14 +419,6 @@
   }
  ],
  "coverage_notes": [
-  {
-   "citation": "SY-M07009_05_service_record L8",
-   "value": "10:05"
-  },
-  {
-   "citation": "SY-M07009_05_service_record L12",
-   "value": "10:05"
-  },
   {
    "citation": "SY-M07009_05_service_record L16",
    "value": "10:15"
@@ -526,10 +450,6 @@
   {
    "citation": "SY-M07009_11_service_record L20",
    "value": "11:05"
-  },
-  {
-   "citation": "SY-M07009_11_service_record L25",
-   "value": "12:20"
   }
  ],
  "incomplete": [],
@@ -689,7 +609,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 11,
   "documents_pending": 0
  }

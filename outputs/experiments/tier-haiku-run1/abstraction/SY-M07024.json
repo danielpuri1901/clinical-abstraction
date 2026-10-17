@@ -27,7 +27,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07024_02_questionnaire_review L2",
     "SY-M07024_02_questionnaire_review L5-6",
     "SY-M07024_02_questionnaire_review L8-9"
    ],
@@ -53,7 +52,8 @@
    "excluded": [],
    "calculation": "15:00-15:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07024_03_service_record L5-8"
+    "SY-M07024_03_service_record L5-6",
+    "SY-M07024_03_service_record L8"
    ],
    "flags": []
   },
@@ -146,7 +146,7 @@
    "reason": "collateral contact does not count toward the plan goal",
    "minutes_low": 0,
    "minutes_high": 0,
-   "scheduled": null,
+   "scheduled": "14:00-14:50 (50 min)",
    "patient_present": [],
    "excluded": [],
    "calculation": "collateral contact does not count toward the plan goal",
@@ -297,7 +297,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07024_08_questionnaire_review L5-6",
+    "SY-M07024_08_questionnaire_review L6",
     "SY-M07024_08_questionnaire_review L8-9"
    ],
    "flags": []
@@ -332,7 +332,7 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
@@ -407,7 +407,7 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 30,
@@ -470,7 +470,7 @@
   {
    "observed_on": "2026-01-26",
    "category": "anxiety",
-   "text": "Worry about daily tasks is a presenting need.",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07024_01_treatment_plan L8"
    ]
@@ -478,7 +478,7 @@
   {
    "observed_on": "2026-01-26",
    "category": "mood",
-   "text": "Presenting with low mood.",
+   "text": "Presenting needs include low mood.",
    "sources": [
     "SY-M07024_01_treatment_plan L8"
    ]
@@ -486,7 +486,7 @@
   {
    "observed_on": "2026-01-26",
    "category": "sleep",
-   "text": "Irregular sleep is a presenting need.",
+   "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07024_01_treatment_plan L8"
    ]
@@ -496,24 +496,8 @@
  "flags": [],
  "coverage_notes": [
   {
-   "citation": "SY-M07024_04_service_record L8",
-   "value": "15:45"
-  },
-  {
    "citation": "SY-M07024_04_service_record L13",
    "value": "12:05"
-  },
-  {
-   "citation": "SY-M07024_05_service_record L7",
-   "value": "10:10"
-  },
-  {
-   "citation": "SY-M07024_05_service_record L10",
-   "value": "14:00"
-  },
-  {
-   "citation": "SY-M07024_05_service_record L10",
-   "value": "14:50"
   },
   {
    "citation": "SY-M07024_05_service_record L11",
@@ -526,18 +510,6 @@
   {
    "citation": "SY-M07024_06_service_record L7",
    "value": "15:05"
-  },
-  {
-   "citation": "SY-M07024_06_service_record L11",
-   "value": "15:25"
-  },
-  {
-   "citation": "SY-M07024_07_service_record L8",
-   "value": "11:50"
-  },
-  {
-   "citation": "SY-M07024_07_service_record L13",
-   "value": "11:50"
   }
  ],
  "incomplete": [],
@@ -657,7 +629,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }

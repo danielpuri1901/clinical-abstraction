@@ -20,8 +20,8 @@ REAL_CALL_ANTHROPIC = read.call_anthropic
 
 DOC_TEXT = "Scheduled group: 10:00-11:30.\nPatient arrival: 10:00 | Patient departure: 11:15\nService date: January 19, 2026\n"
 DOC_AS_SENT = (
-    "Document ID: D1\n\nL1: Scheduled group: 10:00-11:30.\nL2: Patient arrival: 10:00 | Patient departure: 11:15\n"
-    "L3: Service date: January 19, 2026"
+    '<document id="D1">\nL1: Scheduled group: 10:00-11:30.\nL2: Patient arrival: 10:00 | Patient departure: 11:15\n'
+    "L3: Service date: January 19, 2026\n</document>"
 )
 USAGE = {"input_tokens": 10, "output_tokens": 5}  # 3.5e-06 USD on claude-haiku-5-5: 10 * 0.10 / 1e6 + 5 * 0.50 / 1e6
 
@@ -59,9 +59,10 @@ def scripted(*replies: dict):
     """A fake for read.call_anthropic: answers from the list in order and records what each call received."""
     calls = []
 
-    def fake_call(model, system, messages, tools, max_tokens=3000):
+    def fake_call(model, system, messages, tools, max_tokens=3000, **request_options):
         assert len(calls) < len(replies), "the extractor made a model call that the test did not script"
-        calls.append({"model": model, "system": system, "messages": list(messages), "tools": tools, "max_tokens": max_tokens})
+        calls.append({"model": model, "system": system, "messages": list(messages), "tools": tools, "max_tokens": max_tokens,
+                      **request_options})
         return replies[len(calls) - 1]
 
     return fake_call, calls

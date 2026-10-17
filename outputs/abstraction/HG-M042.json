@@ -6,7 +6,7 @@
  "review_period": {
   "start": "2026-01-05",
   "end": "2026-01-30",
-  "basis": "treatment plan dates (BH-D003 L6, BH-D003 L12)"
+  "basis": "treatment plan dates (BH-D003 L12)"
  },
  "encounters": [
   {
@@ -16,7 +16,7 @@
     "2026-01-05"
    ],
    "service_type": "individual_psychotherapy",
-   "modality": "in_person",
+   "modality": "unknown",
    "status": "attended",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
@@ -30,7 +30,6 @@
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
     "BH-D002 L6-9",
-    "BH-D002 L13",
     "BH-D006 L10"
    ],
    "flags": []
@@ -57,12 +56,11 @@
    ],
    "calculation": "10:15-11:15 present (60 min), minus break 10:45-11:00 = 15 min (BH-D004 L12) = 45 min",
    "sources": [
-    "BH-D004 L4-8",
+    "BH-D004 L5-8",
     "BH-D004 L12",
     "BH-D004 L14",
-    "BH-D005 L10",
+    "BH-D005 L9-10",
     "BH-D005 L13",
-    "BH-D005 L17",
     "BH-D006 L11"
    ],
    "flags": []
@@ -137,12 +135,11 @@
     "14:00-14:45"
    ],
    "excluded": [],
-   "calculation": "14:00-14:45 present (45 min) = 45 min",
+   "calculation": "45 minutes as stated (no times given)",
    "sources": [
-    "BH-D007 L4",
     "BH-D007 L6-10",
-    "BH-D008 L6-9",
-    "BH-D008 L11",
+    "BH-D008 L6",
+    "BH-D008 L8-9",
     "BH-D006 L13"
    ],
    "flags": []
@@ -169,13 +166,12 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:40-10:55 = 15 min (BH-D009 L12) = 75 min",
    "sources": [
+    "BH-D005 L9",
     "BH-D005 L11",
     "BH-D005 L15",
-    "BH-D005 L17",
     "BH-D009 L4-8",
     "BH-D009 L12",
     "BH-D009 L14",
-    "BH-D009 L16",
     "BH-D006 L14"
    ],
    "flags": []
@@ -202,7 +198,6 @@
    "sources": [
     "BH-D010 L6-9",
     "BH-D010 L11",
-    "BH-D010 L17",
     "BH-D006 L15"
    ],
    "flags": []
@@ -227,32 +222,8 @@
    "excluded": [],
    "calculation": "11:00-11:45 present (45 min) = 45 min",
    "sources": [
-    "BH-D011 L4",
     "BH-D011 L6-9",
     "BH-D006 L16"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-01-15 outreach_or_scheduling_call",
-   "service_date": "2026-01-15",
-   "service_dates": [
-    "2026-01-15"
-   ],
-   "service_type": "outreach_or_scheduling_call",
-   "modality": "phone",
-   "status": "attended",
-   "counts_as_therapy": "no",
-   "reason": "outreach or scheduling call does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "outreach or scheduling call does not count toward the plan goal",
-   "sources": [
-    "BH-D016 L13",
-    "BH-D016 L15"
    ],
    "flags": []
   },
@@ -263,7 +234,7 @@
     "2026-01-15"
    ],
    "service_type": "group_psychotherapy",
-   "modality": "in_person",
+   "modality": "unknown",
    "status": "cancelled_by_clinic",
    "counts_as_therapy": "no",
    "reason": "not delivered (cancelled by clinic)",
@@ -276,7 +247,6 @@
    "sources": [
     "BH-D016 L6",
     "BH-D016 L9",
-    "BH-D016 L11",
     "BH-D016 L15",
     "BH-D006 L17",
     "BH-D006 L20"
@@ -284,30 +254,6 @@
    "flags": [
     "label_disputed"
    ]
-  },
-  {
-   "encounter": "2026-01-16 assessment_review",
-   "service_date": "2026-01-16",
-   "service_dates": [
-    "2026-01-16"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "BH-D013 L9",
-    "BH-D013 L13",
-    "BH-D013 L15"
-   ],
-   "flags": []
   },
   {
    "encounter": "HG-E109",
@@ -329,7 +275,7 @@
    "sources": [
     "BH-D012 L6-9",
     "BH-D012 L11",
-    "BH-D012 L17",
+    "BH-D012 L16-17",
     "BH-D006 L18",
     "BH-D006 L20"
    ],
@@ -355,7 +301,7 @@
    "excluded": [
     "break 10:45-11:00 = 15 min (BH-D101 L6, BH-D101 L8)"
    ],
-   "calculation": "10:00-11:15 present (75 min), minus break 10:45-11:00 = 15 min (BH-D101 L6, BH-D101 L8) = 60 min; departure time 11:30 corrected to 11:15 (BH-D103 L7)",
+   "calculation": "10:00-11:15 present (75 min), minus break 10:45-11:00 = 15 min (BH-D101 L6, BH-D101 L8) = 60 min; departure time 11:30 corrected to 11:15 (BH-D103 L5)",
    "sources": [
     "BH-D101 L3-4",
     "BH-D101 L6",
@@ -363,12 +309,10 @@
     "BH-D101 L10",
     "BH-D101 L14",
     "BH-D102 L4",
-    "BH-D102 L6",
     "BH-D102 L8-10",
     "BH-D102 L18",
     "BH-D103 L5",
-    "BH-D103 L7",
-    "BH-D103 L9"
+    "BH-D103 L7"
    ],
    "flags": []
   },
@@ -394,6 +338,7 @@
    "sources": [
     "BH-D105 L3",
     "BH-D105 L5-7",
+    "BH-D105 L11",
     "BH-D105 L15"
    ],
    "flags": []
@@ -406,7 +351,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
@@ -417,9 +362,9 @@
     "13:30-13:55"
    ],
    "excluded": [
-    "disconnect 13:20-13:30 = 10 min (BH-D106 L7, BH-D106 L17-18)"
+    "disconnect 13:20-13:30 = 10 min (BH-D106 L7)"
    ],
-   "calculation": "13:00-13:20, 13:30-13:55 present (45 min), minus disconnect 13:20-13:30 = 10 min (BH-D106 L7, BH-D106 L17-18) = 45 min",
+   "calculation": "13:00-13:20, 13:30-13:55 present (45 min), minus disconnect 13:20-13:30 = 10 min (BH-D106 L7) = 45 min",
    "sources": [
     "BH-D106 L3",
     "BH-D106 L5",
@@ -427,7 +372,9 @@
     "BH-D106 L13",
     "BH-D106 L17-19"
    ],
-   "flags": []
+   "flags": [
+    "label_disputed"
+   ]
   },
   {
    "encounter": "HG-E113",
@@ -464,13 +411,13 @@
     "2026-01-23"
    ],
    "service_type": "care_coordination",
-   "modality": "phone",
-   "status": "patient_absent",
+   "modality": "unknown",
+   "status": "not_documented",
    "counts_as_therapy": "no",
    "reason": "care coordination does not count toward the plan goal",
    "minutes_low": 0,
    "minutes_high": 0,
-   "scheduled": null,
+   "scheduled": "09:00-09:20 (20 min)",
    "patient_present": [],
    "excluded": [],
    "calculation": "care coordination does not count toward the plan goal",
@@ -500,42 +447,20 @@
     "09:00-09:50"
    ],
    "excluded": [],
-   "calculation": "range 40-50 min: BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 gives 09:10-09:50 = 40 min",
+   "calculation": "range 40-50 min: BH-D110 L3, BH-D110 L5-7, BH-D110 L15 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16 gives 09:10-09:50 = 40 min",
    "sources": [
     "BH-D110 L3",
     "BH-D110 L5-7",
-    "BH-D110 L15-16",
+    "BH-D110 L15",
     "BH-D111 L4",
     "BH-D111 L6-8",
     "BH-D111 L10",
     "BH-D111 L14",
-    "BH-D111 L16-17"
+    "BH-D111 L16"
    ],
    "flags": [
     "unresolved_minutes_conflict"
    ]
-  },
-  {
-   "encounter": "2026-01-27 outreach_or_scheduling_call",
-   "service_date": "2026-01-27",
-   "service_dates": [
-    "2026-01-27"
-   ],
-   "service_type": "outreach_or_scheduling_call",
-   "modality": "unknown",
-   "status": "patient_absent",
-   "counts_as_therapy": "no",
-   "reason": "outreach or scheduling call does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "outreach or scheduling call does not count toward the plan goal",
-   "sources": [
-    "BH-D108 L16"
-   ],
-   "flags": []
   },
   {
    "encounter": "HG-E116",
@@ -557,9 +482,10 @@
    "sources": [
     "BH-D108 L10",
     "BH-D108 L16",
-    "BH-D112 L7-11",
-    "BH-D112 L13-14",
-    "BH-D112 L19-23"
+    "BH-D112 L5",
+    "BH-D112 L9-10",
+    "BH-D112 L13",
+    "BH-D112 L16"
    ],
    "flags": [
     "charge_for_undelivered_service",
@@ -637,6 +563,8 @@
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
     "BH-D115 L5-6",
+    "BH-D115 L8",
+    "BH-D115 L10",
     "BH-D115 L14",
     "BH-D115 L16"
    ],
@@ -650,12 +578,12 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 30,
    "minutes_high": 30,
-   "scheduled": null,
+   "scheduled": "13:00-13:45 (45 min)",
    "patient_present": [
     "13:15-13:45"
    ],
@@ -666,7 +594,6 @@
    "sources": [
     "BH-D113 L3",
     "BH-D113 L5-7",
-    "BH-D113 L9",
     "BH-D113 L11",
     "BH-D113 L15"
    ],
@@ -685,16 +612,14 @@
    "reason": "medication management does not count toward the plan goal",
    "minutes_low": 20,
    "minutes_high": 20,
-   "scheduled": null,
-   "patient_present": [
-    "15:00-15:20"
-   ],
+   "scheduled": "15:00-15:20 (20 min)",
+   "patient_present": [],
    "excluded": [],
-   "calculation": "15:00-15:20 present (20 min) = 20 min",
+   "calculation": "20 minutes as stated (no times given)",
    "sources": [
     "BH-D114 L3",
     "BH-D114 L5-6",
-    "BH-D114 L14-15"
+    "BH-D114 L14"
    ],
    "flags": []
   }
@@ -712,7 +637,6 @@
     "family_psychotherapy"
    ],
    "sources": [
-    "BH-D003 L6",
     "BH-D003 L12"
    ],
    "version": 1
@@ -756,32 +680,8 @@
  "observations": [
   {
    "observed_on": "2026-01-05",
-   "category": "anxiety",
-   "text": "Anxiety about resuming work responsibilities.",
-   "sources": [
-    "BH-D003 L10"
-   ]
-  },
-  {
-   "observed_on": "2026-01-05",
    "category": "avoidance",
-   "text": "Postponing email replies and avoiding conversations about the return to work.",
-   "sources": [
-    "BH-D002 L11"
-   ]
-  },
-  {
-   "observed_on": "2026-01-05",
-   "category": "avoidance",
-   "text": "Avoidance of tasks and communication.",
-   "sources": [
-    "BH-D003 L10"
-   ]
-  },
-  {
-   "observed_on": "2026-01-05",
-   "category": "mood",
-   "text": "Several weeks of low mood and reduced interest in usual activities.",
+   "text": "Rowan has been postponing email replies and avoiding conversations about the return date.",
    "sources": [
     "BH-D002 L11"
    ]
@@ -789,40 +689,32 @@
   {
    "observed_on": "2026-01-05",
    "category": "mood",
-   "text": "Presenting needs include depressed mood.",
+   "text": "Rowan reported several weeks of low mood and reduced interest in usual activities.",
    "sources": [
-    "BH-D003 L10"
+    "BH-D002 L11"
    ]
   },
   {
    "observed_on": "2026-01-05",
-   "category": "safety",
-   "text": "No immediate safety concern was identified.",
+   "category": "reason_for_contact",
+   "text": "Rowan's worry increases about returning to work after a recent leave, prompting care.",
    "sources": [
-    "BH-D002 L13"
+    "BH-D002 L11"
    ]
   },
   {
    "observed_on": "2026-01-05",
    "category": "sleep",
-   "text": "Fragmented sleep, waking in the night and checking the time repeatedly.",
+   "text": "Rowan reported fragmented sleep, waking in the night and checking the time repeatedly.",
    "sources": [
     "BH-D002 L11",
     "BH-D002 L13"
    ]
   },
   {
-   "observed_on": "2026-01-05",
-   "category": "sleep",
-   "text": "Sleep disruption is a presenting need.",
-   "sources": [
-    "BH-D003 L10"
-   ]
-  },
-  {
    "observed_on": "2026-01-06",
    "category": "avoidance",
-   "text": "Rowan delayed replying to a work message because of fear of being asked for a firm return date.",
+   "text": "Rowan described delaying a reply to a work message because they feared being asked for a firm return date.",
    "sources": [
     "BH-D004 L14"
    ]
@@ -830,14 +722,6 @@
   {
    "observed_on": "2026-01-06",
    "category": "functioning",
-   "text": "Rowan practiced breathing, chose reading the message before responding, and seemed receptive to peers.",
-   "sources": [
-    "BH-D004 L14"
-   ]
-  },
-  {
-   "observed_on": "2026-01-06",
-   "category": "reason_for_contact",
    "text": "Rowan arrived late after parking difficulty and left early for a previously arranged ride.",
    "sources": [
     "BH-D005 L13"
@@ -846,16 +730,15 @@
   {
    "observed_on": "2026-01-08",
    "category": "reason_for_contact",
-   "text": "Patient did not check in or cancel for the 11:00 individual visit and was marked no show.",
+   "text": "Patient said the morning got away from them and confirmed intent to attend the next visit.",
    "sources": [
-    "BH-D015 L9",
-    "BH-D015 L11"
+    "BH-D015 L15"
    ]
   },
   {
    "observed_on": "2026-01-08",
    "category": "sleep",
-   "text": "Patient reported a poor night of sleep and the morning getting away from them.",
+   "text": "Patient reported a poor night of sleep before the missed appointment.",
    "sources": [
     "BH-D015 L15"
    ]
@@ -863,55 +746,33 @@
   {
    "observed_on": "2026-01-09",
    "category": "functioning",
-   "text": "Rowan felt watched when repeatedly asked whether they had contacted work.",
+   "text": "Rowan is trying to rebuild a routine at home, and both partners described difficulty with how support was offered.",
    "sources": [
     "BH-D007 L12"
    ]
   },
   {
    "observed_on": "2026-01-09",
-   "category": "functioning",
-   "text": "Rowan described partner reminders as evidence of falling behind; Casey said reminders were meant to help but increased tension.",
+   "category": "reason_for_contact",
+   "text": "The session focused on patterns of support at home and a recent morning interaction.",
    "sources": [
-    "BH-D008 L11"
+    "BH-D007 L12",
+    "BH-D007 L14"
    ]
   },
   {
    "observed_on": "2026-01-09",
-   "category": "functioning",
-   "text": "Rowan wants to keep ownership of the return-to-work process; the rehearsal became less defensive with repetition.",
+   "category": "reason_for_contact",
+   "text": "Couple worked on communication practice around an anxious exchange about return-to-work progress and partner reminders.",
    "sources": [
+    "BH-D008 L11",
     "BH-D008 L13"
-   ]
-  },
-  {
-   "observed_on": "2026-01-09",
-   "category": "mood",
-   "text": "Rowan became more animated describing a shared evening walk, seen as support without pressure.",
-   "sources": [
-    "BH-D007 L16"
-   ]
-  },
-  {
-   "observed_on": "2026-01-09",
-   "category": "reason_for_contact",
-   "text": "Visit focused on patterns of support at home as Rowan tries to rebuild a routine.",
-   "sources": [
-    "BH-D007 L12"
-   ]
-  },
-  {
-   "observed_on": "2026-01-09",
-   "category": "reason_for_contact",
-   "text": "Family appointment focused on communication practice to slow down an anxious exchange.",
-   "sources": [
-    "BH-D008 L11"
    ]
   },
   {
    "observed_on": "2026-01-12",
    "category": "anxiety",
-   "text": "Rowan said a walk with Casey over the weekend helped the evening feel less dominated by worry.",
+   "text": "Rowan said a weekend walk with Casey helped the evening feel less dominated by worry.",
    "sources": [
     "BH-D009 L14"
    ]
@@ -919,7 +780,7 @@
   {
    "observed_on": "2026-01-12",
    "category": "avoidance",
-   "text": "Rowan described leaving work messages unopened and named looking at one message as a smaller step.",
+   "text": "Rowan described leaving work messages unopened and identified looking at one message as a lower step.",
    "sources": [
     "BH-D009 L14"
    ]
@@ -927,17 +788,17 @@
   {
    "observed_on": "2026-01-13",
    "category": "mood",
-   "text": "Mood was somewhat less heavy on days with a planned activity, with ongoing concern about work communication.",
+   "text": "Rowan described mood as somewhat less heavy on days with a planned activity but remained concerned about work communication.",
    "sources": [
     "BH-D010 L11"
    ]
   },
   {
    "observed_on": "2026-01-13",
-   "category": "reason_for_contact",
-   "text": "Visit was for medication management and review of adherence, tolerability and symptom response.",
+   "category": "safety",
+   "text": "Rowan denied a new medication-related concern requiring urgent intervention.",
    "sources": [
-    "BH-D010 L11"
+    "BH-D010 L13"
    ]
   },
   {
@@ -950,32 +811,34 @@
   },
   {
    "observed_on": "2026-01-14",
-   "category": "avoidance",
-   "text": "Rowan has not replied to a work message and imagines being asked questions they cannot answer.",
+   "category": "anxiety",
+   "text": "Rowan continues to imagine being asked questions they cannot answer; worry was evident when discussing employment.",
    "sources": [
-    "BH-D011 L11"
-   ]
-  },
-  {
-   "observed_on": "2026-01-14",
-   "category": "functioning",
-   "text": "Rowan completed small activities, including two short walks, since the prior appointment.",
-   "sources": [
-    "BH-D011 L11"
-   ]
-  },
-  {
-   "observed_on": "2026-01-14",
-   "category": "mood",
-   "text": "Affect was more varied than at intake, though worry was evident when discussing employment.",
-   "sources": [
+    "BH-D011 L11",
     "BH-D011 L15"
    ]
   },
   {
    "observed_on": "2026-01-14",
+   "category": "avoidance",
+   "text": "Rowan missed an appointment the prior week; the session addressed working through the delayed reply.",
+   "sources": [
+    "BH-D011 L13",
+    "BH-D011 L15"
+   ]
+  },
+  {
+   "observed_on": "2026-01-14",
+   "category": "functioning",
+   "text": "Rowan completed several small activities, including opening a work message and taking two short walks, but has not yet replied to the message.",
+   "sources": [
+    "BH-D011 L11"
+   ]
+  },
+  {
+   "observed_on": "2026-01-14",
    "category": "sleep",
-   "text": "Sleep remains interrupted and getting started in the morning takes effort.",
+   "text": "Sleep remains interrupted.",
    "sources": [
     "BH-D011 L11"
    ]
@@ -983,7 +846,7 @@
   {
    "observed_on": "2026-01-15",
    "category": "reason_for_contact",
-   "text": "The clinic cancelled the coping skills group because of staff illness.",
+   "text": "The coping skills group on January 15 was cancelled by the clinic because of staff illness.",
    "sources": [
     "BH-D016 L9"
    ]
@@ -991,7 +854,7 @@
   {
    "observed_on": "2026-01-16",
    "category": "avoidance",
-   "text": "Getting out of the apartment is a little easier, but thinking about work still makes Rowan want to put things off.",
+   "text": "Thinking about work continued to make Rowan want to put things off.",
    "sources": [
     "BH-D013 L11"
    ]
@@ -1007,7 +870,7 @@
   {
    "observed_on": "2026-01-16",
    "category": "functioning",
-   "text": "Partner reported Rowan had been getting out for short walks and seemed more willing to discuss the coming week.",
+   "text": "Casey reported Rowan had been getting out for short walks and seemed more willing to discuss the coming week.",
    "sources": [
     "BH-D012 L13"
    ]
@@ -1015,7 +878,7 @@
   {
    "observed_on": "2026-01-16",
    "category": "functioning",
-   "text": "Rowan has tried small activities and communication practice but has no reliable routine yet.",
+   "text": "Rowan has attempted small activities and communication practice but has not yet established a reliable routine.",
    "sources": [
     "BH-D013 L13"
    ]
@@ -1023,7 +886,7 @@
   {
    "observed_on": "2026-01-16",
    "category": "mood",
-   "text": "Partner said mornings remain difficult and Rowan becomes quiet when conversation turns to work.",
+   "text": "Casey described mornings as still difficult and Rowan becoming quiet when work comes up.",
    "sources": [
     "BH-D012 L13"
    ]
@@ -1031,26 +894,9 @@
   {
    "observed_on": "2026-01-16",
    "category": "mood",
-   "text": "Clinician sees some improvement in depressive symptoms; PHQ-9 fell from 18 to 14.",
-   "sources": [
-    "BH-D013 L11",
-    "BH-D013 L13"
-   ]
-  },
-  {
-   "observed_on": "2026-01-16",
-   "category": "mood",
-   "text": "Some improvement in depressive symptoms.",
+   "text": "Some improvement in depressive symptoms, per clinician review.",
    "sources": [
     "BH-D014 L15"
-   ]
-  },
-  {
-   "observed_on": "2026-01-16",
-   "category": "reason_for_contact",
-   "text": "Partner attended the arranged contact after Rowan said they could not participate.",
-   "sources": [
-    "BH-D012 L11"
    ]
   },
   {
@@ -1064,7 +910,7 @@
   {
    "observed_on": "2026-01-16",
    "category": "sleep",
-   "text": "Sleep is inconsistent.",
+   "text": "Inconsistent sleep.",
    "sources": [
     "BH-D014 L15"
    ]
@@ -1072,7 +918,7 @@
   {
    "observed_on": "2026-01-19",
    "category": "anxiety",
-   "text": "Rowan became visibly tense when discussion turned to returning to the workplace and said the amount of discussion felt difficult to manage.",
+   "text": "Rowan became visibly tense when discussion turned to returning to the workplace and said the discussion felt difficult to manage.",
    "sources": [
     "BH-D101 L10"
    ]
@@ -1088,24 +934,15 @@
   {
    "observed_on": "2026-01-19",
    "category": "anxiety",
-   "text": "Patient felt overwhelmed hearing about workplace demands and noted muscle tension, rapid breathing, and an urge to leave; anxiety eased with breathing.",
+   "text": "Rowan became anxious during group and needed an individual visit for grounding and coping review.",
    "sources": [
-    "BH-D105 L9",
-    "BH-D105 L11"
+    "BH-D105 L9"
    ]
   },
   {
    "observed_on": "2026-01-19",
    "category": "avoidance",
-   "text": "Rowan identified postponing a message to a supervisor as a familiar pattern.",
-   "sources": [
-    "BH-D101 L10"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "avoidance",
-   "text": "Persistent avoidance and disrupted sleep continue to interfere with resuming usual work routine.",
+   "text": "Persistent avoidance and disrupted sleep continue to interfere with resuming a usual work routine.",
    "sources": [
     "BH-D105 L13"
    ]
@@ -1113,31 +950,23 @@
   {
    "observed_on": "2026-01-19",
    "category": "reason_for_contact",
-   "text": "Patient requested additional help and staff arranged access to the individual clinician.",
+   "text": "Group addressed recognizing the sequence of triggering situation, anxious prediction, physical activation, and avoidance.",
+   "sources": [
+    "BH-D101 L8"
+   ]
+  },
+  {
+   "observed_on": "2026-01-19",
+   "category": "reason_for_contact",
+   "text": "Patient requested additional help and was given access to the individual clinician.",
    "sources": [
     "BH-D102 L14"
    ]
   },
   {
    "observed_on": "2026-01-19",
-   "category": "reason_for_contact",
-   "text": "Patient attended the opening check-in, accepted the handout, and requested additional help from the individual clinician.",
-   "sources": [
-    "BH-D104 L18"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "reason_for_contact",
-   "text": "Visit added because the patient became anxious during group and needed individual grounding.",
-   "sources": [
-    "BH-D105 L9"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
    "category": "safety",
-   "text": "Patient denied current suicidal thoughts; no acute safety concern identified.",
+   "text": "Rowan denied current suicidal thoughts and no acute safety concern was identified.",
    "sources": [
     "BH-D105 L13"
    ]
@@ -1145,7 +974,7 @@
   {
    "observed_on": "2026-01-21",
    "category": "avoidance",
-   "text": "Patient drafted a message about returning to work but stopped before sending it and repeatedly checked the draft.",
+   "text": "Patient drafted a message about a gradual return to work but did not send it; checking the draft repeatedly delayed the task.",
    "sources": [
     "BH-D106 L9"
    ]
@@ -1161,15 +990,15 @@
   {
    "observed_on": "2026-01-21",
    "category": "sleep",
-   "text": "One night of improved sleep was followed by a night of prolonged wakefulness.",
+   "text": "Patient reported one night of improved sleep followed by a night of prolonged wakefulness.",
    "sources": [
     "BH-D106 L11"
    ]
   },
   {
    "observed_on": "2026-01-22",
-   "category": "anxiety",
-   "text": "Rowan worried that seeing outstanding items on the work calendar would become overwhelming.",
+   "category": "functioning",
+   "text": "Rowan described concern that seeing outstanding work items would become overwhelming.",
    "sources": [
     "BH-D107 L9"
    ]
@@ -1177,15 +1006,15 @@
   {
    "observed_on": "2026-01-23",
    "category": "avoidance",
-   "text": "Clinician will keep addressing avoidance and coping in scheduled therapy.",
+   "text": "The team reviewed helping Rowan break a difficult task into a manageable first step, and avoidance will be addressed in scheduled therapy.",
    "sources": [
     "BH-D109 L11"
    ]
   },
   {
    "observed_on": "2026-01-23",
-   "category": "reason_for_contact",
-   "text": "Outside social worker and clinician coordinated practical supports for the patient's return to work.",
+   "category": "functioning",
+   "text": "Rowan asked for help understanding whom to contact about a gradual return to work schedule.",
    "sources": [
     "BH-D109 L9"
    ]
@@ -1193,33 +1022,19 @@
   {
    "observed_on": "2026-01-26",
    "category": "anxiety",
-   "text": "Worry about being asked for commitments the patient might not meet; kept postponing choosing a time for the conversation.",
+   "text": "Rowan described ongoing anxiety and worry about overwhelm at work and used a grounding exercise in session.",
    "sources": [
-    "BH-D110 L9"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "anxiety",
-   "text": "Patient anticipated becoming overwhelmed if several work issues were raised at once.",
-   "sources": [
-    "BH-D111 L10"
+    "BH-D111 L10",
+    "BH-D111 L12",
+    "BH-D111 L14"
    ]
   },
   {
    "observed_on": "2026-01-26",
    "category": "avoidance",
-   "text": "Patient was hesitant about completing the task outside the office; work continues on avoidance.",
+   "text": "Patient continued to postpone choosing a time for the conversation with the supervisor.",
    "sources": [
-    "BH-D110 L13"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Presentation consistent with ongoing anxiety, low mood, and functional difficulty around work demands.",
-   "sources": [
-    "BH-D111 L14"
+    "BH-D110 L9"
    ]
   },
   {
@@ -1233,7 +1048,7 @@
   {
    "observed_on": "2026-01-26",
    "category": "sleep",
-   "text": "Sleep remained uneven, with difficulty settling when work thoughts became repetitive.",
+   "text": "Sleep remained uneven, with difficulty settling on nights when work-related thoughts became repetitive.",
    "sources": [
     "BH-D110 L9"
    ]
@@ -1241,15 +1056,15 @@
   {
    "observed_on": "2026-01-26",
    "category": "sleep",
-   "text": "Repetitive planning at night affected settling for sleep.",
+   "text": "Repetitive nighttime planning affected Rowan's settling for sleep.",
    "sources": [
     "BH-D111 L12"
    ]
   },
   {
    "observed_on": "2026-01-28",
-   "category": "reason_for_contact",
-   "text": "Patient cancelled the appointment due to a personal scheduling conflict.",
+   "category": "functioning",
+   "text": "Patient cancelled the January 28 individual appointment due to a personal scheduling conflict.",
    "sources": [
     "BH-D108 L18"
    ]
@@ -1257,7 +1072,7 @@
   {
    "observed_on": "2026-01-29",
    "category": "avoidance",
-   "text": "Rowan opened the work calendar but delayed a follow-up conversation.",
+   "text": "Rowan reported opening the work calendar but delaying a follow-up conversation.",
    "sources": [
     "BH-D107 L14"
    ]
@@ -1281,15 +1096,7 @@
   {
    "observed_on": "2026-01-30",
    "category": "avoidance",
-   "text": "Reminders about contacting work led to long discussion and Rowan withdrawing from the task.",
-   "sources": [
-    "BH-D113 L11"
-   ]
-  },
-  {
-   "observed_on": "2026-01-30",
-   "category": "avoidance",
-   "text": "Persistent avoidance with delayed follow-up; anxious when a task expands beyond a narrow action.",
+   "text": "Persistent avoidance with delayed follow-up; becomes anxious when tasks expand beyond a narrowly defined action.",
    "sources": [
     "BH-D115 L10"
    ]
@@ -1297,18 +1104,10 @@
   {
    "observed_on": "2026-01-30",
    "category": "functioning",
-   "text": "Patient reported a limited plan felt more manageable.",
+   "text": "Rowan reports persistent difficulty sustaining usual activities and meaningful functional impact around returning to work.",
    "sources": [
-    "BH-D113 L13"
-   ]
-  },
-  {
-   "observed_on": "2026-01-30",
-   "category": "functioning",
-   "text": "Meaningful functional impact around returning to work, with partial improvement.",
-   "sources": [
-    "BH-D115 L10",
-    "BH-D115 L12"
+    "BH-D115 L8",
+    "BH-D115 L10"
    ]
   },
   {
@@ -1321,34 +1120,19 @@
   },
   {
    "observed_on": "2026-01-30",
-   "category": "mood",
-   "text": "Fewer days of pervasive low mood than at intake.",
-   "sources": [
-    "BH-D115 L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-30",
    "category": "reason_for_contact",
-   "text": "Partner was unsure when reminders helped versus increased Rowan's sense of pressure.",
+   "text": "Session addressed communication patterns between Rowan and partner Casey around reminders and withdrawal from work-related tasks.",
    "sources": [
-    "BH-D113 L9"
+    "BH-D113 L11",
+    "BH-D113 L13"
    ]
   },
   {
    "observed_on": "2026-01-30",
    "category": "safety",
-   "text": "Patient denied current suicidal thoughts; no new acute safety issue.",
+   "text": "Patient denied current suicidal thoughts; no new acute safety issue emerged.",
    "sources": [
     "BH-D114 L10"
-   ]
-  },
-  {
-   "observed_on": "2026-01-30",
-   "category": "sleep",
-   "text": "Sleep was still variable.",
-   "sources": [
-    "BH-D114 L8"
    ]
   },
   {
@@ -1369,7 +1153,8 @@
    "description": "Group psychotherapy",
    "status": "Posted",
    "sources": [
-    "BH-D112 L19-23"
+    "BH-D112 L19",
+    "BH-D112 L21-23"
    ]
   }
  ],
@@ -1377,27 +1162,42 @@
   {
    "kind": "charge_for_undelivered_service",
    "encounter": "HG-E116",
-   "text": "Charge CH-116 (Group psychotherapy, status Posted, BH-D112 L19-23) is posted for HG-E116, which the signed records show as no show.",
+   "text": "Charge CH-116 (Group psychotherapy, status Posted, BH-D112 L19, BH-D112 L21-23) is posted for HG-E116, which the signed records show as no show.",
    "citations": [
-    "BH-D112 L19-23",
+    "BH-D112 L19",
+    "BH-D112 L21-23",
     "BH-D108 L10",
     "BH-D108 L16",
-    "BH-D112 L7-11",
-    "BH-D112 L13-14"
+    "BH-D112 L5",
+    "BH-D112 L9-10",
+    "BH-D112 L13",
+    "BH-D112 L16"
    ],
    "settles": null
   },
   {
    "kind": "label_disputed",
    "encounter": "HG-E108",
-   "text": "The decision model reads BH-D016 L6, BH-D016 L9, BH-D016 L11, BH-D016 L15 as service_type outreach_or_scheduling_call (confidence 0.99); the extraction says group_psychotherapy. That reading would not change whether HG-E108 counts.",
+   "text": "The decision model reads BH-D016 L6, BH-D016 L9, BH-D016 L15 as service_type outreach_or_scheduling_call (confidence 1.00); the extraction says group_psychotherapy. That reading would not change whether HG-E108 counts.",
    "citations": [
     "BH-D016 L6",
     "BH-D016 L9",
-    "BH-D016 L11",
     "BH-D016 L15"
    ],
-   "settles": "A reviewer reading BH-D016 L6, BH-D016 L9, BH-D016 L11, BH-D016 L15, or a signed record stating the service type of HG-E108, would settle it."
+   "settles": "A reviewer reading BH-D016 L6, BH-D016 L9, BH-D016 L15, or a signed record stating the service type of HG-E108, would settle it."
+  },
+  {
+   "kind": "label_disputed",
+   "encounter": "HG-E112",
+   "text": "The decision model reads BH-D106 L3, BH-D106 L5, BH-D106 L7, BH-D106 L13, BH-D106 L17-19 as attendance attended (confidence 0.92); the extraction says attended_partial. That reading would not change whether HG-E112 counts.",
+   "citations": [
+    "BH-D106 L3",
+    "BH-D106 L5",
+    "BH-D106 L7",
+    "BH-D106 L13",
+    "BH-D106 L17-19"
+   ],
+   "settles": "A reviewer reading BH-D106 L3, BH-D106 L5, BH-D106 L7, BH-D106 L13, BH-D106 L17-19, or a signed record stating the attendance of HG-E112, would settle it."
   },
   {
    "kind": "label_disputed",
@@ -1421,27 +1221,28 @@
   {
    "kind": "unresolved_minutes_conflict",
    "encounter": "HG-E115",
-   "text": "Signed records of HG-E115 disagree on patient-present minutes: BH-D110 L3, BH-D110 L5-7, BH-D110 L15-16 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16-17 gives 09:10-09:50 = 40 min. No correction or addendum resolves it, so HG-E115 is carried as a range 40-50 min.",
+   "text": "Signed records of HG-E115 disagree on patient-present minutes: BH-D110 L3, BH-D110 L5-7, BH-D110 L15 gives 09:00-09:50 = 50 min; BH-D111 L4, BH-D111 L6-8, BH-D111 L10, BH-D111 L14, BH-D111 L16 gives 09:10-09:50 = 40 min. No correction or addendum resolves it, so HG-E115 is carried as a range 40-50 min.",
    "citations": [
     "BH-D110 L3",
     "BH-D110 L5-7",
-    "BH-D110 L15-16",
+    "BH-D110 L15",
     "BH-D111 L4",
     "BH-D111 L6-8",
     "BH-D111 L10",
     "BH-D111 L14",
-    "BH-D111 L16-17"
+    "BH-D111 L16"
    ],
    "settles": "An addendum or signed note stating the start time of HG-E115 would settle it."
   },
   {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "HG-E116",
-   "text": "BH-D112 L7-11, BH-D112 L13-14; BH-D112 L19-23 (labelled billing charge, draft or template) exists for HG-E116, which the signed records show as no show; it is not evidence that care was delivered.",
+   "text": "BH-D112 L5, BH-D112 L9-10, BH-D112 L13, BH-D112 L16 (labelled draft or template) exists for HG-E116, which the signed records show as no show; it is not evidence that care was delivered.",
    "citations": [
-    "BH-D112 L7-11",
-    "BH-D112 L13-14",
-    "BH-D112 L19-23",
+    "BH-D112 L5",
+    "BH-D112 L9-10",
+    "BH-D112 L13",
+    "BH-D112 L16",
     "BH-D108 L10",
     "BH-D108 L16"
    ],
@@ -1450,20 +1251,16 @@
  ],
  "coverage_notes": [
   {
+   "citation": "BH-D001 L14",
+   "value": "08:05"
+  },
+  {
    "citation": "BH-D002 L11",
    "value": "January 30"
   },
   {
    "citation": "BH-D003 L8",
    "value": "13:12"
-  },
-  {
-   "citation": "BH-D012 L6",
-   "value": "14:00"
-  },
-  {
-   "citation": "BH-D012 L6",
-   "value": "14:40"
   },
   {
    "citation": "BH-D013 L11",
@@ -1502,6 +1299,10 @@
    "value": "11:35"
   },
   {
+   "citation": "BH-D103 L7",
+   "value": "10:00"
+  },
+  {
    "citation": "BH-D104 L20",
    "value": "16:31"
   },
@@ -1510,8 +1311,8 @@
    "value": "14:06"
   },
   {
-   "citation": "BH-D107 L10",
-   "value": "12:06"
+   "citation": "BH-D107 L15",
+   "value": "12:11"
   },
   {
    "citation": "BH-D108 L14",
@@ -1534,12 +1335,8 @@
    "value": "12:15"
   },
   {
-   "citation": "BH-D109 L5",
-   "value": "09:00"
-  },
-  {
-   "citation": "BH-D109 L5",
-   "value": "09:20"
+   "citation": "BH-D112 L8",
+   "value": "09:45"
   },
   {
    "citation": "BH-D112 L20",
@@ -1633,7 +1430,6 @@
     "goal_days": 3,
     "goal_minutes": 150,
     "sources": [
-     "BH-D003 L6",
      "BH-D003 L12"
     ],
     "sessions_low": 12,
@@ -1669,8 +1465,8 @@
   "note": "Only one treatment-plan version is documented, so there is no before and after change."
  },
  "built_with": {
-  "model": "claude-sonnet-5-5",
-  "extractor_version": "0c78c0f988fd",
+  "model": "claude-haiku-5-5",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 31,
   "documents_pending": 0
  }

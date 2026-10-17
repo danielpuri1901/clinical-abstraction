@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-26 assessment_review",
-   "service_date": "2026-01-26",
-   "service_dates": [
-    "2026-01-26"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07004_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700401",
    "service_date": "2026-01-27",
    "service_dates": [
@@ -51,8 +29,7 @@
    "excluded": [],
    "calculation": "14:00-14:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07004_03_service_record L5-7",
-    "SY-M07004_03_service_record L9"
+    "SY-M07004_03_service_record L6-9"
    ],
    "flags": []
   },
@@ -76,7 +53,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07004_03_service_record L11-14"
+    "SY-M07004_03_service_record L12-14"
    ],
    "flags": []
   },
@@ -126,7 +103,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:45-13:55 = 10 min (SY-M07004_04_service_record L9) = 80 min",
    "sources": [
-    "SY-M07004_04_service_record L5-10"
+    "SY-M07004_04_service_record L6-10"
    ],
    "flags": []
   },
@@ -150,7 +127,8 @@
    "excluded": [],
    "calculation": "09:00-09:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07004_05_service_record L6-9"
+    "SY-M07004_05_service_record L6-7",
+    "SY-M07004_05_service_record L9"
    ],
    "flags": []
   },
@@ -203,8 +181,7 @@
    ],
    "calculation": "16:00-16:25, 16:35-16:45 present (35 min), minus disconnect 16:25-16:35 = 10 min (SY-M07004_08_service_record L9) = 35 min",
    "sources": [
-    "SY-M07004_08_service_record L6-8",
-    "SY-M07004_08_service_record L10-11"
+    "SY-M07004_08_service_record L6-11"
    ],
    "flags": []
   },
@@ -230,7 +207,7 @@
    ],
    "calculation": "10:00-11:10 present (70 min), minus break 10:40-11:00 = 20 min (SY-M07004_10_attendance_record L9) = 50 min; departure time 11:30 corrected to 11:10 (SY-M07004_11_correction L5-6)",
    "sources": [
-    "SY-M07004_10_attendance_record L6-10",
+    "SY-M07004_10_attendance_record L5-10",
     "SY-M07004_11_correction L5-6"
    ],
    "flags": []
@@ -248,7 +225,7 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": "09:00-09:45 (45 min)",
+   "scheduled": null,
    "patient_present": [
     "09:00-09:45"
    ],
@@ -327,6 +304,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07004_14_questionnaire_review L5-6",
     "SY-M07004_14_questionnaire_review L8-9"
    ],
    "flags": []
@@ -344,14 +322,14 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": "09:00-09:45 (45 min)",
+   "scheduled": null,
    "patient_present": [
     "09:00-09:45"
    ],
    "excluded": [],
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07004_15_service_record L5-9"
+    "SY-M07004_15_service_record L6-9"
    ],
    "flags": []
   }
@@ -399,34 +377,10 @@
  "observations": [
   {
    "observed_on": "2026-01-26",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07004_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07004_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07004_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-27",
    "category": "reason_for_contact",
-   "text": "Medication review only; no psychotherapy was provided.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07004_03_service_record L8"
+    "SY-M07004_01_treatment_plan L8"
    ]
   }
  ],
@@ -554,7 +508,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 15,
   "documents_pending": 0
  }

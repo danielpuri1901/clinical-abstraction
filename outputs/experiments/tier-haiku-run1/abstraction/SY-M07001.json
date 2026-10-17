@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-12 assessment_review",
-   "service_date": "2026-01-12",
-   "service_dates": [
-    "2026-01-12"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07001_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700101",
    "service_date": "2026-01-12",
    "service_dates": [
@@ -53,7 +31,7 @@
    ],
    "calculation": "13:10-14:30 present (80 min), minus break 13:45-14:00 = 15 min (SY-M07001_03_attendance_record L9) = 65 min; arrival time 13:00 corrected to 13:10 (SY-M07001_04_correction L5-6)",
    "sources": [
-    "SY-M07001_03_attendance_record L6-10",
+    "SY-M07001_03_attendance_record L5-10",
     "SY-M07001_04_correction L5-6"
    ],
    "flags": []
@@ -97,14 +75,14 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": "09:00-09:45 (45 min)",
+   "scheduled": null,
    "patient_present": [
     "09:00-09:45"
    ],
    "excluded": [],
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07001_07_service_record L5-9"
+    "SY-M07001_07_service_record L6-9"
    ],
    "flags": []
   },
@@ -126,11 +104,10 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07001_06_cancellation_notice L5-8"
+    "SY-M07001_06_cancellation_notice L5-6",
+    "SY-M07001_06_cancellation_notice L8"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0700105",
@@ -152,7 +129,7 @@
    "excluded": [],
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07001_07_service_record L11-15"
+    "SY-M07001_07_service_record L12-15"
    ],
    "flags": []
   },
@@ -224,10 +201,10 @@
     "09:00-09:50"
    ],
    "excluded": [],
-   "calculation": "range 35-50 min: SY-M07001_08_service_record L6-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L5-8 gives 09:15-09:50 = 35 min",
+   "calculation": "range 35-50 min: SY-M07001_08_service_record L5-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L6-8 gives 09:15-09:50 = 35 min",
    "sources": [
-    "SY-M07001_08_service_record L6-8",
-    "SY-M07001_09_cotherapist_record L5-8"
+    "SY-M07001_08_service_record L5-8",
+    "SY-M07001_09_cotherapist_record L6-8"
    ],
    "flags": [
     "unresolved_minutes_conflict"
@@ -253,29 +230,7 @@
    "excluded": [],
    "calculation": "15:00-15:25 present (25 min) = 25 min",
    "sources": [
-    "SY-M07001_11_service_record L17-21"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-02-06 assessment_review",
-   "service_date": "2026-02-06",
-   "service_dates": [
-    "2026-02-06"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07001_10_questionnaire_review L8-9"
+    "SY-M07001_11_service_record L18-21"
    ],
    "flags": []
   },
@@ -347,24 +302,8 @@
  "observations": [
   {
    "observed_on": "2026-01-12",
-   "category": "anxiety",
-   "text": "Client is worried about daily tasks.",
-   "sources": [
-    "SY-M07001_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-12",
-   "category": "mood",
-   "text": "Client presents with low mood.",
-   "sources": [
-    "SY-M07001_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-12",
-   "category": "sleep",
-   "text": "Client has irregular sleep.",
+   "category": "reason_for_contact",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07001_01_treatment_plan L8"
    ]
@@ -373,21 +312,12 @@
  "charges": [],
  "flags": [
   {
-   "kind": "label_disputed",
-   "encounter": "SY-E0700104",
-   "text": "The decision model reads SY-M07001_06_cancellation_notice L5-8 as service_type outreach_or_scheduling_call (confidence 0.91); the extraction says group_psychotherapy. That reading would not change whether SY-E0700104 counts.",
-   "citations": [
-    "SY-M07001_06_cancellation_notice L5-8"
-   ],
-   "settles": "A reviewer reading SY-M07001_06_cancellation_notice L5-8, or a signed record stating the service type of SY-E0700104, would settle it."
-  },
-  {
    "kind": "unresolved_minutes_conflict",
    "encounter": "SY-E0700108",
-   "text": "Signed records of SY-E0700108 disagree on patient-present minutes: SY-M07001_08_service_record L6-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L5-8 gives 09:15-09:50 = 35 min. No correction or addendum resolves it, so SY-E0700108 is carried as a range 35-50 min.",
+   "text": "Signed records of SY-E0700108 disagree on patient-present minutes: SY-M07001_08_service_record L5-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L6-8 gives 09:15-09:50 = 35 min. No correction or addendum resolves it, so SY-E0700108 is carried as a range 35-50 min.",
    "citations": [
-    "SY-M07001_08_service_record L6-8",
-    "SY-M07001_09_cotherapist_record L5-8"
+    "SY-M07001_08_service_record L5-8",
+    "SY-M07001_09_cotherapist_record L6-8"
    ],
    "settles": "An addendum or signed note stating the start time of SY-E0700108 would settle it."
   }
@@ -521,7 +451,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 11,
   "documents_pending": 0
  }

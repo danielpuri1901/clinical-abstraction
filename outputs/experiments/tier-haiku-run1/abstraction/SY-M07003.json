@@ -10,29 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-12 assessment_review",
-   "service_date": "2026-01-12",
-   "service_dates": [
-    "2026-01-12"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07003_02_questionnaire_review L6",
-    "SY-M07003_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-V0700301",
    "service_date": "2026-01-13",
    "service_dates": [
@@ -339,7 +316,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
@@ -355,29 +332,6 @@
    "calculation": "15:00-15:25, 15:30-15:45 present (40 min), minus disconnect 15:25-15:30 = 5 min (SY-M07003_12_service_record L6) = 40 min",
    "sources": [
     "SY-M07003_12_service_record L5-8"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-02-06 assessment_review",
-   "service_date": "2026-02-06",
-   "service_dates": [
-    "2026-02-06"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07003_11_questionnaire_review L5-6",
-    "SY-M07003_11_questionnaire_review L8-9"
    ],
    "flags": []
   },
@@ -452,35 +406,10 @@
  "observations": [
   {
    "observed_on": "2026-01-12",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07003_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-12",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07003_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-12",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07003_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-20",
    "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07003_05_service_record L15",
-    "SY-M07003_05_service_record L17"
+    "SY-M07003_01_treatment_plan L8"
    ]
   }
  ],
@@ -512,18 +441,6 @@
    "value": "17:05"
   },
   {
-   "citation": "SY-M07003_05_service_record L13",
-   "value": "15:05"
-  },
-  {
-   "citation": "SY-M07003_05_service_record L18",
-   "value": "15:05"
-  },
-  {
-   "citation": "SY-M07003_07_service_record L8",
-   "value": "12:20"
-  },
-  {
    "citation": "SY-M07003_07_service_record L13",
    "value": "17:05"
   },
@@ -532,24 +449,12 @@
    "value": "10:35"
   },
   {
-   "citation": "SY-M07003_09_service_record L8",
-   "value": "16:20"
-  },
-  {
    "citation": "SY-M07003_09_service_record L13",
    "value": "14:50"
   },
   {
    "citation": "SY-M07003_10_service_record L7",
    "value": "10:25"
-  },
-  {
-   "citation": "SY-M07003_10_service_record L12",
-   "value": "14:50"
-  },
-  {
-   "citation": "SY-M07003_12_service_record L8",
-   "value": "16:05"
   },
   {
    "citation": "SY-M07003_12_service_record L12",
@@ -682,7 +587,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }
