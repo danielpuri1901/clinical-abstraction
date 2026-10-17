@@ -46,6 +46,16 @@ def test_patients_match_or_refuse():
         parse_patients("How many sessions did HG-M999 attend?", KNOWN)
 
 
+def test_an_aggregation_no_renderer_computes_routes_to_the_open_path():
+    # The decision model reads "average weekly therapy time" as minutes; the rules see "average" and "per patient".
+    confident_minutes = FakeJev(
+        {"metric": ("minutes", 0.97), "attendance": ("attended", 0.9), "service_type": ("any", 0.9), "group_by": ("week", 0.9)}
+    )
+    plan = questions.plan("Across the collection, what was the average weekly therapy time per patient?", KNOWN, 2026, confident_minutes)
+    assert plan.kind == "open" and plan.metric == "other"
+    assert any("aggregation" in warning and "minutes" in warning for warning in plan.warnings)
+
+
 def test_agreement_decides_the_verdict():
     agreed = FakeJev(
         {
