@@ -18,9 +18,8 @@ copies with their own MRNs, names, and document ids. Each copy has its documents
 the tables and indexes have the size of a real collection. That store is timed on a one-document ingest (five new documents for
 one patient, each ingested alone, with an extractor that replays an existing extraction), and, at 1 and --patients patients, on
 the five development questions and one collection question answered by answer.answer with a decision model that always gives
-the expected plan. The answer sections are null until clinical_abstraction.answer exists. A store of ten times --patients
-patients takes minutes and disk in proportion to the template; a size that would not fit in the free disk space is skipped, and
-the row says so.
+the expected plan. A store of ten times --patients patients takes minutes and disk in proportion to the template; a size that
+would not fit in the free disk space is skipped, and the row says so.
 
 Every score is computed here and written to outputs/experiments/, and the benchmark to outputs/benchmarks.json. When Langfuse keys
 exist, record() mirrors the routing and tier scores as a run on a Langfuse dataset (one dataset per kind of experiment, one run per
@@ -29,7 +28,6 @@ arm or model, so the Experiments view can compare them); without keys, or when L
 """
 
 import argparse
-import importlib
 import json
 import logging
 import os
@@ -566,12 +564,12 @@ def _one_document_ingest(db: Path, template: dict, count: int, folder: Path) -> 
     }
 
 
-def _answer_row(connection, answers, model: str, budget: read.Budget, item: dict, count: int) -> dict:
+def _answer_row(connection, model: str, budget: read.Budget, item: dict, count: int) -> dict:
     """Latency of one question answered by code, with a decision model that always gives the plan questions.json expects."""
     from tests.fakes import FakeJev  # the fakes the tests share; nothing here calls a model
 
     jev, last = FakeJev.from_expected(item["expected"]), {}
-    timing = _timed(lambda: last.update(answers.answer(connection, item["question"], jev, budget, model)), ANSWER_REPEAT)
+    timing = _timed(lambda: last.update(answer.answer(connection, item["question"], jev, budget, model)), ANSWER_REPEAT)
     return {"id": item["id"], "patients": count, **timing, "answer_characters": len(last["answer"]), "verdict": last["verdict"]}
 
 
@@ -581,12 +579,11 @@ def _bytes_per_patient(template: dict) -> int:
     return 2 * (stored + len(json.dumps(template["abstraction"])))
 
 
-def _scale(template: dict, patients: int, answers) -> tuple[list[dict], list[dict] | None, dict | None]:
-    """Time a one-document ingest at each store size, and the answers where the answers module exists."""
+def _scale(template: dict, patients: int) -> tuple[list[dict], list[dict], dict | None]:
+    """Time a one-document ingest at each store size, and the answers at 1 and --patients patients."""
     items = {item["id"]: item for item in json.loads(QUESTIONS.read_text())}
     development = [item for item_id, item in items.items() if item_id.startswith("DEV-")]
-    rows, collection = [], None
-    latency = None if answers is None else []
+    rows, latency, collection = [], [], None
     for count in sorted({1, patients, patients * 10}):
         with tempfile.TemporaryDirectory() as temporary:
             folder = Path(temporary)
@@ -601,12 +598,12 @@ def _scale(template: dict, patients: int, answers) -> tuple[list[dict], list[dic
                 "build_seconds": round(time.perf_counter() - started, 2),
                 "sqlite_bytes": (folder / "scale.db").stat().st_size,
             }
-            if answers is not None and count in (1, patients):
+            if count in (1, patients):
                 connection = store.connect(folder / "scale.db")
                 budget = read.Budget(folder / "answer-spend.json", {"claude": 0.0, "jev": 0.0})
-                latency += [_answer_row(connection, answers, template["model"], budget, item, count) for item in development]
+                latency += [_answer_row(connection, template["model"], budget, item, count) for item in development]
                 if count == patients:
-                    collection = _answer_row(connection, answers, template["model"], budget, items[COLLECTION_QUESTION], count)
+                    collection = _answer_row(connection, template["model"], budget, items[COLLECTION_QUESTION], count)
                 connection.close()
             rows.append(row | _one_document_ingest(folder / "scale.db", template, count, folder))
     return rows, latency, collection
@@ -621,17 +618,13 @@ def benchmark(patients: int = 2000, out: Path = OUTPUTS, db: Path | None = None,
         raise ValueError("--patients must be at least 1")
     if not db.exists():
         raise FileNotFoundError(f"no store at {db}")
-    try:
-        answers = importlib.import_module("clinical_abstraction.answer")
-    except ImportError:
-        answers = None  # the answers module is built elsewhere: its two sections are null until it exists
     with tempfile.TemporaryDirectory() as temporary:
         source = Path(shutil.copy(db, Path(temporary) / "source.db"))  # the store itself is never opened, so it never changes
         connection = store.connect(source)
         template, sizes = _template(connection), _sizes(connection, db)
         connection.close()
         warm = _warm_rerun(source, documents, template["model"], Path(temporary))
-    scale, latency, collection = _scale(template, patients, answers)
+    scale, latency, collection = _scale(template, patients)
     return {
         "generated_at": store.now(),
         "patients": patients,

@@ -21,6 +21,7 @@ from functools import partial
 from itertools import pairwise
 from pathlib import Path
 
+from clinical_abstraction.reconcile import Doc
 from clinical_abstraction.schema import (
     Assessment,
     Charge,
@@ -150,18 +151,6 @@ class Visit:
     present: list = field(default_factory=list)  # [(start, end)] patient-present intervals
     cuts: list = field(default_factory=list)  # [(start, end, reason)] breaks, disconnects, partner-only time
     video: bool = False
-
-
-@dataclass
-class TruthDoc:
-    """The fields of reconcile.Doc, used only while reconcile.py does not exist."""
-
-    doc_id: str
-    sha: str
-    text: str
-    extraction: DocumentExtraction
-    authored_at: str | None
-    received_at: str | None
 
 
 # Gold arithmetic ---------------------------------------------------------------------------------------------------
@@ -1184,10 +1173,6 @@ def generate(seed: int, patients: int, out: Path) -> dict:
 
 def truth_extractions(entry: dict) -> list:
     """The truth for one manifest entry as reconcile.Doc objects, one per distinct document text."""
-    try:
-        from clinical_abstraction.reconcile import Doc
-    except ImportError:
-        Doc = TruthDoc
     docs, seen = [], set()
     for name, text, truth in synthesize_patient(entry["seed"], entry["index"])[1]:
         sha = hashlib.sha256(text.encode()).hexdigest()

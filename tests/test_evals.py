@@ -7,8 +7,6 @@ the Langfuse SDK uses a client with tracing off while every socket connection fa
 import json
 import re
 import socket
-import sys
-import types
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -17,24 +15,13 @@ from langfuse import Langfuse
 from langfuse._client.datasets import DatasetClient
 from langfuse.api import Dataset, DatasetItem, DatasetStatus
 
-from clinical_abstraction import read, store
+from clinical_abstraction import read, reconcile, store
 from clinical_abstraction.reconcile import build_patient
-from evals import experiments, synthetic
+from evals import experiments, score, synthetic
 from tests.fakes import FakeJev
 from tests.fixtures import mini_patient_docs
 
-# store.provisional_patient_id uses this pattern (plan Task 4); the test falls back to it until store.py lands.
-PATIENT_ID = re.compile(r"(?:MRN|Record\s*#|Medical record(?: number)?)[:\s#]*([A-Z]{2}-[A-Z]?\d{3,6})")
 TIME = re.compile(r"\b(\d{1,2}):(\d{2})(?:\s*(AM|PM))?|\b([01]\d|2[0-3])([0-5]\d)\b")
-
-
-def provisional_patient_id(text: str) -> str | None:
-    try:
-        from clinical_abstraction import store
-    except ImportError:
-        found = PATIENT_ID.search(text)
-        return found.group(1) if found else None
-    return store.provisional_patient_id(text)
 
 
 def times_in(text: str) -> set[str]:
@@ -81,13 +68,8 @@ def test_generation_is_deterministic_and_complete(tmp_path):
 def test_truth_replay_scores_perfectly(tmp_path):
     manifest = synthetic.generate(seed=7, patients=25, out=tmp_path)  # the Task 8 set; its first 5 patients miss two hazards
     assert {h for p in manifest["patients"] for h in p["hazards"]} == set(synthetic.HAZARDS)
-    reconcile = pytest.importorskip("clinical_abstraction.reconcile")
-    from evals import score
-
     for entry in manifest["patients"]:
-        abstraction = reconcile.build_patient(entry["mrn"], synthetic.truth_extractions(entry))
-        abstraction["weeks"] = reconcile.weekly(abstraction)
-        abstraction["consecutive_weeks_below_goal"] = reconcile.consecutive_shortfalls(abstraction["weeks"])
+        abstraction = build_patient(entry["mrn"], synthetic.truth_extractions(entry))
         result = score.score(abstraction, json.loads((tmp_path / "gold" / f"{entry['mrn']}.json").read_text()))
         assert result["passed"] == result["total"], (entry["mrn"], result["failures"])
 
@@ -109,14 +91,10 @@ def test_templates_carry_their_format_hazards(tmp_path):
     assert any(re.search(r"\b\d{1,2}:\d{2} (AM|PM)\b", t) for t in texts) and any(
         re.search(r"\b(0[89]|1[0-7])[0-5]\d\b", t) for t in texts
     )
-    assert all(provisional_patient_id(text) == path.name.split("_")[0] for path, text in zip(files, texts))
+    assert all(store.provisional_patient_id(text) == path.name.split("_")[0] for path, text in zip(files, texts))
 
 
 def test_truth_citations_point_at_their_values(tmp_path):
-    try:
-        from clinical_abstraction import reconcile as verify
-    except ImportError:
-        verify = None
     manifest = synthetic.generate(seed=5, patients=6, out=tmp_path)
     assert {p["template"] for p in manifest["patients"]} == {"A", "B", "C"}
     for entry in manifest["patients"]:
@@ -127,8 +105,7 @@ def test_truth_citations_point_at_their_values(tmp_path):
                 cited = " ".join(lines[n - 1] for n in numbers)
                 found = value in times_in(cited) if ":" in value else re.search(rf"\b{value}\b", cited)
                 assert found, (doc.doc_id, value, numbers)
-            if verify is not None:
-                assert verify.admit(doc.doc_id, doc.text, doc.extraction)[1] == [], doc.doc_id
+            assert reconcile.admit(doc.doc_id, doc.text, doc.extraction)[1] == [], doc.doc_id
 
 
 def test_gold_arithmetic_subtracts_exclusions_and_keeps_three_values():
@@ -530,11 +507,14 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
     budget = read.Budget(out / "logs" / "spend.json", {"claude": 1.0, "jev": 0.5})
     budget.charge("claude", 0.01, "extract")
     store.ingest([documents], out / "abstraction.db", out, "m", extractor=Replay(mini_patient_docs()), budget=budget)
-    options = {"db": out / "abstraction.db", "documents": documents, "out": out}
+    asked = []
 
-    # The answers module is built elsewhere. Without it, its two sections are null.
-    monkeypatch.setitem(sys.modules, "clinical_abstraction.answer", None)
-    command = ["benchmark", "--patients", "50", "--db", str(options["db"]), "--documents", str(documents), "--out", str(out)]
+    def answer(connection, question, jev, budget, model, force_agent=False):
+        asked.append(question)
+        return {"answer": "x" * 7, "verdict": "COMPUTED"}
+
+    monkeypatch.setattr("clinical_abstraction.answer.answer", answer)  # the timing is under test here, not the answers
+    command = ["benchmark", "--patients", "50", "--db", str(out / "abstraction.db"), "--documents", str(documents), "--out", str(out)]
     assert experiments.main(command) == 0
     report = json.loads((out / "benchmarks.json").read_text())
     assert report["patients"] == 50
@@ -546,23 +526,11 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
         (500, 5000, 1),
     ]
     assert all(row["median_seconds"] > 0 and row["sqlite_bytes"] > 0 for row in report["one_document_ingest"])
-    assert report["answer_latency"] is None and report["collection_question"] is None
     assert report["sizes"]["sqlite_bytes"] > 0 and report["sizes"]["abstraction_json_bytes_per_patient"] > 0
     assert report["spend"] == {"ledgers": {"logs/spend.json": {"claude": 0.01, "jev": 0.0}}, "claude_usd": 0.01, "jev_usd": 0.0}
-
-    asked = []
-
-    def answer(connection, question, jev, budget, model, force_agent=False):
-        asked.append(question)
-        return {"answer": "x" * 7, "verdict": "COMPUTED"}
-
-    stub = types.ModuleType("clinical_abstraction.answer")
-    stub.answer = answer
-    monkeypatch.setitem(sys.modules, "clinical_abstraction.answer", stub)
-    filled = experiments.benchmark(patients=3, **options)
-    assert [(row["id"], row["patients"]) for row in filled["answer_latency"]] == [
-        (f"DEV-0{n}", patients) for patients in (1, 3) for n in range(1, 6)
+    assert [(row["id"], row["patients"]) for row in report["answer_latency"]] == [
+        (f"DEV-0{n}", patients) for patients in (1, 50) for n in range(1, 6)
     ]
-    assert all(row["answer_characters"] == 7 and row["verdict"] == "COMPUTED" for row in filled["answer_latency"])
-    assert filled["collection_question"]["patients"] == 3 and filled["collection_question"]["answer_characters"] == 7
+    assert all(row["answer_characters"] == 7 and row["verdict"] == "COMPUTED" for row in report["answer_latency"])
+    assert report["collection_question"]["patients"] == 50 and report["collection_question"]["answer_characters"] == 7
     assert "consecutive weeks below their goal" in asked[-1]
