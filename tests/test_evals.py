@@ -19,7 +19,7 @@ from clinical_abstraction import read, reconcile, store
 from clinical_abstraction.reconcile import build_patient
 from evals import experiments, score, synthetic
 from tests.fakes import FakeJev
-from tests.fixtures import mini_patient_docs
+from tests.fixtures import FixtureExtractor, mini_patient_docs
 
 TIME = re.compile(r"\b(\d{1,2}):(\d{2})(?:\s*(AM|PM))?|\b([01]\d|2[0-3])([0-5]\d)\b")
 
@@ -122,7 +122,6 @@ def test_gold_arithmetic_subtracts_exclusions_and_keeps_three_values():
 
 QUESTIONS = Path(__file__).resolve().parents[1] / "evals" / "questions.json"
 SCORES = ("metric_exact", "attendance_exact", "date_range_exact", "no_wrong_plain_computed")
-USAGE = {"calls": 1, "cost_usd": 0.001, "input_tokens": 100, "output_tokens": 50, "repair_turns": 0, "unrepaired_problems": 0}
 
 
 class ScriptedJev:
@@ -133,16 +132,6 @@ class ScriptedJev:
 
     def ask(self, state, questions):
         return self.replies[state].ask(state, questions)
-
-
-class Replay:
-    """An extractor that reads every document correctly: it returns the known extraction of the text it is given."""
-
-    def __init__(self, docs):
-        self.by_text = {store.normalize_text(doc.text): doc.extraction for doc in docs}
-
-    def __call__(self, doc_id, text):
-        return self.by_text[text].model_copy(deep=True), [], dict(USAGE)
 
 
 def refuse_the_network(monkeypatch) -> list:
@@ -443,7 +432,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
     folder = tmp_path / "synthetic"
     manifest = synthetic.generate(seed=7, patients=3, out=folder)
     truth = {entry["mrn"]: synthetic.truth_extractions(entry) for entry in manifest["patients"]}
-    replay = Replay([doc for docs in truth.values() for doc in docs])
+    replay = FixtureExtractor([doc for docs in truth.values() for doc in docs])
     budget = read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
     documents = sum(len(docs) for docs in truth.values())
     first, *others = truth
@@ -506,7 +495,7 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
         (documents / f"{doc.doc_id}.txt").write_text(doc.text)
     budget = read.Budget(out / "logs" / "spend.json", {"claude": 1.0, "jev": 0.5})
     budget.charge("claude", 0.01, "extract")
-    store.ingest([documents], out / "abstraction.db", out, "m", extractor=Replay(mini_patient_docs()), budget=budget)
+    store.ingest([documents], out / "abstraction.db", out, "m", extractor=FixtureExtractor(mini_patient_docs()), budget=budget)
     asked = []
 
     def answer(connection, question, jev, budget, model, force_agent=False):

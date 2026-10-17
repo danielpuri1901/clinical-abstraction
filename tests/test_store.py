@@ -1,13 +1,12 @@
 """store.py: the store, ingest, the exports, and the ingest CLI on the ten-document mini patient.
 
-No test calls a model. FixtureExtractor stands in for extract.extract_document: it returns the hand-written extraction of the
+No test calls a model. FixtureExtractor stands in for read.extract_document: it returns the hand-written extraction of the
 text it is given, so ingest runs the real registration, failure ledger, fingerprint, reconciliation, storage, and export code.
 """
 
 import hashlib
 import json
 import shutil
-import threading
 import time
 from datetime import date
 
@@ -17,32 +16,7 @@ from clinical_abstraction import cli, read, store
 from clinical_abstraction.reconcile import build_patient
 from clinical_abstraction.schema import Interval
 from clinical_abstraction.store import ingest
-from tests.fixtures import PATIENT_LINE, document, mini_patient_docs, service_event
-
-USAGE = {
-    "input_tokens": 100,
-    "output_tokens": 50,
-    "cache_creation_input_tokens": 0,
-    "cache_read_input_tokens": 0,
-    "cost_usd": 0.001,
-    "calls": 1,
-    "repair_turns": 0,
-    "unrepaired_problems": 0,
-}
-
-
-class FixtureExtractor:
-    """A model that always reads a document correctly: it returns the hand-written extraction for the text it is given."""
-
-    def __init__(self, docs):
-        self.by_text = {doc.text: doc.extraction for doc in docs}
-        self.seen = []
-        self.lock = threading.Lock()
-
-    def __call__(self, doc_id, text):
-        with self.lock:
-            self.seen.append(doc_id)
-        return self.by_text[text].model_copy(deep=True), [], dict(USAGE)
+from tests.fixtures import PATIENT_LINE, FixtureExtractor, document, mini_patient_docs, service_event
 
 
 class FailOnceExtractor(FixtureExtractor):

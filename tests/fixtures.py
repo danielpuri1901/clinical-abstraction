@@ -12,8 +12,10 @@ D10 PHQ-9 reviews (2026-01-05 score 18, 2026-01-16 score 14), an imported copy o
 """
 
 import hashlib
+import threading
 from dataclasses import replace
 
+from clinical_abstraction import store
 from clinical_abstraction.reconcile import Doc
 from clinical_abstraction.schema import (
     Assessment,
@@ -28,6 +30,24 @@ from clinical_abstraction.schema import (
 )
 
 PATIENT_LINE = "Patient: Rowan Hale | MRN: T-M001"
+USAGE = {  # what one extraction call reports
+    "input_tokens": 100, "output_tokens": 50, "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0,
+    "cost_usd": 0.001, "calls": 1, "repair_turns": 0, "unrepaired_problems": 0,
+}
+
+
+class FixtureExtractor:
+    """A model that always reads a document correctly: it returns the known extraction of the text it is given."""
+
+    def __init__(self, docs):
+        self.by_text = {store.normalize_text(doc.text): doc.extraction for doc in docs}
+        self.seen = []
+        self.lock = threading.Lock()
+
+    def __call__(self, doc_id, text):
+        with self.lock:
+            self.seen.append(doc_id)
+        return self.by_text[text].model_copy(deep=True), [], dict(USAGE)
 
 
 def _sha(text: str) -> str:
