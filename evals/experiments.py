@@ -629,7 +629,7 @@ def benchmark(patients: int = 2000, out: Path = OUTPUTS, db: Path | None = None,
 
 def _langfuse_keys() -> bool:
     """True when the three Langfuse variables are set, after loading the key file for any that are missing."""
-    read.load_env_file(Path.home() / ".config" / "backbone-take-home" / "langfuse.env")
+    read.load_keys("langfuse.env")
     host = os.environ.get("LANGFUSE_BASE_URL") or os.environ.get("LANGFUSE_HOST")
     return bool(os.environ.get("LANGFUSE_PUBLIC_KEY") and os.environ.get("LANGFUSE_SECRET_KEY") and host)
 
