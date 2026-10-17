@@ -203,21 +203,9 @@ def test_call_anthropic_caches_the_system_prompt_and_returns_plain_data(monkeypa
 
 
 def test_extract_validates_admits_and_repairs_once(tmp_path):
-    calls = []
-
-    def fake_call(model, system, messages, tools, max_tokens=3000):
-        calls.append(messages)
-        bad_then_good = [TOOL_USE_WITH_DEPARTURE_1130, TOOL_USE_WITH_DEPARTURE_1115]
-        return {
-            "content": [bad_then_good[min(len(calls) - 1, 1)]],
-            "usage": {"input_tokens": 10, "output_tokens": 5},
-            "stop_reason": "tool_use",
-        }
-
-    budget = read.Budget(tmp_path / "spend.json", {"claude": 1.0, "jev": 0.5})
-    result, problems, usage = read.extract_document("D1", DOC_TEXT, "claude-haiku-5-5", budget, call=fake_call)
+    (result, problems, usage), calls, _ = extract_with(tmp_path, reply(TOOL_USE_WITH_DEPARTURE_1130), reply(TOOL_USE_WITH_DEPARTURE_1115))
     assert result.service_events[0].patient_departure == "11:15" and problems == []
-    assert usage["calls"] == 2 and usage["repair_turns"] == 1 and "repair" in str(calls[1][-1]).lower()
+    assert usage["calls"] == 2 and usage["repair_turns"] == 1 and "repair" in str(calls[1]["messages"][-1]).lower()
 
 
 def test_extract_sends_numbered_lines_the_prompt_and_the_record_tool(tmp_path):
@@ -392,44 +380,18 @@ def flaky(statuses: list[int]):
 
 
 def test_jev_request_shape_cache_and_budget(tmp_path):
-    seen, requests = [], []
-
-    def handler(request):
-        requests.append(request)
-        seen.append(json.loads(request.content))
-        return httpx.Response(
-            200,
-            json={
-                "model": "jev-1.13.0",
-                "answers": {
-                    "metric": {"type": "choice", "choice": "sessions", "confidence": 1.0, "probabilities": {"sessions": 1.0}}
-                },
-                "usage": {"input_tokens": 574, "output_tokens": 142},
-            },
-        )
-
-    client = read.Jev(
-        "k",
-        read.Budget(tmp_path / "s.json", {"claude": 1, "jev": 0.5}),
-        tmp_path / "jev.json",
-        transport=httpx.MockTransport(handler),
-    )
-    answer = client.ask(
-        "How many sessions did Rowan miss?", {"metric": read.Choice("Which quantity?", {"sessions": "count", "other": "none"})}
-    )
+    transport, seen = flaky([200])
+    client = jev_client(tmp_path, transport)
+    answer = client.ask("How many sessions did Rowan miss?", {"metric": CHOICE})
     assert answer["metric"] == read.ChoiceAnswer("sessions", 1.0, {"sessions": 1.0})
-    assert seen[0]["questions"]["metric"] == {
-        "type": "choice",
-        "instructions": "Which quantity?",
-        "criteria": {"sessions": "count", "other": "none"},
-    }
-    assert (seen[0]["state"], seen[0]["model"]) == ("How many sessions did Rowan miss?", "jev-latest")
-    assert str(requests[0].url) == "https://api.typesafe.ai/v1/systemone" and requests[0].method == "POST"
-    assert requests[0].headers["Authorization"] == "Bearer k"
-    client.ask(
-        "How many sessions did Rowan miss?", {"metric": read.Choice("Which quantity?", {"sessions": "count", "other": "none"})}
-    )
-    assert len(seen) == 1 and client.budget.spent("jev") == pytest.approx(574 * 0.042 / 1e6)
+    body = json.loads(seen[0].content)
+    criteria = {"sessions": "count", "other": "none"}
+    assert body["questions"]["metric"] == {"type": "choice", "instructions": "Which quantity?", "criteria": criteria}
+    assert (body["state"], body["model"]) == ("How many sessions did Rowan miss?", "jev-latest")
+    assert str(seen[0].url) == "https://api.typesafe.ai/v1/systemone" and seen[0].method == "POST"
+    assert seen[0].headers["Authorization"] == "Bearer test-key"
+    client.ask("How many sessions did Rowan miss?", {"metric": CHOICE})
+    assert len(seen) == 1 and client.budget.spent("jev") == pytest.approx(JEV_COST)
 
 
 def test_jev_retries_429_and_529_with_exponential_backoff(tmp_path, monkeypatch):
