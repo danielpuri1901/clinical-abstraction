@@ -41,23 +41,27 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [
        "attended"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "service_type"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -104,21 +108,25 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -266,19 +274,23 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -325,21 +337,25 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [
        "family_psychotherapy"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -394,19 +410,23 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -455,21 +475,25 @@
       "rules": [
        "goal_status"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -635,21 +659,25 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -759,21 +787,25 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [
        "missed_by_patient"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -822,21 +854,25 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [
        "cancelled_by_clinic"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -889,21 +925,25 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [
        "attended"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -956,19 +996,23 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1021,19 +1065,23 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1088,21 +1136,25 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1133,16 +1185,51 @@
     "date_range": null
    },
    "output": {
-    "verdict": "REFUSED: cannot interpret the question",
-    "refused": "cannot interpret the question"
+    "verdict": "COMPUTED WITH WARNING: rules only, no decision model",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "rules only, no decision model"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status"
+      ],
+      "decision_model": null,
+      "defaulted": false
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": null,
+      "defaulted": false
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": null,
+      "defaulted": false
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": null,
+      "defaulted": false
+     }
+    }
    },
    "scores": {
-    "metric_exact": 0.0,
-    "attendance_exact": 0.0,
-    "date_range_exact": 0.0,
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric goal_status, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got REFUSED: cannot interpret the question; verdict REFUSED: cannot interpret the question",
+   "comment": "COMPUTED WITH WARNING: rules only, no decision model",
    "metadata": {
     "note": "Review Q18: went to the paid agent; the goal table lists therapy days per week (week 2 for Rowan).",
     "rules_wrong": false
@@ -1240,19 +1327,23 @@
       "rules": [
        "goal_status"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1345,19 +1436,23 @@
       "rules": [
        "progress"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1406,19 +1501,23 @@
       "rules": [
        "billing_integrity"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1528,19 +1627,23 @@
       "rules": [
        "goal_status"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1622,23 +1725,27 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [
        "attended"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [
        "group_psychotherapy"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1709,19 +1816,23 @@
       "rules": [
        "consecutive_shortfall"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1782,49 +1893,16 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: rules only, no decision model",
-    "metric": "sessions",
-    "attendance": "attended",
-    "service_type": "group_psychotherapy",
-    "group_by": "none",
-    "patients": [
-     "HG-M042",
-     "NF-20817"
-    ],
-    "date_range": null,
-    "warnings": [
-     "rules only, no decision model"
-    ],
-    "readings": {
-     "metric": {
-      "rules": [
-       "sessions"
-      ],
-      "decision_model": null
-     },
-     "attendance": {
-      "rules": [],
-      "decision_model": null
-     },
-     "service_type": {
-      "rules": [
-       "group_psychotherapy"
-      ],
-      "decision_model": null
-     },
-     "group_by": {
-      "rules": [],
-      "decision_model": null
-     }
-    }
+    "verdict": "REFUSED: cannot interpret the question",
+    "refused": "cannot interpret the question"
    },
    "scores": {
     "metric_exact": 0.0,
     "attendance_exact": 0.0,
-    "date_range_exact": 1.0,
+    "date_range_exact": 0.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric sessions, attendance attended, service_type group_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: rules only, no decision model",
+   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got REFUSED: cannot interpret the question; verdict REFUSED: cannot interpret the question",
    "metadata": {
     "note": "Review Q34: authorizations have no executor, so this is an open question; a sessions count would answer only half.",
     "rules_wrong": true
@@ -1928,21 +2006,25 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [
        "attended"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -1997,19 +2079,23 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -2062,19 +2148,23 @@
       "rules": [
        "sessions"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -2191,21 +2281,25 @@
       "rules": [
        "goal_status"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -2282,19 +2376,23 @@
       "rules": [
        "plan_change"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -2324,16 +2422,52 @@
     "date_range": null
    },
    "output": {
-    "verdict": "REFUSED: cannot interpret the question",
-    "refused": "cannot interpret the question"
+    "verdict": "COMPUTED WITH WARNING: rules only, no decision model",
+    "metric": "goal_status",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "rules only, no decision model"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "goal_status"
+      ],
+      "decision_model": null,
+      "defaulted": false
+     },
+     "attendance": {
+      "rules": [
+       "attended"
+      ],
+      "decision_model": null,
+      "defaulted": false
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": null,
+      "defaulted": false
+     },
+     "group_by": {
+      "rules": [],
+      "decision_model": null,
+      "defaulted": false
+     }
+    }
    },
    "scores": {
     "metric_exact": 0.0,
     "attendance_exact": 0.0,
-    "date_range_exact": 0.0,
+    "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric sessions, attendance attended, service_type any, group_by plan_version, patients ['NF-20817'], date_range None; got REFUSED: cannot interpret the question; verdict REFUSED: cannot interpret the question",
+   "comment": "expected metric sessions, attendance attended, service_type any, group_by plan_version, patients ['NF-20817'], date_range None; got metric goal_status, attendance not_applicable, service_type any, group_by none, patients ['NF-20817'], date_range None; verdict COMPUTED WITH WARNING: rules only, no decision model",
    "metadata": {
     "note": "Grouping by plan version.",
     "rules_wrong": false
@@ -2399,21 +2533,25 @@
       "rules": [
        "minutes"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -2484,21 +2622,25 @@
       "rules": [
        "other"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      },
      "group_by": {
       "rules": [
        "week"
       ],
-      "decision_model": null
+      "decision_model": null,
+      "defaulted": false
      }
     }
    },
@@ -2516,10 +2658,10 @@
   }
  ],
  "scores": {
-  "metric_exact": 0.518519,
-  "attendance_exact": 0.481481,
-  "date_range_exact": 0.574074,
+  "metric_exact": 0.537037,
+  "attendance_exact": 0.5,
+  "date_range_exact": 0.592593,
   "no_wrong_plain_computed": 1.0
  },
- "created_at": "2026-10-17T21:09:02+00:00"
+ "created_at": "2026-10-17T22:55:22+00:00"
 }

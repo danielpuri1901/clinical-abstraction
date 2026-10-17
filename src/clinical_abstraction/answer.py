@@ -235,7 +235,8 @@ _RULES = {  # ported from the previous computed_answers.FAMILIES, plus the atten
     "metric": {
         "sessions": rf"\bsessions?\b|\battend(?!ance)|\breconstruct|{_ON_DATE}",  # the old day family lists sessions
         "minutes": r"\bminutes?\b|\bhours?\b",
-        "goal_status": r"\bgoal\b|requirement|treatment.?plan(?! change)",
+        "goal_status": r"\bgoal\b|requirement|treatment.?plan(?! change)"
+        r"|\b(?:fewer|less|more|at least|at most|under|below|short of)\b[^.?]*\b(?:days?|minutes?|hours?|sessions?)\b",
         "consecutive_shortfall": r"\bconsecutive\b|\bin a row\b|\binclusion\b",  # no longer every "patients" question
         "plan_change": r"plan change|plan-change|before and after|changed .* plan",
         "progress": r"symptom|progress|phq|assessment|improv|reason for",
@@ -243,7 +244,7 @@ _RULES = {  # ported from the previous computed_answers.FAMILIES, plus the atten
         # Aggregations the renderers do not compute: a question that wants an average, a median, a ratio, or a
         # per-patient mean is an open question, so the rules propose "other" and a confident "minutes" from the
         # decision model becomes a visible dispute instead of a plain answer that silently omits the average.
-        "other": r"\baverage\b|\bmean\b|\bmedian\b|\bratio\b|\bpercent(?:age)? of patients\b|\bper patient\b",
+        "other": r"\baverage\b|\bmean\b|\bmedian\b|\bratio\b|\bpercent(?:age)? of patients\b|\bper patient\b|\bauthori[sz]",
     },
     "attendance": {
         "attended": r"(?<!not )(?<!n't )(?<!n\u2019t )\battend(?:s|ed|ing)?\b",
@@ -329,11 +330,20 @@ def rule_candidates(question: str) -> dict[str, set[str]]:
     }
     if "plan_change" in candidates["metric"]:
         candidates["metric"].discard("goal_status")  # ported: a plan-change question does not want the weekly goal table
+    elif "goal_status" in candidates["metric"] and re.search(r"\b(?:fewer|less|more|at least|at most|under|below|short of)\b", question, re.IGNORECASE):
+        candidates["metric"] -= {"sessions", "minutes", "days"}  # "fewer than 3 days" compares weeks with a goal, not a count
     return candidates
 
 
 def _agreed(answer: ChoiceAnswer, candidates: set[str]) -> bool:
     return answer.choice in candidates or (not candidates and answer.confidence >= AGREEMENT_CONFIDENCE)
+
+
+def _default_filter(field: str, metric: str) -> str:
+    """The plain reading of a filter the question does not name: every contact when listing sessions, attended ones when counting."""
+    if field == "attendance":
+        return "any" if metric == "sessions" else "attended"
+    return RULES_ONLY_DEFAULT[field]
 
 
 def plan_question(question: str, known_patients: list[tuple[str, str]], default_year: int, jev: Jev | None) -> Plan:
@@ -342,14 +352,25 @@ def plan_question(question: str, known_patients: list[tuple[str, str]], default_
     date_range = parse_dates(question, default_year)
     candidates = rule_candidates(question)
     answers = jev.ask(question, JEV_QUESTIONS) if jev else {}  # after the code checks, so a refused question costs nothing
+    defaulted = set()
     if answers:
         values = {field: answers[field].choice for field in ENUMS}
-        warnings = [
-            f"disputed {field}: rules say {' or '.join(sorted(candidates[field])) or 'nothing'}, "
-            f"decision model says {answers[field].choice} ({answers[field].confidence:.2f})"
-            for field in ENUMS
-            if (field == "metric" or values["metric"] in FILTERED_METRICS) and not _agreed(answers[field], candidates[field])
-        ]
+        warnings = []
+        for field in ENUMS:
+            if field != "metric" and values["metric"] not in FILTERED_METRICS:
+                continue
+            if _agreed(answers[field], candidates[field]):
+                continue
+            if field != "metric" and not candidates[field]:
+                # Nobody read a filter: the question names none and the decision model is unsure. A question that names
+                # no filter wants the plain reading, so the field takes its default and the interpretation line says so.
+                values[field] = _default_filter(field, values["metric"])
+                defaulted.add(field)
+                continue
+            warnings.append(
+                f"disputed {field}: rules say {' or '.join(sorted(candidates[field])) or 'nothing'}, "
+                f"decision model says {answers[field].choice} ({answers[field].confidence:.2f})"
+            )
     else:
         if len(candidates["metric"]) != 1:
             raise PlanError("cannot interpret the question")
@@ -359,9 +380,9 @@ def plan_question(question: str, known_patients: list[tuple[str, str]], default_
             values[field] = proposed[0] if proposed else default
         warnings = ["rules only, no decision model"]
     if "other" in candidates["metric"] and values["metric"] != "other":
-        # The question asks for an aggregation no renderer computes (an average, a ratio). A rendered table would
-        # silently omit it, so the open path wins over the decision model's metric, and the dispute stays visible.
-        warnings.append(f"rules read an aggregation the renderers do not compute; routed as an open question instead of {values['metric']}")
+        # The question asks for something no renderer computes (an average, a ratio, authorizations). A rendered table
+        # would silently omit it, so the open path wins over the decision model's metric, and the dispute stays visible.
+        warnings.append(f"rules read a topic the renderers do not compute; routed as an open question instead of {values['metric']}")
         values["metric"] = "other"
     if values["metric"] not in FILTERED_METRICS:
         values |= NEUTRAL
@@ -369,6 +390,7 @@ def plan_question(question: str, known_patients: list[tuple[str, str]], default_
         field: {
             "rules": sorted(candidates[field]),
             "decision_model": [answers[field].choice, answers[field].confidence] if answers else None,
+            "defaulted": field in defaulted,
         }
         for field in ENUMS
     }
@@ -380,10 +402,14 @@ def interpretation(plan: Plan) -> str:
     """One line that says how the question was read, for example
     "Interpreted as: sessions, attended, HG-M042, 2026-01-12 to 2026-01-25, by week"."""
     parts = ["open question" if plan.kind == "open" else plan.metric]
+
+    def shown(field: str, text: str) -> str:
+        return f"{text} (default)" if plan.readings.get(field, {}).get("defaulted") else text
+
     if plan.attendance != "not_applicable":
-        parts.append("any attendance" if plan.attendance == "any" else plan.attendance)
+        parts.append(shown("attendance", "any attendance" if plan.attendance == "any" else plan.attendance))
     if plan.service_type != "any":
-        parts.append(plan.service_type)
+        parts.append(shown("service_type", plan.service_type))
     parts.append(", ".join(plan.patients) if len(plan.patients) <= 3 else f"{len(plan.patients)} patients")
     parts.append(plan.date_range.label if plan.date_range else "all dates")
     if plan.group_by != "none":

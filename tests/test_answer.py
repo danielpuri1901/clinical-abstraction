@@ -58,7 +58,7 @@ def test_an_aggregation_no_renderer_computes_routes_to_the_open_path():
     )
     plan = answer.plan_question("Across the collection, what was the average weekly therapy time per patient?", KNOWN, 2026, confident_minutes)
     assert plan.kind == "open" and plan.metric == "other"
-    assert any("aggregation" in warning and "minutes" in warning for warning in plan.warnings)
+    assert any("do not compute" in warning and "minutes" in warning for warning in plan.warnings)
 
 
 def test_agreement_decides_the_verdict():

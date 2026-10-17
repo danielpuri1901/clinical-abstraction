@@ -42,7 +42,8 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -51,14 +52,16 @@
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -67,7 +70,8 @@
       "decision_model": [
        "service_type",
        0.99
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -115,21 +119,24 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.94
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -138,7 +145,8 @@
       "decision_model": [
        "week",
        1.0
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -187,21 +195,24 @@
       "decision_model": [
        "goal_status",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.87
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.93
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -210,7 +221,8 @@
       "decision_model": [
        "week",
        0.99
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -244,7 +256,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91); disputed service_type: rules say nothing, decision model says any (0.77)",
+    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91)",
     "metric": "sessions",
     "attendance": "attended",
     "service_type": "any",
@@ -258,8 +270,7 @@
      "2026-01-21"
     ],
     "warnings": [
-     "disputed attendance: rules say any, decision model says attended (0.91)",
-     "disputed service_type: rules say nothing, decision model says any (0.77)"
+     "disputed attendance: rules say any, decision model says attended (0.91)"
     ],
     "readings": {
      "metric": {
@@ -270,7 +281,8 @@
       "decision_model": [
        "sessions",
        0.72
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -279,14 +291,16 @@
       "decision_model": [
        "attended",
        0.91
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.77
-      ]
+      ],
+      "defaulted": true
      },
      "group_by": {
       "rules": [
@@ -295,7 +309,8 @@
       "decision_model": [
        "day",
        1.0
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -305,7 +320,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric minutes, attendance any, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-21']; got metric sessions, attendance attended, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-21']; verdict COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91); disputed service_type: rules say nothing, decision model says any (0.77)",
+   "comment": "expected metric minutes, attendance any, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-21']; got metric sessions, attendance attended, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-21']; verdict COMPUTED WITH WARNING: disputed attendance: rules say any, decision model says attended (0.91)",
    "metadata": {
     "note": "Development question 4. No patient is named, so every known patient is in scope. The two dates become the span January 19 to 21 with one row per day; attendance is any because the question reconstructs every record.",
     "rules_wrong": false
@@ -352,14 +367,16 @@
       "decision_model": [
        "progress",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.5
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [
@@ -368,14 +385,16 @@
       "decision_model": [
        "individual_psychotherapy",
        0.35
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "day",
        0.69
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -408,7 +427,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.64)",
+    "verdict": "COMPUTED",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "any",
@@ -420,9 +439,7 @@
      "2026-01-12",
      "2026-01-18"
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.64)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -431,28 +448,32 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.97
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.95
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.64
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -462,7 +483,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.64)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q01, handled before. Hours are minutes divided by 60.",
     "rules_wrong": false
@@ -500,14 +521,16 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.94
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [
@@ -516,14 +539,16 @@
       "decision_model": [
        "family_psychotherapy",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.95
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -557,11 +582,11 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.66); disputed group_by: rules say nothing, decision model says day (0.45)",
+    "verdict": "COMPUTED",
     "metric": "sessions",
-    "attendance": "not_applicable",
+    "attendance": "any",
     "service_type": "any",
-    "group_by": "day",
+    "group_by": "none",
     "patients": [
      "HG-M042",
      "NF-20817"
@@ -570,10 +595,7 @@
      "2026-01-27",
      "2026-01-27"
     ],
-    "warnings": [
-     "disputed attendance: rules say nothing, decision model says not_applicable (0.66)",
-     "disputed group_by: rules say nothing, decision model says day (0.45)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -582,38 +604,42 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.66
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "day",
        0.45
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
    "scores": {
     "metric_exact": 1.0,
-    "attendance_exact": 0.0,
+    "attendance_exact": 1.0,
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric sessions, attendance any, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-27', '2026-01-27']; got metric sessions, attendance not_applicable, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-27', '2026-01-27']; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.66); disputed group_by: rules say nothing, decision model says day (0.45)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q03, handled before. No patient is named, so every known patient is in scope; any attendance shows the no-show.",
     "rules_wrong": false
@@ -653,21 +679,24 @@
       "decision_model": [
        "goal_status",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.51
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -676,7 +705,8 @@
       "decision_model": [
        "week",
        0.7
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -724,28 +754,32 @@
       "decision_model": [
        "goal_status",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.31
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "week",
        0.95
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -794,28 +828,32 @@
       "decision_model": [
        "billing_integrity",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "missed_by_patient",
        0.26
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.96
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.73
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -861,28 +899,32 @@
       "decision_model": [
        "progress",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.97
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.89
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -928,28 +970,32 @@
       "decision_model": [
        "progress",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.7
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.94
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "day",
        0.41
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -980,10 +1026,10 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.86); disputed service_type: rules say nothing, decision model says individual_psychotherapy (0.41); disputed group_by: rules say week, decision model says none (0.52)",
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says none (0.52)",
     "metric": "minutes",
     "attendance": "attended",
-    "service_type": "individual_psychotherapy",
+    "service_type": "any",
     "group_by": "none",
     "patients": [
      "HG-M042",
@@ -991,8 +1037,6 @@
     ],
     "date_range": null,
     "warnings": [
-     "disputed attendance: rules say nothing, decision model says attended (0.86)",
-     "disputed service_type: rules say nothing, decision model says individual_psychotherapy (0.41)",
      "disputed group_by: rules say week, decision model says none (0.52)"
     ],
     "readings": {
@@ -1003,21 +1047,24 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.86
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "individual_psychotherapy",
        0.41
-      ]
+      ],
+      "defaulted": true
      },
      "group_by": {
       "rules": [
@@ -1026,7 +1073,8 @@
       "decision_model": [
        "none",
        0.52
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1036,7 +1084,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric minutes, attendance attended, service_type any, group_by week, patients ['HG-M042', 'NF-20817'], date_range None; got metric minutes, attendance attended, service_type individual_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.86); disputed service_type: rules say nothing, decision model says individual_psychotherapy (0.41); disputed group_by: rules say week, decision model says none (0.52)",
+   "comment": "expected metric minutes, attendance attended, service_type any, group_by week, patients ['HG-M042', 'NF-20817'], date_range None; got metric minutes, attendance attended, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says none (0.52)",
    "metadata": {
     "note": "Review Q09, handled before.",
     "rules_wrong": false
@@ -1077,28 +1125,32 @@
       "decision_model": [
        "consecutive_shortfall",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.37
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.4
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1152,14 +1204,16 @@
       "decision_model": [
        "other",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.76
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [
@@ -1168,14 +1222,16 @@
       "decision_model": [
        "group_psychotherapy",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.84
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1223,7 +1279,8 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -1232,21 +1289,24 @@
       "decision_model": [
        "missed_by_patient",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.98
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.97
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1296,7 +1356,8 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -1305,21 +1366,24 @@
       "decision_model": [
        "cancelled_by_clinic",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.97
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1352,7 +1416,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.79)",
+    "verdict": "COMPUTED",
     "metric": "sessions",
     "attendance": "attended",
     "service_type": "any",
@@ -1364,9 +1428,7 @@
      "2026-01-12",
      "2026-01-25"
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.79)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -1375,7 +1437,8 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -1384,21 +1447,24 @@
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.79
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -1408,7 +1474,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.79)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q14: the old router dropped the range; the answer is 6.",
     "rules_wrong": false
@@ -1431,7 +1497,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.87); disputed group_by: rules say nothing, decision model says none (0.76)",
+    "verdict": "COMPUTED",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "any",
@@ -1443,10 +1509,7 @@
      "2026-01-12",
      "2026-01-25"
     ],
-    "warnings": [
-     "disputed service_type: rules say nothing, decision model says any (0.87)",
-     "disputed group_by: rules say nothing, decision model says none (0.76)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -1455,28 +1518,32 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.87
-      ]
+      ],
+      "defaulted": true
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.76
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -1486,7 +1553,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.87); disputed group_by: rules say nothing, decision model says none (0.76)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q15: the old router dropped the range; the answer is 300.",
     "rules_wrong": false
@@ -1509,7 +1576,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+    "verdict": "COMPUTED",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "any",
@@ -1521,9 +1588,7 @@
      "2026-01-20",
      null
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.73)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -1532,28 +1597,32 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.96
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.95
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.73
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -1563,7 +1632,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q16: the old router dropped 'after'; the answer is 235 to 245.",
     "rules_wrong": false
@@ -1611,21 +1680,24 @@
       "decision_model": [
        "goal_status",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.74
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -1634,7 +1706,8 @@
       "decision_model": [
        "none",
        0.65
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1665,7 +1738,7 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.61); disputed service_type: rules say nothing, decision model says any (0.89)",
+    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says days (0.97)",
     "metric": "days",
     "attendance": "attended",
     "service_type": "any",
@@ -1676,37 +1749,42 @@
     ],
     "date_range": null,
     "warnings": [
-     "disputed attendance: rules say nothing, decision model says attended (0.61)",
-     "disputed service_type: rules say nothing, decision model says any (0.89)"
+     "disputed metric: rules say goal_status, decision model says days (0.97)"
     ],
     "readings": {
      "metric": {
-      "rules": [],
+      "rules": [
+       "goal_status"
+      ],
       "decision_model": [
        "days",
        0.97
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.61
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.89
-      ]
+      ],
+      "defaulted": true
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "week",
        0.95
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1716,7 +1794,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric goal_status, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric days, attendance attended, service_type any, group_by week, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.61); disputed service_type: rules say nothing, decision model says any (0.89)",
+   "comment": "expected metric goal_status, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric days, attendance attended, service_type any, group_by week, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says days (0.97)",
    "metadata": {
     "note": "Review Q18: went to the paid agent; the goal table lists therapy days per week (week 2 for Rowan).",
     "rules_wrong": false
@@ -1739,7 +1817,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.77); disputed group_by: rules say nothing, decision model says none (0.76)",
+    "verdict": "COMPUTED",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "any",
@@ -1751,38 +1829,39 @@
      "2026-01-01",
      "2026-01-31"
     ],
-    "warnings": [
-     "disputed service_type: rules say nothing, decision model says any (0.77)",
-     "disputed group_by: rules say nothing, decision model says none (0.76)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [],
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.94
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.77
-      ]
+      ],
+      "defaulted": true
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.76
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -1792,7 +1871,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.77); disputed group_by: rules say nothing, decision model says none (0.76)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q19: went to the paid agent because 'time' is neither 'minutes' nor 'hours'.",
     "rules_wrong": false
@@ -1828,28 +1907,32 @@
       "decision_model": [
        "plan_change",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.79
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "plan_version",
        0.87
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1879,9 +1962,9 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.49); disputed attendance: rules say nothing, decision model says attended (0.74)",
+    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.49)",
     "metric": "sessions",
-    "attendance": "attended",
+    "attendance": "any",
     "service_type": "any",
     "group_by": "plan_version",
     "patients": [
@@ -1889,8 +1972,7 @@
     ],
     "date_range": null,
     "warnings": [
-     "disputed metric: rules say goal_status, decision model says sessions (0.49)",
-     "disputed attendance: rules say nothing, decision model says attended (0.74)"
+     "disputed metric: rules say goal_status, decision model says sessions (0.49)"
     ],
     "readings": {
      "metric": {
@@ -1900,28 +1982,32 @@
       "decision_model": [
        "sessions",
        0.49
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.74
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "plan_version",
        0.92
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -1931,7 +2017,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric plan_change, attendance not_applicable, service_type any, group_by none, patients ['NF-20817'], date_range None; got metric sessions, attendance attended, service_type any, group_by plan_version, patients ['NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.49); disputed attendance: rules say nothing, decision model says attended (0.74)",
+   "comment": "expected metric plan_change, attendance not_applicable, service_type any, group_by none, patients ['NF-20817'], date_range None; got metric sessions, attendance any, service_type any, group_by plan_version, patients ['NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.49)",
    "metadata": {
     "note": "Review Q21: the old router showed the weekly goal table instead of the before-and-after comparison.",
     "rules_wrong": true
@@ -2015,28 +2101,32 @@
       "decision_model": [
        "progress",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.84
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.94
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2086,28 +2176,32 @@
       "decision_model": [
        "billing_integrity",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.65
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "service_type",
        0.68
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2155,28 +2249,32 @@
       "decision_model": [
        "other",
        0.98
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.61
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.74
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2210,9 +2308,9 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says missed_by_patient (0.65); disputed group_by: rules say nothing, decision model says none (0.76)",
+    "verdict": "COMPUTED",
     "metric": "minutes",
-    "attendance": "missed_by_patient",
+    "attendance": "attended",
     "service_type": "family_psychotherapy",
     "group_by": "none",
     "patients": [
@@ -2223,10 +2321,7 @@
      "2026-01-30",
      "2026-01-30"
     ],
-    "warnings": [
-     "disputed attendance: rules say nothing, decision model says missed_by_patient (0.65)",
-     "disputed group_by: rules say nothing, decision model says none (0.76)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -2236,14 +2331,16 @@
       "decision_model": [
        "minutes",
        0.92
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "missed_by_patient",
        0.65
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [
@@ -2252,24 +2349,26 @@
       "decision_model": [
        "family_psychotherapy",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.76
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
    "scores": {
     "metric_exact": 1.0,
-    "attendance_exact": 0.0,
+    "attendance_exact": 1.0,
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric minutes, attendance attended, service_type family_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-30', '2026-01-30']; got metric minutes, attendance missed_by_patient, service_type family_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-30', '2026-01-30']; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says missed_by_patient (0.65); disputed group_by: rules say nothing, decision model says none (0.76)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q27: the old router printed whole-period tables. The 15 absent minutes are the excluded interval in this session's minutes calculation.",
     "rules_wrong": true
@@ -2307,28 +2406,32 @@
       "decision_model": [
        "goal_status",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.46
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "week",
        0.94
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2374,28 +2477,32 @@
       "decision_model": [
        "other",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "medication_management",
        0.95
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.95
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2428,7 +2535,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.42)",
+    "verdict": "COMPUTED",
     "metric": "sessions",
     "attendance": "attended",
     "service_type": "group_psychotherapy",
@@ -2440,9 +2547,7 @@
      "2026-01-22",
      "2026-01-22"
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.42)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -2451,7 +2556,8 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -2460,7 +2566,8 @@
       "decision_model": [
        "attended",
        0.94
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [
@@ -2469,14 +2576,16 @@
       "decision_model": [
        "group_psychotherapy",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.42
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -2486,7 +2595,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.42)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Review Q30, handled before: 45 minutes with a late arrival.",
     "rules_wrong": false
@@ -2548,28 +2657,32 @@
       "decision_model": [
        "consecutive_shortfall",
        0.97
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.95
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.9
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2620,28 +2733,32 @@
       "decision_model": [
        "billing_integrity",
        0.75
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "any",
        0.42
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.86
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2672,10 +2789,10 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.80)",
-    "metric": "sessions",
-    "attendance": "attended",
-    "service_type": "group_psychotherapy",
+    "verdict": "AGENT",
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
     "group_by": "none",
     "patients": [
      "HG-M042",
@@ -2683,24 +2800,27 @@
     ],
     "date_range": null,
     "warnings": [
-     "disputed attendance: rules say nothing, decision model says attended (0.80)"
+     "rules read a topic the renderers do not compute; routed as an open question instead of sessions"
     ],
     "readings": {
      "metric": {
       "rules": [
+       "other",
        "sessions"
       ],
       "decision_model": [
        "sessions",
        0.98
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.8
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [
@@ -2709,24 +2829,26 @@
       "decision_model": [
        "group_psychotherapy",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.9
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
    "scores": {
-    "metric_exact": 0.0,
-    "attendance_exact": 0.0,
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric sessions, attendance attended, service_type group_psychotherapy, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.80)",
+   "comment": "AGENT",
    "metadata": {
     "note": "Review Q34: authorizations have no executor, so this is an open question; a sessions count would answer only half.",
     "rules_wrong": true
@@ -2762,21 +2884,24 @@
       "decision_model": [
        "days",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -2785,7 +2910,8 @@
       "decision_model": [
        "week",
        0.82
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2818,7 +2944,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.74); disputed group_by: rules say nothing, decision model says none (0.64)",
+    "verdict": "COMPUTED",
     "metric": "days",
     "attendance": "attended",
     "service_type": "any",
@@ -2830,38 +2956,39 @@
      "2026-02-09",
      null
     ],
-    "warnings": [
-     "disputed attendance: rules say nothing, decision model says attended (0.74)",
-     "disputed group_by: rules say nothing, decision model says none (0.64)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [],
       "decision_model": [
        "days",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.74
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.96
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.64
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -2871,7 +2998,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.74); disputed group_by: rules say nothing, decision model says none (0.64)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Open-ended range: after February 8 starts on February 9.",
     "rules_wrong": false
@@ -2915,7 +3042,8 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -2924,21 +3052,24 @@
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.98
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.91
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -2972,11 +3103,11 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.51); disputed group_by: rules say nothing, decision model says day (0.54)",
+    "verdict": "COMPUTED",
     "metric": "sessions",
-    "attendance": "not_applicable",
+    "attendance": "any",
     "service_type": "any",
-    "group_by": "day",
+    "group_by": "none",
     "patients": [
      "HG-M042",
      "NF-20817"
@@ -2985,10 +3116,7 @@
      "2026-01-19",
      "2026-01-19"
     ],
-    "warnings": [
-     "disputed attendance: rules say nothing, decision model says not_applicable (0.51)",
-     "disputed group_by: rules say nothing, decision model says day (0.54)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -2997,38 +3125,42 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "not_applicable",
        0.51
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "day",
        0.54
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
    "scores": {
     "metric_exact": 1.0,
-    "attendance_exact": 0.0,
+    "attendance_exact": 1.0,
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric sessions, attendance any, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-19']; got metric sessions, attendance not_applicable, service_type any, group_by day, patients ['HG-M042', 'NF-20817'], date_range ['2026-01-19', '2026-01-19']; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says not_applicable (0.51); disputed group_by: rules say nothing, decision model says day (0.54)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Abbreviated month with a period.",
     "rules_wrong": false
@@ -3051,7 +3183,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.37)",
+    "verdict": "COMPUTED",
     "metric": "sessions",
     "attendance": "any",
     "service_type": "any",
@@ -3063,9 +3195,7 @@
      "2026-01-21",
      "2026-01-21"
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.37)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -3074,28 +3204,32 @@
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.37
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -3105,7 +3239,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.37)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Numeric month/day date without a year takes the default year.",
     "rules_wrong": false
@@ -3128,7 +3262,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+    "verdict": "COMPUTED",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "group_psychotherapy",
@@ -3140,9 +3274,7 @@
      "2026-01-22",
      "2026-01-22"
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.73)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [
@@ -3152,14 +3284,16 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [
@@ -3168,14 +3302,16 @@
       "decision_model": [
        "group_psychotherapy",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.73
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -3185,7 +3321,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.73)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "Day-first ordinal date.",
     "rules_wrong": false
@@ -3208,7 +3344,7 @@
     ]
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.66)",
+    "verdict": "COMPUTED",
     "metric": "sessions",
     "attendance": "missed_by_patient",
     "service_type": "any",
@@ -3220,16 +3356,15 @@
      "2026-01-26",
      "2026-02-01"
     ],
-    "warnings": [
-     "disputed group_by: rules say nothing, decision model says none (0.66)"
-    ],
+    "warnings": [],
     "readings": {
      "metric": {
       "rules": [],
       "decision_model": [
        "sessions",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -3238,21 +3373,24 @@
       "decision_model": [
        "missed_by_patient",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.99
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.66
-      ]
+      ],
+      "defaulted": true
      }
     }
    },
@@ -3262,7 +3400,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed group_by: rules say nothing, decision model says none (0.66)",
+   "comment": "COMPUTED",
    "metadata": {
     "note": "No-shows are sessions missed by the patient; the week runs Monday to Sunday.",
     "rules_wrong": false
@@ -3306,21 +3444,24 @@
       "decision_model": [
        "goal_status",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.95
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.53
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -3329,7 +3470,8 @@
       "decision_model": [
        "week",
        0.57
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3380,21 +3522,24 @@
       "decision_model": [
        "consecutive_shortfall",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.41
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -3403,7 +3548,8 @@
       "decision_model": [
        "none",
        0.65
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3451,28 +3597,32 @@
       "decision_model": [
        "plan_change",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.51
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "plan_version",
        0.99
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3502,7 +3652,7 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.84)",
+    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.93)",
     "metric": "sessions",
     "attendance": "attended",
     "service_type": "any",
@@ -3512,18 +3662,18 @@
     ],
     "date_range": null,
     "warnings": [
-     "disputed service_type: rules say nothing, decision model says any (0.84)"
+     "disputed metric: rules say goal_status, decision model says sessions (0.93)"
     ],
     "readings": {
      "metric": {
       "rules": [
-       "goal_status",
-       "sessions"
+       "goal_status"
       ],
       "decision_model": [
        "sessions",
        0.93
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -3532,21 +3682,24 @@
       "decision_model": [
        "attended",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.84
-      ]
+      ],
+      "defaulted": true
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "plan_version",
        1.0
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3556,7 +3709,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "COMPUTED WITH WARNING: disputed service_type: rules say nothing, decision model says any (0.84)",
+   "comment": "COMPUTED WITH WARNING: disputed metric: rules say goal_status, decision model says sessions (0.93)",
    "metadata": {
     "note": "Grouping by plan version.",
     "rules_wrong": false
@@ -3595,7 +3748,8 @@
       "decision_model": [
        "billing_integrity",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [
@@ -3604,21 +3758,24 @@
       "decision_model": [
        "missed_by_patient",
        0.97
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.94
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [],
       "decision_model": [
        "none",
        0.7
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3648,7 +3805,7 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.34); disputed group_by: rules say week, decision model says day (0.40)",
+    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says day (0.40)",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "any",
@@ -3658,7 +3815,6 @@
     ],
     "date_range": null,
     "warnings": [
-     "disputed attendance: rules say nothing, decision model says attended (0.34)",
      "disputed group_by: rules say week, decision model says day (0.40)"
     ],
     "readings": {
@@ -3669,21 +3825,24 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.34
-      ]
+      ],
+      "defaulted": true
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.93
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -3692,7 +3851,8 @@
       "decision_model": [
        "day",
        0.4
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3702,7 +3862,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric minutes, attendance attended, service_type any, group_by week, patients ['HG-M042'], date_range None; got metric minutes, attendance attended, service_type any, group_by day, patients ['HG-M042'], date_range None; verdict COMPUTED WITH WARNING: disputed attendance: rules say nothing, decision model says attended (0.34); disputed group_by: rules say week, decision model says day (0.40)",
+   "comment": "expected metric minutes, attendance attended, service_type any, group_by week, patients ['HG-M042'], date_range None; got metric minutes, attendance attended, service_type any, group_by day, patients ['HG-M042'], date_range None; verdict COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says day (0.40)",
    "metadata": {
     "note": "Full name with a possessive; weekday names are not patients.",
     "rules_wrong": false
@@ -3758,7 +3918,7 @@
     "warnings": [
      "disputed metric: rules say other, decision model says minutes (1.00)",
      "disputed group_by: rules say week, decision model says none (0.97)",
-     "rules read an aggregation the renderers do not compute; routed as an open question instead of minutes"
+     "rules read a topic the renderers do not compute; routed as an open question instead of minutes"
     ],
     "readings": {
      "metric": {
@@ -3768,21 +3928,24 @@
       "decision_model": [
        "minutes",
        1.0
-      ]
+      ],
+      "defaulted": false
      },
      "attendance": {
       "rules": [],
       "decision_model": [
        "attended",
        0.9
-      ]
+      ],
+      "defaulted": false
      },
      "service_type": {
       "rules": [],
       "decision_model": [
        "any",
        0.98
-      ]
+      ],
+      "defaulted": false
      },
      "group_by": {
       "rules": [
@@ -3791,7 +3954,8 @@
       "decision_model": [
        "none",
        0.97
-      ]
+      ],
+      "defaulted": false
      }
     }
    },
@@ -3809,10 +3973,10 @@
   }
  ],
  "scores": {
-  "metric_exact": 0.925926,
-  "attendance_exact": 0.87037,
+  "metric_exact": 0.944444,
+  "attendance_exact": 0.944444,
   "date_range_exact": 1.0,
   "no_wrong_plain_computed": 1.0
  },
- "created_at": "2026-10-17T21:10:09+00:00"
+ "created_at": "2026-10-17T22:55:32+00:00"
 }
