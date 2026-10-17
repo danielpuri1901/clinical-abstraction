@@ -1,108 +1,720 @@
 {
  "patient": {
   "mrn": "SY-M07008",
-  "name": null
+  "name": "Elliot Jensen"
  },
  "review_period": {
-  "start": null,
-  "end": null,
-  "basis": "no dated service or treatment plan"
+  "start": "2026-01-05",
+  "end": "2026-01-30",
+  "basis": "treatment plan dates (SY-M07008_01_treatment_plan L6-8)"
  },
- "encounters": [],
- "plans": [],
- "assessments": [],
- "observations": [],
- "charges": [],
- "flags": [],
- "coverage_notes": [],
- "incomplete": [
+ "encounters": [
   {
-   "doc_id": "SY-M07008_01_treatment_plan",
-   "sha": "bb4e9ffd8d0384e227170b72e359ef1613b14b2165bb7b4b28835abcc652078e",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBJVvQ7XUTHaYP5X3L'}",
-   "attempts": 1
+   "encounter": "2026-01-05 assessment_review",
+   "service_date": "2026-01-05",
+   "service_dates": [
+    "2026-01-05"
+   ],
+   "service_type": "assessment_review",
+   "modality": "unknown",
+   "status": "not_documented",
+   "counts_as_therapy": "no",
+   "reason": "assessment review does not count toward the plan goal",
+   "minutes_low": 0,
+   "minutes_high": 0,
+   "scheduled": null,
+   "patient_present": [],
+   "excluded": [],
+   "calculation": "assessment review does not count toward the plan goal",
+   "sources": [
+    "SY-M07008_02_questionnaire_review L6",
+    "SY-M07008_02_questionnaire_review L9-10"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_02_questionnaire_review",
-   "sha": "369bc9615e45029e87a1a3c05ae2e75ca9034b2b88b76af2a72b70fd45fbabbc",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBJVvFPm3b7xmMoRs4'}",
-   "attempts": 1
+   "encounter": "SY-E0700801",
+   "service_date": "2026-01-05",
+   "service_dates": [
+    "2026-01-05"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
+   "scheduled": null,
+   "patient_present": [
+    "14:00-14:50"
+   ],
+   "excluded": [],
+   "calculation": "14:00-14:50 present (50 min) = 50 min",
+   "sources": [
+    "SY-M07008_03_service_record L6-8"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_03_service_record",
-   "sha": "52959de51663820fdf8f5dd79bfd7a09bd8b57fa95a3a9329a71a14d445c4552",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBJUvhDXAVpNfw7HZm'}",
-   "attempts": 1
+   "encounter": "SY-E0700802",
+   "service_date": "2026-01-08",
+   "service_dates": [
+    "2026-01-08"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:45"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:45 present (45 min) = 45 min",
+   "sources": [
+    "SY-M07008_03_service_record L10-12"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_04_plan_update",
-   "sha": "0c653260a4371f7a0baec225e657c59f6d8304ac45a5038313342086ade25f19",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBJi4kVfjqBXtnHjXj'}",
-   "attempts": 1
+   "encounter": "SY-E0700803",
+   "service_date": "2026-01-09",
+   "service_dates": [
+    "2026-01-09"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [
+    "10:30-11:30"
+   ],
+   "excluded": [
+    "break 10:45-10:55 = 10 min (SY-M07008_03_service_record L15)"
+   ],
+   "calculation": "10:30-11:30 present (60 min), minus break 10:45-10:55 = 10 min (SY-M07008_03_service_record L15) = 50 min",
+   "sources": [
+    "SY-M07008_03_service_record L14-17"
+   ],
+   "flags": [
+    "possible_omission"
+   ]
   },
   {
-   "doc_id": "SY-M07008_05_imported_result",
-   "sha": "23f4038a0b098a630af61b48120ab8ca277edceac0554a028c4ab3c51503368b",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKWBwe7LChq2iqNs6'}",
-   "attempts": 1
+   "encounter": "SY-E0700804",
+   "service_date": "2026-01-09",
+   "service_dates": [
+    "2026-01-09"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "video",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": null,
+   "patient_present": [
+    "16:00-16:45"
+   ],
+   "excluded": [],
+   "calculation": "16:00-16:45 present (45 min) = 45 min",
+   "sources": [
+    "SY-M07008_03_service_record L19-22"
+   ],
+   "flags": [
+    "possible_omission"
+   ]
   },
   {
-   "doc_id": "SY-M07008_06_cancellation_notice",
-   "sha": "8d7bd0cc3f05243df2ef7e38982ad8de3030dd05ab32d5e1c5239ea858dc5333",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKYvS1baFqzZGniZW'}",
-   "attempts": 1
+   "encounter": "SY-E0700805",
+   "service_date": "2026-01-14",
+   "service_dates": [
+    "2026-01-14"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 75,
+   "minutes_high": 75,
+   "scheduled": "13:00-14:30 (90 min)",
+   "patient_present": [
+    "13:00-14:30"
+   ],
+   "excluded": [
+    "break 13:40-13:55 = 15 min (SY-M07008_03_service_record L25)"
+   ],
+   "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:55 = 15 min (SY-M07008_03_service_record L25) = 75 min",
+   "sources": [
+    "SY-M07008_03_service_record L24-27"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_07_service_record",
-   "sha": "dc898b30f5ba1c00901b13d53d7f3ea0aa7d434bcebf7cced7c7abb48dbb99cb",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKedP56YowXssgZe2'}",
-   "attempts": 1
+   "encounter": "SY-E0700806",
+   "service_date": "2026-01-15",
+   "service_dates": [
+    "2026-01-15"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:50"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:50 present (50 min) = 50 min",
+   "sources": [
+    "SY-M07008_03_service_record L29-31"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_08_cotherapist_record",
-   "sha": "fc4eac3474e59e69bfcdf2d9c5213e42c923c682c80b25c9583d3f7bc17ba676",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKbQVX1c2hGPkgvwq'}",
-   "attempts": 1
+   "encounter": "SY-E0700807",
+   "service_date": "2026-01-15",
+   "service_dates": [
+    "2026-01-15"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 70,
+   "minutes_high": 70,
+   "scheduled": "13:00-14:30 (90 min)",
+   "patient_present": [
+    "13:00-14:30"
+   ],
+   "excluded": [
+    "break 13:45-14:05 = 20 min (SY-M07008_03_service_record L34)"
+   ],
+   "calculation": "13:00-14:30 present (90 min), minus break 13:45-14:05 = 20 min (SY-M07008_03_service_record L34) = 70 min",
+   "sources": [
+    "SY-M07008_03_service_record L33-36"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_09_attendance_record",
-   "sha": "9b1debd436418f899df15e36eb4d51bfc5139a512018b5e77dea4ac6499fec7b",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKb9vjx3B7kPLvKeT'}",
-   "attempts": 1
+   "encounter": "SY-E0700808",
+   "service_date": "2026-01-20",
+   "service_dates": [
+    "2026-01-20"
+   ],
+   "service_type": "medication_management",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "no",
+   "reason": "medication management does not count toward the plan goal",
+   "minutes_low": 20,
+   "minutes_high": 20,
+   "scheduled": null,
+   "patient_present": [
+    "14:00-14:20"
+   ],
+   "excluded": [],
+   "calculation": "14:00-14:20 present (20 min) = 20 min",
+   "sources": [
+    "SY-M07008_12_service_record L6-9"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_10_correction",
-   "sha": "22abb4de6618ea2aa972f5793493885313333ed6946b783f5e31e1e630a78b0a",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKfNAEfk6CfwH1pD5'}",
-   "attempts": 1
+   "encounter": "SY-E0700809",
+   "service_date": "2026-01-22",
+   "service_dates": [
+    "2026-01-22"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "unknown",
+   "status": "cancelled_by_clinic",
+   "counts_as_therapy": "no",
+   "reason": "not delivered (cancelled by clinic)",
+   "minutes_low": 0,
+   "minutes_high": 0,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [],
+   "excluded": [],
+   "calculation": "not delivered (cancelled by clinic)",
+   "sources": [
+    "SY-M07008_06_cancellation_notice L6-7",
+    "SY-M07008_06_cancellation_notice L9"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_11_questionnaire_review",
-   "sha": "cb0cac27ccfa0bac314a6ddf009e385e03d999c2fb35cfca3dac67453106b7a6",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKhc8VDaRsM7MKFrh'}",
-   "attempts": 1
+   "encounter": "SY-E0700810",
+   "service_date": "2026-01-22",
+   "service_dates": [
+    "2026-01-22"
+   ],
+   "service_type": "collateral_contact",
+   "modality": "in_person",
+   "status": "patient_absent",
+   "counts_as_therapy": "no",
+   "reason": "collateral contact does not count toward the plan goal",
+   "minutes_low": 0,
+   "minutes_high": 0,
+   "scheduled": null,
+   "patient_present": [],
+   "excluded": [],
+   "calculation": "collateral contact does not count toward the plan goal",
+   "sources": [
+    "SY-M07008_12_service_record L11-13"
+   ],
+   "flags": []
   },
   {
-   "doc_id": "SY-M07008_12_service_record",
-   "sha": "a2ad95d63555b3e7c903d960616411e606e06a584317b05d9415a91228a01b64",
-   "reason": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for this model.'}, 'request_id': 'req_011Cg8eBKjLEchjqSUUi81jF'}",
-   "attempts": 1
+   "encounter": "SY-E0700811",
+   "service_date": "2026-01-23",
+   "service_dates": [
+    "2026-01-23"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 75,
+   "minutes_high": 75,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [
+    "10:00-11:30"
+   ],
+   "excluded": [
+    "break 10:40-10:55 = 15 min (SY-M07008_12_service_record L16)"
+   ],
+   "calculation": "10:00-11:30 present (90 min), minus break 10:40-10:55 = 15 min (SY-M07008_12_service_record L16) = 75 min",
+   "sources": [
+    "SY-M07008_12_service_record L15-18"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0700812",
+   "service_date": "2026-01-27",
+   "service_dates": [
+    "2026-01-27"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type; minutes are a range 50-80 because records disagree",
+   "minutes_low": 50,
+   "minutes_high": 80,
+   "scheduled": null,
+   "patient_present": [
+    "14:00-15:20"
+   ],
+   "excluded": [],
+   "calculation": "range 50-80 min: SY-M07008_07_service_record L6-8 gives 14:00-15:20 = 80 min; SY-M07008_08_cotherapist_record L6-8 gives 14:30-15:20 = 50 min",
+   "sources": [
+    "SY-M07008_07_service_record L6-8",
+    "SY-M07008_08_cotherapist_record L6-8"
+   ],
+   "flags": [
+    "unresolved_minutes_conflict"
+   ]
+  },
+  {
+   "encounter": "SY-E0700813",
+   "service_date": "2026-01-29",
+   "service_dates": [
+    "2026-01-29"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [
+    "10:00-11:00"
+   ],
+   "excluded": [
+    "break 10:40-10:55 = 15 min (SY-M07008_09_attendance_record L7)"
+   ],
+   "calculation": "10:00-11:00 present (60 min), minus break 10:40-10:55 = 15 min (SY-M07008_09_attendance_record L7) = 45 min; departure time 11:30 corrected to 11:00 (SY-M07008_10_correction L6-7)",
+   "sources": [
+    "SY-M07008_09_attendance_record L6-9",
+    "SY-M07008_10_correction L6-7"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "2026-01-30 assessment_review",
+   "service_date": "2026-01-30",
+   "service_dates": [
+    "2026-01-30"
+   ],
+   "service_type": "assessment_review",
+   "modality": "unknown",
+   "status": "not_documented",
+   "counts_as_therapy": "no",
+   "reason": "assessment review does not count toward the plan goal",
+   "minutes_low": 0,
+   "minutes_high": 0,
+   "scheduled": null,
+   "patient_present": [],
+   "excluded": [],
+   "calculation": "assessment review does not count toward the plan goal",
+   "sources": [
+    "SY-M07008_11_questionnaire_review L9-10"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0700814",
+   "service_date": "2026-01-30",
+   "service_dates": [
+    "2026-01-30"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
+   "scheduled": null,
+   "patient_present": [
+    "16:00-16:50"
+   ],
+   "excluded": [],
+   "calculation": "16:00-16:50 present (50 min) = 50 min",
+   "sources": [
+    "SY-M07008_12_service_record L20-22"
+   ],
+   "flags": []
   }
  ],
- "weeks": [],
+ "plans": [
+  {
+   "effective_date": "2026-01-05",
+   "effective_end": "2026-01-18",
+   "min_days_per_week": 2,
+   "min_minutes_per_week": 120,
+   "week_start_day": 0,
+   "counted_service_types": [
+    "individual_psychotherapy",
+    "group_psychotherapy",
+    "family_psychotherapy"
+   ],
+   "sources": [
+    "SY-M07008_01_treatment_plan L6-8"
+   ],
+   "version": 1
+  },
+  {
+   "effective_date": "2026-01-19",
+   "effective_end": "2026-01-30",
+   "min_days_per_week": 3,
+   "min_minutes_per_week": 150,
+   "week_start_day": 0,
+   "counted_service_types": [
+    "individual_psychotherapy",
+    "group_psychotherapy",
+    "family_psychotherapy"
+   ],
+   "sources": [
+    "SY-M07008_04_plan_update L6-7"
+   ],
+   "version": 2
+  }
+ ],
+ "assessments": [
+  {
+   "instrument": "PHQ-9",
+   "completed_on": "2026-01-05",
+   "total_score": 22,
+   "copies": [
+    "SY-M07008_05_imported_result L8-10"
+   ],
+   "sources": [
+    "SY-M07008_02_questionnaire_review L6-8"
+   ],
+   "note": null
+  },
+  {
+   "instrument": "PHQ-9",
+   "completed_on": "2026-01-30",
+   "total_score": 15,
+   "copies": [],
+   "sources": [
+    "SY-M07008_11_questionnaire_review L6-8"
+   ],
+   "note": null
+  }
+ ],
+ "observations": [
+  {
+   "observed_on": "2026-01-05",
+   "category": "mood",
+   "text": "Presenting needs include low mood, worry about daily tasks, and irregular sleep.",
+   "sources": [
+    "SY-M07008_01_treatment_plan L9"
+   ]
+  }
+ ],
+ "charges": [],
+ "flags": [
+  {
+   "kind": "possible_omission",
+   "encounter": "SY-E0700803",
+   "text": "SY-M07008_03_service_record L12 states 10:05, inside the session window of SY-E0700803, which no extracted item carries; a break or a time may be missing.",
+   "citations": [
+    "SY-M07008_03_service_record L12"
+   ],
+   "settles": null
+  },
+  {
+   "kind": "possible_omission",
+   "encounter": "SY-E0700803",
+   "text": "SY-M07008_03_service_record L31 states 11:05, inside the session window of SY-E0700803, which no extracted item carries; a break or a time may be missing.",
+   "citations": [
+    "SY-M07008_03_service_record L31"
+   ],
+   "settles": null
+  },
+  {
+   "kind": "possible_omission",
+   "encounter": "SY-E0700804",
+   "text": "SY-M07008_03_service_record L8 states 16:05, inside the session window of SY-E0700804, which no extracted item carries; a break or a time may be missing.",
+   "citations": [
+    "SY-M07008_03_service_record L8"
+   ],
+   "settles": null
+  },
+  {
+   "kind": "unresolved_minutes_conflict",
+   "encounter": "SY-E0700812",
+   "text": "Signed records of SY-E0700812 disagree on patient-present minutes: SY-M07008_07_service_record L6-8 gives 14:00-15:20 = 80 min; SY-M07008_08_cotherapist_record L6-8 gives 14:30-15:20 = 50 min. No correction or addendum resolves it, so SY-E0700812 is carried as a range 50-80 min.",
+   "citations": [
+    "SY-M07008_07_service_record L6-8",
+    "SY-M07008_08_cotherapist_record L6-8"
+   ],
+   "settles": "An addendum or signed note stating the start time of SY-E0700812 would settle it."
+  }
+ ],
+ "coverage_notes": [
+  {
+   "citation": "SY-M07008_03_service_record L8",
+   "value": "16:05"
+  },
+  {
+   "citation": "SY-M07008_03_service_record L12",
+   "value": "10:05"
+  },
+  {
+   "citation": "SY-M07008_03_service_record L17",
+   "value": "11:50"
+  },
+  {
+   "citation": "SY-M07008_03_service_record L22",
+   "value": "18:00"
+  },
+  {
+   "citation": "SY-M07008_03_service_record L27",
+   "value": "15:20"
+  },
+  {
+   "citation": "SY-M07008_03_service_record L31",
+   "value": "11:05"
+  },
+  {
+   "citation": "SY-M07008_03_service_record L36",
+   "value": "15:05"
+  },
+  {
+   "citation": "SY-M07008_12_service_record L9",
+   "value": "15:35"
+  },
+  {
+   "citation": "SY-M07008_12_service_record L12",
+   "value": "14:40"
+  },
+  {
+   "citation": "SY-M07008_12_service_record L13",
+   "value": "15:15"
+  },
+  {
+   "citation": "SY-M07008_12_service_record L18",
+   "value": "11:50"
+  },
+  {
+   "citation": "SY-M07008_12_service_record L22",
+   "value": "18:05"
+  }
+ ],
+ "incomplete": [],
+ "weeks": [
+  {
+   "week_start": "2026-01-05",
+   "week_end": "2026-01-11",
+   "therapy_days_low": 3,
+   "therapy_days_high": 3,
+   "minutes_low": 190,
+   "minutes_high": 190,
+   "status": "met",
+   "explanation": "3 therapy days and 190 minutes meet the goal of 2 therapy days and 120 minutes",
+   "plan_version": 1,
+   "encounters": [
+    "SY-E0700801",
+    "SY-E0700802",
+    "SY-E0700803",
+    "SY-E0700804"
+   ]
+  },
+  {
+   "week_start": "2026-01-12",
+   "week_end": "2026-01-18",
+   "therapy_days_low": 2,
+   "therapy_days_high": 2,
+   "minutes_low": 195,
+   "minutes_high": 195,
+   "status": "met",
+   "explanation": "2 therapy days and 195 minutes meet the goal of 2 therapy days and 120 minutes",
+   "plan_version": 1,
+   "encounters": [
+    "SY-E0700805",
+    "SY-E0700806",
+    "SY-E0700807"
+   ]
+  },
+  {
+   "week_start": "2026-01-19",
+   "week_end": "2026-01-25",
+   "therapy_days_low": 1,
+   "therapy_days_high": 1,
+   "minutes_low": 75,
+   "minutes_high": 75,
+   "status": "not_met",
+   "explanation": "1 therapy day and 75 minutes miss the goal of 3 therapy days and 150 minutes (1 therapy day < 3; 75 minutes < 150)",
+   "plan_version": 2,
+   "encounters": [
+    "SY-E0700811"
+   ]
+  },
+  {
+   "week_start": "2026-01-26",
+   "week_end": "2026-01-30",
+   "therapy_days_low": 3,
+   "therapy_days_high": 3,
+   "minutes_low": 145,
+   "minutes_high": 175,
+   "status": "cannot_determine",
+   "explanation": "3 therapy days and 145-175 minutes: the goal of 3 therapy days and 150 minutes is met at the high bound but not at the low bound, so it depends on an unresolved record; partial week (2026-01-26 to 2026-01-30) inside the review period. An addendum or signed note stating the start time of SY-E0700812 would settle it.",
+   "plan_version": 2,
+   "encounters": [
+    "SY-E0700812",
+    "SY-E0700813",
+    "SY-E0700814"
+   ]
+  }
+ ],
  "consecutive_weeks_below_goal": {
   "run_length": 2,
   "established": [],
-  "depends_on_unresolved_records": []
+  "depends_on_unresolved_records": [
+   [
+    "2026-01-19",
+    "2026-01-26"
+   ]
+  ]
  },
  "plan_versions_compared": {
-  "versions": [],
-  "note": "No treatment-plan version falls inside the review period."
+  "versions": [
+   {
+    "plan_version": 1,
+    "start": "2026-01-05",
+    "end": "2026-01-18",
+    "weeks": 2.0,
+    "goal_days": 2,
+    "goal_minutes": 120,
+    "sources": [
+     "SY-M07008_01_treatment_plan L6-8"
+    ],
+    "sessions_low": 7,
+    "sessions_high": 7,
+    "therapy_days_low": 5,
+    "therapy_days_high": 5,
+    "minutes_low": 385,
+    "minutes_high": 385,
+    "by_service_type": {
+     "individual_psychotherapy": {
+      "sessions_low": 4,
+      "sessions_high": 4,
+      "minutes_low": 190,
+      "minutes_high": 190
+     },
+     "group_psychotherapy": {
+      "sessions_low": 3,
+      "sessions_high": 3,
+      "minutes_low": 195,
+      "minutes_high": 195
+     }
+    },
+    "minutes_per_week_low": 192.5,
+    "minutes_per_week_high": 192.5
+   },
+   {
+    "plan_version": 2,
+    "start": "2026-01-19",
+    "end": "2026-01-30",
+    "weeks": 1.71,
+    "goal_days": 3,
+    "goal_minutes": 150,
+    "sources": [
+     "SY-M07008_04_plan_update L6-7"
+    ],
+    "sessions_low": 4,
+    "sessions_high": 4,
+    "therapy_days_low": 4,
+    "therapy_days_high": 4,
+    "minutes_low": 220,
+    "minutes_high": 250,
+    "by_service_type": {
+     "group_psychotherapy": {
+      "sessions_low": 2,
+      "sessions_high": 2,
+      "minutes_low": 120,
+      "minutes_high": 120
+     },
+     "individual_psychotherapy": {
+      "sessions_low": 2,
+      "sessions_high": 2,
+      "minutes_low": 100,
+      "minutes_high": 130
+     }
+    },
+    "minutes_per_week_low": 128.3,
+    "minutes_per_week_high": 145.8
+   }
+  ],
+  "note": null
  },
  "built_with": {
   "model": "claude-sonnet-5-5",
-  "extractor_version": "f27d55d46c8f",
-  "documents_extracted": 0,
-  "documents_pending": 12
+  "extractor_version": "76dd8605fc7e",
+  "documents_extracted": 12,
+  "documents_pending": 0
  }
 }

@@ -1,6 +1,6 @@
 {
   "claude": {
-    "total_usd": 0.4705337999999995,
+    "total_usd": 0.4787271999999995,
     "entries": [
       {
         "at": "2026-10-17T20:49:53+00:00",
@@ -3261,11 +3261,31 @@
         "at": "2026-10-17T23:05:53+00:00",
         "usd": 0.0007886,
         "note": "extract SY-M07025_14_service_record"
+      },
+      {
+        "at": "2026-10-17T23:09:51+00:00",
+        "usd": 0.0017937,
+        "note": "extract SY-M07013_10_service_record"
+      },
+      {
+        "at": "2026-10-17T23:10:00+00:00",
+        "usd": 0.0019287,
+        "note": "extract SY-M07013_10_service_record"
+      },
+      {
+        "at": "2026-10-17T23:10:09+00:00",
+        "usd": 0.0021315,
+        "note": "extract SY-M07013_10_service_record"
+      },
+      {
+        "at": "2026-10-17T23:10:18+00:00",
+        "usd": 0.0023395,
+        "note": "extract SY-M07013_10_service_record"
       }
     ]
   },
   "jev": {
-    "total_usd": 0.029219777999999988,
+    "total_usd": 0.02973431999999999,
     "entries": [
       {
         "at": "2026-10-17T20:53:35+00:00",
@@ -5800,6 +5820,51 @@
       {
         "at": "2026-10-17T23:05:57+00:00",
         "usd": 5.8212000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:19+00:00",
+        "usd": 5.6868000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:19+00:00",
+        "usd": 5.6868000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:19+00:00",
+        "usd": 5.6952000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:19+00:00",
+        "usd": 5.8044e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:20+00:00",
+        "usd": 5.6826e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:20+00:00",
+        "usd": 5.640600000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:20+00:00",
+        "usd": 5.6868000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:21+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T23:10:21+00:00",
+        "usd": 5.8254e-05,
         "note": "jev record_role, attendance, service_type, copy_or_draft"
       }
     ]

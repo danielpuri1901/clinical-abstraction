@@ -13,6 +13,18 @@
    "documents": 311,
    "cost_usd": 0.271889,
    "total_seconds": 239.911
+  },
+  {
+   "log": "ingest-20261018-010348.jsonl",
+   "documents": 311,
+   "cost_usd": 0.185455,
+   "total_seconds": 129.961
+  },
+  {
+   "log": "ingest-20261018-010942.jsonl",
+   "documents": 1,
+   "cost_usd": 0.008193,
+   "total_seconds": 39.094
   }
  ],
  "items": [
@@ -53,7 +65,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.008715,
+    "cost_usd": 0.005921,
     "seconds": null
    },
    "comment": "60 of 60 checks passed",
@@ -94,7 +106,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.012816,
+    "cost_usd": 0.010135,
     "seconds": null
    },
    "comment": "86 of 86 checks passed",
@@ -135,7 +147,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011648,
+    "cost_usd": 0.007481,
     "seconds": null
    },
    "comment": "75 of 75 checks passed",
@@ -180,7 +192,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010541,
+    "cost_usd": 0.007683,
     "seconds": null
    },
    "comment": "68 of 68 checks passed",
@@ -222,7 +234,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.012842,
+    "cost_usd": 0.008382,
     "seconds": null
    },
    "comment": "84 of 84 checks passed",
@@ -261,7 +273,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011707,
+    "cost_usd": 0.00757,
     "seconds": null
    },
    "comment": "73 of 73 checks passed",
@@ -305,7 +317,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011099,
+    "cost_usd": 0.007094,
     "seconds": null
    },
    "comment": "82 of 82 checks passed",
@@ -347,7 +359,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011689,
+    "cost_usd": 0.006917,
     "seconds": null
    },
    "comment": "75 of 75 checks passed",
@@ -391,7 +403,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011177,
+    "cost_usd": 0.00887,
     "seconds": null
    },
    "comment": "70 of 70 checks passed",
@@ -433,7 +445,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010481,
+    "cost_usd": 0.006939,
     "seconds": null
    },
    "comment": "80 of 80 checks passed",
@@ -473,7 +485,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.00913,
+    "cost_usd": 0.007662,
     "seconds": null
    },
    "comment": "64 of 64 checks passed",
@@ -514,7 +526,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011487,
+    "cost_usd": 0.007661,
     "seconds": null
    },
    "comment": "60 of 60 checks passed",
@@ -558,7 +570,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010957,
+    "cost_usd": 0.012539,
     "seconds": null
    },
    "comment": "75 of 75 checks passed",
@@ -596,7 +608,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010184,
+    "cost_usd": 0.007795,
     "seconds": null
    },
    "comment": "78 of 78 checks passed",
@@ -636,7 +648,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.011124,
+    "cost_usd": 0.006587,
     "seconds": null
    },
    "comment": "67 of 67 checks passed",
@@ -679,7 +691,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010512,
+    "cost_usd": 0.007317,
     "seconds": null
    },
    "comment": "80 of 80 checks passed",
@@ -719,7 +731,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.012023,
+    "cost_usd": 0.007537,
     "seconds": null
    },
    "comment": "81 of 81 checks passed",
@@ -758,7 +770,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010847,
+    "cost_usd": 0.008513,
     "seconds": null
    },
    "comment": "70 of 70 checks passed",
@@ -803,7 +815,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010764,
+    "cost_usd": 0.006445,
     "seconds": null
    },
    "comment": "73 of 73 checks passed",
@@ -844,7 +856,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.01082,
+    "cost_usd": 0.005879,
     "seconds": null
    },
    "comment": "63 of 63 checks passed",
@@ -885,7 +897,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.012179,
+    "cost_usd": 0.008595,
     "seconds": null
    },
    "comment": "89 of 89 checks passed",
@@ -926,7 +938,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.008729,
+    "cost_usd": 0.006381,
     "seconds": null
    },
    "comment": "65 of 65 checks passed",
@@ -962,7 +974,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.00921,
+    "cost_usd": 0.007821,
     "seconds": null
    },
    "comment": "88 of 88 checks passed",
@@ -1000,7 +1012,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010486,
+    "cost_usd": 0.008102,
     "seconds": null
    },
    "comment": "76 of 76 checks passed",
@@ -1046,7 +1058,7 @@
    "scores": {
     "gold_accuracy": 1.0,
     "gold_passed": 1.0,
-    "cost_usd": 0.010722,
+    "cost_usd": 0.00782,
     "seconds": null
    },
    "comment": "59 of 59 checks passed",
@@ -1056,8 +1068,8 @@
  "scores": {
   "gold_accuracy": 1.0,
   "gold_passed": 1.0,
-  "cost_usd": 0.010876,
+  "cost_usd": 0.007746,
   "seconds": null
  },
- "created_at": "2026-10-17T21:11:11+00:00"
+ "created_at": "2026-10-17T23:11:01+00:00"
 }

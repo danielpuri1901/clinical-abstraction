@@ -26,4 +26,4 @@ Consecutive weeks below goal: established 2026-01-05 and 2026-01-12; depending o
 
 Verdict: COMPUTED
 
-0.274 s; $4.5e-05 model spend at list price.
+0.001 s; $0.0 model spend at list price.
