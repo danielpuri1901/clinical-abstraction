@@ -82,3 +82,30 @@ Decided 2026-10-17. Closes B2 and the per-patient part of M-scale; sets the stor
 - D3.6 Rate limiting at the provider is handled by a queue with workers and backoff, not by an API gateway. A gateway protects our HTTP service; the limit here is Bedrock's.
 - Rejected: moving to Postgres before submission (no concurrent writers exist yet; it would add setup with no measured gain).
 - Check: re-run evals/benchmark.py after D3.1 and D3.2; a one-document ingest at 62,000 documents must stay under 1 s with no model time, and DEV-01 under 0.6 s at 2,001 patients; README scale table relabelled measured versus estimate, and the "14 ms" claim restated as the SQL query only or replaced by the full answer time.
+
+### Round 4: accuracy at scale
+
+Decided 2026-10-17. Closes M1, M-format, and M-evidence.
+
+- D4.1 The quote check cannot catch a wrong label or an omission, so two more checks exist. Labels: a second reader (the decision model) re-reads the four counting labels, record role, attendance, service type, and copy or draft, from the cited lines; a disagreement raises a `label_disputed` flag, and when the other label would change the count the encounter becomes `disputed`. Omissions: a coverage check lists every time in the document that no admitted item cites; times inside a session window become `possible_omission` flags.
+- D4.2 Accuracy at scale is measured on synthetic patients with known truth. The truth (encounters, breaks, corrections, duplicates, late copies, drafts, conflicts, plan changes) is drawn first, documents are rendered from it in three templates and several date and time formats, and the pipeline's abstraction is scored against the truth with the same gold scorer. Unsettled conflicts are placed so that the week straddles the goal in most cases, so "cannot be determined" is exercised.
+- D4.3 Dates and times are normalized at the referee boundary from all common formats (day-first, month names, numeric month-first, ordinals, compact "Jan05", 12-hour, bare "1415") before comparison. The format table test and the coverage check catch new formats as dropped facts.
+- D4.4 Budget plan: synthetic run of 25 patients, about 300 documents, on Haiku 5.5 (about $0.35, run three times for variance) and Sonnet 5.5 on 12 patients (about $3.30); the supplied record on Sonnet 5.5 (about $0.70) after a Haiku development run; the held-out patient (about $0.35). All estimates from the list prices on 2026-10-17; the ledger records the measured cost. Caps: $10 Claude API, $0.50 Jev.
+- D4.5 Daniel checks the real patient's gold labels against the source documents with the gold checklist before submission, because the labels were derived by the coding assistant.
+- Rejected: trusting repeated runs on the same two patients as evidence of accuracy (zero errors on two patients bounds the error rate only below 78 percent).
+
+### Round 5: verification stack
+
+Decided 2026-10-17.
+
+- D5.1 No Lean kernel now. A proof checker certifies derivations, not that an extracted fact is true to the document, and every failure found so far lives in extraction or reconciliation inputs. The range arithmetic gets seeded random property checks in pytest (stdlib only). The README keeps one sentence on a Lean model with differential testing as a later step.
+- D5.2 The decision model sits at two points only: question parsing (enum values with abstention, Round 1) and the second reading of the four counting labels (D4.1). Never for open text, never alone; thresholds are measured on the synthetic set before they are trusted.
+- D5.3 Definition of done for a rule: one runnable check that fails if the rule breaks; the gold gates still pass; `docs/design.md` has the rule and its why; the measured numbers it touches are re-measured.
+
+### Round 6: process and presentation
+
+Decided 2026-10-17.
+
+- D6.1 Development: the smallest end-to-end slice per task, run on the real path, output inspected. A fresh implementer per independent task (Sonnet 5.5 for bounded work, Opus for design-heavy tasks), test first, no per-task review passes; errors are found by running tests, gates, and the benchmark.
+- D6.2 Evals run through Langfuse datasets and experiments when keys exist; every score is computed locally and written to `outputs/experiments/`, so reviewers can run the evals without an account.
+- D6.3 On the follow-up call: a five-minute narrative, then three deep dives: the question interface with two readers, incremental ingestion with fingerprints and incompleteness, and accuracy at scale with synthetic truth and the cheap tier.
