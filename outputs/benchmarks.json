@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-17T21:02:21+00:00",
+ "generated_at": "2026-10-17T23:16:21+00:00",
  "patients": 2000,
  "store": "outputs/abstraction.db",
  "template_patient": "HG-M042",
@@ -47,6 +47,21 @@
     "cost_usd": 0.046801,
     "input_tokens": 29176,
     "output_tokens": 80049
+   }
+  },
+  {
+   "log": "experiments/held-out/logs/ingest-20261018-010105.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 15,
+   "total_seconds": 20.843,
+   "extraction": {
+    "documents": 45,
+    "extracted": 45,
+    "failed": 0,
+    "calls": 47,
+    "cost_usd": 0.028694,
+    "input_tokens": 37345,
+    "output_tokens": 40623
    }
   },
   {
@@ -110,6 +125,36 @@
    }
   },
   {
+   "log": "experiments/tier-haiku-run1/logs/ingest-20261018-005441.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 121.131,
+   "extraction": {
+    "documents": 311,
+    "extracted": 311,
+    "failed": 0,
+    "calls": 319,
+    "cost_usd": 0.181061,
+    "input_tokens": 188681,
+    "output_tokens": 261837
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run1/logs/ingest-20261018-005827.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 125.122,
+   "extraction": {
+    "documents": 311,
+    "extracted": 311,
+    "failed": 0,
+    "calls": 328,
+    "cost_usd": 0.191076,
+    "input_tokens": 211118,
+    "output_tokens": 275049
+   }
+  },
+  {
    "log": "experiments/tier-haiku-run2/logs/ingest-20261017-224553.jsonl",
    "new_documents": 311,
    "duplicate_or_known_files": 8,
@@ -122,6 +167,36 @@
     "cost_usd": 0.270782,
     "input_tokens": 140781,
     "output_tokens": 461192
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run2/logs/ingest-20261018-010138.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 127.566,
+   "extraction": {
+    "documents": 311,
+    "extracted": 310,
+    "failed": 1,
+    "calls": 325,
+    "cost_usd": 0.189124,
+    "input_tokens": 208925,
+    "output_tokens": 272177
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run2/logs/ingest-20261018-010935.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 4.908,
+   "extraction": {
+    "documents": 1,
+    "extracted": 1,
+    "failed": 0,
+    "calls": 1,
+    "cost_usd": 0.000926,
+    "input_tokens": 919,
+    "output_tokens": 1470
    }
   },
   {
@@ -140,6 +215,36 @@
    }
   },
   {
+   "log": "experiments/tier-haiku-run3/logs/ingest-20261018-010348.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 129.961,
+   "extraction": {
+    "documents": 311,
+    "extracted": 310,
+    "failed": 1,
+    "calls": 326,
+    "cost_usd": 0.185455,
+    "input_tokens": 202281,
+    "output_tokens": 265970
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run3/logs/ingest-20261018-010942.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 39.094,
+   "extraction": {
+    "documents": 1,
+    "extracted": 1,
+    "failed": 0,
+    "calls": 4,
+    "cost_usd": 0.008193,
+    "input_tokens": 14548,
+    "output_tokens": 12686
+   }
+  },
+  {
    "log": "experiments/tier-sonnet-run1/logs/ingest-20261017-224630.jsonl",
    "new_documents": 152,
    "duplicate_or_known_files": 4,
@@ -152,6 +257,36 @@
     "cost_usd": 1.518866,
     "input_tokens": 64552,
     "output_tokens": 126497
+   }
+  },
+  {
+   "log": "experiments/tier-sonnet-run1/logs/ingest-20261018-010131.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 156,
+   "total_seconds": 5.587,
+   "extraction": {
+    "documents": 152,
+    "extracted": 0,
+    "failed": 152,
+    "calls": 0,
+    "cost_usd": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+   }
+  },
+  {
+   "log": "experiments/tier-sonnet-run1/logs/ingest-20261018-010807.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 156,
+   "total_seconds": 86.57,
+   "extraction": {
+    "documents": 152,
+    "extracted": 152,
+    "failed": 0,
+    "calls": 152,
+    "cost_usd": 1.528628,
+    "input_tokens": 65160,
+    "output_tokens": 124798
    }
   },
   {
@@ -228,10 +363,70 @@
     "input_tokens": 22062,
     "output_tokens": 29779
    }
+  },
+  {
+   "log": "logs/ingest-20261018-005423.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 16.046,
+   "extraction": {
+    "documents": 31,
+    "extracted": 31,
+    "failed": 0,
+    "calls": 32,
+    "cost_usd": 0.029487,
+    "input_tokens": 28095,
+    "output_tokens": 29041
+   }
+  },
+  {
+   "log": "logs/ingest-20261018-005809.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 15.901,
+   "extraction": {
+    "documents": 31,
+    "extracted": 31,
+    "failed": 0,
+    "calls": 33,
+    "cost_usd": 0.030416,
+    "input_tokens": 29996,
+    "output_tokens": 30107
+   }
+  },
+  {
+   "log": "logs/ingest-20261018-010128.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 1.39,
+   "extraction": {
+    "documents": 31,
+    "extracted": 0,
+    "failed": 31,
+    "calls": 0,
+    "cost_usd": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+   }
+  },
+  {
+   "log": "logs/ingest-20261018-010743.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 21.892,
+   "extraction": {
+    "documents": 31,
+    "extracted": 31,
+    "failed": 0,
+    "calls": 31,
+    "cost_usd": 0.547459,
+    "input_tokens": 22186,
+    "output_tokens": 28254
+   }
   }
  ],
  "warm_rerun": {
-  "seconds": 0.009,
+  "seconds": 0.0089,
   "model_calls": 0,
   "new_documents": 0,
   "patients_rebuilt": 0
@@ -241,29 +436,29 @@
    "patients": 1,
    "documents": 31,
    "build_seconds": 0.0,
-   "sqlite_bytes": 303104,
-   "median_seconds": 0.0517,
-   "max_seconds": 0.0595,
+   "sqlite_bytes": 299008,
+   "median_seconds": 0.05,
+   "max_seconds": 0.0521,
    "runs": 5,
    "patients_rebuilt": 1
   },
   {
    "patients": 2000,
    "documents": 62000,
-   "build_seconds": 12.52,
-   "sqlite_bytes": 412250112,
-   "median_seconds": 0.0923,
-   "max_seconds": 2.0625,
+   "build_seconds": 12.48,
+   "sqlite_bytes": 399765504,
+   "median_seconds": 0.2044,
+   "max_seconds": 1.0711,
    "runs": 5,
    "patients_rebuilt": 1
   },
   {
    "patients": 20000,
    "documents": 620000,
-   "build_seconds": 262.19,
-   "sqlite_bytes": 4124356608,
-   "median_seconds": 2.3856,
-   "max_seconds": 9.4711,
+   "build_seconds": 277.6,
+   "sqlite_bytes": 3999723520,
+   "median_seconds": 2.9199,
+   "max_seconds": 3.2277,
    "runs": 5,
    "patients_rebuilt": 1
   }
@@ -272,25 +467,25 @@
   {
    "id": "DEV-01",
    "patients": 1,
-   "median_seconds": 0.0015,
-   "max_seconds": 0.0036,
+   "median_seconds": 0.0011,
+   "max_seconds": 0.0017,
    "runs": 3,
-   "answer_characters": 7419,
+   "answer_characters": 7182,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-02",
    "patients": 1,
-   "median_seconds": 0.0013,
-   "max_seconds": 0.0022,
+   "median_seconds": 0.0009,
+   "max_seconds": 0.0009,
    "runs": 3,
-   "answer_characters": 4172,
+   "answer_characters": 4020,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-03",
    "patients": 1,
-   "median_seconds": 0.0005,
+   "median_seconds": 0.0004,
    "max_seconds": 0.0006,
    "runs": 3,
    "answer_characters": 1490,
@@ -299,44 +494,44 @@
   {
    "id": "DEV-04",
    "patients": 1,
-   "median_seconds": 0.0006,
+   "median_seconds": 0.0005,
    "max_seconds": 0.0006,
    "runs": 3,
-   "answer_characters": 1372,
+   "answer_characters": 1295,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-05",
    "patients": 1,
-   "median_seconds": 0.0007,
+   "median_seconds": 0.0006,
    "max_seconds": 0.0007,
    "runs": 3,
-   "answer_characters": 2784,
+   "answer_characters": 2421,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-01",
    "patients": 2000,
-   "median_seconds": 0.0095,
-   "max_seconds": 1.1163,
+   "median_seconds": 0.0089,
+   "max_seconds": 0.5303,
    "runs": 3,
-   "answer_characters": 7419,
+   "answer_characters": 7182,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-02",
    "patients": 2000,
-   "median_seconds": 0.0087,
-   "max_seconds": 0.0089,
+   "median_seconds": 0.007,
+   "max_seconds": 0.008,
    "runs": 3,
-   "answer_characters": 4172,
+   "answer_characters": 4020,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-03",
    "patients": 2000,
-   "median_seconds": 0.0088,
-   "max_seconds": 0.0112,
+   "median_seconds": 0.0065,
+   "max_seconds": 0.0065,
    "runs": 3,
    "answer_characters": 1490,
    "verdict": "COMPUTED"
@@ -344,78 +539,78 @@
   {
    "id": "DEV-04",
    "patients": 2000,
-   "median_seconds": 0.0228,
-   "max_seconds": 0.0423,
+   "median_seconds": 0.0184,
+   "max_seconds": 0.1657,
    "runs": 3,
-   "answer_characters": 64748,
+   "answer_characters": 60898,
    "verdict": "COMPUTED"
   },
   {
    "id": "DEV-05",
    "patients": 2000,
-   "median_seconds": 0.0318,
-   "max_seconds": 0.0339,
+   "median_seconds": 0.0255,
+   "max_seconds": 0.0397,
    "runs": 3,
-   "answer_characters": 137161,
+   "answer_characters": 119011,
    "verdict": "COMPUTED"
   }
  ],
  "collection_question": {
   "id": "REVIEW-10",
   "patients": 2000,
-  "median_seconds": 0.0299,
-  "max_seconds": 0.3022,
+  "median_seconds": 0.0226,
+  "max_seconds": 0.0962,
   "runs": 3,
   "answer_characters": 824,
   "verdict": "COMPUTED"
  },
  "sizes": {
-  "sqlite_bytes": 516096,
+  "sqlite_bytes": 753664,
   "rows": {
    "documents": 31,
-   "extractions": 93,
-   "label_checks": 93,
+   "extractions": 186,
+   "label_checks": 186,
    "patients": 1,
    "encounters": 25,
    "weeks": 4,
    "flags": 6,
    "assessments": 3,
-   "observations": 75
+   "observations": 66
   },
-  "abstraction_json_bytes_per_patient": 35624
+  "abstraction_json_bytes_per_patient": 32915
  },
  "spend": {
   "ledgers": {
    "experiments/held-out/logs/spend.json": {
-    "claude": 0.064316,
-    "jev": 0.003487
+    "claude": 0.09301,
+    "jev": 0.004552
    },
    "experiments/new-document/logs/spend.json": {
     "claude": 0.029279,
     "jev": 6.1e-05
    },
    "experiments/tier-haiku-run1/logs/spend.json": {
-    "claude": 0.558922,
-    "jev": 0.030257
+    "claude": 0.931059,
+    "jev": 0.035211
    },
    "experiments/tier-haiku-run2/logs/spend.json": {
-    "claude": 0.270782,
-    "jev": 0.024028
+    "claude": 0.463966,
+    "jev": 0.029327
    },
    "experiments/tier-haiku-run3/logs/spend.json": {
-    "claude": 0.271889,
-    "jev": 0.02406
+    "claude": 0.478727,
+    "jev": 0.029734
    },
    "experiments/tier-sonnet-run1/logs/spend.json": {
-    "claude": 1.518866,
-    "jev": 0.011612
+    "claude": 3.047494,
+    "jev": 0.013656
    },
    "logs/spend.json": {
-    "claude": 0.647309,
-    "jev": 0.00687
+    "claude": 1.25467,
+    "jev": 0.007958
    }
   },
-  "claude_usd": 3.361363,
-  "jev_usd": 0.100375
+  "claude_usd": 6.298205,
+  "jev_usd": 0.120499
  }
 }

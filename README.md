@@ -152,6 +152,8 @@ Other gaps:
 - Corrections of dates or service types are flagged, not applied.
 - A document with no patient id stays unassigned and `ingest` exits with code 1.
 - The last week of the supplied record is partial (Monday to Friday) and is judged against the full weekly goal.
+- About one Haiku document in 300 fails schema validation after three attempts; it stays pending, the patient is marked incomplete, and the next `ingest` reads it again.
+- Model calls are logged locally, not traced to Langfuse; only the eval scores are mirrored there.
 
 ## Speed and cost (measured)
 
@@ -161,10 +163,10 @@ Other gaps:
 | Read 311 synthetic documents, Haiku 5.5 | about 125 s, $0.19 per run |
 | Run again with nothing new | 0.009 s, 0 model calls |
 | Add one document (an addendum), Sonnet 5.5 on the previous prompt | 5.0 s, 1 model call, $0.03 |
-| Code time to add one document, after the model | 0.05 s with 31 documents; 0.09 s with 62,000; 2.4 s with 620,000 |
-| Question about one patient | 0.3 s with the decision model; 1 to 32 ms of code |
-| Question across 2,000 patients | 30 ms |
-| Size of the saved store | 516 KB for the supplied record; 412 MB at 62,000 documents |
+| Code time to add one document, after the model | 0.05 s with 31 documents; 0.20 s with 62,000; 2.9 s with 620,000 |
+| Question about one patient | 0.3 s with the decision model; 6 to 26 ms of code at 2,000 patients |
+| Question across 2,000 patients | 23 ms |
+| Size of the saved store | 754 KB for the supplied record with 6 extractor versions; 400 MB at 62,000 documents; 4.0 GB at 620,000 |
 
 The 2,000 and 20,000 patients are copies of the one real patient with new ids (`outputs/benchmarks.json`).
 
@@ -180,7 +182,7 @@ Reading is the first bottleneck: one model call per document (`read.extract_docu
 | Time with 8 workers, estimate | about 5 days | about 7 days |
 
 Changes, in order: make the model write less, use the cheapest model that passes the checks, run backfills as batch jobs at half price, then add workers up to the account's token limit.
-After that: the code that looks for pending work scans every document (`store.extract_missing`), which is why one document costs 2.4 s at 620,000 documents; it needs a pending-work table, then Postgres when more than one process writes.
+After that: the code that looks for pending work scans every document (`store.extract_missing`), which is why one document costs 2.9 s at 620,000 documents; it needs a pending-work table, then Postgres when more than one process writes.
 
 ## Models, settings, and help from AI
 
@@ -196,5 +198,5 @@ After that: the code that looks for pending work scans every document (`store.ex
 - `src/clinical_abstraction/`: `read` (every model call: extraction, the Jev second opinion, and the spend ledger), `reconcile` (check, merge, and count), `store` (the SQLite store, ingest, and exports), `answer` (read the question, answer it, and the open-question agent), `schema` (what the model may claim), `cli`.
 - `outputs/`: the saved store, the patient record (`abstraction/HG-M042.md`), the five answers, logs, experiments, `benchmarks.json`.
 - `evals/`: expected values, the scorer, the synthetic patient generator, the experiments and the benchmark (`experiments.py`), the 54 questions.
-- `docs/`: [design.md](docs/design.md) (every rule and why), [experiments.md](docs/experiments.md) (every run), [decisions.md](docs/decisions.md), the gold checklist.
+- `docs/`: [design.md](docs/design.md) (every rule and why), [experiments.md](docs/experiments.md) (every run), [decisions.md](docs/decisions.md) (every decision with the gap it closes), the gold checklist, the plan, the simplification audit.
 - `documents/`, `questions.json`, `examples/`: the supplied record, the five questions, a held-out patient and an addendum (both synthetic).

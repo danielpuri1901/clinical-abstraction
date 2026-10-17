@@ -224,6 +224,12 @@ Where a later run overwrote a result file, the earlier numbers come from git his
 - 54 questions, real Jev, three arms (`outputs/experiments/routing-*.json`): rules alone 0.537 metric, 0.500 attendance, 0.593 dates; Jev alone 0.574, 0.574, 0.593 with one wrong plain COMPUTED; both readers 0.944, 0.944, 1.000, zero wrong plain COMPUTED, 3 misses (DEV-04, REVIEW-18, REVIEW-21), all with a warning, 4 correct refusals.
 - The five development answers were regenerated on the Sonnet build (`outputs/answers/`); `verify-answers` exits 0.
 
+## Run 20 (2026-10-18, 01:20): the benchmark on the final store
+
+- `benchmarks.json` regenerated after the prompt change; the main store now holds 6 extractor versions (186 extraction rows for 31 documents, 753,664 bytes, 32,915 bytes of abstraction JSON).
+- One new document, code only, median of 5: 0.050 s at 1 patient; 0.204 s at 2,000 (62,000 documents, 399,765,504 bytes); 2.920 s at 20,000 (620,000 documents, 3,999,723,520 bytes). Slower than Run 14 because every copied patient now carries six extraction rows per document, which the pending-work scan reads.
+- Questions at 2,000 patients, median of 3: DEV-01 0.0089 s, DEV-02 0.0070 s, DEV-03 0.0065 s, DEV-04 0.0184 s, DEV-05 0.0255 s. Collection question: 0.0226 s.
+
 ## What failed and what changed
 
 | Failure | Found in | Change | Result |

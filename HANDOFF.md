@@ -35,7 +35,7 @@ Daniel confirms the gold labels and sends the submission.
 1. Daniel confirms the gold labels for the supplied record with `docs/gold-checklist.md` (24 rows, every cited line printed).
 2. Daniel sends the submission (a Gmail draft exists, unsent) after giving Manan and Andrew access to the private repository or making it public.
 3. Optional: Langfuse tracing of model calls (about 25 lines around `read.call_anthropic`, opt-in by an environment variable). Not built.
-4. One new document costs 2.4 s of code at 620,000 documents: replace the pending-work scans in `store.extract_missing` and `store.backfill_label_checks` with a pending table; move the budget ledger and the Jev cache out of whole-file JSON rewrites.
+4. One new document costs 2.9 s of code at 620,000 documents: replace the pending-work scans in `store.extract_missing` and `store.backfill_label_checks` with a pending table; move the budget ledger and the Jev cache out of whole-file JSON rewrites.
 5. About one Haiku document per 311 fails schema validation after 3 attempts in some passes; the next ingest re-reads it. A fourth attempt or a repair prompt would remove the second ingest.
 6. Known referee limits: a date with no year matches any year, bare `HHMM` times are not scanned for omissions, `authored_at` is not checked against the text.
 7. "Week 2" and clinician names in questions are refused; corrections of dates or service types are flagged, not applied.

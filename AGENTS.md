@@ -1,8 +1,8 @@
 # Agent instructions for this repository
 
-Read [HANDOFF.md](HANDOFF.md) first.
-It says what exists, what was last verified, and what is open.
-Update it before you stop working.
+Read [README.md](README.md) first: it says what exists, what was measured, and what does not work yet.
+Then read [docs/decisions.md](docs/decisions.md) for why each rule is the way it is.
+Record a change as a dated entry in `docs/decisions.md` and update the README numbers it touches before you stop working.
 
 ## What this repository is
 
@@ -30,6 +30,8 @@ Change a decision by adding a dated entry to `docs/decisions.md`, not by editing
 - Every number in a document comes from a file in `outputs/`; label estimates as estimates.
 - Names say what a thing is or does; no abbreviations.
 - Markdown: one sentence per line, plain dashes only, never an em dash.
+- A new document: work on a copy of the store and ingest with the model that built it; a format that loses facts gets its pattern in `reconcile.py` with a test first.
+- A new prompt or model gets a new extractor version and the old rows stay; score it with `evals.experiments tier --store` and compare with `docs/experiments.md`.
 - Commits: plain English, no AI co-author line.
 
 ## Models, budget, and secrets
