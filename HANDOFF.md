@@ -1,6 +1,6 @@
 # Handoff
 
-Updated 2026-10-17 at the end of the rebuild.
+Updated 2026-10-18 after the simplification on the local branch `refactor` (not merged into `main`, not pushed).
 The system is complete and verified.
 Daniel confirms the gold labels and sends the submission.
 
@@ -8,6 +8,7 @@ Daniel confirms the gold labels and sends the submission.
 
 - Code: 6 modules in `src/clinical_abstraction/` (see the README repository map): `schema`, `read`, `reconcile`, `store`, `answer`, and `cli`.
   The plan is `docs/plans/2026-10-17-rebuild.md`, and every decision is in `docs/decisions.md`.
+  The simplification audit is `docs/ponytail-audit.md`, and decision D7 records the merge of fourteen modules into six.
 - Main store: `outputs/abstraction.db`, built with Sonnet 5.5 (extractor version `0c78c0f988fd`).
   It holds 31 documents for 1 patient (HG-M042), 25 encounters, 4 weeks, 3 PHQ-9 administrations, and 6 flags.
   It also keeps the earlier Haiku extractions (`44447ececf95`, `d6d18c7eb1e3`) and 6 saved answers (the five development answers and one agent answer).
@@ -17,29 +18,27 @@ Daniel confirms the gold labels and sends the submission.
 - Benchmark: `outputs/benchmarks.json` (stores of 1, 2,000, and 20,000 patients).
 - Submission documents: `README.md`, `docs/design.md` (rules and why), `docs/experiments.md` (every run with its log path).
 - Spend so far: $3.36 Claude and $0.10 Jev at list prices, against caps of $10 and $0.50.
-- Nothing is pushed or sent.
-  The repository has no remote.
+- `main` is pushed to the private GitHub repository `danielpuri1901/clinical-abstraction` (Open, item 8).
+  The branch `refactor` is local only, and nothing is sent.
 - The previous attempt is at `/Users/danielpuri/Desktop/Projects/backbone-clinical-abstraction` (reference only).
 
 ## Last verified
 
-On main at `203741e`, 2026-10-17:
+On the branch `refactor`, 2026-10-18, with no keys in the environment, after every commit of the simplification:
 
 - `uv run --frozen ruff check .`: all checks passed.
-- `uv run --frozen pytest -q`: 202 passed in about 5 s.
-- `abstraction verify-answers`, run on a copy of the store and the answers file: exit 0.
+- `uv run --frozen pytest -q`: 203 passed in about 5 s.
+- Gold gates, from copies of the stores rebuilt with `abstraction ingest --rebuild-all` from the saved extractions and no model call: the main store scores 95 of 95 (Sonnet version `0c78c0f988fd`), and the held-out store scores 95 of 95 and 53 of 53 (Haiku version `d6d18c7eb1e3`).
+- The rebuilt main, held-out, `tier-haiku-run1`, and `tier-sonnet-run1` stores match the build of `main` row for row, and their exports match byte for byte.
+- `abstraction verify-answers`, run on the rebuilt copy of the main store and a copy of the answers file: exit 0.
   DEV-01, DEV-02, DEV-03, and DEV-05 are COMPUTED.
   DEV-04 is COMPUTED WITH WARNING (attendance and service type readings).
-- Gold gates, rebuilt from the saved extractions with the current code and no model call: the supplied record scores 95 of 95 for all three extractor versions.
-  The held-out store scores 95 of 95 and 53 of 53 for both Haiku versions.
-- Synthetic truth, scored from the saved stores: Haiku passes 1 and 3 score 25 of 25 patients and 1,841 of 1,841 checks.
-  Sonnet scores 12 of 12 patients and 877 of 877 checks.
-  The first-pass extractions, rebuilt with the fixed reconciler, score 25 of 25.
+- Synthetic truth, scored from copies of the saved stores: each Haiku pass scores 25 of 25 patients and 1,841 of 1,841 checks, and Sonnet scores 12 of 12 patients and 877 of 877 checks.
 - The synthetic set regenerates byte for byte from seed 7.
-  The rules arm of the routing study replays to the saved scores (0.519, 0.481, 0.574).
+- All three arms of the routing study replay from the saved Jev cache to the saved scores, with no network call: rules 0.519, 0.481, 0.574; decision model 0.574, 0.574, 0.593; both readers 0.926, 0.870, 1.000.
 - Offline commands on a copy of the store: `ask` without keys gives a rules-only answer with its warning, and it refuses an unknown patient, a week number, and an impossible date.
-  `report` and `source` print the saved abstraction and source lines.
-- `evals.experiments benchmark --patients 50 --db outputs/abstraction.db --out <folder>` finishes in about 5 s with no model call.
+  `report` prints the saved abstraction exactly as the export, and `source` prints the source lines.
+- `python -m evals.experiments benchmark --patients 50 --db outputs/abstraction.db --out <folder>` finishes in about 5 s with no model call.
 
 ## Open
 
