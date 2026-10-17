@@ -474,10 +474,7 @@ LABEL_QUESTIONS = {  # field -> question and allowed values; the first three set
 
 
 def _header_length(lines: list[str]) -> int:
-    for number, line in enumerate(lines[:HEADER_LINES]):
-        if not line.strip():
-            return number
-    return min(len(lines), HEADER_LINES)
+    return next((number for number, line in enumerate(lines[:HEADER_LINES]) if not line.strip()), min(len(lines), HEADER_LINES))
 
 
 def _model_labels(extraction: DocumentExtraction, event: ServiceEvent) -> dict[str, str]:

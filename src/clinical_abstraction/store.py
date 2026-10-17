@@ -3,7 +3,7 @@
 Sections, in order:
 1. The store: the schema, documents with their versioned extractions and label checks, and each patient's derived rows.
 2. Ingest: register documents, extract what is missing, second-read their labels, and rebuild the patients that changed.
-3. Exports: one patient's abstraction as Markdown for a reviewer and as JSON for code, and the table helpers answers share.
+3. Markdown: one patient's abstraction as a reviewer reads it, and the table helpers the answers share.
 """
 
 import hashlib
@@ -498,21 +498,26 @@ def load_patient_docs(connection, mrn: str, version: str) -> list[Doc]:
     ]
 
 
+def _export_paths(out: Path, mrn: str) -> list[Path]:
+    """out/abstraction/<MRN>.json and .md, with each character a file name should not hold replaced by an underscore."""
+    name = re.sub(r"[^\w.-]", "_", mrn)
+    return [Path(out) / "abstraction" / f"{name}.{suffix}" for suffix in ("json", "md")]
+
+
 def export(out: Path, abstraction: dict) -> None:
-    """Write out/abstraction/<MRN>.md and .json."""
-    folder = Path(out) / "abstraction"
-    folder.mkdir(parents=True, exist_ok=True)
-    name = re.sub(r"[^\w.-]", "_", abstraction["patient"]["mrn"])
-    (folder / f"{name}.json").write_text(to_json(abstraction))
-    (folder / f"{name}.md").write_text(markdown(abstraction))
+    """Write the patient's abstraction as JSON for code and as Markdown for a reviewer."""
+    json_path, markdown_path = _export_paths(out, abstraction["patient"]["mrn"])
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(abstraction, indent=1) + "\n")
+    markdown_path.write_text(markdown(abstraction))
 
 
 def rebuild(connection, mrn: str, version: str, model: str, out: Path, log: RunLog, force: bool = False) -> bool:
     """Rebuild one patient when its fingerprint differs from the stored one (or when forced). Returns whether it was rebuilt."""
     if not connection.execute("SELECT 1 FROM documents WHERE patient_id = ? LIMIT 1", (mrn,)).fetchone():
         delete_patient(connection, mrn)  # every document of this patient moved to another one
-        for suffix in ("json", "md"):
-            (Path(out) / "abstraction" / f"{re.sub(r'[^\w.-]', '_', mrn)}.{suffix}").unlink(missing_ok=True)
+        for path in _export_paths(out, mrn):
+            path.unlink(missing_ok=True)
         log.write("patient_removed", mrn=mrn)
         return False
     digest, pending = fingerprint(connection, mrn, version)
@@ -605,12 +610,8 @@ def ingest(
         connection.close()
 
 
-# 3. Exports ====================================================================================================================
+# 3. Markdown ===================================================================================================================
 # Pure functions: no model, no database.
-
-
-def to_json(abstraction: dict) -> str:
-    return json.dumps(abstraction, indent=1) + "\n"
 
 
 def _cell(value) -> str:
