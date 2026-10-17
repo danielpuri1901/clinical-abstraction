@@ -122,16 +122,12 @@ def test_cited_lines_are_sorted_and_unique():
     assert reconcile.cited_lines(extraction()) == []
 
 
-def test_times_and_dates_normalize():
-    assert reconcile.normalize_time("9:00 AM") == "09:00" and reconcile.normalize_time("1415") == "14:15"
-    assert reconcile.normalize_time("09:50") == "09:50" and reconcile.normalize_time("25:00") is None
-    assert reconcile.normalize_date("30 January 2026") == "2026-01-30"
+def test_times_and_dates_normalize():  # the forms the two parametrized tests below do not cover
     assert reconcile.normalize_date("January 19, 2026") == "2026-01-19" == reconcile.normalize_date("01/19/2026")
     assert reconcile.normalize_date("Jan 5", default_year=2026) == "2026-01-05"
     assert reconcile.normalize_date("Jan05", default_year=2026) == "2026-01-05"  # the appointment export writes dates this way
     assert reconcile.value_in_lines("2026-01-05", "date", ["HG-E101   | Jan05 | Individual therapy"])
     assert reconcile.normalize_date("19th of January 2026") == "2026-01-19"
-    assert reconcile.normalize_date("February 30, 2026") is None
 
 
 @pytest.mark.parametrize(
