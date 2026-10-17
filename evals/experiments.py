@@ -259,6 +259,15 @@ def _ingest_patient(manifest: Path, entry: dict, model: str, budget: read.Budget
         return _stored_run(db, entry["mrn"])[0], summary
 
 
+def _finished_runs(logs) -> list[tuple[Path, dict]]:
+    """Each ingest log that ran to the end, with its ingest_finished event, in file name order."""
+    runs = []
+    for log in sorted(logs):
+        events = [json.loads(line) for line in log.read_text().splitlines() if line.strip()]
+        runs += [(log, event) for event in events if event["event"] == "ingest_finished"]
+    return runs
+
+
 def _run_logs(folder: Path) -> list[dict] | None:
     """The totals each ingest log in a run folder (or its logs folder) recorded, or None when there is no log.
 
@@ -266,19 +275,9 @@ def _run_logs(folder: Path) -> list[dict] | None:
     A re-extraction under a new prompt adds a log to the same folder, so a store can hold several passes; the list shows them all.
     """
     runs = []
-    for log in sorted([*folder.glob("ingest-*.jsonl"), *folder.glob("logs/ingest-*.jsonl")]):
-        for line in filter(None, map(str.strip, log.read_text().splitlines())):
-            event = json.loads(line)
-            if event["event"] == "ingest_finished":
-                extraction = event["extraction"]
-                runs.append(
-                    {
-                        "log": log.name,
-                        "documents": extraction["documents"],
-                        "cost_usd": extraction["cost_usd"],
-                        "total_seconds": event["total_seconds"],
-                    }
-                )
+    for log, event in _finished_runs([*folder.glob("ingest-*.jsonl"), *folder.glob("logs/ingest-*.jsonl")]):
+        totals = {key: event["extraction"][key] for key in ("documents", "cost_usd")}
+        runs.append({"log": log.name, **totals, "total_seconds": event["total_seconds"]})
     return runs or None
 
 
@@ -413,20 +412,15 @@ def _timed(function, repeat: int) -> dict:
 
 def _ingest_runs(out: Path) -> list[dict]:
     """Every ingest run that left a log under out, with the totals its last event recorded."""
-    runs = []
-    for log in sorted(out.rglob("ingest-*.jsonl")):
-        events = [json.loads(line) for line in log.read_text().splitlines() if line.strip()]
-        finished = next((event for event in events if event["event"] == "ingest_finished"), None)
-        if finished:
-            keys = ("documents", "extracted", "failed", "calls", "cost_usd", "input_tokens", "output_tokens")
-            runs.append(
-                {
-                    "log": str(log.relative_to(out)),
-                    **{key: finished[key] for key in ("new_documents", "duplicate_or_known_files", "total_seconds")},
-                    "extraction": {key: finished["extraction"].get(key) for key in keys},
-                }
-            )
-    return runs
+    keys = ("documents", "extracted", "failed", "calls", "cost_usd", "input_tokens", "output_tokens")
+    return [
+        {
+            "log": str(log.relative_to(out)),
+            **{key: finished[key] for key in ("new_documents", "duplicate_or_known_files", "total_seconds")},
+            "extraction": {key: finished["extraction"].get(key) for key in keys},
+        }
+        for log, finished in _finished_runs(out.rglob("ingest-*.jsonl"))
+    ]
 
 
 def _spend(out: Path) -> dict:
