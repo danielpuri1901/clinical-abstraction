@@ -818,24 +818,47 @@ def _charges(docs: list[Doc], encounters: list[dict]) -> tuple[list[dict], list[
     return rows, flags
 
 
-def _omissions(docs: list[Doc], records: list[Record], key_of: dict[int, str]) -> list[dict]:
-    """Times and dates a document states that no extracted item carries: a dropped break shows up here."""
-    flags = []
+def _session_windows(event: ServiceEvent) -> list[tuple[int, int]]:
+    """The scheduled window and the present windows of one service event, in minutes."""
+    pairs = [
+        (event.scheduled_start, event.scheduled_end),
+        (event.patient_arrival or event.scheduled_start, event.patient_departure or event.scheduled_end),
+        *((interval.start, interval.end) for interval in event.patient_present_intervals),
+    ]
+    return [(to_minutes(start), to_minutes(end)) for start, end in pairs if start and end]
+
+
+def _omissions(docs: list[Doc], records: list[Record], key_of: dict[int, str]) -> tuple[list[dict], list[dict]]:
+    """Every time and date a document states that no extracted item carries, as coverage notes for a reviewer.
+
+    Only a time inside a scheduled or present window of a service event in the same document becomes a possible_omission
+    flag, because a dropped break or a dropped arrival lands there; signature, posting, and call times fall outside.
+    """
+    notes, flags = [], []
     for doc in docs:
         own = [record for record in records if record.doc is doc]
-        by_line: dict[int, list[str]] = defaultdict(list)
+        inside: dict[int, tuple[list[str], set[str]]] = {}
         for note in verify.coverage(doc.text, doc.extraction):
             number, value = re.fullmatch(r"possible omission: L(\d+) (.+)", note).groups()
-            by_line[int(number)].append(value)
-        for number, values in by_line.items():
-            keys = {key_of[id(r)] for r in own if number in r.event.lines} or {key_of[id(r)] for r in own}
+            notes.append({"citation": f"{doc.doc_id} L{number}", "value": value})
+            clock_value = verify.normalize_time(value)  # None for a date, which never becomes a flag
+            minute = to_minutes(clock_value) if clock_value else None
+            keys = {
+                key_of[id(r)] for r in own if minute is not None and any(s <= minute <= e for s, e in _session_windows(r.event))
+            }
+            if keys:
+                values, line_keys = inside.setdefault(int(number), ([], set()))
+                values.append(value)
+                line_keys |= keys
+        for number, (values, keys) in inside.items():
             text = (
-                f"{doc.doc_id} L{number} states {' and '.join(values)}, which no extracted item carries; something may be lost."
+                f"{doc.doc_id} L{number} states {' and '.join(values)}, inside the session window of {', '.join(sorted(keys))}, "
+                "which no extracted item carries; a break or a time may be missing."
             )
             flags.append(
                 _flag("possible_omission", next(iter(keys)) if len(keys) == 1 else None, text, [f"{doc.doc_id} L{number}"])
             )
-    return flags
+    return notes, flags
 
 
 def _plans(docs: list[Doc]) -> list[dict]:
@@ -952,7 +975,8 @@ def build_patient(mrn: str, docs: list[Doc], pending: list[dict] | None = None) 
     flags += _label_disputes(docs, records, key_of, groups, encounters, assigned, counted, ids_by_key)
     ordered = sorted(encounters.values(), key=lambda encounter: (encounter["service_date"], encounter["encounter"]))
     charges, charge_flags = _charges(docs, ordered)
-    flags += charge_flags + _overlaps(ordered) + _omissions(docs, records, key_of)
+    coverage_notes, omission_flags = _omissions(docs, records, key_of)
+    flags += charge_flags + _overlaps(ordered) + omission_flags
     flags.sort(key=lambda flag: (flag["kind"], flag["encounter"] or "", flag["text"]))
     for encounter in ordered:
         encounter["flags"] = sorted({flag["kind"] for flag in flags if flag["encounter"] == encounter["encounter"]})
@@ -990,6 +1014,7 @@ def build_patient(mrn: str, docs: list[Doc], pending: list[dict] | None = None) 
         ),
         "charges": charges,
         "flags": flags,
+        "coverage_notes": coverage_notes,
         "incomplete": list(pending or []),
     }
     abstraction["weeks"] = calculate.weekly(abstraction)
