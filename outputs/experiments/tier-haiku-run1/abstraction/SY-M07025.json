@@ -75,7 +75,7 @@
    "scheduled": "09:00-09:45 (45 min)",
    "patient_present": [],
    "excluded": [],
-   "calculation": "45 minutes as stated = 45 min",
+   "calculation": "45 minutes as stated (no times given)",
    "sources": [
     "SY-M07025_05_service_record L6-8"
    ],
@@ -186,23 +186,21 @@
    "modality": "in_person",
    "status": "attended",
    "counts_as_therapy": "yes",
-   "reason": "patient-present psychotherapy of a counted type; minutes are a range 35-50 because records disagree",
+   "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 35,
-   "minutes_high": 50,
+   "minutes_high": 35,
    "scheduled": null,
    "patient_present": [
-    "16:00-16:50"
+    "16:15-16:50"
    ],
    "excluded": [],
-   "calculation": "range 35-50 min: SY-M07025_10_service_record L5-8 gives 16:00-16:50 = 50 min; SY-M07025_11_cotherapist_record L6-8 gives 16:15-16:50 = 35 min",
+   "calculation": "16:15-16:50 present (35 min) = 35 min; arrival time 16:00 corrected to 16:15 (SY-M07025_12_addendum L6)",
    "sources": [
     "SY-M07025_10_service_record L5-8",
-    "SY-M07025_11_cotherapist_record L6-8"
+    "SY-M07025_11_cotherapist_record L6-8",
+    "SY-M07025_12_addendum L6"
    ],
-   "flags": [
-    "correction_not_applied",
-    "unresolved_minutes_conflict"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0702508",
@@ -386,27 +384,7 @@
   }
  ],
  "charges": [],
- "flags": [
-  {
-   "kind": "correction_not_applied",
-   "encounter": "SY-E0702507",
-   "text": "The correction of other to 4:15 PM (SY-M07025_12_addendum L6) is not applied: only arrival, departure, and attendance corrections are applied automatically. A reviewer should check it.",
-   "citations": [
-    "SY-M07025_12_addendum L6"
-   ],
-   "settles": null
-  },
-  {
-   "kind": "unresolved_minutes_conflict",
-   "encounter": "SY-E0702507",
-   "text": "Signed records of SY-E0702507 disagree on patient-present minutes: SY-M07025_10_service_record L5-8 gives 16:00-16:50 = 50 min; SY-M07025_11_cotherapist_record L6-8 gives 16:15-16:50 = 35 min. No correction or addendum resolves it, so SY-E0702507 is carried as a range 35-50 min.",
-   "citations": [
-    "SY-M07025_10_service_record L5-8",
-    "SY-M07025_11_cotherapist_record L6-8"
-   ],
-   "settles": "An addendum or signed note stating the start time of SY-E0702507 would settle it."
-  }
- ],
+ "flags": [],
  "coverage_notes": [],
  "incomplete": [],
  "weeks": [
@@ -445,9 +423,9 @@
    "therapy_days_low": 2,
    "therapy_days_high": 2,
    "minutes_low": 105,
-   "minutes_high": 120,
-   "status": "cannot_determine",
-   "explanation": "2 therapy days and 105-120 minutes: the goal of 2 therapy days and 120 minutes is met at the high bound but not at the low bound, so it depends on an unresolved record. An addendum or signed note stating the start time of SY-E0702507 would settle it.",
+   "minutes_high": 105,
+   "status": "not_met",
+   "explanation": "2 therapy days and 105 minutes miss the goal of 2 therapy days and 120 minutes (105 minutes < 120)",
    "plan_version": 2,
    "encounters": [
     "SY-E0702505",
@@ -477,14 +455,13 @@
    [
     "2026-01-12",
     "2026-01-19"
-   ]
-  ],
-  "depends_on_unresolved_records": [
+   ],
    [
     "2026-01-19",
     "2026-01-26"
    ]
-  ]
+  ],
+  "depends_on_unresolved_records": []
  },
  "plan_versions_compared": {
   "versions": [
@@ -542,7 +519,7 @@
     "therapy_days_low": 5,
     "therapy_days_high": 5,
     "minutes_low": 305,
-    "minutes_high": 320,
+    "minutes_high": 305,
     "by_service_type": {
      "group_psychotherapy": {
       "sessions_low": 3,
@@ -554,11 +531,11 @@
       "sessions_low": 2,
       "sessions_high": 2,
       "minutes_low": 85,
-      "minutes_high": 100
+      "minutes_high": 85
      }
     },
     "minutes_per_week_low": 177.9,
-    "minutes_per_week_high": 186.7
+    "minutes_per_week_high": 177.9
    }
   ],
   "note": null

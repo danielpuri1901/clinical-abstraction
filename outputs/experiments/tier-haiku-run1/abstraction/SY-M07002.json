@@ -324,25 +324,22 @@
    "modality": "in_person",
    "status": "attended",
    "counts_as_therapy": "yes",
-   "reason": "patient-present psychotherapy of a counted type; minutes are a range 30-45 because records disagree",
+   "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 30,
-   "minutes_high": 45,
+   "minutes_high": 30,
    "scheduled": null,
    "patient_present": [
-    "09:00-09:45"
+    "09:15-09:45"
    ],
    "excluded": [],
-   "calculation": "range 30-45 min: SY-M07002_07_service_record L6-8 gives 09:00-09:45 = 45 min; SY-M07002_08_cotherapist_record L6-8 gives 09:15-09:45 = 30 min",
+   "calculation": "09:15-09:45 present (30 min) = 30 min; arrival time 09:00 corrected to 09:15 (SY-M07002_12_addendum L6-7)",
    "sources": [
     "SY-M07002_07_service_record L6-8",
     "SY-M07002_08_cotherapist_record L6-8",
     "SY-M07002_12_addendum L6-7",
     "SY-M07002_12_addendum L9"
    ],
-   "flags": [
-    "correction_not_applied",
-    "unresolved_minutes_conflict"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0700213",
@@ -591,15 +588,6 @@
  "charges": [],
  "flags": [
   {
-   "kind": "correction_not_applied",
-   "encounter": "SY-E0700212",
-   "text": "The correction of other to 09:15 (SY-M07002_12_addendum L6-7) is not applied: only arrival, departure, and attendance corrections are applied automatically. A reviewer should check it.",
-   "citations": [
-    "SY-M07002_12_addendum L6-7"
-   ],
-   "settles": null
-  },
-  {
    "kind": "label_disputed",
    "encounter": "SY-E0700216",
    "text": "The decision model reads SY-M07002_13_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.97); the extraction says group_psychotherapy. That reading would not change whether SY-E0700216 counts.",
@@ -625,16 +613,6 @@
     "SY-M07002_04_service_record L14"
    ],
    "settles": null
-  },
-  {
-   "kind": "unresolved_minutes_conflict",
-   "encounter": "SY-E0700212",
-   "text": "Signed records of SY-E0700212 disagree on patient-present minutes: SY-M07002_07_service_record L6-8 gives 09:00-09:45 = 45 min; SY-M07002_08_cotherapist_record L6-8 gives 09:15-09:45 = 30 min. No correction or addendum resolves it, so SY-E0700212 is carried as a range 30-45 min.",
-   "citations": [
-    "SY-M07002_07_service_record L6-8",
-    "SY-M07002_08_cotherapist_record L6-8"
-   ],
-   "settles": "An addendum or signed note stating the start time of SY-E0700212 would settle it."
   }
  ],
  "coverage_notes": [
@@ -725,9 +703,9 @@
    "therapy_days_low": 4,
    "therapy_days_high": 4,
    "minutes_low": 285,
-   "minutes_high": 300,
+   "minutes_high": 285,
    "status": "met",
-   "explanation": "4 therapy days and 285-300 minutes meet the goal of 2 therapy days and 120 minutes",
+   "explanation": "4 therapy days and 285 minutes meet the goal of 2 therapy days and 120 minutes",
    "plan_version": 1,
    "encounters": [
     "SY-E0700209",
@@ -774,7 +752,7 @@
     "therapy_days_low": 12,
     "therapy_days_high": 12,
     "minutes_low": 820,
-    "minutes_high": 835,
+    "minutes_high": 820,
     "by_service_type": {
      "group_psychotherapy": {
       "sessions_low": 7,
@@ -792,11 +770,11 @@
       "sessions_low": 6,
       "sessions_high": 6,
       "minutes_low": 265,
-      "minutes_high": 280
+      "minutes_high": 265
      }
     },
     "minutes_per_week_low": 220.8,
-    "minutes_per_week_high": 224.8
+    "minutes_per_week_high": 220.8
    }
   ],
   "note": "Only one treatment-plan version is documented, so there is no before and after change."

@@ -713,7 +713,7 @@
    "scheduled": "15:00-15:20 (20 min)",
    "patient_present": [],
    "excluded": [],
-   "calculation": "20 minutes as stated = 20 min",
+   "calculation": "20 minutes as stated (no times given)",
    "sources": [
     "BH-D114 L3",
     "BH-D114 L5-6",

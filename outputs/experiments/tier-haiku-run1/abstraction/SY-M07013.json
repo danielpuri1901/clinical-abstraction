@@ -187,25 +187,22 @@
    "modality": "in_person",
    "status": "attended",
    "counts_as_therapy": "yes",
-   "reason": "patient-present psychotherapy of a counted type; minutes are a range 30-45 because records disagree",
+   "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 30,
-   "minutes_high": 45,
+   "minutes_high": 30,
    "scheduled": null,
    "patient_present": [
-    "09:00-09:45"
+    "09:15-09:45"
    ],
    "excluded": [],
-   "calculation": "range 30-45 min: SY-M07013_04_service_record L5-8 gives 09:00-09:45 = 45 min; SY-M07013_06_cotherapist_record L6-8 gives 09:15-09:45 = 30 min",
+   "calculation": "09:15-09:45 present (30 min) = 30 min; arrival time 09:00 corrected to 09:15 (SY-M07013_08_addendum L5-6)",
    "sources": [
     "SY-M07013_04_service_record L5-8",
     "SY-M07013_06_cotherapist_record L6-8",
     "SY-M07013_08_addendum L5-6",
     "SY-M07013_08_addendum L8"
    ],
-   "flags": [
-    "correction_not_applied",
-    "unresolved_minutes_conflict"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0701308",
@@ -542,25 +539,6 @@
    "settles": null
   },
   {
-   "kind": "correction_not_applied",
-   "encounter": "SY-E0701307",
-   "text": "The correction of other to 9:15 AM (SY-M07013_08_addendum L5-6) is not applied: only arrival, departure, and attendance corrections are applied automatically. A reviewer should check it.",
-   "citations": [
-    "SY-M07013_08_addendum L5-6"
-   ],
-   "settles": null
-  },
-  {
-   "kind": "unresolved_minutes_conflict",
-   "encounter": "SY-E0701307",
-   "text": "Signed records of SY-E0701307 disagree on patient-present minutes: SY-M07013_04_service_record L5-8 gives 09:00-09:45 = 45 min; SY-M07013_06_cotherapist_record L6-8 gives 09:15-09:45 = 30 min. No correction or addendum resolves it, so SY-E0701307 is carried as a range 30-45 min.",
-   "citations": [
-    "SY-M07013_04_service_record L5-8",
-    "SY-M07013_06_cotherapist_record L6-8"
-   ],
-   "settles": "An addendum or signed note stating the start time of SY-E0701307 would settle it."
-  },
-  {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "SY-E0701308",
    "text": "SY-M07013_05_draft_and_charge L5, SY-M07013_05_draft_and_charge L8-11 (labelled draft or template) exists for SY-E0701308, which the signed records show as no show; it is not evidence that care was delivered.",
@@ -597,9 +575,9 @@
    "therapy_days_low": 3,
    "therapy_days_high": 3,
    "minutes_low": 155,
-   "minutes_high": 170,
+   "minutes_high": 155,
    "status": "met",
-   "explanation": "3 therapy days and 155-170 minutes meet the goal of 3 therapy days and 150 minutes",
+   "explanation": "3 therapy days and 155 minutes meet the goal of 3 therapy days and 150 minutes",
    "plan_version": 1,
    "encounters": [
     "SY-E0701305",
@@ -661,13 +639,13 @@
     "therapy_days_low": 6,
     "therapy_days_high": 6,
     "minutes_low": 295,
-    "minutes_high": 310,
+    "minutes_high": 295,
     "by_service_type": {
      "individual_psychotherapy": {
       "sessions_low": 5,
       "sessions_high": 5,
       "minutes_low": 220,
-      "minutes_high": 235
+      "minutes_high": 220
      },
      "group_psychotherapy": {
       "sessions_low": 1,
@@ -677,7 +655,7 @@
      }
     },
     "minutes_per_week_low": 147.5,
-    "minutes_per_week_high": 155.0
+    "minutes_per_week_high": 147.5
    },
    {
     "plan_version": 2,

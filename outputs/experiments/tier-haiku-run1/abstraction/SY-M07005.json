@@ -134,15 +134,15 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "in_person",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "no record establishes that the service was delivered",
-   "minutes_low": 0,
-   "minutes_high": 0,
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
    "scheduled": "09:00-09:45 (45 min)",
    "patient_present": [],
    "excluded": [],
-   "calculation": "no record establishes that the service was delivered",
+   "calculation": "45 minutes as stated (no times given)",
    "sources": [
     "SY-M07005_08_service_record L6-8"
    ],
@@ -156,15 +156,15 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "in_person",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "no record establishes that the service was delivered",
-   "minutes_low": 0,
-   "minutes_high": 0,
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
    "scheduled": "09:00-09:50 (50 min)",
    "patient_present": [],
    "excluded": [],
-   "calculation": "no record establishes that the service was delivered",
+   "calculation": "50 minutes as stated (no times given)",
    "sources": [
     "SY-M07005_08_service_record L10-12"
    ],
@@ -657,16 +657,17 @@
   {
    "week_start": "2026-02-02",
    "week_end": "2026-02-08",
-   "therapy_days_low": 2,
-   "therapy_days_high": 2,
-   "minutes_low": 90,
-   "minutes_high": 90,
+   "therapy_days_low": 3,
+   "therapy_days_high": 3,
+   "minutes_low": 135,
+   "minutes_high": 135,
    "status": "not_met",
-   "explanation": "2 therapy days and 90 minutes miss the goal of 3 therapy days and 150 minutes (2 therapy days < 3; 90 minutes < 150)",
+   "explanation": "3 therapy days and 135 minutes miss the goal of 3 therapy days and 150 minutes (135 minutes < 150)",
    "plan_version": 1,
    "encounters": [
     "SY-E0700503",
-    "SY-E0700504"
+    "SY-E0700504",
+    "SY-E0700505"
    ]
   },
   {
@@ -674,12 +675,13 @@
    "week_end": "2026-02-15",
    "therapy_days_low": 1,
    "therapy_days_high": 1,
-   "minutes_low": 35,
-   "minutes_high": 35,
+   "minutes_low": 85,
+   "minutes_high": 85,
    "status": "not_met",
-   "explanation": "1 therapy day and 35 minutes miss the goal of 3 therapy days and 150 minutes (1 therapy day < 3; 35 minutes < 150)",
+   "explanation": "1 therapy day and 85 minutes miss the goal of 3 therapy days and 150 minutes (1 therapy day < 3; 85 minutes < 150)",
    "plan_version": 1,
    "encounters": [
+    "SY-E0700506",
     "SY-E0700507"
    ]
   },
@@ -739,18 +741,18 @@
     "sources": [
      "SY-M07005_01_treatment_plan L7-8"
     ],
-    "sessions_low": 3,
-    "sessions_high": 3,
-    "therapy_days_low": 3,
-    "therapy_days_high": 3,
-    "minutes_low": 125,
-    "minutes_high": 125,
+    "sessions_low": 5,
+    "sessions_high": 5,
+    "therapy_days_low": 4,
+    "therapy_days_high": 4,
+    "minutes_low": 220,
+    "minutes_high": 220,
     "by_service_type": {
      "individual_psychotherapy": {
-      "sessions_low": 2,
-      "sessions_high": 2,
-      "minutes_low": 90,
-      "minutes_high": 90
+      "sessions_low": 4,
+      "sessions_high": 4,
+      "minutes_low": 185,
+      "minutes_high": 185
      },
      "family_psychotherapy": {
       "sessions_low": 1,
@@ -759,8 +761,8 @@
       "minutes_high": 35
      }
     },
-    "minutes_per_week_low": 62.5,
-    "minutes_per_week_high": 62.5
+    "minutes_per_week_low": 110.0,
+    "minutes_per_week_high": 110.0
    },
    {
     "plan_version": 2,

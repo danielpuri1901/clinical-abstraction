@@ -1,0 +1,26 @@
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07001", "documents": 11, "pending": 0, "encounters": 12, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07002", "documents": 14, "pending": 0, "encounters": 19, "flags": 3}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07003", "documents": 12, "pending": 0, "encounters": 16, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07004", "documents": 15, "pending": 0, "encounters": 14, "flags": 0}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07005", "documents": 13, "pending": 0, "encounters": 19, "flags": 4}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07006", "documents": 14, "pending": 0, "encounters": 16, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07007", "documents": 12, "pending": 0, "encounters": 17, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07008", "documents": 12, "pending": 0, "encounters": 16, "flags": 5}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07009", "documents": 11, "pending": 0, "encounters": 15, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07010", "documents": 12, "pending": 0, "encounters": 18, "flags": 0}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07011", "documents": 11, "pending": 0, "encounters": 13, "flags": 3}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07012", "documents": 15, "pending": 0, "encounters": 12, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07013", "documents": 10, "pending": 0, "encounters": 16, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07014", "documents": 15, "pending": 0, "encounters": 17, "flags": 1}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07015", "documents": 12, "pending": 0, "encounters": 14, "flags": 1}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07016", "documents": 13, "pending": 0, "encounters": 18, "flags": 0}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07017", "documents": 12, "pending": 0, "encounters": 18, "flags": 5}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07018", "documents": 15, "pending": 0, "encounters": 15, "flags": 2}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07019", "documents": 11, "pending": 0, "encounters": 16, "flags": 1}
+{"at": "2026-10-17T20:38:40+00:00", "event": "rebuilt", "mrn": "SY-M07020", "documents": 10, "pending": 0, "encounters": 14, "flags": 8}
+{"at": "2026-10-17T20:38:41+00:00", "event": "rebuilt", "mrn": "SY-M07021", "documents": 14, "pending": 0, "encounters": 20, "flags": 1}
+{"at": "2026-10-17T20:38:41+00:00", "event": "rebuilt", "mrn": "SY-M07022", "documents": 10, "pending": 0, "encounters": 13, "flags": 1}
+{"at": "2026-10-17T20:38:41+00:00", "event": "rebuilt", "mrn": "SY-M07023", "documents": 11, "pending": 0, "encounters": 20, "flags": 0}
+{"at": "2026-10-17T20:38:41+00:00", "event": "rebuilt", "mrn": "SY-M07024", "documents": 12, "pending": 0, "encounters": 17, "flags": 0}
+{"at": "2026-10-17T20:38:41+00:00", "event": "rebuilt", "mrn": "SY-M07025", "documents": 14, "pending": 0, "encounters": 12, "flags": 0}
+{"at": "2026-10-17T20:38:41+00:00", "event": "ingest_finished", "new_documents": 0, "duplicate_or_known_files": 319, "extraction": {"documents": 0, "extracted": 0, "failed": 0, "calls": 0, "cost_usd": 0, "repair_turns": 0, "unrepaired_problems": 0, "input_tokens": 0, "output_tokens": 0, "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0, "errors": []}, "label_checks": {"documents": 0, "stored": 0, "failed": 0}, "rebuilt": ["SY-M07001", "SY-M07002", "SY-M07003", "SY-M07004", "SY-M07005", "SY-M07006", "SY-M07007", "SY-M07008", "SY-M07009", "SY-M07010", "SY-M07011", "SY-M07012", "SY-M07013", "SY-M07014", "SY-M07015", "SY-M07016", "SY-M07017", "SY-M07018", "SY-M07019", "SY-M07020", "SY-M07021", "SY-M07022", "SY-M07023", "SY-M07024", "SY-M07025"], "incomplete": {}, "unassigned": [], "stopped": null, "total_seconds": 0.357, "log": "outputs/experiments/tier-haiku-run1/logs/ingest-20261017-223840.jsonl"}
