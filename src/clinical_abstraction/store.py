@@ -231,69 +231,19 @@ def replace_patient(connection: sqlite3.Connection, mrn: str, abstraction: dict,
         _clear_derived(connection, mrn)
         connection.execute(
             "INSERT OR REPLACE INTO patients (mrn, name, fingerprint, incomplete, built_at, abstraction) VALUES (?, ?, ?, ?, ?, ?)",
-            (
-                mrn,
-                abstraction["patient"]["name"],
-                fingerprint,
-                json.dumps(abstraction["incomplete"]),
-                now(),
-                json.dumps(abstraction),
-            ),
+            (mrn, abstraction["patient"]["name"], fingerprint, json.dumps(abstraction["incomplete"]), now(), json.dumps(abstraction)),
         )
-        connection.executemany(
-            "INSERT INTO encounters (mrn, encounter, service_date, service_type, modality, status, counts_as_therapy, "
-            "minutes_low, minutes_high, sources) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [
-                (
-                    mrn,
-                    e["encounter"],
-                    e["service_date"],
-                    e["service_type"],
-                    e["modality"],
-                    e["status"],
-                    e["counts_as_therapy"],
-                    e["minutes_low"],
-                    e["minutes_high"],
-                    json.dumps(e["sources"]),
-                )
-                for e in abstraction["encounters"]
-            ],
-        )
-        connection.executemany(
-            "INSERT INTO weeks (mrn, week_start, week_end, therapy_days_low, therapy_days_high, minutes_low, minutes_high, "
-            "status, explanation, plan_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [
-                (
-                    mrn,
-                    w["week_start"],
-                    w["week_end"],
-                    w["therapy_days_low"],
-                    w["therapy_days_high"],
-                    w["minutes_low"],
-                    w["minutes_high"],
-                    w["status"],
-                    w["explanation"],
-                    w["plan_version"],
-                )
-                for w in abstraction["weeks"]
-            ],
-        )
-        connection.executemany(
-            "INSERT INTO flags (mrn, kind, encounter, text, citations, settles) VALUES (?, ?, ?, ?, ?, ?)",
-            [(mrn, f["kind"], f["encounter"], f["text"], json.dumps(f["citations"]), f["settles"]) for f in abstraction["flags"]],
-        )
-        connection.executemany(
-            "INSERT INTO assessments (mrn, instrument, completed_on, total_score, sources, copies) VALUES (?, ?, ?, ?, ?, ?)",
-            [
-                (mrn, a["instrument"], a["completed_on"], a["total_score"], json.dumps(a["sources"]), json.dumps(a["copies"]))
-                for a in abstraction["assessments"]
-            ],
-        )
-        connection.executemany(
-            "INSERT INTO observations (mrn, category, observed_on, text, sources) VALUES (?, ?, ?, ?, ?)",
-            [(mrn, o["category"], o["observed_on"], o["text"], json.dumps(o["sources"])) for o in abstraction["observations"]],
-        )
+        for table in PATIENT_TABLES:  # each table copies the abstraction's rows of the same name; a list is stored as JSON
+            columns = [row[1] for row in connection.execute(f"PRAGMA table_info({table})")][1:]  # the columns after mrn
+            connection.executemany(
+                f"INSERT INTO {table} (mrn, {', '.join(columns)}) VALUES ({', '.join('?' * (len(columns) + 1))})",
+                [(mrn, *(_sql_value(row[column]) for column in columns)) for row in abstraction[table]],
+            )
         clear_stale(connection, mrn)
+
+
+def _sql_value(value):
+    return json.dumps(value) if isinstance(value, list) else value
 
 
 def known_patients(connection: sqlite3.Connection) -> list[tuple[str, str]]:
