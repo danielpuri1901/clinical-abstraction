@@ -22,7 +22,8 @@ URL = "https://api.typesafe.ai/v1/systemone"
 USD_PER_MILLION_INPUT_TOKENS = 0.042  # output tokens are free
 RETRY_STATUSES = (429, 529)
 ATTEMPTS = 3
-DISPUTE_CONFIDENCE = 0.7  # Jev must be at least this sure before its disagreement counts
+DISPUTE_CONFIDENCE = 0.9  # Jev must be at least this sure before its disagreement counts (0.7 gave 16 low-stakes disputes on 31 documents)
+UNSPECIFIC_LABELS = {"not_stated", "other"}  # a specific Jev label against an unspecific model label is a refinement, not a dispute
 HEADER_LINES = 8  # the header is the lines before the first blank line, at most this many
 
 
@@ -169,7 +170,8 @@ def _model_labels(extraction: DocumentExtraction, event: ServiceEvent) -> dict[s
 
 
 def second_read(document_id: str, text: str, extraction: DocumentExtraction, client: Jev) -> list[dict]:
-    """Ask Jev the four labels of every service event. Return a dispute wherever Jev differs with confidence of at least 0.7.
+    """Ask Jev the four labels of every service event. Return a dispute wherever Jev differs with confidence of at least 0.9
+    from a specific model label.
 
     Jev sees only the event's cited lines and the document header, never the model's labels. The pipeline stores the disputes
     with the document, and the reconciler raises a flag for each.
@@ -186,7 +188,11 @@ def second_read(document_id: str, text: str, extraction: DocumentExtraction, cli
         answers = client.ask("\n".join(lines[number - 1] for number in wanted), questions)
         for field, model_value in _model_labels(extraction, event).items():
             answer = answers[field]
-            if answer.choice != model_value and answer.confidence >= DISPUTE_CONFIDENCE:
+            if (
+                answer.choice != model_value
+                and model_value not in UNSPECIFIC_LABELS
+                and answer.confidence >= DISPUTE_CONFIDENCE
+            ):
                 disputes.append(
                     {
                         "encounter_id": event.encounter_id,

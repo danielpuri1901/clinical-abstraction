@@ -614,7 +614,7 @@ def test_second_read_reports_disagreements(tmp_path):
     assert jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path / "agree", transport)) == []
 
 
-@pytest.mark.parametrize("confidence, reported", [(0.69, 0), (0.7, 1)])
+@pytest.mark.parametrize("confidence, reported", [(0.89, 0), (0.9, 1)])
 def test_second_read_ignores_disagreement_below_the_confidence_threshold(tmp_path, confidence, reported):
     transport, _ = jev_transport(lambda name, state: jev_says_no_show_for_e1(name, state, confidence))
     assert len(jev.second_read("D2", ROSTER_TEXT, roster_extraction(), jev_client(tmp_path, transport))) == reported
