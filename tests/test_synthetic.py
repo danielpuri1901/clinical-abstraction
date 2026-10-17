@@ -77,6 +77,15 @@ def test_truth_replay_scores_perfectly(tmp_path):
         assert result["passed"] == result["total"], (entry["mrn"], result["failures"])
 
 
+def test_unsettled_conflicts_straddle_the_weekly_goal(tmp_path):
+    manifest = synthetic.generate(seed=7, patients=25, out=tmp_path)
+    weeks = [week for path in sorted((tmp_path / "gold").glob("*.json")) for week in json.loads(path.read_text())["weeks"]]
+    counts = {status: sum(week["status"] == status for week in weeks) for status in ("met", "not_met", "cannot_determine")}
+    unsettled = sum("conflicting_notes" in p["hazards"] and "addendum" not in p["hazards"] for p in manifest["patients"])
+    assert counts["cannot_determine"] >= 4 and 2 * counts["cannot_determine"] >= unsettled
+    assert manifest["week_statuses"] == counts
+
+
 def test_templates_carry_their_format_hazards(tmp_path):
     synthetic.generate(seed=3, patients=6, out=tmp_path)
     files = sorted((tmp_path / "documents").glob("*.txt"))

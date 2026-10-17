@@ -38,6 +38,7 @@ THERAPY = (INDIVIDUAL, GROUP, FAMILY)
 KIND_WEIGHTS = {INDIVIDUAL: 35, GROUP: 30, FAMILY: 12, MEDICATION: 15, COLLATERAL: 8}
 DURATIONS = {INDIVIDUAL: (45, 50), FAMILY: (45, 50), COLLATERAL: (30, 40, 50), MEDICATION: (15, 20, 25)}
 GOALS = [(3, 150), (2, 120)]  # (therapy days, patient-present minutes) per Monday through Sunday week
+WEEK_STATUSES = ("met", "not_met", "cannot_determine")
 
 # Fixed rates per patient. A hazard in NEEDS is drawn only when the hazard it needs was drawn.
 # Format hazards (day-first dates, 12-hour times, bare HHMM times) come with template C, one patient in three.
@@ -183,6 +184,15 @@ def goal_status(plan: dict, days_low: int, days_high: int, minutes_low: int, min
     return "cannot_determine"
 
 
+def counts(visit: Visit) -> bool:
+    """A delivered psychotherapy session counts toward the plan goal."""
+    return visit.kind in THERAPY and visit.status in ("attended", "attended_partial")
+
+
+def visit_minutes(visit: Visit) -> int:
+    return minutes_present(visit.present, [cut[:2] for cut in visit.cuts])
+
+
 # Formats per template ----------------------------------------------------------------------------------------------
 
 
@@ -324,7 +334,7 @@ def section(template: str, lines: list[str], patient: Patient, visit: Visit, sig
     signer = signer or getattr(patient, CLINICIAN_ROLE[visit.kind])
     start, end, mode = visit.start, visit.end, "video" if visit.video else "in person"
     span, clock = partial(time_span, template), partial(clock_time, template)
-    minutes = minutes_present(visit.present, [cut[:2] for cut in visit.cuts])
+    minutes = visit_minutes(visit)
     fields = {"modality": "video" if visit.video else "in_person", "record_role": role, "clinicians": [signer]}
     if template == "A":
         cited_lines = append_lines(
@@ -896,6 +906,43 @@ def schedule_visits(
     return visits, special
 
 
+def straddle_goal(draw: random.Random, visits: list[Visit], special: dict[str, Visit], plans: list[dict]) -> None:
+    """Move an unsettled conflict to a session whose week can straddle the minute goal, and time it to do so.
+
+    The rest of the week stays as drawn. The session lasts 30 to 90 minutes. The co-therapist's note, which is the truth,
+    starts 5 to 30 minutes late and keeps at least 15 minutes of contact, so the week stays below the goal; the other
+    note carries the scheduled start, so the week reaches the goal. The host is an in-person individual session, else a
+    medication or collateral visit that becomes one. Without such a week the drawn times stay.
+    """
+    drawn = special["conflicting_notes"]
+    taken = {visit.id for name, visit in special.items() if name != "conflicting_notes"}
+    late_start, drawn.present = drawn.present, [(drawn.start, drawn.end)]
+    sessions, conversions = [], []
+    for host in visits:
+        session = host.kind == INDIVIDUAL and not host.video
+        if host.id in taken or not (session or host.kind in (MEDICATION, COLLATERAL)):
+            continue
+        if any(visit is not host and visit.day == host.day and visit.kind == INDIVIDUAL for visit in visits):
+            continue  # one individual session per day
+        monday = host.day - timedelta(days=host.day.weekday())
+        week = [visit for visit in visits if visit is not host and counts(visit) and 0 <= (visit.day - monday).days < 7]
+        plan = [plan for plan in plans if plan["effective_date"] <= monday.isoformat()][-1]
+        need = plan["min_minutes_per_week"] - sum(visit_minutes(visit) for visit in week)
+        if len({visit.day for visit in week} | {host.day}) >= plan["min_days_per_week"] and 20 <= need <= 90:
+            (sessions if session else conversions).append((host, need))
+    if not sessions + conversions:
+        drawn.present = late_start
+        return
+    host, need = draw.choice(sessions or conversions)
+    length = draw.choice([minutes for minutes in range(30, 95, 5) if need <= minutes <= need + 25])
+    contact = draw.choice([minutes for minutes in range(15, 90, 5) if length - 30 <= minutes <= min(need, length) - 5])
+    host.kind, host.status, host.cuts = INDIVIDUAL, "attended", []
+    host.signed += host.start + length - host.end
+    host.end = host.start + length
+    host.present = [(host.end - contact, host.end)]
+    special["conflicting_notes"] = host
+
+
 def gold_values(
     mrn: str,
     start: date,
@@ -909,8 +956,8 @@ def gold_values(
     """Expected abstraction values, computed from the truth with this module's own arithmetic."""
     minutes = {}
     for visit in visits:
-        if visit.kind in THERAPY and visit.status in ("attended", "attended_partial"):
-            value = minutes_present(visit.present, [cut[:2] for cut in visit.cuts])
+        if counts(visit):
+            value = visit_minutes(visit)
             unsettled = visit is special.get("conflicting_notes") and "addendum" not in hazards
             # An unsettled conflict also keeps the other signed note, which carries the scheduled start.
             minutes[visit.id] = [value, visit.end - visit.start if unsettled else value]
@@ -1017,12 +1064,14 @@ def synthesize_patient(seed: int, index: int) -> tuple[dict, list[tuple[str, str
 
     goals = draw.sample(GOALS, 2)
     changed = start + timedelta(weeks=2)
-    plans = [{"effective_date": start.isoformat(), "min_days_per_week": goals[0][0], "min_minutes_per_week": goals[0][1]}]
+    plans = [
+        {"effective_date": on.isoformat(), "min_days_per_week": days, "min_minutes_per_week": minutes}
+        for on, (days, minutes) in zip((start, changed), goals[: 1 + ("plan_change" in hazards)])
+    ]
+    if "conflicting_notes" in hazards and "addendum" not in hazards:
+        straddle_goal(draw, visits, special, plans)
     docs = [plan_doc(template, patient, start, end, goals[0], 480 + draw.randint(0, 50))]
     if "plan_change" in hazards:
-        plans.append(
-            {"effective_date": changed.isoformat(), "min_days_per_week": goals[1][0], "min_minutes_per_week": goals[1][1]}
-        )
         docs.append(plan_update_doc(template, patient, changed, end, goals[1], 470 + draw.randint(0, 40)))
     administrations, score = [], draw.randint(12, 22)
     for n, on in enumerate((start, start + timedelta(days=21 + draw.randint(0, 4))), start=1):
@@ -1110,7 +1159,9 @@ def synthesize_patient(seed: int, index: int) -> tuple[dict, list[tuple[str, str
         "documents": len(documents),
         "files": [name for name, _, _ in documents],
     }
-    return entry, documents, gold_values(patient.mrn, start, end, visits, plans, administrations, special, hazards)
+    gold = gold_values(patient.mrn, start, end, visits, plans, administrations, special, hazards)
+    entry["week_statuses"] = {status: sum(week["status"] == status for week in gold["weeks"]) for status in WEEK_STATUSES}
+    return entry, documents, gold
 
 
 def generate(seed: int, patients: int, out: Path) -> dict:
@@ -1118,9 +1169,11 @@ def generate(seed: int, patients: int, out: Path) -> dict:
     out = Path(out)
     for folder in ("documents", "gold"):
         (out / folder).mkdir(parents=True, exist_ok=True)
-    manifest = {"seed": seed, "hazard_rates": RATES, "patients": []}
+    manifest = {"seed": seed, "hazard_rates": RATES, "week_statuses": dict.fromkeys(WEEK_STATUSES, 0), "patients": []}
     for index in range(1, patients + 1):
         entry, documents, gold = synthesize_patient(seed, index)
+        for status, weeks in entry["week_statuses"].items():
+            manifest["week_statuses"][status] += weeks
         for name, text, _ in documents:
             (out / "documents" / name).write_text(text, encoding="utf-8")
         (out / "gold" / f"{entry['mrn']}.json").write_text(json.dumps(gold, indent=2) + "\n", encoding="utf-8")
