@@ -1,4 +1,4 @@
-"""Command line: `abstraction ingest | report | source`. Task 5 adds `ask`, `answer-questions`, and `verify-answers`."""
+"""Command line: `abstraction ingest | report | source | ask | answer-questions | verify-answers`."""
 
 import argparse
 import json
@@ -7,7 +7,7 @@ import re
 import sys
 from pathlib import Path
 
-from clinical_abstraction import llm, pipeline, render, store
+from clinical_abstraction import answers, llm, pipeline, render, store
 from clinical_abstraction.jev import Jev
 
 DEFAULT_OUT = Path("outputs")
@@ -15,6 +15,7 @@ DEFAULT_DB = DEFAULT_OUT / "abstraction.db"
 DEFAULT_MODEL = "claude-sonnet-5-5"
 KEY_FILES = ("anthropic.env", "jev.env")
 CITATION = re.compile(r"([^\s,;]+) L(\d+)(?:-(\d+))?")
+NO_JEV = "warning: JEV_API_KEY is not set, so keyword rules alone read each question, and every answer carries that warning."
 
 
 def load_keys() -> None:
@@ -27,6 +28,18 @@ def jev_client(out: Path, budget: llm.Budget) -> Jev | None:
     """A Jev client when JEV_API_KEY is set, else None (the pipeline then skips the second read)."""
     key = os.environ.get("JEV_API_KEY")
     return Jev(key, budget, Path(out) / "jev_cache.json") if key else None
+
+
+def verified(verdict: str) -> bool:
+    """A computed answer (with or without a warning), or an agent answer whose every number is bound."""
+    return verdict.startswith(("COMPUTED", "AGENT: all"))
+
+
+def answer_markdown(result: dict) -> str:
+    return (
+        f"# {result['id']}\n\n> {result['question']}\n\n{result['answer'].rstrip()}\n\n---\n\n"
+        f"Verdict: {result['verdict']}\n\n{result['latency_seconds']} s; ${result['cost_usd']} model spend at list price.\n"
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -46,6 +59,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     source = commands.add_parser("source", help="print the source lines behind a citation such as 'BH-D103 L7-8'")
     source.add_argument("citation", nargs="+")
+
+    ask = commands.add_parser("ask", help="answer one question from the saved abstraction")
+    ask.add_argument("question")
+    batch = commands.add_parser("answer-questions", help="answer each {id, question} item of a JSON file into <out>/answers/")
+    batch.add_argument("questions", type=Path)
+    for command in (ask, batch):
+        command.add_argument("--agent", action="store_true", help="send the question to the open-question agent")
+        command.add_argument("--model", default=DEFAULT_MODEL, help="model for the open-question agent")
+
+    verify = commands.add_parser("verify-answers", help="replay every saved computed answer without a model and compare it")
+    verify.add_argument("answers", type=Path, nargs="?", help="saved answers (default <out>/answers/answers.json)")
     return parser
 
 
@@ -96,7 +120,33 @@ def main(argv: list[str] | None = None) -> int:
             for number in range(start, end + 1):
                 print(f"{doc_id} L{number}: {lines[number - 1]}")
         return 0
-    return 2
+    if args.command == "verify-answers":
+        results = answers.verify_saved(connection, args.answers or args.out / "answers" / "answers.json")
+        if not results:
+            print("No saved answers to verify.", file=sys.stderr)
+            return 1
+        for result in results:
+            print(f"{result.get('id', result['question'])}: {result['verdict']}")
+        return 0 if all(verified(result["verdict"]) for result in results) else 1
+    load_keys()
+    budget = pipeline.default_budget(args.out)
+    client = jev_client(args.out, budget)
+    if client is None:
+        print(NO_JEV, file=sys.stderr)
+    if args.command == "ask":
+        result = answers.answer(connection, args.question, client, budget, args.model, args.agent)
+        print(f"{result['answer'].rstrip()}\n\nVerdict: {result['verdict']}")
+        return 0 if verified(result["verdict"]) else 1
+    folder = args.out / "answers"
+    folder.mkdir(parents=True, exist_ok=True)
+    results = []
+    for item in json.loads(args.questions.read_text()):
+        result = {"id": item["id"], **answers.answer(connection, item["question"], client, budget, args.model, args.agent)}
+        (folder / f"{item['id']}.md").write_text(answer_markdown(result))
+        print(f"{item['id']}: {result['verdict'][:100]} ({result['latency_seconds']} s, ${result['cost_usd']})")
+        results.append(result)
+    (folder / "answers.json").write_text(json.dumps(results, indent=1))
+    return 0 if all(verified(result["verdict"]) for result in results) else 1
 
 
 if __name__ == "__main__":
