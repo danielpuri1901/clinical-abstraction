@@ -226,7 +226,7 @@ The code applies these rules in this order.
   `evals/gold/HG-M042.json` has 95 checks and `evals/gold/NF-20817.json` has 53.
   Every check is exact, and there is no judge model.
   `evals/score.py` is the scorer of the previous attempt; only its import changed.
-  The coding assistant derived the HG-M042 labels, and a person has not confirmed them yet (`docs/gold-checklist.md`).
+  The coding assistant derived the HG-M042 labels, and Daniel confirmed every row against the cited source lines on 2026-10-18 (`docs/gold-checklist.md`).
   The NF-20817 values were written with the held-out documents before the pipeline saw them.
 - Synthetic truth (`evals/synthetic.py`).
   A seeded generator draws the truth first: the treatment plan, each contact with its real intervals, breaks, disconnects, partner-only minutes, PHQ-9 administrations, and hazards at fixed rates.
