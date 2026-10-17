@@ -1,8 +1,7 @@
 """Shared fakes for tests and evals. Nothing here calls a model."""
 
+from clinical_abstraction.answer import NEUTRAL  # the value of each plan field that reads nothing
 from clinical_abstraction.read import Choice, ChoiceAnswer
-
-NEUTRAL = {"attendance": "not_applicable", "service_type": "any", "group_by": "none"}  # a plan field with no value
 
 
 class FakeJev:

@@ -20,7 +20,7 @@ from typing import Literal, get_args
 
 from clinical_abstraction import read, reconcile, store
 from clinical_abstraction.read import Choice, ChoiceAnswer, Jev
-from clinical_abstraction.reconcile import count_text, normalize_date, range_text
+from clinical_abstraction.reconcile import MONTH_NAMES, count_text, normalize_date, range_text
 from clinical_abstraction.store import runs_text, table_lines
 
 # 1. Plans ======================================================================================================================
@@ -81,7 +81,6 @@ _MONTH = (  # "May" only capitalized, so the verb "may" is no month; the lookahe
     r"(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|(?-i:May|MAY)|june?|july?|aug(?:ust)?"
     r"|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?![a-z])\.?"
 )
-_MONTH_KEYS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 _YEAR = r"(?:19|20)\d{2}(?!\d)"
 _DAY = r"\d{1,2}(?:st|nd|rd|th)?(?!\d)"
 _DATE = (  # one date as written; verify.normalize_date reads it, so questions and the referee accept the same forms
@@ -170,7 +169,7 @@ def parse_dates(question: str, default_year: int) -> DateRange | None:
         return _span(min(dates), max(dates))
     if found := _MONTH_ONLY.search(question):
         year = int(found["year"]) if found["year"] else default_year
-        month = _MONTH_KEYS.index(found.group()[:3].lower()) + 1
+        month = MONTH_NAMES.index(found.group()[:3].lower()) + 1
         return _span(date(year, month, 1), date(year, month, calendar.monthrange(year, month)[1]))
     return None
 

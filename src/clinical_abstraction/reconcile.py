@@ -37,7 +37,7 @@ _BARE_TIME = re.compile(r"(?<![\w:./$#+])(?<![A-Za-z]-)(\d{2})(\d{2})(?![\w:/]|\
 # A whole number that stands alone, so digits inside ids ("HG-E113", "PHQ-9"), decimals, and times never count.
 _WHOLE_NUMBER = re.compile(r"(?<![\w./-])\d+(?!\d|[.,]\d)")
 
-_MONTH_NAMES = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+MONTH_NAMES = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 _MONTH = (
     r"(?P<month>jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|(?-i:May|MAY)|june?|july?|aug(?:ust)?"
     r"|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?![A-Za-z])\.?"
@@ -119,7 +119,7 @@ def _find_dates(line: str) -> tuple[list[DateMention], str]:
         matches = list(form.finditer(line))
         for match in matches:
             month = match["month"]
-            month = int(month) if month.isdigit() else _MONTH_NAMES.index(month[:3].lower()) + 1
+            month = int(month) if month.isdigit() else MONTH_NAMES.index(month[:3].lower()) + 1
             year = int(match["year"]) if match["year"] else None
             if _is_real_date(year, month, int(match["day"])):
                 found.append((*match.span(), year, month, int(match["day"])))
