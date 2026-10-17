@@ -66,13 +66,12 @@ def test_truth_replay_scores_perfectly(tmp_path):
     manifest = synthetic.generate(seed=7, patients=25, out=tmp_path)  # the Task 8 set; its first 5 patients miss two hazards
     assert {h for p in manifest["patients"] for h in p["hazards"]} == set(synthetic.HAZARDS)
     reconcile = pytest.importorskip("clinical_abstraction.reconcile")
-    from clinical_abstraction import calculate
     from evals import score
 
     for entry in manifest["patients"]:
         abstraction = reconcile.build_patient(entry["mrn"], synthetic.truth_extractions(entry))
-        abstraction["weeks"] = calculate.weekly(abstraction)
-        abstraction["consecutive_weeks_below_goal"] = calculate.consecutive_shortfalls(abstraction["weeks"])
+        abstraction["weeks"] = reconcile.weekly(abstraction)
+        abstraction["consecutive_weeks_below_goal"] = reconcile.consecutive_shortfalls(abstraction["weeks"])
         result = score.score(abstraction, json.loads((tmp_path / "gold" / f"{entry['mrn']}.json").read_text()))
         assert result["passed"] == result["total"], (entry["mrn"], result["failures"])
 
@@ -99,7 +98,7 @@ def test_templates_carry_their_format_hazards(tmp_path):
 
 def test_truth_citations_point_at_their_values(tmp_path):
     try:
-        from clinical_abstraction import verify
+        from clinical_abstraction import reconcile as verify
     except ImportError:
         verify = None
     manifest = synthetic.generate(seed=5, patients=6, out=tmp_path)

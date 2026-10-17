@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from clinical_abstraction import calculate
+from clinical_abstraction import reconcile
 
 GOLD_DIR = Path(__file__).parent / "gold"
 
@@ -44,7 +44,7 @@ def score(abstraction: dict, gold: dict) -> dict:
     check("review period", gold["review_period"],
           [abstraction["review_period"]["start"], abstraction["review_period"]["end"]])
     inside = [e for e in abstraction["encounters"] if start <= e["service_date"] <= end]
-    totals = calculate.summarize(inside)
+    totals = reconcile.summarize(inside)
     want = gold["totals"]
     check("total sessions", [want["sessions"], want["sessions"]], [totals["sessions_low"], totals["sessions_high"]])
     check("sessions by service type", want["by_service_type"],

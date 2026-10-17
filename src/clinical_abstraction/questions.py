@@ -15,7 +15,7 @@ from datetime import date, timedelta
 from typing import Literal, get_args
 
 from clinical_abstraction.jev import Choice, ChoiceAnswer, Jev
-from clinical_abstraction.verify import normalize_date
+from clinical_abstraction.reconcile import normalize_date
 
 Metric = Literal[
     "sessions", "minutes", "days", "goal_status", "consecutive_shortfall", "plan_change", "progress", "billing_integrity", "other"

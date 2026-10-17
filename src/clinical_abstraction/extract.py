@@ -1,6 +1,6 @@
 """Extraction: one model call per document, with one repair turn. This is the untrusted step.
 
-The model reads one numbered document and cites line numbers. Pydantic checks the shape of its answer, verify.admit checks
+The model reads one numbered document and cites line numbers. Pydantic checks the shape of its answer, reconcile.admit checks
 every cited value against the text, and the model gets one turn to repair what the referee could not confirm.
 Nothing here decides what happened; reconcile.py does that in code.
 """
@@ -11,10 +11,10 @@ from collections.abc import Callable
 
 from pydantic import ValidationError
 
-from clinical_abstraction import llm, verify
+from clinical_abstraction import llm, reconcile
 from clinical_abstraction.schema import DocumentExtraction
 
-Extracted = tuple[DocumentExtraction, list[verify.Problem], dict]  # the admitted extraction, its problems, the usage
+Extracted = tuple[DocumentExtraction, list[reconcile.Problem], dict]  # the admitted extraction, its problems, the usage
 
 MAX_TOKENS = 3000
 MAX_TOKENS_AFTER_CUT_OFF = 8000  # a reply cut off at MAX_TOKENS is asked again, once, with this cap
@@ -134,7 +134,7 @@ def _parse(tool_calls: list[dict]) -> tuple[DocumentExtraction | None, str]:
         return None, f"The input did not match the schema. Fix these errors and call record_extraction again:\n{listed}"
 
 
-def _repair_request(problems: list[verify.Problem]) -> str:
+def _repair_request(problems: list[reconcile.Problem]) -> str:
     listed = "\n".join(f"- {problem.item}.{problem.field}: {problem.reason}" for problem in problems)
     return (
         f"A verifier compared your extraction with the numbered document and could not confirm these values:\n{listed}\n"
@@ -148,7 +148,7 @@ def extract_document(document_id: str, text: str, model: str, budget: llm.Budget
     call = call or llm.call_anthropic  # looked up now, so a test's replacement of llm.call_anthropic applies
     llm.usage_cost(model, {})  # a model without a price fails here, before any call spends money the ledger cannot see
     usage = {**dict.fromkeys(llm.USAGE_KEYS, 0), "cost_usd": 0.0, "calls": 0, "repair_turns": 0, "unrepaired_problems": 0}
-    messages = [{"role": "user", "content": f"Document ID: {document_id}\n\n{verify.numbered(text)}"}]
+    messages = [{"role": "user", "content": f"Document ID: {document_id}\n\n{reconcile.numbered(text)}"}]
 
     def ask(max_tokens: int) -> dict:
         response = call(model, SYSTEM_PROMPT, list(messages), [RECORD_TOOL], max_tokens=max_tokens)
@@ -170,7 +170,7 @@ def extract_document(document_id: str, text: str, model: str, budget: llm.Budget
             raise ExtractionError(f"{document_id}: model refused to extract this document")
         return response
 
-    def done(extraction: DocumentExtraction, problems: list[verify.Problem]) -> Extracted:
+    def done(extraction: DocumentExtraction, problems: list[reconcile.Problem]) -> Extracted:
         usage["unrepaired_problems"] = len(problems)
         return extraction, problems, usage
 
@@ -182,7 +182,7 @@ def extract_document(document_id: str, text: str, model: str, budget: llm.Budget
         tool_calls = [block for block in response["content"] if block["type"] == "tool_use"]
         parsed, request = _parse(tool_calls)
         if parsed is not None:
-            kept, problems = verify.admit(document_id, text, parsed)
+            kept, problems = reconcile.admit(document_id, text, parsed)
             if not problems or admitted:  # clean, or this reply was the repair turn
                 return done(kept, problems)
             admitted, request = (kept, problems), _repair_request(problems)

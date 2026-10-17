@@ -19,9 +19,8 @@ from pathlib import Path
 
 from clinical_abstraction import extract, llm, reconcile, render, store
 from clinical_abstraction.jev import Jev, second_read
-from clinical_abstraction.reconcile import Doc
+from clinical_abstraction.reconcile import Doc, Problem
 from clinical_abstraction.schema import DocumentExtraction
-from clinical_abstraction.verify import Problem
 
 Extractor = Callable[[str, str], tuple[DocumentExtraction, list[Problem], dict]]  # (doc_id, text) -> extraction, problems, usage
 

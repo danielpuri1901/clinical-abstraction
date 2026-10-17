@@ -1,34 +1,362 @@
-"""Reconciliation: deterministic code that turns admitted extractions into one abstraction per patient.
+"""Check, merge, count: the trusted code between the model's extractions and every number an answer prints.
 
-Policy, in the order it is applied:
-1. Identity. Records of the same contact merge by encounter id, then appointment id, then the same date with a compatible
-   service type and overlapping times.
-2. Evidence tiers. Signed clinical notes, attendance records, and telehealth logs are primary. Schedule listings say what was
-   booked. Copies repeat their original. Drafts, templates, unsigned notes, and charges never establish that care happened.
-3. Dates. Records that share an encounter id but disagree on the date keep both dates and raise a date conflict.
-4. Corrections apply in authored order to every record authored before them, copies received later included. Receipt time
-   never decides. A record authored after a correction that still disagrees is a conflict, not an override.
-5. Minutes are presence intervals minus breaks, disconnects, and parts without the patient. Primary records that still
-   disagree are carried as a range [low, high].
-6. Counting. A service counts only if the plan counts its type and a record establishes that it was delivered.
-7. Second readers. Keyword rules and the decision model's label disputes can hold an encounter as disputed. Neither ever
-   creates care, and a dispute changes the count only when the other label would change it.
-Every conflict flag cites both sides and names the document that would settle it.
+Sections, in order:
+1. The referee: admit checks every value the extraction model cites against its cited lines; coverage names what it left out.
+2. Reconciliation: build_patient merges one patient's admitted extractions into one abstraction, by the policy at its top.
+3. Calculation: weeks against the treatment plan with three-valued goal checks, runs of weeks below goal, and plan comparison.
 
-The extractions arrive admitted by verify.admit, so every value sits in its cited lines. verify.admit keeps the model's
-spelling of a value, so this module normalizes dates and times before using them. Citations read "D7 L3" or "D7 L3-5".
+Nothing here calls a model, and nothing repairs a value: an unsupported value becomes None, or its item is dropped.
 """
 
 import re
 from collections import Counter, defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass, field, replace
 from datetime import date, timedelta
-from typing import get_args
+from itertools import product
+from typing import Literal, get_args
 
 from pydantic import BaseModel
 
-from clinical_abstraction import calculate, verify
 from clinical_abstraction.schema import Attendance, DocumentExtraction, Interval, ServiceEvent, ServiceType
+
+# 1. The referee ================================================================================================================
+# The model reads a document once and cites 1-based line numbers. This section checks every cited value against the
+# source text. A value it cannot find is set to None, or its whole item is dropped when the value is structural
+# (an interval endpoint, a correction value, a required date). Nothing is repaired: a wrong value is never replaced
+# by a guessed right one.
+
+Kind = Literal["time", "date", "number", "text"]
+DateMention = tuple[int, int, int | None, int, int]  # start, end, year (None when the text omits it), month, day
+
+# H:MM or HH:MM with optional AM or PM. The lookarounds keep it out of decimals and longer numbers.
+_CLOCK_TIME = re.compile(r"(?<![\d:.])(\d{1,2}):(\d{2})(?!\d)(?:\s*([ap])\.?m\.?(?!\w))?", re.IGNORECASE)
+# Bare HHMM such as 1415. It only accepts a claimed value. coverage never scans it: years, doses, and ids look the same.
+# ponytail: a bare-time document gets no omission warnings; add a context rule if that loses real omissions.
+_BARE_TIME = re.compile(r"(?<![\w:./$#+])(?<![A-Za-z]-)(\d{2})(\d{2})(?![\w:/]|\.\d)")
+# A whole number that stands alone, so digits inside ids ("HG-E113", "PHQ-9"), decimals, and times never count.
+_WHOLE_NUMBER = re.compile(r"(?<![\w./-])\d+(?!\d|[.,]\d)")
+
+_MONTH_NAMES = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+_MONTH = (
+    r"(?P<month>jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|(?-i:May|MAY)|june?|july?|aug(?:ust)?"
+    r"|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?![A-Za-z])\.?"
+)
+_YEAR = r"(?:,?\s+(?P<year>(?:19|20)\d{2})(?!\d))?"
+_DATE_FORMS = [  # tried in this order; each match is blanked so the next form cannot reuse its digits
+    re.compile(r"(?<![\w/-])(?P<year>(?:19|20)\d{2})[-/](?P<month>\d{1,2})[-/](?P<day>\d{1,2})(?!\d)"),  # 2026-01-19
+    re.compile(r"(?<![\w/.-])(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<year>(?:19|20)\d{2})(?!\d)"),  # 01/19/2026, month first
+    re.compile(rf"(?<![A-Za-z]){_MONTH}\s*(?P<day>\d{{1,2}})(?:st|nd|rd|th)?(?!\d){_YEAR}", re.IGNORECASE),  # January 19, 2026; Jan05
+    re.compile(
+        rf"(?<![\w:./-])(?P<day>\d{{1,2}})(?:st|nd|rd|th)?\s+(?:of\s+)?{_MONTH}{_YEAR}", re.IGNORECASE
+    ),  # 19th of January 2026
+]
+
+
+@dataclass(frozen=True)
+class Problem:
+    document_id: str
+    item: str
+    field: str
+    reason: str
+
+
+def numbered(text: str) -> str:
+    return "\n".join(f"L{number}: {line}" for number, line in enumerate(text.splitlines(), 1))
+
+
+def cited_lines(item: BaseModel) -> list[int]:
+    return sorted(set(getattr(item, "lines", None) or []))
+
+
+def _line_ranges(numbers: list[int]) -> str:
+    """[2, 3, 7] becomes "2-3, 7". The numbers arrive sorted and unique from cited_lines."""
+    runs: list[list[int]] = []
+    for number in numbers:
+        if runs and number == runs[-1][1] + 1:
+            runs[-1][1] = number
+        else:
+            runs.append([number, number])
+    return ", ".join(str(first) if first == last else f"{first}-{last}" for first, last in runs)
+
+
+def _format_time(hour: int, minute: int, meridiem: str | None = None) -> str | None:
+    if minute > 59:
+        return None
+    if meridiem:
+        if not 1 <= hour <= 12:
+            return None
+        # ponytail: "9:00-10:00 PM" reads 9:00 as AM; handle a shared suffix if such ranges appear.
+        hour = hour % 12 + (12 if meridiem.lower() == "p" else 0)
+    elif hour > 23:
+        return None
+    return f"{hour:02d}:{minute:02d}"
+
+
+def _time_from_match(found: re.Match) -> str | None:
+    hour, minute, *meridiem = found.groups()
+    return _format_time(int(hour), int(minute), *meridiem)
+
+
+def normalize_time(value: str) -> str | None:
+    value = value.strip()
+    found = _CLOCK_TIME.fullmatch(value) or _BARE_TIME.fullmatch(value)
+    return _time_from_match(found) if found else None
+
+
+def _is_real_date(year: int | None, month: int, day: int) -> bool:
+    try:
+        date(year or 2000, month, day)  # 2000 is a leap year, so an unstated year never rejects 29 February
+    except ValueError:
+        return False
+    return True
+
+
+def _find_dates(line: str) -> tuple[list[DateMention], str]:
+    """Real dates in one line, and the line with every date-like span blanked (impossible dates too)."""
+    found: list[DateMention] = []
+    for form in _DATE_FORMS:
+        matches = list(form.finditer(line))
+        for match in matches:
+            month = match["month"]
+            month = int(month) if month.isdigit() else _MONTH_NAMES.index(month[:3].lower()) + 1
+            year = int(match["year"]) if match["year"] else None
+            if _is_real_date(year, month, int(match["day"])):
+                found.append((*match.span(), year, month, int(match["day"])))
+        for match in matches:
+            line = line[: match.start()] + " " * (match.end() - match.start()) + line[match.end() :]
+    return found, line
+
+
+def normalize_date(value: str, default_year: int | None = None) -> str | None:
+    value = value.strip()
+    found = _find_dates(value)[0]
+    if len(found) != 1 or found[0][:2] != (0, len(value)):
+        return None
+    _, _, year, month, day = found[0]
+    try:
+        return date(year or default_year, month, day).isoformat() if year or default_year else None
+    except ValueError:
+        return None
+
+
+def _find_times(line: str, bare: bool = False) -> list[tuple[int, str]]:
+    """Valid times in one line as (position, "HH:MM"). Dates are blanked first so a year is never read as a time."""
+    rest = _find_dates(line)[1]
+    found = [(match.start(), _time_from_match(match)) for match in _CLOCK_TIME.finditer(rest)]
+    if bare:
+        found += [(match.start(), _time_from_match(match)) for match in _BARE_TIME.finditer(rest)]
+    return [(position, clock) for position, clock in found if clock]
+
+
+def _find_whole_numbers(line: str) -> set[int]:
+    rest = _CLOCK_TIME.sub(" ", _find_dates(line)[1])
+    return {int(match.group()) for match in _WHOLE_NUMBER.finditer(rest)}
+
+
+def _whole_number(value: str) -> int | None:
+    found = re.fullmatch(r"\s*(\d+)(?:\s*min(?:ute)?s?)?\s*", value, re.IGNORECASE)  # the model may add the unit
+    return int(found[1]) if found else None
+
+
+def _fold_text(text: str) -> str:
+    return " ".join(text.replace("_", " ").split()).lower()
+
+
+def value_in_lines(value: str, kind: Kind, line_texts: list[str]) -> bool:
+    """True when the value, normalized, occurs in the normalized text of the lines. A text value is a substring match."""
+    if kind == "text":
+        wanted = _fold_text(value)
+        return bool(wanted) and wanted in _fold_text(" ".join(line_texts))
+    if kind == "time":
+        clock = normalize_time(value)
+        return clock is not None and any(clock == found for line in line_texts for _, found in _find_times(line, bare=True))
+    if kind == "date":
+        iso = normalize_date(value)
+        if iso is None:
+            return False
+        year, month, day = map(int, iso.split("-"))
+        # A date written without a year matches any year; one written with a year must match it.
+        return any(
+            (found_month, found_day) == (month, day) and found_year in (None, year)
+            for line in line_texts
+            for _, _, found_year, found_month, found_day in _find_dates(line)[0]
+        )
+    if kind == "number":
+        number = _whole_number(value)
+        return number is not None and any(number in _find_whole_numbers(line) for line in line_texts)
+    raise ValueError(f"unknown kind {kind!r}")
+
+
+def admit(document_id: str, text: str, extraction: DocumentExtraction) -> tuple[DocumentExtraction, list[Problem]]:
+    """Return a copy of the extraction holding only values the text supports, and one Problem per value removed.
+
+    Times, numbers, and correction values must sit in the item's own cited lines. Dates may sit anywhere in the document,
+    because most documents state the service date once in a header.
+    """
+    kept = extraction.model_copy(deep=True)
+    document = text.splitlines()
+    problems: list[Problem] = []
+
+    def cites_real_lines(path: str, owner: BaseModel) -> bool:
+        lines = cited_lines(owner)
+        missing = [number for number in lines if not 1 <= number <= len(document)]
+        if not lines:
+            problems.append(Problem(document_id, path, "lines", "cites no lines"))
+        elif missing:
+            problems.append(
+                Problem(document_id, path, "lines", f"lines {_line_ranges(missing)} not in document of {len(document)} lines")
+            )
+        return bool(lines) and not missing
+
+    def supported(path: str, field: str, value: str, kind: Kind, owner: BaseModel) -> bool:
+        lines = cited_lines(owner)
+        if value_in_lines(value, kind, document if kind == "date" else [document[number - 1] for number in lines]):
+            return True
+        where = "document" if kind == "date" else f"cited lines {_line_ranges(lines)}"
+        problems.append(Problem(document_id, path, field, f"{value} not in {where}"))
+        return False
+
+    def none_if_unsupported(path: str, owner, field: str, kind: Kind) -> None:
+        value = getattr(owner, field)
+        if value is not None and not supported(path, field, str(value), kind, owner):
+            setattr(owner, field, None)
+
+    def keep_admitted(path: str, items: list, admitted: Callable) -> list:
+        return [item for index, item in enumerate(items) if admitted(f"{path}[{index}]", item)]
+
+    def interval_supported(path: str, interval, owner: BaseModel) -> bool:
+        start = supported(path, "start", interval.start, "time", owner)
+        end = supported(path, "end", interval.end, "time", owner)  # check both so one Problem names each bad endpoint
+        return start and end
+
+    def admit_event(path: str, event) -> bool:
+        if not cites_real_lines(path, event) or not supported(path, "service_date", event.service_date, "date", event):
+            return False
+        for name in ("scheduled_start", "scheduled_end", "patient_arrival", "patient_departure"):
+            none_if_unsupported(path, event, name, "time")
+        event.patient_present_intervals = keep_admitted(
+            f"{path}.patient_present_intervals",
+            event.patient_present_intervals,
+            lambda interval_path, interval: interval_supported(interval_path, interval, event),
+        )
+        none_if_unsupported(path, event, "stated_patient_minutes", "number")
+        event.excluded_intervals = keep_admitted(
+            f"{path}.excluded_intervals",
+            event.excluded_intervals,
+            lambda interval_path, interval: (
+                cites_real_lines(interval_path, interval) and interval_supported(interval_path, interval, interval)
+            ),
+        )
+        return True
+
+    def admit_correction(path: str, correction) -> bool:
+        if not cites_real_lines(path, correction):
+            return False
+        kind = {"patient_arrival": "time", "patient_departure": "time", "patient_minutes": "number"}.get(correction.field, "text")
+        none_if_unsupported(path, correction, "service_date", "date")
+        corrected_value_found = supported(path, "corrected_value", correction.corrected_value, kind, correction)
+        none_if_unsupported(path, correction, "replaced_value", kind)
+        return corrected_value_found
+
+    def admit_plan_requirement(path: str, requirement) -> bool:
+        if not cites_real_lines(path, requirement):
+            return False
+        for name in ("effective_start", "effective_end"):
+            none_if_unsupported(path, requirement, name, "date")
+        for name in ("min_therapy_days_per_week", "min_patient_present_minutes_per_week"):
+            none_if_unsupported(path, requirement, name, "number")
+        return True
+
+    def admit_assessment(path: str, assessment) -> bool:
+        if not cites_real_lines(path, assessment):
+            return False
+        none_if_unsupported(path, assessment, "total_score", "number")
+        assessment.item_scores = keep_admitted(
+            f"{path}.item_scores",
+            assessment.item_scores,
+            lambda score_path, item_score: supported(score_path, "score", str(item_score.score), "number", assessment),
+        )
+        none_if_unsupported(path, assessment, "completed_on", "date")
+        none_if_unsupported(path, assessment, "completed_time", "time")
+        return True
+
+    def admit_authorization(path: str, authorization) -> bool:
+        if not cites_real_lines(path, authorization):
+            return False
+        for name in ("start", "end"):
+            none_if_unsupported(path, authorization, name, "date")
+        return True
+
+    def admit_charge(path: str, charge) -> bool:
+        if not cites_real_lines(path, charge):
+            return False
+        none_if_unsupported(path, charge, "service_date", "date")
+        return True
+
+    def admit_observation(path: str, observation) -> bool:
+        return cites_real_lines(path, observation) and supported(
+            path, "observed_on", observation.observed_on, "date", observation
+        )
+
+    kept.service_events = keep_admitted("service_events", kept.service_events, admit_event)
+    kept.corrections = keep_admitted("corrections", kept.corrections, admit_correction)
+    kept.plan_requirements = keep_admitted("plan_requirements", kept.plan_requirements, admit_plan_requirement)
+    kept.assessments = keep_admitted("assessments", kept.assessments, admit_assessment)
+    kept.authorizations = keep_admitted("authorizations", kept.authorizations, admit_authorization)
+    kept.charges = keep_admitted("charges", kept.charges, admit_charge)
+    kept.observations = keep_admitted("observations", kept.observations, admit_observation)
+    return kept, problems
+
+
+def _date_is_carried(year: int | None, month: int, day: int, carried: set[tuple[int | None, int, int]]) -> bool:
+    return any(
+        (carried_month, carried_day) == (month, day) and (year is None or carried_year is None or year == carried_year)
+        for carried_year, carried_month, carried_day in carried
+    )
+
+
+def coverage(text: str, extraction: DocumentExtraction) -> list[str]:
+    """Name every time and date in the text that no admitted item carries, as "possible omission: L7 09:10".
+
+    A value counts as carried when any field of the extraction holds it, written in any format. Times are the HH:MM kind.
+    """
+    everything_stated = extraction.model_dump_json()
+    carried_times = {clock for _, clock in _find_times(everything_stated, bare=True)}
+    carried_dates = {(year, month, day) for _, _, year, month, day in _find_dates(everything_stated)[0]}
+    notes: list[str] = []
+    for number, line in enumerate(text.splitlines(), 1):
+        missing = [(position, clock) for position, clock in _find_times(line) if clock not in carried_times]
+        for start, end, year, month, day in _find_dates(line)[0]:
+            if not _date_is_carried(year, month, day, carried_dates):
+                missing.append((start, f"{year:04d}-{month:02d}-{day:02d}" if year else line[start:end].strip()))
+        for _, value in sorted(missing):
+            note = f"possible omission: L{number} {value}"
+            if note not in notes:
+                notes.append(note)
+    return notes
+
+
+# 2. Reconciliation =============================================================================================================
+# Deterministic code that turns admitted extractions into one abstraction per patient.
+#
+# Policy, in the order it is applied:
+# 1. Identity. Records of the same contact merge by encounter id, then appointment id, then the same date with a compatible
+#    service type and overlapping times.
+# 2. Evidence tiers. Signed clinical notes, attendance records, and telehealth logs are primary. Schedule listings say what was
+#    booked. Copies repeat their original. Drafts, templates, unsigned notes, and charges never establish that care happened.
+# 3. Dates. Records that share an encounter id but disagree on the date keep both dates and raise a date conflict.
+# 4. Corrections apply in authored order to every record authored before them, copies received later included. Receipt time
+#    never decides. A record authored after a correction that still disagrees is a conflict, not an override.
+# 5. Minutes are presence intervals minus breaks, disconnects, and parts without the patient. Primary records that still
+#    disagree are carried as a range [low, high].
+# 6. Counting. A service counts only if the plan counts its type and a record establishes that it was delivered.
+# 7. Second readers. Keyword rules and the decision model's label disputes can hold an encounter as disputed. Neither ever
+#    creates care, and a dispute changes the count only when the other label would change it.
+# Every conflict flag cites both sides and names the document that would settle it.
+#
+# The extractions arrive admitted by admit, so every value sits in its cited lines. admit keeps the model's spelling of a
+# value, so this section normalizes dates and times before using them. Citations read "D7 L3" or "D7 L3-5".
 
 THERAPY_TYPES = ["individual_psychotherapy", "group_psychotherapy", "family_psychotherapy"]
 CONTEXT_TYPES = {"administrative", "assessment_review", "outreach_or_scheduling_call", "other"}
@@ -149,11 +477,11 @@ def describe(intervals: list[tuple[int, int]]) -> str:
 
 
 def _time(value: str | None) -> str | None:
-    return verify.normalize_time(value) if value else None
+    return normalize_time(value) if value else None
 
 
 def _date(value: str | None) -> str | None:
-    return verify.normalize_date(value) if value else None
+    return normalize_date(value) if value else None
 
 
 def _moment(value: str | None) -> str | None:
@@ -161,8 +489,8 @@ def _moment(value: str | None) -> str | None:
     if not value:
         return None
     day, _, time_of_day = value.strip().replace(" ", "T", 1).partition("T")
-    iso = verify.normalize_date(day)
-    hour = time_of_day and (verify.normalize_time(time_of_day) or verify.normalize_time(time_of_day[:5]))
+    iso = normalize_date(day)
+    hour = time_of_day and (normalize_time(time_of_day) or normalize_time(time_of_day[:5]))
     return iso and (f"{iso}T{hour}" if hour else iso)
 
 
@@ -177,8 +505,8 @@ def _received(doc: Doc) -> str | None:
 
 
 def _citations(doc_id: str, item: BaseModel) -> list[str]:
-    lines = verify.cited_lines(item)
-    return [f"{doc_id} L{run}" for run in verify._line_ranges(lines).split(", ")] if lines else []
+    lines = cited_lines(item)
+    return [f"{doc_id} L{run}" for run in _line_ranges(lines).split(", ")] if lines else []
 
 
 def _cite(record: Record) -> str:
@@ -281,7 +609,7 @@ def _own_text(record: Record, key: str, ids_by_key: dict[str, set[str]]) -> str:
     lines = record.doc.text.splitlines()
     mine = ids_by_key[key]
     others = {identifier for other, ids in ids_by_key.items() if other != key for identifier in ids} - mine
-    cited = [lines[number - 1] for number in verify.cited_lines(record.event) if 1 <= number <= len(lines)]
+    cited = [lines[number - 1] for number in cited_lines(record.event) if 1 <= number <= len(lines)]
     return "\n".join(
         line for line in cited if any(_names(line, own) for own in mine) or not any(_names(line, other) for other in others)
     )
@@ -878,10 +1206,10 @@ def _omissions(docs: list[Doc], records: list[Record], key_of: dict[int, str]) -
     for doc in docs:
         own = [record for record in records if record.doc is doc]
         inside: dict[int, tuple[list[str], set[str]]] = {}
-        for note in verify.coverage(doc.text, doc.extraction):
+        for note in coverage(doc.text, doc.extraction):
             number, value = re.fullmatch(r"possible omission: L(\d+) (.+)", note).groups()
             notes.append({"citation": f"{doc.doc_id} L{number}", "value": value})
-            clock_value = verify.normalize_time(value)  # None for a date, which never becomes a flag
+            clock_value = normalize_time(value)  # None for a date, which never becomes a flag
             minute = to_minutes(clock_value) if clock_value else None
             keys = {
                 key_of[id(r)] for r in own if minute is not None and any(s <= minute <= e for s, e in _session_windows(r.event))
@@ -922,7 +1250,7 @@ def _plans(docs: list[Doc]) -> list[dict]:
                         "effective_end": _date(requirement.effective_end),
                         "min_days_per_week": requirement.min_therapy_days_per_week,
                         "min_minutes_per_week": requirement.min_patient_present_minutes_per_week,
-                        "week_start_day": calculate.week_start_day(requirement.week_definition),
+                        "week_start_day": week_start_day(requirement.week_definition),
                         "counted_service_types": list(requirement.counted_service_types),
                         "sources": [],
                     },
@@ -1057,7 +1385,210 @@ def build_patient(mrn: str, docs: list[Doc], pending: list[dict] | None = None) 
         "coverage_notes": coverage_notes,
         "incomplete": list(pending or []),
     }
-    abstraction["weeks"] = calculate.weekly(abstraction)
-    abstraction["consecutive_weeks_below_goal"] = calculate.consecutive_shortfalls(abstraction["weeks"])
-    abstraction["plan_versions_compared"] = calculate.compare_plan_versions(abstraction)
+    abstraction["weeks"] = weekly(abstraction)
+    abstraction["consecutive_weeks_below_goal"] = consecutive_shortfalls(abstraction["weeks"])
+    abstraction["plan_versions_compared"] = compare_plan_versions(abstraction)
     return abstraction
+
+
+# 3. Calculation ================================================================================================================
+# Pure functions over one patient's abstraction.
+#
+# Uncertain encounters carry minutes as a range [low, high], and disputed encounters count only toward the high bounds.
+# Goal checks use three-valued logic: a week is "met" only if the low bounds meet the goal, "not_met" only if even the high
+# bounds miss it, and "cannot_determine" otherwise. The answer is then the same for every way the open conflicts could be
+# resolved. A week holding an encounter with conflicting dates, or any week of a patient with documents still pending, is
+# "cannot_determine" whatever its totals say.
+
+DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+COUNTED = ("yes", "disputed")
+TOTALS = ("therapy_days_low", "therapy_days_high", "minutes_low", "minutes_high")
+
+
+def week_start_day(definition: str | None) -> int:
+    """Weekday a plan's week starts on, from text such as 'Monday-Sunday' or 'Sunday through Saturday'. Default Monday."""
+    lowered = (definition or "").lower()
+    found = [(lowered.find(day), index) for index, day in enumerate(DAYS) if day in lowered]
+    return min(found)[1] if found else 0
+
+
+def weeks_between(start: str, end: str, first_day: int = 0) -> list[tuple[date, date]]:
+    """Seven-day weeks starting on `first_day` (0 = Monday), clipped to [start, end]."""
+    first, last = date.fromisoformat(start), date.fromisoformat(end)
+    week_start = first - timedelta(days=(first.weekday() - first_day) % 7)
+    weeks = []
+    while week_start <= last:
+        weeks.append((max(week_start, first), min(week_start + timedelta(days=6), last)))
+        week_start += timedelta(days=7)
+    return weeks
+
+
+def plan_for(plans: list[dict], day: date | str) -> dict | None:
+    day = str(day)  # str(date) is the ISO form
+    return next((plan for plan in plans if (plan["effective_date"] or "0000") <= day <= (plan["effective_end"] or "9999")), None)
+
+
+def summarize(encounters: list[dict]) -> dict:
+    """Session, day, and minute totals with low and high bounds, overall and by service type."""
+    certain = [encounter for encounter in encounters if encounter["counts_as_therapy"] == "yes"]
+    possible = [encounter for encounter in encounters if encounter["counts_as_therapy"] in COUNTED]
+    by_type: dict[str, dict] = {}
+    for encounter in possible:
+        row = by_type.setdefault(
+            encounter["service_type"], {"sessions_low": 0, "sessions_high": 0, "minutes_low": 0, "minutes_high": 0}
+        )
+        row["sessions_high"] += 1
+        row["minutes_high"] += encounter["minutes_high"]
+        if encounter["counts_as_therapy"] == "yes":
+            row["sessions_low"] += 1
+            row["minutes_low"] += encounter["minutes_low"]
+    return {
+        "sessions_low": len(certain),
+        "sessions_high": len(possible),
+        "therapy_days_low": len({encounter["service_date"] for encounter in certain}),
+        "therapy_days_high": len({encounter["service_date"] for encounter in possible}),
+        "minutes_low": sum(encounter["minutes_low"] for encounter in certain),
+        "minutes_high": sum(encounter["minutes_high"] for encounter in possible),
+        "by_service_type": by_type,
+    }
+
+
+def _bounded(low: int, high: int) -> str:
+    return str(low) if low == high else f"{low}-{high}"
+
+
+def _therapy_days(low: int, high: int) -> str:
+    return f"{_bounded(low, high)} therapy day{'' if (low, high) == (1, 1) else 's'}"
+
+
+def goal_status(plan: dict | None, days_low: int, days_high: int, minutes_low: int, minutes_high: int) -> tuple[str, str]:
+    if plan is None or (plan["min_days_per_week"] is None and plan["min_minutes_per_week"] is None):
+        return "cannot_determine", "no measurable treatment-plan goal is documented for this week"
+    need_days, need_minutes = plan["min_days_per_week"] or 0, plan["min_minutes_per_week"] or 0
+    goal = f"goal of {_therapy_days(need_days, need_days)} and {need_minutes} minutes"
+    stated = f"{_therapy_days(days_low, days_high)} and {_bounded(minutes_low, minutes_high)} minutes"
+    if days_low >= need_days and minutes_low >= need_minutes:
+        return "met", f"{stated} meet the {goal}"
+    if days_high < need_days or minutes_high < need_minutes:
+        misses = [f"{_therapy_days(days_high, days_high)} < {need_days}"] if days_high < need_days else []
+        misses += [f"{minutes_high} minutes < {need_minutes}"] if minutes_high < need_minutes else []
+        return "not_met", f"{stated} miss the {goal} ({'; '.join(misses)})"
+    return "cannot_determine", (
+        f"{stated}: the {goal} is met at the high bound but not at the low bound, so it depends on an unresolved record"
+    )
+
+
+def _dates(encounter: dict) -> list[str]:
+    return encounter.get("service_dates") or [encounter["service_date"]]
+
+
+def _week_totals(encounters: list[dict], start: str, end: str) -> dict:
+    """Bounds over every way an encounter with conflicting dates could be placed, so no placement is assumed."""
+    touching = [encounter for encounter in encounters if any(start <= day <= end for day in _dates(encounter))]
+    fixed = [encounter for encounter in touching if len(_dates(encounter)) == 1]
+    # ponytail: 2**n placements for n date-conflicted encounters in one week; fine while n stays below about 15.
+    moving = [
+        [{**encounter, "service_date": day} for day in _dates(encounter)] for encounter in touching if len(_dates(encounter)) > 1
+    ]
+    totals = [summarize([e for e in [*fixed, *placed] if start <= e["service_date"] <= end]) for placed in product(*moving)]
+    return {key: (min if key.endswith("_low") else max)(total[key] for total in totals) for key in TOTALS}
+
+
+def weekly(abstraction: dict) -> list[dict]:
+    period, plans, pending = abstraction["review_period"], abstraction["plans"], abstraction.get("incomplete") or []
+    if not period["start"] or not period["end"]:
+        return []
+    settles: dict[str, list[str]] = {}
+    for flag in abstraction["flags"]:
+        if flag["settles"]:
+            settles.setdefault(flag["encounter"], []).append(flag["settles"])
+    pending_ids = ", ".join(str(document.get("doc_id")) for document in pending)
+    rows = []
+    for first, last in weeks_between(period["start"], period["end"], plans[0]["week_start_day"] if plans else 0):
+        start, end = first.isoformat(), last.isoformat()
+        counted = [
+            encounter
+            for encounter in abstraction["encounters"]
+            if encounter["counts_as_therapy"] in COUNTED and any(start <= day <= end for day in _dates(encounter))
+        ]
+        totals = _week_totals(abstraction["encounters"], start, end)
+        plan = plan_for(plans, first)
+        status, explanation = goal_status(plan, *(totals[key] for key in TOTALS))
+        open_questions = []
+        moving = [encounter["encounter"] for encounter in counted if len(_dates(encounter)) > 1]
+        if moving:
+            open_questions.append(f"{', '.join(moving)} {'has' if len(moving) == 1 else 'have'} conflicting dates")
+        if pending:
+            open_questions.append(
+                f"{len(pending)} pending document{'s' if len(pending) > 1 else ''} ({pending_ids}) could change it"
+            )
+        if open_questions:
+            status = "cannot_determine"
+            explanation += f"; {' and '.join(open_questions)}, so it cannot be determined"
+        if (last - first).days < 6:
+            explanation += f"; partial week ({start} to {end}) inside the review period"
+        if status == "cannot_determine":
+            sentences = [sentence for encounter in counted for sentence in settles.get(encounter["encounter"], [])]
+            if plan is None or (plan["min_days_per_week"] is None and plan["min_minutes_per_week"] is None):
+                sentences.append("A signed treatment plan stating the weekly goal would settle it.")
+            if pending:
+                sentences.append(f"Reading the pending document{'s' if len(pending) > 1 else ''} {pending_ids} would settle it.")
+            explanation += "." + "".join(f" {sentence}" for sentence in dict.fromkeys(sentences)) if sentences else ""
+        rows.append(
+            {
+                "week_start": start,
+                "week_end": end,
+                **totals,
+                "status": status,
+                "explanation": explanation,
+                "plan_version": plan["version"] if plan else None,
+                "encounters": [encounter["encounter"] for encounter in counted],
+            }
+        )
+    return rows
+
+
+def consecutive_shortfalls(weeks: list[dict], run_length: int = 2) -> dict:
+    """Runs of `run_length` consecutive weeks below goal: established, or dependent on unresolved records."""
+    established, possible = [], []
+    for index in range(len(weeks) - run_length + 1):
+        window = weeks[index : index + run_length]
+        label = [week["week_start"] for week in window]
+        if all(week["status"] == "not_met" for week in window):
+            established.append(label)
+        elif all(week["status"] in ("not_met", "cannot_determine") for week in window):
+            possible.append(label)
+    return {"run_length": run_length, "established": established, "depends_on_unresolved_records": possible}
+
+
+def compare_plan_versions(abstraction: dict) -> dict:
+    """Care delivered under each treatment-plan version, normalized per week, so a plan change can be compared."""
+    period, rows = abstraction["review_period"], []
+    for plan in abstraction["plans"] if period["start"] and period["end"] else []:
+        start = max(plan["effective_date"] or period["start"], period["start"])
+        end = min(plan["effective_end"] or period["end"], period["end"])
+        if start > end:
+            continue
+        totals = summarize([encounter for encounter in abstraction["encounters"] if start <= encounter["service_date"] <= end])
+        weeks = ((date.fromisoformat(end) - date.fromisoformat(start)).days + 1) / 7
+        rows.append(
+            {
+                "plan_version": plan["version"],
+                "start": start,
+                "end": end,
+                "weeks": round(weeks, 2),
+                "goal_days": plan["min_days_per_week"],
+                "goal_minutes": plan["min_minutes_per_week"],
+                "sources": plan["sources"],
+                **totals,
+                "minutes_per_week_low": round(totals["minutes_low"] / weeks, 1),
+                "minutes_per_week_high": round(totals["minutes_high"] / weeks, 1),
+            }
+        )
+    if len(rows) > 1:
+        note = None
+    elif rows:
+        note = "Only one treatment-plan version is documented, so there is no before and after change."
+    else:
+        note = "No treatment-plan version falls inside the review period."
+    return {"versions": rows, "note": note}

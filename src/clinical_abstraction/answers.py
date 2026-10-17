@@ -14,7 +14,7 @@ import time
 from datetime import date
 from pathlib import Path
 
-from clinical_abstraction import agent, calculate, llm, questions, store
+from clinical_abstraction import agent, llm, questions, reconcile, store
 from clinical_abstraction.jev import Jev
 from clinical_abstraction.questions import DateRange, Plan, PlanError
 from clinical_abstraction.render import _range, _runs, _table
@@ -107,7 +107,7 @@ def _matches(row: dict, attendance: str) -> bool:
 
 
 def _headline(plan: Plan, rows: list[dict]) -> str:
-    totals = calculate.summarize(rows)
+    totals = reconcile.summarize(rows)
     low, high = totals["minutes_low"], totals["minutes_high"]
     minutes = f"{_range(low, high)} minutes ({_range(_hours(low), _hours(high))} hours)"
     sessions = _count(totals["sessions_low"], totals["sessions_high"], "therapy session")
@@ -153,7 +153,7 @@ def _groups(connection, plan: Plan, mrn: str, rows: list[dict]) -> list[tuple[st
 
 
 def _group_row(label: str, rows: list[dict]) -> list:
-    totals = calculate.summarize(rows)
+    totals = reconcile.summarize(rows)
     low, high = totals["minutes_low"], totals["minutes_high"]
     return [
         label,
@@ -232,8 +232,8 @@ def _goal(connection, plan: Plan, mrn: str) -> str:
     plans = _stored(connection, mrn, "$.plans") or []
     lines = [
         f"Plan version {row['version']} ({row['effective_date'] or 'start not stated'} to {row['effective_end'] or 'open'}): "
-        f"at least {_goal_text(row)} per {calculate.DAYS[row['week_start_day']].capitalize()}-"
-        f"{calculate.DAYS[(row['week_start_day'] + 6) % 7].capitalize()} week; counts "
+        f"at least {_goal_text(row)} per {reconcile.DAYS[row['week_start_day']].capitalize()}-"
+        f"{reconcile.DAYS[(row['week_start_day'] + 6) % 7].capitalize()} week; counts "
         f"{', '.join(row['counted_service_types'])} {_cites(row['sources'])}."
         for row in plans
     ] or ["No measurable treatment-plan goal is documented."]
@@ -259,7 +259,7 @@ def _goal(connection, plan: Plan, mrn: str) -> str:
     ]
     lines += ["", "\n".join(_table(["Week", "Dates", "Therapy days", "Minutes", "Goal", "Status"], table)).strip(), ""]
     lines += [f"- Week {number}: {week['explanation'].rstrip('.')}." for number, week in numbered]
-    runs = calculate.consecutive_shortfalls([week for _, week in numbered])
+    runs = reconcile.consecutive_shortfalls([week for _, week in numbered])
     established, depending = _runs(runs["established"]), _runs(runs["depends_on_unresolved_records"])
     lines += ["", f"Consecutive weeks below goal: established {established}; depending on unresolved records {depending}."]
     return "\n".join(lines)

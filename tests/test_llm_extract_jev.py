@@ -11,8 +11,8 @@ import httpx2
 import pytest
 
 from clinical_abstraction import extract, jev, llm
+from clinical_abstraction.reconcile import Problem
 from clinical_abstraction.schema import Attendance, DocumentExtraction, RecordRole, ServiceEvent, ServiceType
-from clinical_abstraction.verify import Problem
 
 # conftest replaces llm.call_anthropic for every test. This keeps the real function for the one test that checks its request.
 REAL_CALL_ANTHROPIC = llm.call_anthropic
