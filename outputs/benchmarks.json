@@ -1,0 +1,421 @@
+{
+ "generated_at": "2026-10-17T21:02:21+00:00",
+ "patients": 2000,
+ "store": "outputs/abstraction.db",
+ "template_patient": "HG-M042",
+ "ingest_runs": [
+  {
+   "log": "experiments/held-out/logs/ingest-20261017-222703.jsonl",
+   "new_documents": 14,
+   "duplicate_or_known_files": 1,
+   "total_seconds": 14.674,
+   "extraction": {
+    "documents": 14,
+    "extracted": 14,
+    "failed": 0,
+    "calls": 14,
+    "cost_usd": 0.017515,
+    "input_tokens": 5503,
+    "output_tokens": 20839
+   }
+  },
+  {
+   "log": "experiments/held-out/logs/ingest-20261017-223839.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 15,
+   "total_seconds": 0.068,
+   "extraction": {
+    "documents": 0,
+    "extracted": 0,
+    "failed": 0,
+    "calls": 0,
+    "cost_usd": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+   }
+  },
+  {
+   "log": "experiments/held-out/logs/ingest-20261017-224040.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 15,
+   "total_seconds": 43.721,
+   "extraction": {
+    "documents": 45,
+    "extracted": 45,
+    "failed": 0,
+    "calls": 47,
+    "cost_usd": 0.046801,
+    "input_tokens": 29176,
+    "output_tokens": 80049
+   }
+  },
+  {
+   "log": "experiments/new-document/logs/ingest-20261017-225430.jsonl",
+   "new_documents": 1,
+   "duplicate_or_known_files": 0,
+   "total_seconds": 4.962,
+   "extraction": {
+    "documents": 1,
+    "extracted": 1,
+    "failed": 0,
+    "calls": 1,
+    "cost_usd": 0.029279,
+    "input_tokens": 497,
+    "output_tokens": 776
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run1/logs/ingest-20261017-222743.jsonl",
+   "new_documents": 311,
+   "duplicate_or_known_files": 8,
+   "total_seconds": 252.189,
+   "extraction": {
+    "documents": 311,
+    "extracted": 311,
+    "failed": 0,
+    "calls": 323,
+    "cost_usd": 0.282365,
+    "input_tokens": 147155,
+    "output_tokens": 484356
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run1/logs/ingest-20261017-223840.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 0.357,
+   "extraction": {
+    "documents": 0,
+    "extracted": 0,
+    "failed": 0,
+    "calls": 0,
+    "cost_usd": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run1/logs/ingest-20261017-224126.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 319,
+   "total_seconds": 229.13,
+   "extraction": {
+    "documents": 311,
+    "extracted": 311,
+    "failed": 0,
+    "calls": 321,
+    "cost_usd": 0.276557,
+    "input_tokens": 143126,
+    "output_tokens": 471781
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run2/logs/ingest-20261017-224553.jsonl",
+   "new_documents": 311,
+   "duplicate_or_known_files": 8,
+   "total_seconds": 236.175,
+   "extraction": {
+    "documents": 311,
+    "extracted": 311,
+    "failed": 0,
+    "calls": 318,
+    "cost_usd": 0.270782,
+    "input_tokens": 140781,
+    "output_tokens": 461192
+   }
+  },
+  {
+   "log": "experiments/tier-haiku-run3/logs/ingest-20261017-224951.jsonl",
+   "new_documents": 311,
+   "duplicate_or_known_files": 8,
+   "total_seconds": 239.911,
+   "extraction": {
+    "documents": 311,
+    "extracted": 311,
+    "failed": 0,
+    "calls": 320,
+    "cost_usd": 0.271889,
+    "input_tokens": 142981,
+    "output_tokens": 462638
+   }
+  },
+  {
+   "log": "experiments/tier-sonnet-run1/logs/ingest-20261017-224630.jsonl",
+   "new_documents": 152,
+   "duplicate_or_known_files": 4,
+   "total_seconds": 92.722,
+   "extraction": {
+    "documents": 152,
+    "extracted": 152,
+    "failed": 0,
+    "calls": 152,
+    "cost_usd": 1.518866,
+    "input_tokens": 64552,
+    "output_tokens": 126497
+   }
+  },
+  {
+   "log": "logs/ingest-20261017-222004.jsonl",
+   "new_documents": 31,
+   "duplicate_or_known_files": 0,
+   "total_seconds": 45.757,
+   "extraction": {
+    "documents": 31,
+    "extracted": 31,
+    "failed": 0,
+    "calls": 33,
+    "cost_usd": 0.04225,
+    "input_tokens": 23673,
+    "output_tokens": 60050
+   }
+  },
+  {
+   "log": "logs/ingest-20261017-222621.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 0.059,
+   "extraction": {
+    "documents": 0,
+    "extracted": 0,
+    "failed": 0,
+    "calls": 0,
+    "cost_usd": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+   }
+  },
+  {
+   "log": "logs/ingest-20261017-223838.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 0.057,
+   "extraction": {
+    "documents": 0,
+    "extracted": 0,
+    "failed": 0,
+    "calls": 0,
+    "cost_usd": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+   }
+  },
+  {
+   "log": "logs/ingest-20261017-223957.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 41.385,
+   "extraction": {
+    "documents": 31,
+    "extracted": 31,
+    "failed": 0,
+    "calls": 33,
+    "cost_usd": 0.042379,
+    "input_tokens": 23673,
+    "output_tokens": 59499
+   }
+  },
+  {
+   "log": "logs/ingest-20261017-224605.jsonl",
+   "new_documents": 0,
+   "duplicate_or_known_files": 31,
+   "total_seconds": 23.425,
+   "extraction": {
+    "documents": 31,
+    "extracted": 31,
+    "failed": 0,
+    "calls": 31,
+    "cost_usd": 0.524997,
+    "input_tokens": 22062,
+    "output_tokens": 29779
+   }
+  }
+ ],
+ "warm_rerun": {
+  "seconds": 0.009,
+  "model_calls": 0,
+  "new_documents": 0,
+  "patients_rebuilt": 0
+ },
+ "one_document_ingest": [
+  {
+   "patients": 1,
+   "documents": 31,
+   "build_seconds": 0.0,
+   "sqlite_bytes": 303104,
+   "median_seconds": 0.0517,
+   "max_seconds": 0.0595,
+   "runs": 5,
+   "patients_rebuilt": 1
+  },
+  {
+   "patients": 2000,
+   "documents": 62000,
+   "build_seconds": 12.52,
+   "sqlite_bytes": 412250112,
+   "median_seconds": 0.0923,
+   "max_seconds": 2.0625,
+   "runs": 5,
+   "patients_rebuilt": 1
+  },
+  {
+   "patients": 20000,
+   "documents": 620000,
+   "build_seconds": 262.19,
+   "sqlite_bytes": 4124356608,
+   "median_seconds": 2.3856,
+   "max_seconds": 9.4711,
+   "runs": 5,
+   "patients_rebuilt": 1
+  }
+ ],
+ "answer_latency": [
+  {
+   "id": "DEV-01",
+   "patients": 1,
+   "median_seconds": 0.0015,
+   "max_seconds": 0.0036,
+   "runs": 3,
+   "answer_characters": 7419,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-02",
+   "patients": 1,
+   "median_seconds": 0.0013,
+   "max_seconds": 0.0022,
+   "runs": 3,
+   "answer_characters": 4172,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-03",
+   "patients": 1,
+   "median_seconds": 0.0005,
+   "max_seconds": 0.0006,
+   "runs": 3,
+   "answer_characters": 1490,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-04",
+   "patients": 1,
+   "median_seconds": 0.0006,
+   "max_seconds": 0.0006,
+   "runs": 3,
+   "answer_characters": 1372,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-05",
+   "patients": 1,
+   "median_seconds": 0.0007,
+   "max_seconds": 0.0007,
+   "runs": 3,
+   "answer_characters": 2784,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-01",
+   "patients": 2000,
+   "median_seconds": 0.0095,
+   "max_seconds": 1.1163,
+   "runs": 3,
+   "answer_characters": 7419,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-02",
+   "patients": 2000,
+   "median_seconds": 0.0087,
+   "max_seconds": 0.0089,
+   "runs": 3,
+   "answer_characters": 4172,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-03",
+   "patients": 2000,
+   "median_seconds": 0.0088,
+   "max_seconds": 0.0112,
+   "runs": 3,
+   "answer_characters": 1490,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-04",
+   "patients": 2000,
+   "median_seconds": 0.0228,
+   "max_seconds": 0.0423,
+   "runs": 3,
+   "answer_characters": 64748,
+   "verdict": "COMPUTED"
+  },
+  {
+   "id": "DEV-05",
+   "patients": 2000,
+   "median_seconds": 0.0318,
+   "max_seconds": 0.0339,
+   "runs": 3,
+   "answer_characters": 137161,
+   "verdict": "COMPUTED"
+  }
+ ],
+ "collection_question": {
+  "id": "REVIEW-10",
+  "patients": 2000,
+  "median_seconds": 0.0299,
+  "max_seconds": 0.3022,
+  "runs": 3,
+  "answer_characters": 824,
+  "verdict": "COMPUTED"
+ },
+ "sizes": {
+  "sqlite_bytes": 516096,
+  "rows": {
+   "documents": 31,
+   "extractions": 93,
+   "label_checks": 93,
+   "patients": 1,
+   "encounters": 25,
+   "weeks": 4,
+   "flags": 6,
+   "assessments": 3,
+   "observations": 75
+  },
+  "abstraction_json_bytes_per_patient": 35624
+ },
+ "spend": {
+  "ledgers": {
+   "experiments/held-out/logs/spend.json": {
+    "claude": 0.064316,
+    "jev": 0.003487
+   },
+   "experiments/new-document/logs/spend.json": {
+    "claude": 0.029279,
+    "jev": 6.1e-05
+   },
+   "experiments/tier-haiku-run1/logs/spend.json": {
+    "claude": 0.558922,
+    "jev": 0.030257
+   },
+   "experiments/tier-haiku-run2/logs/spend.json": {
+    "claude": 0.270782,
+    "jev": 0.024028
+   },
+   "experiments/tier-haiku-run3/logs/spend.json": {
+    "claude": 0.271889,
+    "jev": 0.02406
+   },
+   "experiments/tier-sonnet-run1/logs/spend.json": {
+    "claude": 1.518866,
+    "jev": 0.011612
+   },
+   "logs/spend.json": {
+    "claude": 0.647309,
+    "jev": 0.00687
+   }
+  },
+  "claude_usd": 3.361363,
+  "jev_usd": 0.100375
+ }
+}
