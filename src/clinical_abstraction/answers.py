@@ -16,7 +16,7 @@ from pathlib import Path
 
 from clinical_abstraction import agent, questions, read, reconcile, store
 from clinical_abstraction.questions import DateRange, Plan, PlanError
-from clinical_abstraction.render import _range, _runs, _table
+from clinical_abstraction.store import _range, _runs, _table
 
 LISTED = 50  # patients shown one by one; the rest are counted (decision D1.8)
 PENDING_LISTED = 10

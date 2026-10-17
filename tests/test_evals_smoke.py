@@ -16,7 +16,7 @@ from langfuse import Langfuse
 from langfuse._client.datasets import DatasetClient
 from langfuse.api import Dataset, DatasetItem, DatasetStatus
 
-from clinical_abstraction import pipeline, read, store
+from clinical_abstraction import read, store
 from clinical_abstraction.reconcile import build_patient
 from evals import benchmark, experiments, synthetic
 from tests.fakes import FakeJev
@@ -365,7 +365,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
         assert item["scores"]["seconds"] > 0
 
     run = tmp_path / "tier-m-run1"  # one run over every patient, as the orchestrator makes it: no wall clock per patient exists
-    pipeline.ingest([folder / "documents"], run / "abstraction.db", run, "m", extractor=replay, budget=budget)
+    store.ingest([folder / "documents"], run / "abstraction.db", run, "m", extractor=replay, budget=budget)
     stored = tier(store=run / "abstraction.db")
     assert stored["run"] == "run2" and stored["missing_from_store"] == []
     for from_ingest, from_store in zip(ingested["items"], stored["items"]):
@@ -376,7 +376,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
 
     # A new prompt extracts every document again into the same store. The old rows stay, and the cost is still one pass.
     monkeypatch.setattr(read, "extractor_version", lambda model: "tightened-prompt")
-    pipeline.ingest([folder / "documents"], run / "abstraction.db", run, "m", extractor=replay, budget=budget)
+    store.ingest([folder / "documents"], run / "abstraction.db", run, "m", extractor=replay, budget=budget)
     again = tier(store=run / "abstraction.db")
     assert [item["scores"]["cost_usd"] for item in again["items"]] == pytest.approx(
         [i["scores"]["cost_usd"] for i in stored["items"]]
@@ -385,7 +385,7 @@ def test_extraction_tier_scores_an_ingest_and_a_stored_run_alike(tmp_path, monke
 
     # A run that covered one patient: the others are scored zero and listed, unless the patients are named.
     partial = tmp_path / "partial"
-    pipeline.ingest(
+    store.ingest(
         [folder / "documents" / name for name in manifest["patients"][0]["files"]],
         partial / "abstraction.db",
         partial,
@@ -408,7 +408,7 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
         (documents / f"{doc.doc_id}.txt").write_text(doc.text)
     budget = read.Budget(out / "logs" / "spend.json", {"claude": 1.0, "jev": 0.5})
     budget.charge("claude", 0.01, "extract")
-    pipeline.ingest([documents], out / "abstraction.db", out, "m", extractor=Replay(mini_patient_docs()), budget=budget)
+    store.ingest([documents], out / "abstraction.db", out, "m", extractor=Replay(mini_patient_docs()), budget=budget)
     options = {"db": out / "abstraction.db", "documents": documents, "out": out}
 
     # The answers module is built elsewhere. Without it, its two sections are null.

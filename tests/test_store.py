@@ -1,4 +1,4 @@
-"""Store, pipeline, export, and ingest CLI on the ten-document mini patient.
+"""store.py: the store, ingest, the exports, and the ingest CLI on the ten-document mini patient.
 
 No test calls a model. FixtureExtractor stands in for extract.extract_document: it returns the hand-written extraction of the
 text it is given, so ingest runs the real registration, failure ledger, fingerprint, reconciliation, storage, and export code.
@@ -13,10 +13,10 @@ from datetime import date
 
 import pytest
 
-from clinical_abstraction import cli, pipeline, read, store
-from clinical_abstraction.pipeline import ingest
+from clinical_abstraction import cli, read, store
 from clinical_abstraction.reconcile import build_patient
 from clinical_abstraction.schema import Interval
+from clinical_abstraction.store import ingest
 from tests.fixtures import PATIENT_LINE, document, mini_patient_docs, service_event
 
 USAGE = {
@@ -222,13 +222,13 @@ def test_one_document_ingest_does_not_scale_with_the_collection(tmp_path, replic
     folder.mkdir()
     (folder / "D11_new.txt").write_text(new_doc.text)
     loaded = []
-    real_load = pipeline.load_patient_docs
+    real_load = store.load_patient_docs
 
     def spy(connection, mrn, version):
         loaded.append(mrn)
         return real_load(connection, mrn, version)
 
-    monkeypatch.setattr(pipeline, "load_patient_docs", spy)
+    monkeypatch.setattr(store, "load_patient_docs", spy)
     started = time.perf_counter()
     summary = ingest([folder], replicated_store_5000_docs, tmp_path / "out", "m", extractor=FixtureExtractor([new_doc]))
     assert time.perf_counter() - started < 0.5

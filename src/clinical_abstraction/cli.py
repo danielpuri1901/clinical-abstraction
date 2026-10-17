@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from clinical_abstraction import answers, pipeline, read, render, store
+from clinical_abstraction import answers, read, store
 
 DEFAULT_OUT = Path("outputs")
 DEFAULT_DB = DEFAULT_OUT / "abstraction.db"
@@ -64,7 +64,7 @@ def main(argv: list[str] | None = None) -> int:
         read.load_keys()
         budget = read.default_budget(args.out)
         client = read.jev_client(args.out, budget)
-        summary = pipeline.ingest(
+        summary = store.ingest(
             args.paths, args.db, args.out, args.model, args.workers, args.rebuild_all, budget=budget, jev=client
         )
         print(json.dumps(summary, indent=1))
@@ -82,7 +82,7 @@ def main(argv: list[str] | None = None) -> int:
             if row is None:
                 print(f"No patient {args.patient} in the store.", file=sys.stderr)
                 return 1
-            print(render.markdown(json.loads(row["abstraction"])))
+            print(store.markdown(json.loads(row["abstraction"])))
             return 0
         for row in connection.execute("SELECT mrn, name, incomplete FROM patients ORDER BY mrn"):
             pending = len(json.loads(row["incomplete"]))

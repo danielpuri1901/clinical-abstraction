@@ -26,7 +26,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
-from clinical_abstraction import pipeline, questions, read, store
+from clinical_abstraction import questions, read, store
 from evals import score
 
 logger = logging.getLogger(__name__)
@@ -239,7 +239,7 @@ def _ingest_patient(manifest: Path, entry: dict, model: str, budget: read.Budget
     paths = [manifest.parent / "documents" / name for name in entry["files"]]
     with tempfile.TemporaryDirectory() as folder:
         db = Path(folder) / "abstraction.db"
-        summary = pipeline.ingest(paths, db, Path(folder), model, workers, extractor=extractor, budget=budget, jev=None)
+        summary = store.ingest(paths, db, Path(folder), model, workers, extractor=extractor, budget=budget, jev=None)
         return _stored_run(db, entry["mrn"])[0], summary
 
 

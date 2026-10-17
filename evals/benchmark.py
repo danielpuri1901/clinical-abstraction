@@ -22,7 +22,7 @@ import tempfile
 import time
 from pathlib import Path
 
-from clinical_abstraction import pipeline, read, store
+from clinical_abstraction import read, store
 from clinical_abstraction.schema import DocumentExtraction
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -129,7 +129,7 @@ def _warm_rerun(db: Path, documents: Path, model: str, folder: Path) -> dict:
 
     budget = read.Budget(folder / "warm-spend.json", {"claude": 0.0, "jev": 0.0})
     started = time.perf_counter()
-    summary = pipeline.ingest([documents], db, folder / "warm", model, extractor=no_model, budget=budget)
+    summary = store.ingest([documents], db, folder / "warm", model, extractor=no_model, budget=budget)
     seconds = round(time.perf_counter() - started, 4)
     return {
         "seconds": seconds,
@@ -189,7 +189,7 @@ def _one_document_ingest(db: Path, template: dict, count: int, folder: Path) -> 
             donor["text"].replace(mrn_of_template, target) + f"Filed again for the benchmark: copy {number}.\n"
         )
         started = time.perf_counter()
-        summary = pipeline.ingest(
+        summary = store.ingest(
             [new],
             db,
             folder / "ingest",
