@@ -266,7 +266,8 @@ def test_second_read_disputes_are_stored_and_reach_the_reconciler(tmp_path, mini
     dispute = {"encounter_id": "E2", "field": "attendance", "model_value": "attended", "jev_value": "no_show", "confidence": 0.9}
     jev = FakeJev({"D5": [dispute]}, fail_for={"D3"})
     summary = run(tmp_path, mini_files, fixture_extractor, jev=jev)
-    assert sorted(jev.seen) == sorted(f"D{n}" for n in range(1, 11)) and summary["extraction"]["second_read_failed"] == 1
+    assert sorted(jev.seen) == sorted(f"D{n}" for n in range(1, 11))
+    assert summary["label_checks"] == {"documents": 10, "stored": 9, "failed": 1}
     conn = store.connect(tmp_path / "db")
     stored = {
         r["doc_id"]: json.loads(r["payload"])
@@ -275,8 +276,31 @@ def test_second_read_disputes_are_stored_and_reach_the_reconciler(tmp_path, mini
     assert len(stored) == 9 and "D3" not in stored and stored["D5"] == [dispute] and stored["D1"] == []
     assert conn.execute("SELECT counts_as_therapy FROM encounters WHERE encounter = 'E2'").fetchone()[0] == "disputed"
     assert conn.execute("SELECT encounter FROM flags WHERE kind = 'label_disputed'").fetchall()[0][0] == "E2"
-    run(tmp_path, mini_files, fixture_extractor, jev=jev)  # nothing new was extracted, so Jev reads nothing again
-    assert len(jev.seen) == 10
+    run(tmp_path, mini_files, fixture_extractor, jev=jev)  # only the document with no label check is read again
+    assert jev.seen[10:] == ["D3"]
+
+
+def test_backfill_reads_extracted_documents_that_have_no_label_check(tmp_path, mini_files, fixture_extractor):
+    run(tmp_path, mini_files, fixture_extractor)  # built without Jev: every document is extracted, none is label-checked
+    assert scalar(tmp_path, "SELECT COUNT(*) FROM label_checks") == 0
+    reads = len(fixture_extractor.seen)
+    dispute = {"encounter_id": "E2", "field": "attendance", "model_value": "attended", "jev_value": "no_show", "confidence": 0.9}
+    jev = FakeJev({"D5": [dispute]})
+    again = run(tmp_path, mini_files, fixture_extractor, jev=jev)
+    assert again["extraction"]["documents"] == 0 and len(fixture_extractor.seen) == reads  # no extractor call at all
+    assert again["label_checks"] == {"documents": 10, "stored": 10, "failed": 0}
+    assert sorted(jev.seen) == sorted(f"D{n}" for n in range(1, 11)) and again["rebuilt"] == ["T-M001"]
+    conn = store.connect(tmp_path / "db")
+    assert conn.execute("SELECT counts_as_therapy FROM encounters WHERE encounter = 'E2'").fetchone()[0] == "disputed"
+    # A changed dispute rule is recovered the same way: delete the row and the next run reads that document again.
+    conn.execute("DELETE FROM label_checks WHERE sha = (SELECT sha FROM documents WHERE doc_id = 'D5')")
+    conn.commit()
+    jev.disputes = {}  # the new rule finds nothing to dispute
+    third = run(tmp_path, mini_files, fixture_extractor, jev=jev)
+    assert jev.seen[10:] == ["D5"] and third["label_checks"]["stored"] == 1 and third["rebuilt"] == ["T-M001"]
+    assert scalar(tmp_path, "SELECT counts_as_therapy FROM encounters WHERE encounter = 'E2'") == "yes"
+    nothing = run(tmp_path, mini_files, fixture_extractor, jev=jev)  # nothing is missing now
+    assert len(jev.seen) == 11 and nothing["rebuilt"] == [] and nothing["label_checks"]["documents"] == 0
 
 
 def test_exports_and_derived_tables_carry_the_abstraction(tmp_path, mini_files, fixture_extractor):

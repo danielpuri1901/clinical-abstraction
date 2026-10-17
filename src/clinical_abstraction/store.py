@@ -161,18 +161,20 @@ def connect(path: Path) -> sqlite3.Connection:
 def fingerprint(connection: sqlite3.Connection, mrn: str, version: str) -> tuple[str, list[dict]]:
     """The hash of what a patient's abstraction is built from, and the documents still pending.
 
-    The hash covers the sorted (sha, version) pairs that have an extraction row and the shas that do not, so a document that
-    arrives, is read, is re-read under a new version, or fails to be read each change it. A pending document is one with no
-    extraction row for this version; its reason is the last failure, else "not extracted yet".
+    The hash covers the sorted (sha, version) pairs that have an extraction row, each with its label check (the disputes shape
+    the abstraction too), and the shas that have none. A document that arrives, is read, is read again under a new version, fails
+    to be read, or gets a different label check each change it. A pending document is one with no extraction row for this
+    version; its reason is the last failure, else "not extracted yet".
     """
     rows = connection.execute(
-        "SELECT d.sha, d.doc_id, e.sha IS NOT NULL AS extracted, f.error, f.attempts FROM documents d "
-        "LEFT JOIN extractions e ON e.sha = d.sha AND e.version = ? "
-        "LEFT JOIN failures f ON f.sha = d.sha AND f.version = ? "
-        "WHERE d.patient_id = ? ORDER BY d.sha",
-        (version, version, mrn),
+        "SELECT d.sha, d.doc_id, e.sha IS NOT NULL AS extracted, c.payload AS labels, f.error, f.attempts FROM documents d "
+        "LEFT JOIN extractions e ON e.sha = d.sha AND e.version = :version "
+        "LEFT JOIN label_checks c ON c.sha = d.sha AND c.version = :version "
+        "LEFT JOIN failures f ON f.sha = d.sha AND f.version = :version "
+        "WHERE d.patient_id = :mrn ORDER BY d.sha",
+        {"version": version, "mrn": mrn},
     ).fetchall()
-    extracted = [[row["sha"], version] for row in rows if row["extracted"]]
+    extracted = [[row["sha"], version, row["labels"]] for row in rows if row["extracted"]]
     pending = [row for row in rows if not row["extracted"]]
     digest = hashlib.sha256(json.dumps([extracted, [row["sha"] for row in pending]]).encode()).hexdigest()
     listed = [

@@ -85,7 +85,7 @@ def confirmed_patient_id(extraction: DocumentExtraction, text: str) -> str | Non
     return mrn if mrn and re.search(rf"(?<![\w-]){re.escape(mrn)}(?![\w-])", text) else None
 
 
-def extract_missing(connection, version: str, model: str, workers: int, read: Extractor, jev: Jev | None, log: RunLog):
+def extract_missing(connection, version: str, model: str, workers: int, read: Extractor, log: RunLog):
     """Extract every document with no extraction row for this version. Returns the summary and why the batch stopped, if it did.
 
     A failure is recorded with its attempt count and the batch goes on; BudgetExceeded stops it. Workers only call the model;
@@ -102,18 +102,8 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
     ]
     select = "SELECT sha, doc_id, patient_id, text FROM documents WHERE sha = ?"
     rows = sorted((dict(connection.execute(select, (sha,)).fetchone()) for sha in shas), key=lambda row: row["doc_id"])
-    totals = {"documents": len(rows), "extracted": 0, "failed": 0, "second_read_failed": 0, **dict.fromkeys(SUMMED, 0)}
+    totals = {"documents": len(rows), "extracted": 0, "failed": 0, **dict.fromkeys(SUMMED, 0)}
     errors, stopped = Counter(), None
-
-    def read_document(row: dict):
-        extraction, problems, usage = read(row["doc_id"], row["text"])
-        disputes, second_error = None, None
-        if jev is not None:
-            try:
-                disputes = getattr(jev, "second_read", second_read)(row["doc_id"], row["text"], extraction, jev)
-            except Exception as error:  # noqa: BLE001 - a Jev outage must not throw away an extraction that was paid for
-                second_error = error
-        return extraction, problems, usage, disputes, second_error
 
     def stop(error: Exception) -> None:
         nonlocal stopped
@@ -123,13 +113,13 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
 
     pool = ThreadPoolExecutor(max_workers=workers)
     try:
-        futures = {pool.submit(read_document, row): row for row in rows}
+        futures = {pool.submit(read, row["doc_id"], row["text"]): row for row in rows}
         for future in as_completed(futures):
             if future.cancelled():
                 continue
             row = futures[future]
             try:
-                extraction, problems, usage, disputes, second_error = future.result()
+                extraction, problems, usage = future.result()
             except Exception as error:  # noqa: BLE001 - one bad document must not stop the batch
                 message = f"{type(error).__name__}: {error}"[:500]
                 connection.execute(
@@ -152,11 +142,6 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
                 (row["sha"], version, model, extraction.model_dump_json(), json.dumps(usage), store.now()),
             )
             connection.execute("DELETE FROM failures WHERE sha = ? AND version = ?", (row["sha"], version))
-            if disputes is not None:
-                connection.execute(
-                    "INSERT OR REPLACE INTO label_checks (sha, version, payload) VALUES (?, ?, ?)",
-                    (row["sha"], version, json.dumps(disputes)),
-                )
             connection.execute(
                 "UPDATE documents SET patient_id = ?, authored_at = ?, received_at = ? WHERE sha = ?",
                 (patient, extraction.authored_at, extraction.received_at, row["sha"]),
@@ -177,15 +162,67 @@ def extract_missing(connection, version: str, model: str, workers: int, read: Ex
             )
             if patient != row["patient_id"]:
                 log.write("patient_changed", doc=row["doc_id"], was=row["patient_id"], now=patient)
-            if second_error is not None:
-                totals["second_read_failed"] += 1
-                log.write("second_read_failed", doc=row["doc_id"], error=f"{type(second_error).__name__}: {second_error}"[:500])
-                if isinstance(second_error, llm.BudgetExceeded):
-                    stop(second_error)
     finally:
         pool.shutdown(wait=True, cancel_futures=True)
     totals["cost_usd"] = round(totals["cost_usd"], 6)
     totals["errors"] = [message for message, _ in errors.most_common(3)]
+    return totals, stopped
+
+
+def backfill_label_checks(connection, version: str, workers: int, jev: Jev, log: RunLog):
+    """Second-read every extracted document that has no label check for this version, and mark its patient stale.
+
+    A new document, a read that failed earlier, and a row deleted on purpose after a change to the dispute rule all look the
+    same: an extraction with no label check. Jev caches its answers by request body, so re-reading after a rule change costs
+    nothing. A failed read stores nothing, so the next run tries again. Returns the summary and why the batch stopped, if it did.
+    """
+    shas = [
+        row[0]
+        for row in connection.execute(
+            "SELECT e.sha FROM extractions e WHERE e.version = ? "
+            "AND NOT EXISTS (SELECT 1 FROM label_checks c WHERE c.sha = e.sha AND c.version = e.version)",
+            (version,),
+        )
+    ]
+    # ponytail: every missing document is loaded at once; read them in chunks if a backfill passes about 10,000 documents.
+    select = (
+        "SELECT d.sha, d.doc_id, d.patient_id, d.text, e.payload FROM documents d "
+        "JOIN extractions e ON e.sha = d.sha AND e.version = ? WHERE d.sha = ?"
+    )
+    rows = sorted((dict(connection.execute(select, (version, sha)).fetchone()) for sha in shas), key=lambda row: row["doc_id"])
+    totals, stopped = {"documents": len(rows), "stored": 0, "failed": 0}, None
+
+    def read_labels(row: dict) -> list[dict]:  # runs in a worker thread and never touches the connection
+        extraction = DocumentExtraction.model_validate_json(row["payload"])
+        return getattr(jev, "second_read", second_read)(row["doc_id"], row["text"], extraction, jev)
+
+    pool = ThreadPoolExecutor(max_workers=workers)
+    try:
+        futures = {pool.submit(read_labels, row): row for row in rows}
+        for future in as_completed(futures):
+            if future.cancelled():
+                continue
+            row = futures[future]
+            try:
+                disputes = future.result()
+            except Exception as error:  # noqa: BLE001 - a Jev outage leaves a document unchecked, never unextracted
+                totals["failed"] += 1
+                log.write("second_read_failed", doc=row["doc_id"], sha=row["sha"][:12], error=f"{type(error).__name__}: {error}"[:500])
+                if isinstance(error, llm.BudgetExceeded):
+                    stopped = stopped or str(error)
+                    for other in futures:
+                        other.cancel()
+                continue
+            connection.execute(
+                "INSERT OR REPLACE INTO label_checks (sha, version, payload) VALUES (?, ?, ?)", (row["sha"], version, json.dumps(disputes))
+            )
+            if row["patient_id"]:
+                store.mark_stale(connection, row["patient_id"])
+            connection.commit()
+            totals["stored"] += 1
+            log.write("label_checked", doc=row["doc_id"], sha=row["sha"][:12], disputes=len(disputes))
+    finally:
+        pool.shutdown(wait=True, cancel_futures=True)
     return totals, stopped
 
 
@@ -270,7 +307,8 @@ def ingest(
     """Register the files, extract what is missing, rebuild the patients that changed, and export them. Returns a summary.
 
     `extractor(doc_id, text)` stands in for extract.extract_document in tests. `jev`, when given, second-reads the four
-    counting labels of every newly extracted document; its disputes are stored with the extraction.
+    counting labels of every extracted document that has no label check yet (see backfill_label_checks); the disputes are stored
+    and are part of the patient's fingerprint, so a new or changed check rebuilds the patient.
     """
     started, out = time.perf_counter(), Path(out)
     budget = budget or default_budget(out)
@@ -285,7 +323,11 @@ def ingest(
     log = RunLog(out / "logs" / f"ingest-{datetime.now().strftime('%Y%m%d-%H%M%S')}.jsonl")
     try:
         new, known = register(connection, [Path(p) for p in paths], log)
-        extraction, stopped = extract_missing(connection, version, model, workers, read, jev, log)
+        extraction, stopped = extract_missing(connection, version, model, workers, read, log)
+        label_checks = {"documents": 0, "stored": 0, "failed": 0}
+        if jev is not None:
+            label_checks, label_stopped = backfill_label_checks(connection, version, workers, jev, log)
+            stopped = stopped or label_stopped
         if rebuild_all:
             query = "SELECT patient_id FROM documents WHERE patient_id IS NOT NULL UNION SELECT mrn FROM patients"
             candidates = [row[0] for row in connection.execute(query)]
@@ -296,6 +338,7 @@ def ingest(
             "new_documents": len(new),
             "duplicate_or_known_files": known,
             "extraction": extraction,
+            "label_checks": label_checks,
             "rebuilt": rebuilt,
             "incomplete": {
                 row["mrn"]: len(json.loads(row["incomplete"]))
