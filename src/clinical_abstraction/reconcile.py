@@ -307,6 +307,17 @@ def _tier(record: Record, text: str) -> tuple[str, bool]:
     return "primary", False
 
 
+def _minutes_without_times(event: ServiceEvent) -> bool:
+    """A signed clinical note or attendance record that states patient minutes but no attendance and no presence times."""
+    return (
+        event.record_role in ("clinical_note", "attendance_record")
+        and event.signed is True
+        and event.attendance == "not_stated"
+        and not (event.patient_present_intervals or event.patient_arrival or event.patient_departure)
+        and (event.stated_patient_minutes or 0) > 0
+    )
+
+
 def _date_rank(view: View) -> int:
     """Which record's date is listed when dates disagree: signed clinical note, attendance record, schedule, copy, draft."""
     if view.tier == "primary":
@@ -351,6 +362,21 @@ def _states(event: ServiceEvent, field_name: str, value: str) -> bool:
     return value in (getattr(event, field_name), edge)
 
 
+def _replaced_edge(doc: Doc, members: list[Record], key: str, ids_by_key: dict[str, set[str]], replaced: str) -> str | None:
+    """Whether a time correction labelled "other" replaces a start or an end, judged from the encounter's primary records.
+
+    None when the replaced time is no start or end there, or is both, so the correction is flagged instead of guessed.
+    """
+    starts = ends = False
+    for record in members:
+        if record.doc is doc or _tier(record, _own_text(record, key, ids_by_key))[0] != "primary":
+            continue
+        event = record.event
+        starts |= replaced in (event.patient_arrival, *(interval.start for interval in event.patient_present_intervals))
+        ends |= replaced in (event.patient_departure, *(interval.end for interval in event.patient_present_intervals))
+    return None if starts == ends else "patient_arrival" if starts else "patient_departure"
+
+
 def _assign_corrections(
     docs: list[Doc], groups: dict[str, list[Record]], ids_by_key: dict[str, set[str]]
 ) -> tuple[dict[str, list[CorrectionRecord]], list[dict]]:
@@ -365,25 +391,37 @@ def _assign_corrections(
                 keys = [key for key, ids in ids_by_key.items() if correction.encounter_id in ids]
             else:
                 keys = [key for key, members in groups.items() if day and any(m.event.service_date == day for m in members)]
-            readable = _attendance_label if correction.field == "attendance" else _time
-            value = readable(correction.corrected_value) if correction.field in CORRECTED else None
-            replaced = readable(correction.replaced_value) if correction.field in CORRECTED else None
+            field_name = correction.field
+            times_labelled_other = field_name == "other" and bool(
+                _time(correction.corrected_value) and _time(correction.replaced_value)
+            )
+            readable = _attendance_label if field_name == "attendance" else _time
+            value = readable(correction.corrected_value) if field_name in CORRECTED or times_labelled_other else None
+            replaced = readable(correction.replaced_value) if field_name in CORRECTED or times_labelled_other else None
             if len(keys) > 1 and replaced:  # several encounters that day: keep those whose records state the replaced value
-                keys = [key for key in keys if any(_states(m.event, correction.field, replaced) for m in groups[key])] or keys
-            if len(keys) == 1 and value:
-                assigned[keys[0]].append(CorrectionRecord(doc, correction.field, value, replaced, citations, _authored(doc)))
+                edges = [field_name] if field_name in CORRECTED else ["patient_arrival", "patient_departure"]
+                keys = [
+                    key for key in keys if any(_states(m.event, edge, replaced) for m in groups[key] for edge in edges)
+                ] or keys
+            if times_labelled_other and len(keys) == 1:
+                field_name = _replaced_edge(doc, groups[keys[0]], keys[0], ids_by_key, replaced) or field_name
+            if len(keys) == 1 and value and field_name in CORRECTED:
+                assigned[keys[0]].append(CorrectionRecord(doc, field_name, value, replaced, citations, _authored(doc)))
                 continue
-            if correction.field not in CORRECTED:
-                reason = "only arrival, departure, and attendance corrections are applied automatically"
+            if field_name not in CORRECTED and not times_labelled_other:
+                reason = "only arrival, departure, attendance, and time corrections are applied automatically"
             elif not value:
-                reason = f"{correction.corrected_value} is not a readable {FIELD_WORDS[correction.field]}"
-            elif keys:
+                reason = f"{correction.corrected_value} is not a readable {FIELD_WORDS[field_name]}"
+            elif len(keys) > 1:
                 reason = f"{len(keys)} encounters share {day} and the correction names none of them"
-            else:
+            elif not keys:
                 reason = f"no admitted record describes {correction.encounter_id or day}"
+            else:
+                reason = f"{replaced} is not only a start or only an end in the signed records of {keys[0]}"
+            named = FIELD_WORDS.get(correction.field, f"a field labelled {correction.field.replace('_', ' ')}")
             text = (
-                f"The correction of {correction.field.replace('_', ' ')} to {correction.corrected_value} "
-                f"({', '.join(citations)}) is not applied: {reason}. A reviewer should check it."
+                f"The correction of {named} to {correction.corrected_value} ({', '.join(citations)}) is not applied: {reason}. "
+                "A reviewer should check it."
             )
             flags.append(_flag("correction_not_applied", keys[0] if len(keys) == 1 else correction.encounter_id, text, citations))
     return assigned, flags
@@ -449,7 +487,10 @@ def _resolve(
         tier, says_draft = _tier(record, text)
         event = record.event
         intervals = [(to_minutes(interval.start), to_minutes(interval.end)) for interval in event.patient_present_intervals]
-        views.append(View(record, tier, text, event.patient_arrival, event.patient_departure, intervals, event.attendance))
+        # A primary record that gives only a minute count ("Completed: 45 minutes") establishes delivery; copies,
+        # schedules, drafts, unsigned notes, and charges never do this way.
+        attendance = "attended" if tier == "primary" and _minutes_without_times(event) else event.attendance
+        views.append(View(record, tier, text, event.patient_arrival, event.patient_departure, intervals, attendance))
         if says_draft:
             flag(
                 "keyword_contradicts_label",
@@ -573,7 +614,7 @@ def _resolve(
                     "view": view,
                     "minutes": event.stated_patient_minutes,
                     "spans": [],
-                    "therapy": f"{event.stated_patient_minutes} minutes as stated",
+                    "therapy": f"{event.stated_patient_minutes} minutes as stated (no times given)",
                 }
             )
     independent = [candidate for candidate in candidates if candidate["view"].tier == "primary"] or candidates
@@ -661,10 +702,9 @@ def _resolve(
         chosen = independent[0]
         if chosen["spans"]:
             calculation = f"{describe(chosen['spans'])} present ({length(chosen['spans'])} min)"
-            calculation += f", minus {'; '.join(cut_notes)}" if cut_notes else ""
+            calculation += (f", minus {'; '.join(cut_notes)}" if cut_notes else "") + f" = {low} min"
         else:
             calculation = chosen["therapy"]
-        calculation += f" = {low} min"
     elif len(values) > 1:
         calculation = f"range {low}-{high} min: {sides}"
     else:

@@ -7,6 +7,7 @@ import pytest
 
 from clinical_abstraction import calculate, verify
 from clinical_abstraction.reconcile import build_patient
+from clinical_abstraction.schema import Correction
 from tests.fixtures import PATIENT_LINE, document, mini_patient_docs, replace_service_date, service_event
 
 PLAN_3_150 = {"min_days_per_week": 3, "min_minutes_per_week": 150}
@@ -250,3 +251,77 @@ def test_correction_without_an_id_goes_to_the_encounter_holding_the_replaced_val
     by_id = encounters_by_id(patient)
     assert (by_id["E1"]["minutes_low"], by_id["E2"]["minutes_low"]) == (60, 45)
     assert not any(flag["kind"] == "correction_not_applied" for flag in patient["flags"])
+
+
+def test_time_correction_labelled_other_applies_to_the_start_or_end_it_replaces():
+    def addendum(corrected: str, replaced: str):
+        return document(
+            "D11",
+            [
+                "Addendum to individual psychotherapy note - E3 - 2026-01-26",
+                PATIENT_LINE,
+                f"Patient contact for E3 began at {corrected}, replacing the start time of {replaced} in the original note.",
+                "Signed by J. Ortiz, LCSW on 2026-01-31 10:05",
+            ],
+            "addendum",
+            "2026-01-31T10:05",
+            corrections=[
+                Correction(
+                    encounter_id="E3",
+                    service_date="2026-01-26",
+                    field="other",
+                    corrected_value=corrected,
+                    replaced_value=replaced,
+                    lines=[3],
+                )
+            ],
+        )
+
+    settling = addendum("09:10", "09:00")  # 09:00 is the start D6 states, so it corrects the arrival
+    assert verify.admit("D11", settling.text, settling.extraction)[1] == []
+    patient = build_patient("T-M001", [*mini_patient_docs(), settling])
+    e3 = encounters_by_id(patient)["E3"]
+    assert (e3["minutes_low"], e3["minutes_high"]) == (40, 40) and "D11 L3" in e3["sources"]
+    assert not any(flag["kind"] in ("correction_not_applied", "unresolved_minutes_conflict") for flag in patient["flags"])
+    # 09:30 is no start or end of E3, so the correction is not guessed: the flag and the range stay.
+    patient = build_patient("T-M001", [*mini_patient_docs(), addendum("09:20", "09:30")])
+    e3 = encounters_by_id(patient)["E3"]
+    assert (e3["minutes_low"], e3["minutes_high"]) == (40, 50)
+    assert any(flag["kind"] == "correction_not_applied" and flag["encounter"] == "E3" for flag in patient["flags"])
+
+
+def test_stated_minutes_on_a_signed_note_without_times_establish_delivery():
+    def service_record(signed: bool):
+        return document(
+            "D11",
+            [
+                "Service record - E5 - individual psychotherapy - 2026-01-21",
+                PATIENT_LINE,
+                "Patient contact: 14:00-14:45 | Completed: 45 minutes",
+                "Signed by J. Ortiz, LCSW on 2026-01-21 15:10",
+            ],
+            "service record",
+            "2026-01-21T15:10",
+            service_events=[
+                # As the model read it: the contact times went to the schedule fields and attendance was not stated.
+                service_event(
+                    encounter_id="E5",
+                    service_date="2026-01-21",
+                    service_type="individual_psychotherapy",
+                    attendance="not_stated",
+                    scheduled_start="14:00",
+                    scheduled_end="14:45",
+                    stated_patient_minutes=45,
+                    signed=signed,
+                    lines=[1, 3],
+                )
+            ],
+        )
+
+    signed = service_record(True)
+    assert verify.admit("D11", signed.text, signed.extraction)[1] == []
+    e5 = encounters_by_id(build_patient("T-M001", [*mini_patient_docs(), signed]))["E5"]
+    assert (e5["status"], e5["counts_as_therapy"], e5["minutes_low"], e5["minutes_high"]) == ("attended", "yes", 45, 45)
+    assert e5["calculation"] == "45 minutes as stated (no times given)"
+    unsigned = encounters_by_id(build_patient("T-M001", [*mini_patient_docs(), service_record(False)]))["E5"]
+    assert (unsigned["counts_as_therapy"], unsigned["minutes_high"]) == ("no", 0)
