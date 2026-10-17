@@ -11,7 +11,6 @@ D9 signed treatment plan from 2026-01-05: individual, group, and family therapy 
 D10 PHQ-9 reviews (2026-01-05 score 18, 2026-01-16 score 14), an imported copy of the 2026-01-16 result, and one observation.
 """
 
-import hashlib
 import threading
 from dataclasses import replace
 
@@ -48,10 +47,6 @@ class FixtureExtractor:
         with self.lock:
             self.seen.append(doc_id)
         return self.by_text[text].model_copy(deep=True), [], dict(USAGE)
-
-
-def _sha(text: str) -> str:
-    return hashlib.sha256(text.encode()).hexdigest()
 
 
 def service_event(**fields) -> ServiceEvent:
@@ -106,7 +101,7 @@ def document(
     text = "\n".join(lines) + "\n"
     header = {"document_id": doc_id, "patient_name": "Rowan Hale", "patient_mrn": "T-M001", "document_type": document_type}
     found = extraction(**{**header, "authored_at": authored_at, "received_at": received_at, **parts})
-    return Doc(doc_id, _sha(text), text, found, authored_at, received_at)
+    return Doc(doc_id, store.content_sha(text), text, found, authored_at, received_at)
 
 
 def mini_patient_docs() -> list[Doc]:
@@ -330,4 +325,4 @@ def replace_service_date(doc: Doc, encounter_id: str, new_date: str) -> Doc:
     moved = [
         event.model_copy(update={"service_date": new_date}) if event.encounter_id == encounter_id else event for event in events
     ]
-    return replace(doc, sha=_sha(text), text=text, extraction=doc.extraction.model_copy(update={"service_events": moved}))
+    return replace(doc, sha=store.content_sha(text), text=text, extraction=doc.extraction.model_copy(update={"service_events": moved}))

@@ -4,7 +4,6 @@ No test calls a model. FixtureExtractor stands in for read.extract_document: it 
 text it is given, so ingest runs the real registration, failure ledger, fingerprint, reconciliation, storage, and export code.
 """
 
-import hashlib
 import json
 import shutil
 import time
@@ -154,7 +153,7 @@ def replicated_store_5000_docs(tmp_path):
     for number in range(500):
         mrn = f"T-R{number:03d}"
         texts = {doc.doc_id: doc.text.replace("T-M001", mrn) for doc in docs}
-        shas = {doc_id: hashlib.sha256(text.encode()).hexdigest() for doc_id, text in texts.items()}
+        shas = {doc_id: store.content_sha(text) for doc_id, text in texts.items()}
         connection.executemany(
             "INSERT INTO documents (sha, doc_id, patient_id, text, authored_at, received_at) VALUES (?, ?, ?, ?, ?, ?)",
             [(shas[d.doc_id], f"{mrn}-{d.doc_id}", mrn, texts[d.doc_id], d.authored_at, d.received_at) for d in docs],
@@ -355,5 +354,5 @@ def test_document_identity_patient_follows_the_extraction_and_ids_stay_unique(tm
     # X1 moved to the patient the extraction named, and the patient it left no longer exists.
     conn = store.connect(tmp_path / "db")
     assert store.known_patients(conn) == [("HG-X222", "Pat One"), ("HG-X333", "Pat Two")]
-    revised = hashlib.sha256(docs[2].text.encode()).hexdigest()[:6]
+    revised = store.content_sha(docs[2].text)[:6]
     assert [r[0] for r in conn.execute("SELECT doc_id FROM documents ORDER BY doc_id")] == ["X1", "X2", f"X2~{revised}", "X3"]
