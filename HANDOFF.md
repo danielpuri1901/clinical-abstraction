@@ -48,9 +48,7 @@ On main at `203741e`, 2026-10-17:
 2. Daniel sends the submission.
    The brief names manan@backbonesystems.ai and andrew@backbonesystems.ai, and asks for a ZIP file or a GitHub link.
    No agent pushes, publishes, or emails.
-3. The aggregation override in `questions.plan` has no unit test.
-   The routing result for PARAPHRASE-15 is its only check.
-   Add a test first if the rule changes.
+3. Done: the aggregation override in `questions.plan` now has the unit test `test_an_aggregation_no_renderer_computes_routes_to_the_open_path`.
 4. The one-document ingest costs 2.4 s at 620,000 documents.
    Profile it, then replace the pending-work scans in `pipeline.extract_missing` and `pipeline.backfill_label_checks` with a pending table.
    Move the budget ledger and the Jev cache to SQLite or append-only lines.
@@ -58,9 +56,11 @@ On main at `203741e`, 2026-10-17:
    The saved result files do not store the run names.
 6. The question interface misreads attendance on 7 of 54 questions, and every plan carries a warning (README, observed limitation).
 7. Known referee limits: a date with no year matches any year, bare `HHMM` times are not scanned for omissions, and `authored_at` is not checked against the text.
-8. CI (`.github/workflows/ci.yml`) has never run, because the repository has no remote.
-   The first push shows whether ruff, pytest, `verify-answers`, and the image build pass there.
-9. Clean up after the submission: the worktrees `.worktrees/task1` to `task7` and the branches `task1` to `task7` are merged into main, and can go.
+8. The repository is pushed to the private GitHub repository `danielpuri1901/clinical-abstraction` (Daniel's request).
+   CI (`.github/workflows/ci.yml`) did not start there: GitHub reported "The job was not started because recent account payments have failed or your spending limit needs to be increased".
+   That is an account billing setting; a public repository runs Actions without it.
+   Locally the same gates pass: `ruff check .`, 203 tests, `verify-answers` exit 0.
+9. Done: the task worktrees and branches are removed; only `main` remains.
 
 ## How to continue
 
