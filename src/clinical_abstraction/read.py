@@ -32,13 +32,14 @@ from clinical_abstraction.schema import DocumentExtraction, ServiceEvent
 
 # 1. Keys, prices, and the spend ledger =========================================================================================
 
-# USD per million tokens of each usage count at list price (2026-10-17).
+# USD per million tokens at list price (2026-10-17).
 # A cache write bills at 1.25x input. A cache read bills at 0.05x input on Sonnet and 0.1x on Haiku.
 PRICES: dict[str, dict[str, float]] = {
-    "claude-sonnet-5-5": {"input_tokens": 2.00, "output_tokens": 10.00, "cache_creation_input_tokens": 2.50, "cache_read_input_tokens": 0.10},
-    "claude-haiku-5-5": {"input_tokens": 0.10, "output_tokens": 0.50, "cache_creation_input_tokens": 0.125, "cache_read_input_tokens": 0.01},
+    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "cache_write": 2.50, "cache_read": 0.10},
+    "claude-haiku-5-5": {"input": 0.10, "output": 0.50, "cache_write": 0.125, "cache_read": 0.01},
 }
 USAGE_KEYS = ("input_tokens", "output_tokens", "cache_creation_input_tokens", "cache_read_input_tokens")
+_PRICE_KEYS = dict(zip(USAGE_KEYS, ("input", "output", "cache_write", "cache_read")))
 
 
 def load_env_file(path: Path) -> None:
@@ -58,7 +59,7 @@ def load_env_file(path: Path) -> None:
 
 def usage_cost(model: str, usage: dict) -> float:
     price = PRICES[model]  # a model without a price raises KeyError: it must never be billed at zero
-    return sum(price[key] * (usage.get(key) or 0) for key in USAGE_KEYS) / 1e6
+    return sum(price[_PRICE_KEYS[key]] * (usage.get(key) or 0) for key in USAGE_KEYS) / 1e6
 
 
 def _save_json(path: Path, data: dict, indent: int | None = None) -> None:
