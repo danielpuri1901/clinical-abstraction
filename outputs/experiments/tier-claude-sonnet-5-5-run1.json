@@ -1,5 +1,6 @@
 {
  "arm": "claude-sonnet-5-5",
+ "dataset": "extraction-tier",
  "model": "claude-sonnet-5-5",
  "run": "run1",
  "manifest": "outputs/experiments/synthetic/manifest.json",
@@ -526,5 +527,5 @@
   "cost_usd": 0.126572,
   "seconds": null
  },
- "created_at": "2026-10-17T20:58:48+00:00"
+ "created_at": "2026-10-17T21:11:16+00:00"
 }
