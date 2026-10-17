@@ -1,6 +1,6 @@
 {
   "claude": {
-    "total_usd": 0.16860960000000005,
+    "total_usd": 0.1994488000000001,
     "entries": [
       {
         "at": "2026-10-17T20:45:55+00:00",
@@ -1001,6 +1001,196 @@
         "at": "2026-10-17T20:48:09+00:00",
         "usd": 0.001033,
         "note": "extract SY-M07016_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:12+00:00",
+        "usd": 0.0007532999999999999,
+        "note": "extract SY-M07016_09_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:48:12+00:00",
+        "usd": 0.0005364,
+        "note": "extract SY-M07017_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:48:13+00:00",
+        "usd": 0.0007755,
+        "note": "extract SY-M07016_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:13+00:00",
+        "usd": 0.0012102,
+        "note": "extract SY-M07016_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:13+00:00",
+        "usd": 0.0008962,
+        "note": "extract SY-M07016_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:15+00:00",
+        "usd": 0.0008345,
+        "note": "extract SY-M07017_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:16+00:00",
+        "usd": 0.0013300999999999999,
+        "note": "extract SY-M07016_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:16+00:00",
+        "usd": 0.0005778,
+        "note": "extract SY-M07017_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:17+00:00",
+        "usd": 0.0012055999999999998,
+        "note": "extract SY-M07016_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:17+00:00",
+        "usd": 0.0007553,
+        "note": "extract SY-M07017_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:17+00:00",
+        "usd": 0.000775,
+        "note": "extract SY-M07017_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:17+00:00",
+        "usd": 0.0007425,
+        "note": "extract SY-M07017_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:20+00:00",
+        "usd": 0.0005345,
+        "note": "extract SY-M07018_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:48:20+00:00",
+        "usd": 0.0009693,
+        "note": "extract SY-M07017_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:20+00:00",
+        "usd": 0.0007987999999999999,
+        "note": "extract SY-M07017_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:21+00:00",
+        "usd": 0.0007562000000000001,
+        "note": "extract SY-M07017_09_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:48:22+00:00",
+        "usd": 0.0008425,
+        "note": "extract SY-M07017_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:23+00:00",
+        "usd": 0.0004715,
+        "note": "extract SY-M07018_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:23+00:00",
+        "usd": 0.00047010000000000004,
+        "note": "extract SY-M07018_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:24+00:00",
+        "usd": 0.0010765,
+        "note": "extract SY-M07017_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:25+00:00",
+        "usd": 0.0009617,
+        "note": "extract SY-M07018_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:25+00:00",
+        "usd": 0.00047210000000000004,
+        "note": "extract SY-M07018_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:25+00:00",
+        "usd": 0.0007802999999999999,
+        "note": "extract SY-M07018_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:26+00:00",
+        "usd": 0.00047210000000000004,
+        "note": "extract SY-M07018_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:26+00:00",
+        "usd": 0.0009284,
+        "note": "extract SY-M07018_03_draft_and_charge"
+      },
+      {
+        "at": "2026-10-17T20:48:26+00:00",
+        "usd": 0.0004715,
+        "note": "extract SY-M07018_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:27+00:00",
+        "usd": 0.0004635,
+        "note": "extract SY-M07018_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:28+00:00",
+        "usd": 0.0016748,
+        "note": "extract SY-M07017_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:29+00:00",
+        "usd": 0.0005323999999999999,
+        "note": "extract SY-M07019_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:48:30+00:00",
+        "usd": 0.0007097000000000001,
+        "note": "extract SY-M07018_13_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:48:30+00:00",
+        "usd": 0.0009032,
+        "note": "extract SY-M07018_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:31+00:00",
+        "usd": 0.0008057,
+        "note": "extract SY-M07018_14_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:32+00:00",
+        "usd": 0.0011756,
+        "note": "extract SY-M07018_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:33+00:00",
+        "usd": 0.00047290000000000006,
+        "note": "extract SY-M07019_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:34+00:00",
+        "usd": 0.0008121000000000001,
+        "note": "extract SY-M07019_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:34+00:00",
+        "usd": 0.0009192,
+        "note": "extract SY-M07019_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:35+00:00",
+        "usd": 0.0006927000000000001,
+        "note": "extract SY-M07019_04_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:48:35+00:00",
+        "usd": 0.0012795,
+        "note": "extract SY-M07018_15_service_record"
       }
     ]
   },
