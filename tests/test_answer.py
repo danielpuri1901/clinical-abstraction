@@ -1,17 +1,155 @@
-"""Answers: executors over the derived tables, verdicts, saved plans replayed without a model, the open-question agent, and the
-CLI. No test calls a model: FakeJev reads the questions, and a scripted function stands in for Claude."""
+"""answer.py: question plans, answers computed from the derived tables, verdicts, saved plans replayed without a model, the
+open-question agent, and the answer CLI. No test calls a model: FakeJev reads the questions, and a scripted function stands in
+for Claude."""
 
 import json
+import re
 from dataclasses import replace
 from datetime import date
+from pathlib import Path
+from typing import get_args
 
 import pytest
 
-from clinical_abstraction import agent, answers, cli, read, reconcile, store
-from clinical_abstraction.questions import DateRange, Plan
-from clinical_abstraction.schema import Observation
+from clinical_abstraction import answer, cli, read, reconcile, store
+from clinical_abstraction.answer import DateRange, Plan, PlanError, parse_dates, parse_patients
+from clinical_abstraction.schema import Observation, ServiceType
 from tests.fakes import FakeJev
 from tests.fixtures import mini_patient_docs
+
+KNOWN = [("HG-M042", "Rowan Mercer"), ("NF-20817", "Jordan Reyes")]
+EVAL_QUESTIONS = Path(__file__).resolve().parents[1] / "evals" / "questions.json"
+FIELDS = ("metric", "attendance", "service_type", "group_by")
+
+
+def test_dates_parse_or_refuse():
+    assert parse_dates("sessions between January 12 and January 25", 2026) == DateRange(
+        date(2026, 1, 12), date(2026, 1, 25), "2026-01-12 to 2026-01-25"
+    )
+    assert parse_dates("hours in the week of January 12", 2026).end == date(2026, 1, 18)
+    assert parse_dates("minutes after January 19", 2026) == DateRange(date(2026, 1, 20), None, "after 2026-01-19")
+    assert parse_dates("what happened on 30 January 2026", 2026).start == date(2026, 1, 30)
+    assert parse_dates("Did the PHQ-9 decrease 5 points or more?", 2026) is None  # not December 5
+    with pytest.raises(PlanError, match="February 30"):
+        parse_dates("What happened on February 30?", 2026)
+    with pytest.raises(PlanError, match="week 2 is not a date"):
+        parse_dates("How many individual sessions happened in week 2?", 2026)
+
+
+def test_patients_match_or_refuse():
+    assert parse_patients("How many sessions did Rowan attend?", KNOWN) == ["HG-M042"]
+    assert parse_patients("Compare Rowan and Jordan", KNOWN) == ["HG-M042", "NF-20817"]
+    assert parse_patients("Which patients had two consecutive weeks below goal?", KNOWN) == ["HG-M042", "NF-20817"]
+    assert parse_patients("Did Rowan's sleep improve?", [*KNOWN, ("AL-1", "Ann Lee")]) == ["HG-M042"]  # "lee" in "sleep"
+    with pytest.raises(PlanError, match="unknown patient: Alex Smith"):
+        parse_patients("How many sessions did Alex Smith attend?", KNOWN)
+    with pytest.raises(PlanError, match="unknown patient: Jordan Lee"):  # a known first name with a wrong surname
+        parse_patients("How many sessions did Jordan Lee attend?", KNOWN)
+    with pytest.raises(PlanError, match="unknown patient: HG-M999"):
+        parse_patients("How many sessions did HG-M999 attend?", KNOWN)
+
+
+def test_an_aggregation_no_renderer_computes_routes_to_the_open_path():
+    # The decision model reads "average weekly therapy time" as minutes; the rules see "average" and "per patient".
+    confident_minutes = FakeJev(
+        {"metric": ("minutes", 0.97), "attendance": ("attended", 0.9), "service_type": ("any", 0.9), "group_by": ("week", 0.9)}
+    )
+    plan = answer.plan_question("Across the collection, what was the average weekly therapy time per patient?", KNOWN, 2026, confident_minutes)
+    assert plan.kind == "open" and plan.metric == "other"
+    assert any("aggregation" in warning and "minutes" in warning for warning in plan.warnings)
+
+
+def test_agreement_decides_the_verdict():
+    agreed = FakeJev(
+        {
+            "metric": ("sessions", 1.0),
+            "attendance": ("missed_by_patient", 1.0),
+            "service_type": ("any", 0.95),
+            "group_by": ("none", 0.95),
+        }
+    )
+    plan = answer.plan_question("How many sessions did Rowan miss?", KNOWN, 2026, agreed)
+    assert plan.metric == "sessions" and plan.attendance == "missed_by_patient" and plan.warnings == []
+    assert [(state, set(names)) for state, names in agreed.calls] == [("How many sessions did Rowan miss?", set(FIELDS))]
+    disputed = FakeJev(
+        {"metric": ("sessions", 0.55), "attendance": ("any", 0.9), "service_type": ("any", 0.9), "group_by": ("none", 0.9)}
+    )
+    plan = answer.plan_question("Which weeks fell short of the plan?", KNOWN, 2026, disputed)
+    assert plan.warnings and "disputed metric" in plan.warnings[0]
+    target = answer.plan_question("Was the 150-minute weekly target met?", KNOWN, 2026, FakeJev({"metric": ("goal_status", 1.0)}))
+    assert target.warnings == ["disputed metric: rules say minutes, decision model says goal_status (1.00)"]
+    assert (
+        answer.plan_question("Which clinician wrote the January 22 note?", KNOWN, 2026, FakeJev({"metric": ("other", 1.0)})).kind
+        == "open"
+    )
+    rules_only = answer.plan_question("How many minutes of therapy did Rowan receive?", KNOWN, 2026, None)
+    assert rules_only.metric == "minutes" and rules_only.warnings == ["rules only, no decision model"]
+
+
+def test_filters_the_metric_does_not_use_are_neutral_and_never_disputed():
+    unsure = FakeJev(
+        {
+            "metric": ("goal_status", 1.0),
+            "attendance": ("cancelled_by_clinic", 0.4),
+            "service_type": ("group_psychotherapy", 0.4),
+            "group_by": ("day", 0.4),
+        }
+    )
+    plan = answer.plan_question("Did Rowan meet the weekly goal?", KNOWN, 2026, unsure)
+    assert (plan.attendance, plan.service_type, plan.group_by, plan.warnings) == ("not_applicable", "any", "none", [])
+
+
+def test_rules_alone_refuse_a_question_without_one_reading():
+    with pytest.raises(PlanError, match="cannot interpret the question"):
+        answer.plan_question("Which weeks fell short of the plan?", KNOWN, 2026, None)  # no rule matches
+    with pytest.raises(PlanError, match="cannot interpret the question"):
+        answer.plan_question("Was Rowan billed for any session that did not happen?", KNOWN, 2026, None)  # two rules match
+
+
+def test_interpretation_names_the_plan_and_stays_short_for_a_collection():
+    window = DateRange(date(2026, 1, 12), date(2026, 1, 25), "2026-01-12 to 2026-01-25")
+    plan = Plan("computed", "sessions", "attended", "any", "week", ["HG-M042"], window, {}, [])
+    assert answer.interpretation(plan) == "Interpreted as: sessions, attended, HG-M042, 2026-01-12 to 2026-01-25, by week"
+    collection = Plan(
+        "computed", "consecutive_shortfall", "not_applicable", "any", "none", [f"P-{n}" for n in range(2000)], None, {}, []
+    )
+    assert answer.interpretation(collection) == "Interpreted as: consecutive_shortfall, 2000 patients, all dates"
+
+
+def test_the_vocabulary_matches_the_schema_and_the_decision_model():
+    assert set(get_args(answer.ServiceTypeFilter)) - {"any"} <= set(get_args(ServiceType))
+    enums = {"metric": answer.Metric, "attendance": answer.AttendanceFilter}
+    enums |= {"service_type": answer.ServiceTypeFilter, "group_by": answer.GroupBy}
+    assert {field: set(choice.criteria) for field, choice in answer.JEV_QUESTIONS.items()} == {
+        field: set(get_args(enum)) for field, enum in enums.items()
+    }
+
+
+def _iso(window: DateRange | None) -> list | None:
+    return None if window is None else [day.isoformat() if day else None for day in (window.start, window.end)]
+
+
+def test_every_eval_question_plans_without_a_wrong_plain_computed():
+    items = json.loads(EVAL_QUESTIONS.read_text())
+    assert len(items) == 54 and sum(bool(item.get("rules_wrong")) for item in items) == 7
+    for item in items:
+        expected = item["expected"]
+        jev = FakeJev.from_expected(expected)
+        if "refused" in item:
+            with pytest.raises(PlanError, match=re.escape(item["refused"])):
+                answer.plan_question(item["question"], KNOWN, 2026, jev)
+            assert jev.calls == [], item["id"]  # refused before the decision model is paid
+            continue
+        plan = answer.plan_question(item["question"], KNOWN, 2026, jev)
+        got = {field: getattr(plan, field) for field in FIELDS} | {"patients": plan.patients, "date_range": _iso(plan.date_range)}
+        assert got == expected, item["id"]
+        assert plan.kind == ("open" if expected["metric"] == "other" else "computed"), item["id"]
+        if item.get("rules_wrong"):
+            rules = answer.rule_candidates(item["question"])
+            assert expected["metric"] not in rules.get("metric", set()) or plan.warnings == [], item["id"]
+
+
+# ---- Answers by code, verdicts, replay, the agent, and the CLI ----
 
 PENDING = [{"doc_id": "D11", "sha": "f" * 64, "reason": "RuntimeError: rate limit", "attempts": 1}]
 USAGE = {"input_tokens": 1000, "output_tokens": 100, "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0}
@@ -80,58 +218,58 @@ def table_row(text: str, first_cell: str) -> list[str]:
 
 
 def test_executors_respect_filters_on_the_mini_patient(mini_store):
-    sessions = answers.run(mini_store, plan_for("sessions"))
+    sessions = answer.run(mini_store, plan_for("sessions"))
     assert "3 therapy sessions" in sessions[0][1]  # E1, E2, E3 count; E4 is a no-show
-    missed = answers.run(mini_store, plan_for("sessions", attendance="missed_by_patient"))
+    missed = answer.run(mini_store, plan_for("sessions", attendance="missed_by_patient"))
     assert "1 missed" in missed[0][1] and "E4" in missed[0][1] and "E1" not in missed[0][1]
     # A partner-only collateral call the patient did not join is not a session the patient missed.
-    assert not answers._matches({"status": "patient_absent", "service_type": "collateral_contact", "counts_as_therapy": "no"}, "missed_by_patient")
-    assert answers._matches({"status": "no_show", "service_type": "group_psychotherapy", "counts_as_therapy": "no"}, "missed_by_patient")
-    group = answers.run(mini_store, plan_for("sessions", service_type="group_psychotherapy"))[0][1]
+    assert not answer._matches({"status": "patient_absent", "service_type": "collateral_contact", "counts_as_therapy": "no"}, "missed_by_patient")
+    assert answer._matches({"status": "no_show", "service_type": "group_psychotherapy", "counts_as_therapy": "no"}, "missed_by_patient")
+    group = answer.run(mini_store, plan_for("sessions", service_type="group_psychotherapy"))[0][1]
     assert "1 therapy session " in group and "E2" not in group and "E3" not in group
     week = DateRange(date(2026, 1, 19), date(2026, 1, 25), "2026-01-19 to 2026-01-25")
-    ranged = answers.run(mini_store, plan_for("minutes", date_range=week))
+    ranged = answer.run(mini_store, plan_for("minutes", date_range=week))
     assert "105 minutes" in ranged[0][1]  # 60 + 45; E3 on January 26 is outside
-    by_week = answers.run(mini_store, plan_for("minutes", group_by="week"))[0][1]
+    by_week = answer.run(mini_store, plan_for("minutes", group_by="week"))[0][1]
     assert table_row(by_week, "2026-01-05 to 2026-01-11") == ["2026-01-05 to 2026-01-11", "0", "0", "0", "0", "0"]  # no therapy
     week_of_e3 = ["2026-01-26 to 2026-01-27", "1", "1", "1", "40-50", "0.67-0.83"]  # the E3 conflict stays a range
     assert table_row(by_week, "2026-01-26 to 2026-01-27") == week_of_e3
-    billing = answers.run(mini_store, plan_for("billing_integrity", attendance="not_applicable"))[0][1]
+    billing = answer.run(mini_store, plan_for("billing_integrity", attendance="not_applicable"))[0][1]
     assert "Charge C4" in billing and "D8 L5" in billing
     add_patient(mini_store, "T-M003", lowered_goal(mini_patient_docs()))
-    goal = answers.run(mini_store, plan_for("goal_status", attendance="not_applicable", patients=["T-M003"]))
+    goal = answer.run(mini_store, plan_for("goal_status", attendance="not_applicable", patients=["T-M003"]))
     assert "An addendum or signed note stating the start time of E3 would settle it" in goal[0][1]
     assert "cannot be determined" in table_row(goal[0][1], "4")[-1]
 
 
 def test_answer_marks_incomplete_patients_and_refuses_unknown_ones(mini_store_incomplete, budget):
-    result = answers.answer(mini_store_incomplete, "How many sessions did Rowan attend?", ATTENDED, budget, "m")
+    result = answer.answer(mini_store_incomplete, "How many sessions did Rowan attend?", ATTENDED, budget, "m")
     lines = result["answer"].splitlines()
     assert lines[0] == "Interpreted as: sessions, attended, T-M001, all dates"
     assert lines[1].startswith("Incomplete: 1 document pending (D11") and "rate limit" in lines[1]
     assert result["verdict"].startswith("COMPUTED WITH WARNING") and "1 document pending" in result["verdict"]
-    other = answers.answer(mini_store_incomplete, "How many sessions did Jordan attend?", ATTENDED, budget, "m")
+    other = answer.answer(mini_store_incomplete, "How many sessions did Jordan attend?", ATTENDED, budget, "m")
     assert other["verdict"] == "COMPUTED" and "Incomplete" not in other["answer"]  # only patients in scope count
-    refused = answers.answer(mini_store_incomplete, "How many sessions did Alex Smith attend?", FakeJev({}), budget, "m")
+    refused = answer.answer(mini_store_incomplete, "How many sessions did Alex Smith attend?", FakeJev({}), budget, "m")
     assert refused["verdict"] == "REFUSED: unknown patient: Alex Smith" and "sessions" not in refused["answer"]
     saved = dict(mini_store_incomplete.execute("SELECT question, verdict FROM answers").fetchall())
     assert saved["How many sessions did Alex Smith attend?"] == refused["verdict"] and len(saved) == 3
 
 
 def test_unbound_numbers_are_listed():
-    assert agent.unbound_numbers("Ten flags across 8 encounters on 2026-01-19 [BH-D103 L7]", ['{"count": 10}']) == ["8"]
+    assert answer.unbound_numbers("Ten flags across 8 encounters on 2026-01-19 [BH-D103 L7]", ['{"count": 10}']) == ["8"]
 
 
 def test_verify_saved_replays_plans_without_a_model(mini_store_with_two_patients, budget, tmp_path):
     connection = mini_store_with_two_patients
-    rowan = answers.answer(connection, "How many sessions did Rowan attend?", ATTENDED, budget, "m")
+    rowan = answer.answer(connection, "How many sessions did Rowan attend?", ATTENDED, budget, "m")
     weekly = FakeJev({"metric": ("minutes", 1.0), "attendance": ("attended", 1.0), "group_by": ("week", 1.0)})
-    jordan = answers.answer(connection, "How many minutes did Jordan receive each week?", weekly, budget, "m")
+    jordan = answer.answer(connection, "How many minutes did Jordan receive each week?", weekly, budget, "m")
     assert (rowan["verdict"], jordan["verdict"], rowan["citations_broken"]) == ("COMPUTED", "COMPUTED", [])
     report = tmp_path / "answers.json"
-    assert [result["verdict"] for result in answers.verify_saved(connection, report)] == ["COMPUTED", "COMPUTED"]
+    assert [result["verdict"] for result in answer.verify_saved(connection, report)] == ["COMPUTED", "COMPUTED"]
     connection.execute("UPDATE encounters SET minutes_low = 30, minutes_high = 30 WHERE mrn = 'T-M001' AND encounter = 'E2'")
-    replayed = {result["question"]: result["verdict"] for result in answers.verify_saved(connection, report)}
+    replayed = {result["question"]: result["verdict"] for result in answer.verify_saved(connection, report)}
     assert replayed["How many sessions did Rowan attend?"].startswith("NOT VERIFIED")
     assert replayed["How many minutes did Jordan receive each week?"] == "COMPUTED"
 
@@ -145,12 +283,12 @@ def test_collection_answers_give_counts_the_first_50_patients_and_how_many_more(
         abstraction = pending if number >= 52 else complete
         store.replace_patient(connection, mrn, {**abstraction, "patient": {"mrn": mrn, "name": None}}, "fingerprint")
     everyone = [mrn for mrn, _ in store.known_patients(connection)]
-    text = answers.run(connection, plan_for("consecutive_shortfall", attendance="not_applicable", patients=everyone))[0][1]
+    text = answer.run(connection, plan_for("consecutive_shortfall", attendance="not_applicable", patients=everyone))[0][1]
     assert "55 patients reviewed: 52 with 2 consecutive weeks below goal established by the record" in text
     assert "3 whose inclusion depends on unresolved records" in text
     assert "C-0049" in text and "C-0050" not in text and "2 more" in text  # 50 of the 52 established patients are named
     assert "C-0054" in text and "Reading the pending document D11 would settle it" in text
-    sections = answers.run(connection, plan_for("sessions", patients=everyone))
+    sections = answer.run(connection, plan_for("sessions", patients=everyone))
     assert len(sections) == 51 and "5 more patients" in sections[-1][1]
 
 
@@ -165,7 +303,7 @@ def test_progress_keeps_the_whole_course_when_a_question_names_one_day(tmp_path)
     connection = store.connect(tmp_path / "progress.db")
     add_patient(connection, "T-M001", docs)
     day = DateRange(date(2026, 1, 19), date(2026, 1, 19), "2026-01-19")
-    text = answers.run(connection, plan_for("progress", attendance="not_applicable", date_range=day))[0][1]
+    text = answer.run(connection, plan_for("progress", attendance="not_applicable", date_range=day))[0][1]
     assert "2 distinct administrations" in text and "D10 L5" in text  # the imported copy is named, not counted
     assert "fell 4 points, from 18" in text and "Mood still low, sleep improving" in text  # both before January 19
     assert "Panic episode at work the day before" in text and "Routine weekly session" not in text
@@ -183,7 +321,7 @@ def test_open_questions_go_to_the_agent_and_numbers_must_come_from_tools(mini_st
 
     monkeypatch.setattr(read, "call_anthropic", scripted_call)
     other = FakeJev({"metric": ("other", 1.0)})
-    result = answers.answer(mini_store, "Which clinician wrote the January 26 note?", other, budget, "claude-haiku-5-5")
+    result = answer.answer(mini_store, "Which clinician wrote the January 26 note?", other, budget, "claude-haiku-5-5")
     assert result["answer"].splitlines()[0] == "Interpreted as: open question, T-M001, 2026-01-26"
     assert result["verdict"] == "AGENT: unbound numbers 7"  # 40 and 50 come from the encounters tool
     tool_result = sent[1]["content"][0]
@@ -196,7 +334,7 @@ def test_open_questions_go_to_the_agent_and_numbers_must_come_from_tools(mini_st
         calls.append(model)
         return {"content": [use], "usage": USAGE, "stop_reason": "tool_use"}
 
-    stuck = agent.answer_open(mini_store, "Which clinician?", "claude-haiku-5-5", budget, call=always_a_tool)
+    stuck = answer.answer_open(mini_store, "Which clinician?", "claude-haiku-5-5", budget, call=always_a_tool)
     assert len(calls) == 8 and stuck["verdict"].startswith("AGENT: no final answer")
 
 

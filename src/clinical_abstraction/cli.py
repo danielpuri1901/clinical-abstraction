@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from clinical_abstraction import answers, read, store
+from clinical_abstraction import answer, read, store
 
 DEFAULT_OUT = Path("outputs")
 DEFAULT_DB = DEFAULT_OUT / "abstraction.db"
@@ -106,7 +106,7 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"{doc_id} L{number}: {lines[number - 1]}")
         return 0
     if args.command == "verify-answers":
-        results = answers.verify_saved(connection, args.answers or args.out / "answers" / "answers.json")
+        results = answer.verify_saved(connection, args.answers or args.out / "answers" / "answers.json")
         if not results:
             print("No saved answers to verify.", file=sys.stderr)
             return 1
@@ -119,14 +119,14 @@ def main(argv: list[str] | None = None) -> int:
     if client is None:
         print(NO_JEV, file=sys.stderr)
     if args.command == "ask":
-        result = answers.answer(connection, args.question, client, budget, args.model, args.agent)
+        result = answer.answer(connection, args.question, client, budget, args.model, args.agent)
         print(f"{result['answer'].rstrip()}\n\nVerdict: {result['verdict']}")
         return 0 if verified(result["verdict"]) else 1
     folder = args.out / "answers"
     folder.mkdir(parents=True, exist_ok=True)
     results = []
     for item in json.loads(args.questions.read_text()):
-        result = {"id": item["id"], **answers.answer(connection, item["question"], client, budget, args.model, args.agent)}
+        result = {"id": item["id"], **answer.answer(connection, item["question"], client, budget, args.model, args.agent)}
         (folder / f"{item['id']}.md").write_text(answer_markdown(result))
         print(f"{item['id']}: {result['verdict'][:100]} ({result['latency_seconds']} s, ${result['cost_usd']})")
         results.append(result)

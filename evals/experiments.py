@@ -5,7 +5,7 @@
     uv run --frozen python -m evals.experiments tier --model claude-haiku-5-5 --store outputs/experiments/tier-haiku-run1/abstraction.db
 
 routing: every question in evals/questions.json is planned by one of three arms. `rules` is the keyword rules alone, `jev` is the
-decision model alone, `agreement` is questions.plan with both readers. The plans are scored against the expected ones.
+decision model alone, `agreement` is answer.plan_question with both readers. The plans are scored against the expected ones.
 
 tier: the abstraction of each synthetic patient, made by one extraction model, is scored against the gold file generated with the
 patient. The abstractions come from an ingest of that patient's documents, or from a store a run already made (`--store`).
@@ -26,7 +26,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
-from clinical_abstraction import questions, read, store
+from clinical_abstraction import answer, read, store
 from evals import score
 
 logger = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ ROUTING_DATASET, TIER_DATASET = "routing", "extraction-tier"  # the Langfuse dat
 Arm = Literal["rules", "jev", "agreement"]
 ARMS = ("rules", "jev", "agreement")
 EXACT = ("metric_exact", "attendance_exact", "date_range_exact")
-FIELDS = (*questions.ENUMS, "patients", "date_range")  # what a plan must match for the question to be answered right
+FIELDS = (*answer.ENUMS, "patients", "date_range")  # what a plan must match for the question to be answered right
 NOTHING = {  # the abstraction of a patient the store has none for: every gold check fails
     "encounters": [],
     "weeks": [],
@@ -76,31 +76,31 @@ def _means(items: list[dict]) -> dict:
 # ---- Routing ----
 
 
-def _window(date_range: questions.DateRange | None) -> list | None:
+def _window(date_range: answer.DateRange | None) -> list | None:
     return None if date_range is None else [day.isoformat() if day else None for day in (date_range.start, date_range.end)]
 
 
-def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: read.Jev) -> questions.Plan:
+def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: read.Jev) -> answer.Plan:
     """The decision model's choices when it is at least 0.9 sure of every field the answer uses, else a refusal.
 
     Patients and dates are read by code, as in every arm. The fields that count are the metric, and the three filters when the
-    metric is one that filters (the rule questions.plan uses to look for disputes).
+    metric is one that filters (the rule answer.plan_question uses to look for disputes).
     """
-    patients = questions.parse_patients(question, known)
-    date_range = questions.parse_dates(question, year)
-    answers = questions.choose(question, jev)  # after the code checks, so a refused question costs nothing
-    used = [field for field in questions.ENUMS if field == "metric" or answers["metric"].choice in questions.FILTERED_METRICS]
+    patients = answer.parse_patients(question, known)
+    date_range = answer.parse_dates(question, year)
+    answers = answer.choose(question, jev)  # after the code checks, so a refused question costs nothing
+    used = [field for field in answer.ENUMS if field == "metric" or answers["metric"].choice in answer.FILTERED_METRICS]
     unsure = [
-        f"{field} {answers[field].confidence:.2f}" for field in used if answers[field].confidence < questions.AGREEMENT_CONFIDENCE
+        f"{field} {answers[field].confidence:.2f}" for field in used if answers[field].confidence < answer.AGREEMENT_CONFIDENCE
     ]
     if unsure:
-        raise questions.PlanError(f"the decision model is not sure enough: {', '.join(unsure)}")
-    values = {field: answers[field].choice for field in questions.ENUMS}
-    if values["metric"] not in questions.FILTERED_METRICS:
-        values |= questions.NEUTRAL
-    readings = {field: {"decision_model": [answers[field].choice, answers[field].confidence]} for field in questions.ENUMS}
+        raise answer.PlanError(f"the decision model is not sure enough: {', '.join(unsure)}")
+    values = {field: answers[field].choice for field in answer.ENUMS}
+    if values["metric"] not in answer.FILTERED_METRICS:
+        values |= answer.NEUTRAL
+    readings = {field: {"decision_model": [answers[field].choice, answers[field].confidence]} for field in answer.ENUMS}
     kind = "open" if values["metric"] == "other" else "computed"
-    return questions.Plan(kind, **values, patients=patients, date_range=date_range, readings=readings, warnings=[])
+    return answer.Plan(kind, **values, patients=patients, date_range=date_range, readings=readings, warnings=[])
 
 
 def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev: read.Jev | None) -> dict:
@@ -109,8 +109,8 @@ def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev:
         if arm == "jev":
             plan = _jev_alone(question, known, year, jev)
         else:
-            plan = questions.plan(question, known, year, jev if arm == "agreement" else None)
-    except questions.PlanError as error:
+            plan = answer.plan_question(question, known, year, jev if arm == "agreement" else None)
+    except answer.PlanError as error:
         return {"verdict": f"REFUSED: {error}", "refused": str(error)}
     if plan.kind == "open":
         verdict = "AGENT"
@@ -120,7 +120,7 @@ def _read(arm: Arm, question: str, known: list[tuple[str, str]], year: int, jev:
         verdict = "COMPUTED"
     return {
         "verdict": verdict,
-        **{field: getattr(plan, field) for field in questions.ENUMS},
+        **{field: getattr(plan, field) for field in answer.ENUMS},
         "patients": plan.patients,
         "date_range": _window(plan.date_range),
         "warnings": plan.warnings,

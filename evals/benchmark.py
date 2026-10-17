@@ -265,7 +265,7 @@ def run(patients: int = 2000, out: Path = OUT, db: Path | None = None, documents
     if not db.exists():
         raise FileNotFoundError(f"no store at {db}")
     try:
-        answers = importlib.import_module("clinical_abstraction.answers")
+        answers = importlib.import_module("clinical_abstraction.answer")
     except ImportError:
         answers = None  # the answers module is built elsewhere: its two sections are null until it exists
     with tempfile.TemporaryDirectory() as temporary:

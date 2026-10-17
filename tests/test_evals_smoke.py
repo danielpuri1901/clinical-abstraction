@@ -412,7 +412,7 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
     options = {"db": out / "abstraction.db", "documents": documents, "out": out}
 
     # The answers module is built elsewhere. Without it, its two sections are null.
-    monkeypatch.setitem(sys.modules, "clinical_abstraction.answers", None)
+    monkeypatch.setitem(sys.modules, "clinical_abstraction.answer", None)
     report = benchmark.main(["--patients", "50", "--db", str(options["db"]), "--documents", str(documents), "--out", str(out)])
     assert report == json.loads((out / "benchmarks.json").read_text())
     assert report["patients"] == 50
@@ -434,9 +434,9 @@ def test_benchmark_runs_on_the_mini_store(tmp_path, monkeypatch):
         asked.append(question)
         return {"answer": "x" * 7, "verdict": "COMPUTED"}
 
-    stub = types.ModuleType("clinical_abstraction.answers")
+    stub = types.ModuleType("clinical_abstraction.answer")
     stub.answer = answer
-    monkeypatch.setitem(sys.modules, "clinical_abstraction.answers", stub)
+    monkeypatch.setitem(sys.modules, "clinical_abstraction.answer", stub)
     filled = benchmark.run(patients=3, **options)
     assert [(row["id"], row["patients"]) for row in filled["answer_latency"]] == [
         (f"DEV-0{n}", patients) for patients in (1, 3) for n in range(1, 6)
