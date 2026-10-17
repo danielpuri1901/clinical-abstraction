@@ -3744,7 +3744,7 @@
     "date_range": null
    },
    "output": {
-    "verdict": "COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says none (0.97)",
+    "verdict": "COMPUTED WITH WARNING: disputed metric: rules say other, decision model says minutes (1.00); disputed group_by: rules say week, decision model says none (0.97)",
     "metric": "minutes",
     "attendance": "attended",
     "service_type": "any",
@@ -3755,11 +3755,14 @@
     ],
     "date_range": null,
     "warnings": [
+     "disputed metric: rules say other, decision model says minutes (1.00)",
      "disputed group_by: rules say week, decision model says none (0.97)"
     ],
     "readings": {
      "metric": {
-      "rules": [],
+      "rules": [
+       "other"
+      ],
       "decision_model": [
        "minutes",
        1.0
@@ -3796,7 +3799,7 @@
     "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric minutes, attendance attended, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed group_by: rules say week, decision model says none (0.97)",
+   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got metric minutes, attendance attended, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; verdict COMPUTED WITH WARNING: disputed metric: rules say other, decision model says minutes (1.00); disputed group_by: rules say week, decision model says none (0.97)",
    "metadata": {
     "note": "From the review's extra probes: no executor computes averages, so this is an open question for the agent.",
     "rules_wrong": false
@@ -3809,5 +3812,5 @@
   "date_range_exact": 1.0,
   "no_wrong_plain_computed": 1.0
  },
- "created_at": "2026-10-17T20:57:44+00:00"
+ "created_at": "2026-10-17T20:59:58+00:00"
 }

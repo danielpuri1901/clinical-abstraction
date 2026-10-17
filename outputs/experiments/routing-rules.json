@@ -2465,16 +2465,49 @@
     "date_range": null
    },
    "output": {
-    "verdict": "REFUSED: cannot interpret the question",
-    "refused": "cannot interpret the question"
+    "verdict": "AGENT",
+    "metric": "other",
+    "attendance": "not_applicable",
+    "service_type": "any",
+    "group_by": "none",
+    "patients": [
+     "HG-M042",
+     "NF-20817"
+    ],
+    "date_range": null,
+    "warnings": [
+     "rules only, no decision model"
+    ],
+    "readings": {
+     "metric": {
+      "rules": [
+       "other"
+      ],
+      "decision_model": null
+     },
+     "attendance": {
+      "rules": [],
+      "decision_model": null
+     },
+     "service_type": {
+      "rules": [],
+      "decision_model": null
+     },
+     "group_by": {
+      "rules": [
+       "week"
+      ],
+      "decision_model": null
+     }
+    }
    },
    "scores": {
-    "metric_exact": 0.0,
-    "attendance_exact": 0.0,
-    "date_range_exact": 0.0,
+    "metric_exact": 1.0,
+    "attendance_exact": 1.0,
+    "date_range_exact": 1.0,
     "no_wrong_plain_computed": 1.0
    },
-   "comment": "expected metric other, attendance not_applicable, service_type any, group_by none, patients ['HG-M042', 'NF-20817'], date_range None; got REFUSED: cannot interpret the question; verdict REFUSED: cannot interpret the question",
+   "comment": "AGENT",
    "metadata": {
     "note": "From the review's extra probes: no executor computes averages, so this is an open question for the agent.",
     "rules_wrong": false
@@ -2482,10 +2515,10 @@
   }
  ],
  "scores": {
-  "metric_exact": 0.5,
-  "attendance_exact": 0.462963,
-  "date_range_exact": 0.555556,
+  "metric_exact": 0.518519,
+  "attendance_exact": 0.481481,
+  "date_range_exact": 0.574074,
   "no_wrong_plain_computed": 1.0
  },
- "created_at": "2026-10-17T20:57:19+00:00"
+ "created_at": "2026-10-17T20:59:48+00:00"
 }

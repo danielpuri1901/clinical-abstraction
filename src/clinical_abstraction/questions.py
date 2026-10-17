@@ -228,6 +228,10 @@ _RULES = {  # ported from the previous computed_answers.FAMILIES, plus the atten
         "plan_change": r"plan change|plan-change|before and after|changed .* plan",
         "progress": r"symptom|progress|phq|assessment|improv|reason for",
         "billing_integrity": r"\bbill|\bcharge|\bclaim\b|\bdraft\b|\baudit",
+        # Aggregations the renderers do not compute: a question that wants an average, a median, a ratio, or a
+        # per-patient mean is an open question, so the rules propose "other" and a confident "minutes" from the
+        # decision model becomes a visible dispute instead of a plain answer that silently omits the average.
+        "other": r"\baverage\b|\bmean\b|\bmedian\b|\bratio\b|\bpercent(?:age)? of patients\b|\bper patient\b",
     },
     "attendance": {
         "attended": r"(?<!not )(?<!n't )(?<!n\u2019t )\battend(?:s|ed|ing)?\b",
