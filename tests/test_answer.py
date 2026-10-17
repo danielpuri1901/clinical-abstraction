@@ -21,6 +21,8 @@ KNOWN = [("HG-M042", "Rowan Mercer"), ("NF-20817", "Jordan Reyes")]
 EVAL_QUESTIONS = Path(__file__).resolve().parents[1] / "evals" / "questions.json"
 FIELDS = ("metric", "attendance", "service_type", "group_by")
 
+# ---- Plans ----
+
 
 def test_dates_parse_or_refuse():
     assert parse_dates("sessions between January 12 and January 25", 2026) == DateRange(

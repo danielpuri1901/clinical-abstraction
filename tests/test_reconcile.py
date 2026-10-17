@@ -27,6 +27,7 @@ from tests.fixtures import PATIENT_LINE, document, extraction, mini_patient_docs
 
 ROOT = Path(__file__).resolve().parent.parent
 
+# ---- The referee ----
 
 event = service_event  # a group session on 2026-01-19 citing line 1; the referee never reads its labels
 

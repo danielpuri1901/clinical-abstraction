@@ -21,6 +21,8 @@ from evals import experiments, score, synthetic
 from tests.fakes import FakeJev
 from tests.fixtures import FixtureExtractor, mini_patient_docs
 
+# ---- Synthetic patients ----
+
 TIME = re.compile(r"\b(\d{1,2}):(\d{2})(?:\s*(AM|PM))?|\b([01]\d|2[0-3])([0-5]\d)\b")
 
 
