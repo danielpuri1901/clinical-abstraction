@@ -1,0 +1,142 @@
+{
+  "claude": {
+    "total_usd": 0.017515179999999998,
+    "entries": [
+      {
+        "at": "2026-10-17T20:27:07+00:00",
+        "usd": 0.00155455,
+        "note": "extract NF_care_plan_update_2026-02-09"
+      },
+      {
+        "at": "2026-10-17T20:27:08+00:00",
+        "usd": 0.00174905,
+        "note": "extract NF_cotherapist_note_2026-02-16"
+      },
+      {
+        "at": "2026-10-17T20:27:09+00:00",
+        "usd": 0.00168735,
+        "note": "extract NF_partner_session_2026-02-13"
+      },
+      {
+        "at": "2026-10-17T20:27:09+00:00",
+        "usd": 0.00176995,
+        "note": "extract NF_group_note_2026-02-18"
+      },
+      {
+        "at": "2026-10-17T20:27:09+00:00",
+        "usd": 0.00178815,
+        "note": "extract NF_prescriber_visit_2026-02-06"
+      },
+      {
+        "at": "2026-10-17T20:27:10+00:00",
+        "usd": 0.00182105,
+        "note": "extract NF_group_signin_2026-02-18"
+      },
+      {
+        "at": "2026-10-17T20:27:10+00:00",
+        "usd": 0.00055396,
+        "note": "extract NF_progress_note_2026-02-09"
+      },
+      {
+        "at": "2026-10-17T20:27:11+00:00",
+        "usd": 0.0005432599999999999,
+        "note": "extract NF_care_plan_2026-02-02"
+      },
+      {
+        "at": "2026-10-17T20:27:15+00:00",
+        "usd": 0.00078836,
+        "note": "extract NF_video_session_2026-02-17"
+      },
+      {
+        "at": "2026-10-17T20:27:15+00:00",
+        "usd": 0.00098246,
+        "note": "extract NF_progress_note_2026-02-16_primary"
+      },
+      {
+        "at": "2026-10-17T20:27:16+00:00",
+        "usd": 0.00114126,
+        "note": "extract NF_progress_note_2026-02-02"
+      },
+      {
+        "at": "2026-10-17T20:27:16+00:00",
+        "usd": 0.00104246,
+        "note": "extract NF_skills_group_2026-02-04"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 0.00103306,
+        "note": "extract NF_skills_group_2026-02-11"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 0.00106026,
+        "note": "extract NF_signin_correction_2026-02-19"
+      }
+    ]
+  },
+  "jev": {
+    "total_usd": 0.000696108,
+    "entries": [
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.581800000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.7162000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.691e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.8044e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.7624e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.7624e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.9472e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.964e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.9472e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.7582e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:27:17+00:00",
+        "usd": 5.867400000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      }
+    ]
+  }
+}
