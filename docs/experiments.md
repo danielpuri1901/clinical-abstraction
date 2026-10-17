@@ -97,6 +97,8 @@ Where a later run overwrote a result file, the earlier numbers come from git his
   This store is now the main store (version `0c78c0f988fd`).
 - Synthetic set: `experiments/tier-sonnet-run1/logs/ingest-20261017-224630.jsonl`.
   12 patients (SY-M07001 to SY-M07012), 156 files, 152 unique documents, 152 calls, $1.518866, 92.722 s.
+  The 156 files are the SY-M07001 to SY-M07012 files of `experiments/synthetic/documents/`.
+  The byte-identical copy in `experiments/tier-sonnet-run1/documents/` that the log names was removed on 2026-10-18.
   Score: 877 of 877 (`experiments/tier-claude-sonnet-5-5-run1.json`).
 - Haiku cost for the same 12 patients in the three tightened passes: $0.1366, $0.1325, and $0.1333 (mean $0.1341).
   Sonnet cost 11.3 times more.
