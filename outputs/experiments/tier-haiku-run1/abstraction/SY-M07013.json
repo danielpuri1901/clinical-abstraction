@@ -27,7 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07013_02_questionnaire_review L5",
+    "SY-M07013_02_questionnaire_review L5-6",
     "SY-M07013_02_questionnaire_review L8-9"
    ],
    "flags": []
@@ -52,7 +52,7 @@
    "excluded": [],
    "calculation": "14:00-14:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07013_10_service_record L5-8"
+    "SY-M07013_10_service_record L6-8"
    ],
    "flags": []
   },
@@ -74,8 +74,7 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07013_03_cancellation_notice L5-6",
-    "SY-M07013_03_cancellation_notice L8"
+    "SY-M07013_03_cancellation_notice L5-8"
    ],
    "flags": []
   },
@@ -99,7 +98,7 @@
    "excluded": [],
    "calculation": "16:00-16:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07013_10_service_record L10-13"
+    "SY-M07013_10_service_record L11-13"
    ],
    "flags": []
   },
@@ -123,7 +122,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07013_10_service_record L15-19"
+    "SY-M07013_10_service_record L16-19"
    ],
    "flags": []
   },
@@ -195,12 +194,11 @@
     "09:15-09:45"
    ],
    "excluded": [],
-   "calculation": "09:15-09:45 present (30 min) = 30 min; arrival time 09:00 corrected to 09:15 (SY-M07013_08_addendum L5-6)",
+   "calculation": "09:15-09:45 present (30 min) = 30 min; arrival time 09:00 corrected to 09:15 (SY-M07013_08_addendum L6)",
    "sources": [
     "SY-M07013_04_service_record L5-8",
     "SY-M07013_06_cotherapist_record L6-8",
-    "SY-M07013_08_addendum L5-6",
-    "SY-M07013_08_addendum L8"
+    "SY-M07013_08_addendum L6"
    ],
    "flags": []
   },
@@ -222,9 +220,10 @@
    "excluded": [],
    "calculation": "not delivered (no show)",
    "sources": [
-    "SY-M07013_10_service_record L33-36",
+    "SY-M07013_10_service_record L34-36",
     "SY-M07013_05_draft_and_charge L5",
-    "SY-M07013_05_draft_and_charge L8-11"
+    "SY-M07013_05_draft_and_charge L8-11",
+    "SY-M07013_05_draft_and_charge L14-17"
    ],
    "flags": [
     "charge_for_undelivered_service",
@@ -253,7 +252,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:40-11:00 = 20 min (SY-M07013_10_service_record L42) = 70 min",
    "sources": [
-    "SY-M07013_10_service_record L38-43"
+    "SY-M07013_10_service_record L39-43"
    ],
    "flags": []
   },
@@ -277,7 +276,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07013_10_service_record L45-48"
+    "SY-M07013_10_service_record L46-48"
    ],
    "flags": []
   },
@@ -351,7 +350,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07013_09_questionnaire_review L5-6",
     "SY-M07013_09_questionnaire_review L8-9"
    ],
    "flags": []
@@ -376,7 +374,7 @@
    "excluded": [],
    "calculation": "09:00-09:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07013_10_service_record L64-68"
+    "SY-M07013_10_service_record L65-68"
    ],
    "flags": []
   },
@@ -402,7 +400,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07013_10_service_record L74) = 75 min",
    "sources": [
-    "SY-M07013_10_service_record L70-75"
+    "SY-M07013_10_service_record L71-75"
    ],
    "flags": []
   }
@@ -482,14 +480,6 @@
   },
   {
    "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 17.",
-   "sources": [
-    "SY-M07013_02_questionnaire_review L6-7"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
    "category": "sleep",
    "text": "Presenting needs include irregular sleep.",
    "sources": [
@@ -497,19 +487,11 @@
    ]
   },
   {
-   "observed_on": "2026-02-09",
+   "observed_on": "2026-02-19",
    "category": "reason_for_contact",
-   "text": "The treatment team adjusted the intensity of care after the first two weeks.",
+   "text": "Medication review only; no psychotherapy was provided.",
    "sources": [
-    "SY-M07013_07_plan_update L7"
-   ]
-  },
-  {
-   "observed_on": "2026-02-18",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 14.",
-   "sources": [
-    "SY-M07013_09_questionnaire_review L6-7"
+    "SY-M07013_10_service_record L66-67"
    ]
   }
  ],
@@ -532,7 +514,7 @@
    "text": "Charge CH-0701308 (Group psychotherapy, status Posted, SY-M07013_05_draft_and_charge L14-17) is posted for SY-E0701308, which the signed records show as no show.",
    "citations": [
     "SY-M07013_05_draft_and_charge L14-17",
-    "SY-M07013_10_service_record L33-36",
+    "SY-M07013_10_service_record L34-36",
     "SY-M07013_05_draft_and_charge L5",
     "SY-M07013_05_draft_and_charge L8-11"
    ],
@@ -541,11 +523,12 @@
   {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "SY-E0701308",
-   "text": "SY-M07013_05_draft_and_charge L5, SY-M07013_05_draft_and_charge L8-11 (labelled draft or template) exists for SY-E0701308, which the signed records show as no show; it is not evidence that care was delivered.",
+   "text": "SY-M07013_05_draft_and_charge L5, SY-M07013_05_draft_and_charge L8-11; SY-M07013_05_draft_and_charge L14-17 (labelled billing charge, draft or template) exists for SY-E0701308, which the signed records show as no show; it is not evidence that care was delivered.",
    "citations": [
     "SY-M07013_05_draft_and_charge L5",
     "SY-M07013_05_draft_and_charge L8-11",
-    "SY-M07013_10_service_record L33-36"
+    "SY-M07013_05_draft_and_charge L14-17",
+    "SY-M07013_10_service_record L34-36"
    ],
    "settles": null
   }
@@ -695,7 +678,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 10,
   "documents_pending": 0
  }

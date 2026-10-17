@@ -27,7 +27,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07025_02_questionnaire_review L6",
     "SY-M07025_02_questionnaire_review L8-9"
    ],
    "flags": []
@@ -54,7 +53,7 @@
    ],
    "calculation": "13:15-14:30 present (75 min), minus break 13:40-13:50 = 10 min (SY-M07025_03_attendance_record L9) = 65 min; arrival time 13:00 corrected to 13:15 (SY-M07025_04_correction L5-6)",
    "sources": [
-    "SY-M07025_03_attendance_record L6-10",
+    "SY-M07025_03_attendance_record L5-10",
     "SY-M07025_04_correction L5-6"
    ],
    "flags": []
@@ -72,12 +71,14 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": "09:00-09:45 (45 min)",
-   "patient_present": [],
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:45"
+   ],
    "excluded": [],
-   "calculation": "45 minutes as stated (no times given)",
+   "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07025_05_service_record L6-8"
+    "SY-M07025_05_service_record L5-8"
    ],
    "flags": []
   },
@@ -99,7 +100,7 @@
    "excluded": [],
    "calculation": "collateral contact does not count toward the plan goal",
    "sources": [
-    "SY-M07025_08_service_record L5-8"
+    "SY-M07025_08_service_record L6-8"
    ],
    "flags": []
   },
@@ -123,7 +124,7 @@
    "excluded": [],
    "calculation": "14:00-14:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07025_08_service_record L10-14"
+    "SY-M07025_08_service_record L11-14"
    ],
    "flags": []
   },
@@ -149,7 +150,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-14:00 = 20 min (SY-M07025_08_service_record L20) = 70 min",
    "sources": [
-    "SY-M07025_08_service_record L16-21"
+    "SY-M07025_08_service_record L17-21"
    ],
    "flags": []
   },
@@ -171,8 +172,7 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07025_09_cancellation_notice L5-6",
-    "SY-M07025_09_cancellation_notice L8"
+    "SY-M07025_09_cancellation_notice L5-8"
    ],
    "flags": []
   },
@@ -194,11 +194,11 @@
     "16:15-16:50"
    ],
    "excluded": [],
-   "calculation": "16:15-16:50 present (35 min) = 35 min; arrival time 16:00 corrected to 16:15 (SY-M07025_12_addendum L6)",
+   "calculation": "16:15-16:50 present (35 min) = 35 min; arrival time 16:00 corrected to 16:15 (SY-M07025_12_addendum L5-6)",
    "sources": [
     "SY-M07025_10_service_record L5-8",
     "SY-M07025_11_cotherapist_record L6-8",
-    "SY-M07025_12_addendum L6"
+    "SY-M07025_12_addendum L5-6"
    ],
    "flags": []
   },
@@ -542,7 +542,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 14,
   "documents_pending": 0
  }

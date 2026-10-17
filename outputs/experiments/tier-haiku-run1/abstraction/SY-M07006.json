@@ -180,7 +180,8 @@
    "excluded": [],
    "calculation": "09:00-09:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07006_09_service_record L5-8"
+    "SY-M07006_09_service_record L5-6",
+    "SY-M07006_09_service_record L8"
    ],
    "flags": []
   },
@@ -278,6 +279,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07006_11_questionnaire_review L6",
     "SY-M07006_11_questionnaire_review L8-9"
    ],
    "flags": []
@@ -459,6 +461,7 @@
    "category": "reason_for_contact",
    "text": "Medication review visit; no psychotherapy was provided.",
    "sources": [
+    "SY-M07006_09_service_record L5",
     "SY-M07006_09_service_record L7"
    ]
   }
@@ -644,7 +647,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 14,
   "documents_pending": 0
  }

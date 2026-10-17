@@ -27,6 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07020_02_questionnaire_review L7",
     "SY-M07020_02_questionnaire_review L9-10"
    ],
    "flags": []
@@ -226,7 +227,6 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07020_07_cancellation_notice L4",
     "SY-M07020_07_cancellation_notice L6-9"
    ],
    "flags": [
@@ -277,7 +277,8 @@
    "sources": [
     "SY-M07020_10_service_record L30-32",
     "SY-M07020_08_draft_and_charge L6",
-    "SY-M07020_08_draft_and_charge L9-12"
+    "SY-M07020_08_draft_and_charge L9-12",
+    "SY-M07020_08_draft_and_charge L15-18"
    ],
    "flags": [
     "charge_for_undelivered_service",
@@ -302,7 +303,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07020_09_questionnaire_review L6-7",
+    "SY-M07020_09_questionnaire_review L6",
     "SY-M07020_09_questionnaire_review L9-10"
    ],
    "flags": []
@@ -393,7 +394,7 @@
    "total_score": 21,
    "copies": [],
    "sources": [
-    "SY-M07020_02_questionnaire_review L6-9"
+    "SY-M07020_02_questionnaire_review L6-8"
    ],
    "note": null
   },
@@ -427,19 +428,18 @@
   },
   {
    "observed_on": "2026-02-23",
-   "category": "mood",
-   "text": "Patient's PHQ-9 total score was 21.",
-   "sources": [
-    "SY-M07020_02_questionnaire_review L6",
-    "SY-M07020_02_questionnaire_review L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-23",
    "category": "sleep",
    "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07020_01_treatment_plan L9"
+   ]
+  },
+  {
+   "observed_on": "2026-03-09",
+   "category": "reason_for_contact",
+   "text": "The treatment team adjusted the intensity of care after the first two weeks.",
+   "sources": [
+    "SY-M07020_06_plan_update L8"
    ]
   }
  ],
@@ -471,12 +471,11 @@
   {
    "kind": "label_disputed",
    "encounter": "SY-E0702008",
-   "text": "The decision model reads SY-M07020_07_cancellation_notice L4, SY-M07020_07_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.94); the extraction says group_psychotherapy. That reading would not change whether SY-E0702008 counts.",
+   "text": "The decision model reads SY-M07020_07_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.94); the extraction says group_psychotherapy. That reading would not change whether SY-E0702008 counts.",
    "citations": [
-    "SY-M07020_07_cancellation_notice L4",
     "SY-M07020_07_cancellation_notice L6-9"
    ],
-   "settles": "A reviewer reading SY-M07020_07_cancellation_notice L4, SY-M07020_07_cancellation_notice L6-9, or a signed record stating the service type of SY-E0702008, would settle it."
+   "settles": "A reviewer reading SY-M07020_07_cancellation_notice L6-9, or a signed record stating the service type of SY-E0702008, would settle it."
   },
   {
    "kind": "possible_omission",
@@ -526,20 +525,17 @@
   {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "SY-E0702010",
-   "text": "SY-M07020_08_draft_and_charge L6, SY-M07020_08_draft_and_charge L9-12 (labelled draft or template) exists for SY-E0702010, which the signed records show as no show; it is not evidence that care was delivered.",
+   "text": "SY-M07020_08_draft_and_charge L6, SY-M07020_08_draft_and_charge L9-12; SY-M07020_08_draft_and_charge L15-18 (labelled billing charge, draft or template) exists for SY-E0702010, which the signed records show as no show; it is not evidence that care was delivered.",
    "citations": [
     "SY-M07020_08_draft_and_charge L6",
     "SY-M07020_08_draft_and_charge L9-12",
+    "SY-M07020_08_draft_and_charge L15-18",
     "SY-M07020_10_service_record L30-32"
    ],
    "settles": null
   }
  ],
  "coverage_notes": [
-  {
-   "citation": "SY-M07020_03_service_record L9",
-   "value": "10:00"
-  },
   {
    "citation": "SY-M07020_03_service_record L14",
    "value": "15:10"
@@ -722,7 +718,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 10,
   "documents_pending": 0
  }

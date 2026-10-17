@@ -139,10 +139,12 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": "09:00-09:45 (45 min)",
-   "patient_present": [],
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:45"
+   ],
    "excluded": [],
-   "calculation": "45 minutes as stated (no times given)",
+   "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
     "SY-M07005_08_service_record L6-8"
    ],
@@ -161,10 +163,12 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 50,
    "minutes_high": 50,
-   "scheduled": "09:00-09:50 (50 min)",
-   "patient_present": [],
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:50"
+   ],
    "excluded": [],
-   "calculation": "50 minutes as stated (no times given)",
+   "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
     "SY-M07005_08_service_record L10-12"
    ],
@@ -188,9 +192,9 @@
     "14:15-14:50"
    ],
    "excluded": [
-    "patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L16)"
+    "patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L15-16)"
    ],
-   "calculation": "14:15-14:50 present (35 min), minus patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L16) = 35 min",
+   "calculation": "14:15-14:50 present (35 min), minus patient not present 14:00-14:15 = 15 min (SY-M07005_08_service_record L15-16) = 35 min",
    "sources": [
     "SY-M07005_08_service_record L14-17"
    ],
@@ -214,7 +218,7 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07005_05_cancellation_notice L7-9"
+    "SY-M07005_05_cancellation_notice L6-9"
    ],
    "flags": [
     "label_disputed"
@@ -442,6 +446,8 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07005_12_questionnaire_review L3",
+    "SY-M07005_12_questionnaire_review L6",
     "SY-M07005_12_questionnaire_review L9-10"
    ],
    "flags": []
@@ -532,18 +538,26 @@
  "observations": [
   {
    "observed_on": "2026-02-02",
-   "category": "reason_for_contact",
-   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
+   "category": "anxiety",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07005_01_treatment_plan L9"
    ]
   },
   {
-   "observed_on": "2026-02-10",
-   "category": "reason_for_contact",
-   "text": "The skills group on this date was cancelled by the clinic due to staff illness.",
+   "observed_on": "2026-02-02",
+   "category": "mood",
+   "text": "Presenting needs include low mood.",
    "sources": [
-    "SY-M07005_05_cancellation_notice L7"
+    "SY-M07005_01_treatment_plan L9"
+   ]
+  },
+  {
+   "observed_on": "2026-02-02",
+   "category": "sleep",
+   "text": "Presenting needs include irregular sleep.",
+   "sources": [
+    "SY-M07005_01_treatment_plan L9"
    ]
   },
   {
@@ -560,11 +574,11 @@
   {
    "kind": "label_disputed",
    "encounter": "SY-E0700508",
-   "text": "The decision model reads SY-M07005_05_cancellation_notice L7-9 as service_type outreach_or_scheduling_call (confidence 0.96); the extraction says group_psychotherapy. That reading would not change whether SY-E0700508 counts.",
+   "text": "The decision model reads SY-M07005_05_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.96); the extraction says group_psychotherapy. That reading would not change whether SY-E0700508 counts.",
    "citations": [
-    "SY-M07005_05_cancellation_notice L7-9"
+    "SY-M07005_05_cancellation_notice L6-9"
    ],
-   "settles": "A reviewer reading SY-M07005_05_cancellation_notice L7-9, or a signed record stating the service type of SY-E0700508, would settle it."
+   "settles": "A reviewer reading SY-M07005_05_cancellation_notice L6-9, or a signed record stating the service type of SY-E0700508, would settle it."
   },
   {
    "kind": "possible_omission",
@@ -595,6 +609,10 @@
   }
  ],
  "coverage_notes": [
+  {
+   "citation": "SY-M07005_02_questionnaire_review L9",
+   "value": "09:05"
+  },
   {
    "citation": "SY-M07005_03_service_record L8",
    "value": "10:10"
@@ -808,7 +826,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 13,
   "documents_pending": 0
  }

@@ -27,7 +27,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07002_02_questionnaire_review L6",
     "SY-M07002_02_questionnaire_review L9-10"
    ],
    "flags": []
@@ -104,9 +103,9 @@
     "09:15-09:45"
    ],
    "excluded": [
-    "patient not present 09:00-09:15 = 15 min (SY-M07002_04_service_record L12-13)"
+    "patient not present 09:00-09:15 = 15 min (SY-M07002_04_service_record L13)"
    ],
-   "calculation": "09:15-09:45 present (30 min), minus patient not present 09:00-09:15 = 15 min (SY-M07002_04_service_record L12-13) = 30 min",
+   "calculation": "09:15-09:45 present (30 min), minus patient not present 09:00-09:15 = 15 min (SY-M07002_04_service_record L13) = 30 min",
    "sources": [
     "SY-M07002_04_service_record L11-14"
    ],
@@ -544,44 +543,10 @@
   },
   {
    "observed_on": "2026-02-09",
-   "category": "mood",
-   "text": "Patient self-reported PHQ-9 total score of 18 on the portal form.",
-   "sources": [
-    "SY-M07002_02_questionnaire_review L6-8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
    "category": "sleep",
    "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07002_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-03-02",
-   "category": "mood",
-   "text": "Patient's PHQ-9 total score was 12.",
-   "sources": [
-    "SY-M07002_10_questionnaire_review L8"
-   ]
-  },
-  {
-   "observed_on": "2026-03-02",
-   "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
-   "sources": [
-    "SY-M07002_11_service_record L6",
-    "SY-M07002_11_service_record L8"
-   ]
-  },
-  {
-   "observed_on": "2026-03-06",
-   "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
-   "sources": [
-    "SY-M07002_14_service_record L6",
-    "SY-M07002_14_service_record L8"
    ]
   }
  ],
@@ -781,7 +746,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 14,
   "documents_pending": 0
  }

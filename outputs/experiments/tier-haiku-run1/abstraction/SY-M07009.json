@@ -27,7 +27,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07009_02_questionnaire_review L5-6",
     "SY-M07009_02_questionnaire_review L8-9"
    ],
    "flags": []
@@ -40,7 +39,7 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended_partial",
+   "status": "attended",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 30,
@@ -117,7 +116,7 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
    "minutes_high": 40,
-   "scheduled": null,
+   "scheduled": "14:00-14:45 (45 min)",
    "patient_present": [
     "14:00-14:25",
     "14:30-14:45"
@@ -193,7 +192,7 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
    "minutes_high": 40,
-   "scheduled": null,
+   "scheduled": "09:00-09:45 (45 min)",
    "patient_present": [
     "09:00-09:15",
     "09:20-09:45"
@@ -295,13 +294,11 @@
     "09:15-09:50"
    ],
    "excluded": [],
-   "calculation": "09:15-09:50 present (35 min) = 35 min; arrival time 09:00 corrected to 09:15 (SY-M07009_09_addendum L6)",
+   "calculation": "09:15-09:50 present (35 min) = 35 min; arrival time 09:00 corrected to 09:15 (SY-M07009_09_addendum L5-6)",
    "sources": [
     "SY-M07009_07_service_record L5-7",
     "SY-M07009_08_cotherapist_record L5-7",
-    "SY-M07009_09_addendum L5-6",
-    "SY-M07009_09_addendum L8",
-    "SY-M07009_09_addendum L6"
+    "SY-M07009_09_addendum L5-6"
    ],
    "flags": []
   },
@@ -347,7 +344,6 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07009_10_questionnaire_review L2",
     "SY-M07009_10_questionnaire_review L8-9"
    ],
    "flags": []
@@ -461,11 +457,11 @@
    ]
   },
   {
-   "observed_on": "2026-02-23",
-   "category": "reason_for_contact",
-   "text": "The treatment team adjusted the intensity of care after the first two weeks.",
+   "observed_on": "2026-03-04",
+   "category": "mood",
+   "text": "Patient completed the PHQ-9 on the portal with a total score of 14.",
    "sources": [
-    "SY-M07009_06_plan_update L7"
+    "SY-M07009_10_questionnaire_review L5-7"
    ]
   }
  ],
@@ -693,7 +689,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 11,
   "documents_pending": 0
  }

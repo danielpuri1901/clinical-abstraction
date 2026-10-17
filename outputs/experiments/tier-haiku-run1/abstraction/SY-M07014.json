@@ -27,7 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07014_02_questionnaire_review L3",
+    "SY-M07014_02_questionnaire_review L6",
     "SY-M07014_02_questionnaire_review L9-10"
    ],
    "flags": []
@@ -91,10 +91,12 @@
    "reason": "medication management does not count toward the plan goal",
    "minutes_low": 20,
    "minutes_high": 20,
-   "scheduled": "14:00-14:20 (20 min)",
-   "patient_present": [],
+   "scheduled": null,
+   "patient_present": [
+    "14:00-14:20"
+   ],
    "excluded": [],
-   "calculation": "20 minutes as stated (no times given)",
+   "calculation": "14:00-14:20 present (20 min) = 20 min",
    "sources": [
     "SY-M07014_04_service_record L10-13"
    ],
@@ -339,6 +341,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07014_13_questionnaire_review L6-7",
     "SY-M07014_13_questionnaire_review L9-10"
    ],
    "flags": []
@@ -445,7 +448,7 @@
    "total_score": 12,
    "copies": [],
    "sources": [
-    "SY-M07014_02_questionnaire_review L6-8"
+    "SY-M07014_02_questionnaire_review L6-9"
    ],
    "note": null
   },
@@ -464,25 +467,17 @@
   {
    "observed_on": "2026-02-23",
    "category": "reason_for_contact",
-   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
+   "text": "Presenting needs include low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07014_01_treatment_plan L9"
    ]
   },
   {
-   "observed_on": "2026-02-23",
+   "observed_on": "2026-02-27",
    "category": "reason_for_contact",
-   "text": "Treatment combines individual, group, and family work.",
+   "text": "Collateral session held with partner Charlie only; the patient did not attend.",
    "sources": [
-    "SY-M07014_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-03-10",
-   "category": "reason_for_contact",
-   "text": "Collateral session held with partner Charlie; the patient did not attend.",
-   "sources": [
-    "SY-M07014_09_service_record L7"
+    "SY-M07014_04_service_record L7"
    ]
   }
  ],
@@ -514,6 +509,14 @@
   {
    "citation": "SY-M07014_12_service_record L9",
    "value": "15:45"
+  },
+  {
+   "citation": "SY-M07014_12_service_record L14",
+   "value": "12:05"
+  },
+  {
+   "citation": "SY-M07014_13_questionnaire_review L9",
+   "value": "10:08"
   },
   {
    "citation": "SY-M07014_14_service_record L9",
@@ -642,7 +645,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "44447ececf95",
+  "extractor_version": "d6d18c7eb1e3",
   "documents_extracted": 15,
   "documents_pending": 0
  }
