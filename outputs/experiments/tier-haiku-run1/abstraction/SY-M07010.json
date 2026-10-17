@@ -1,0 +1,671 @@
+{
+ "patient": {
+  "mrn": "SY-M07010",
+  "name": "Finley Ingram"
+ },
+ "review_period": {
+  "start": "2026-01-05",
+  "end": "2026-01-30",
+  "basis": "treatment plan dates (SY-M07010_01_treatment_plan L5-7)"
+ },
+ "encounters": [
+  {
+   "encounter": "2026-01-05 assessment_review",
+   "service_date": "2026-01-05",
+   "service_dates": [
+    "2026-01-05"
+   ],
+   "service_type": "assessment_review",
+   "modality": "unknown",
+   "status": "not_documented",
+   "counts_as_therapy": "no",
+   "reason": "assessment review does not count toward the plan goal",
+   "minutes_low": 0,
+   "minutes_high": 0,
+   "scheduled": null,
+   "patient_present": [],
+   "excluded": [],
+   "calculation": "assessment review does not count toward the plan goal",
+   "sources": [
+    "SY-M07010_02_questionnaire_review L6",
+    "SY-M07010_02_questionnaire_review L8-9"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701001",
+   "service_date": "2026-01-05",
+   "service_dates": [
+    "2026-01-05"
+   ],
+   "service_type": "medication_management",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "no",
+   "reason": "medication management does not count toward the plan goal",
+   "minutes_low": 20,
+   "minutes_high": 20,
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:20"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:20 present (20 min) = 20 min",
+   "sources": [
+    "SY-M07010_03_service_record L5-7",
+    "SY-M07010_03_service_record L9"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701002",
+   "service_date": "2026-01-06",
+   "service_dates": [
+    "2026-01-06"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": null,
+   "patient_present": [
+    "15:00-15:45"
+   ],
+   "excluded": [],
+   "calculation": "15:00-15:45 present (45 min) = 45 min",
+   "sources": [
+    "SY-M07010_04_service_record L5-8"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701003",
+   "service_date": "2026-01-07",
+   "service_dates": [
+    "2026-01-07"
+   ],
+   "service_type": "medication_management",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "no",
+   "reason": "medication management does not count toward the plan goal",
+   "minutes_low": 20,
+   "minutes_high": 20,
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:20"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:20 present (20 min) = 20 min",
+   "sources": [
+    "SY-M07010_05_service_record L5-9"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701004",
+   "service_date": "2026-01-08",
+   "service_dates": [
+    "2026-01-08"
+   ],
+   "service_type": "family_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 35,
+   "minutes_high": 35,
+   "scheduled": "16:00-16:45 (45 min)",
+   "patient_present": [
+    "16:10-16:45"
+   ],
+   "excluded": [
+    "patient not present 16:00-16:10 = 10 min (SY-M07010_05_service_record L14)"
+   ],
+   "calculation": "16:10-16:45 present (35 min), minus patient not present 16:00-16:10 = 10 min (SY-M07010_05_service_record L14) = 35 min",
+   "sources": [
+    "SY-M07010_05_service_record L12-16"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701005",
+   "service_date": "2026-01-09",
+   "service_dates": [
+    "2026-01-09"
+   ],
+   "service_type": "medication_management",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "no",
+   "reason": "medication management does not count toward the plan goal",
+   "minutes_low": 25,
+   "minutes_high": 25,
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:25"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:25 present (25 min) = 25 min",
+   "sources": [
+    "SY-M07010_05_service_record L18-22"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701006",
+   "service_date": "2026-01-12",
+   "service_dates": [
+    "2026-01-12"
+   ],
+   "service_type": "family_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
+   "scheduled": "09:00-09:50 (50 min)",
+   "patient_present": [
+    "09:00-09:50"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:50 present (50 min) = 50 min",
+   "sources": [
+    "SY-M07010_05_service_record L24-28"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701007",
+   "service_date": "2026-01-13",
+   "service_dates": [
+    "2026-01-13"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 75,
+   "minutes_high": 75,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [
+    "10:00-11:30"
+   ],
+   "excluded": [
+    "break 10:45-11:00 = 15 min (SY-M07010_06_service_record L9)"
+   ],
+   "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07010_06_service_record L9) = 75 min",
+   "sources": [
+    "SY-M07010_06_service_record L5-10"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701008",
+   "service_date": "2026-01-14",
+   "service_dates": [
+    "2026-01-14"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 70,
+   "minutes_high": 70,
+   "scheduled": "13:00-14:30 (90 min)",
+   "patient_present": [
+    "13:00-14:30"
+   ],
+   "excluded": [
+    "break 13:45-14:05 = 20 min (SY-M07010_07_service_record L9)"
+   ],
+   "calculation": "13:00-14:30 present (90 min), minus break 13:45-14:05 = 20 min (SY-M07010_07_service_record L9) = 70 min",
+   "sources": [
+    "SY-M07010_07_service_record L5-10"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701009",
+   "service_date": "2026-01-15",
+   "service_dates": [
+    "2026-01-15"
+   ],
+   "service_type": "family_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 35,
+   "minutes_high": 35,
+   "scheduled": "09:00-09:50 (50 min)",
+   "patient_present": [
+    "09:15-09:50"
+   ],
+   "excluded": [
+    "patient not present 09:00-09:15 = 15 min (SY-M07010_07_service_record L15)"
+   ],
+   "calculation": "09:15-09:50 present (35 min), minus patient not present 09:00-09:15 = 15 min (SY-M07010_07_service_record L15) = 35 min",
+   "sources": [
+    "SY-M07010_07_service_record L12-17"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701010",
+   "service_date": "2026-01-16",
+   "service_dates": [
+    "2026-01-16"
+   ],
+   "service_type": "medication_management",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "no",
+   "reason": "medication management does not count toward the plan goal",
+   "minutes_low": 15,
+   "minutes_high": 15,
+   "scheduled": null,
+   "patient_present": [
+    "16:00-16:15"
+   ],
+   "excluded": [],
+   "calculation": "16:00-16:15 present (15 min) = 15 min",
+   "sources": [
+    "SY-M07010_08_service_record L5-9"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701011",
+   "service_date": "2026-01-19",
+   "service_dates": [
+    "2026-01-19"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 70,
+   "minutes_high": 70,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [
+    "10:00-11:30"
+   ],
+   "excluded": [
+    "break 10:40-11:00 = 20 min (SY-M07010_09_service_record L9)"
+   ],
+   "calculation": "10:00-11:30 present (90 min), minus break 10:40-11:00 = 20 min (SY-M07010_09_service_record L9) = 70 min",
+   "sources": [
+    "SY-M07010_09_service_record L6-10"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701012",
+   "service_date": "2026-01-19",
+   "service_dates": [
+    "2026-01-19"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": null,
+   "patient_present": [
+    "14:00-14:45"
+   ],
+   "excluded": [],
+   "calculation": "14:00-14:45 present (45 min) = 45 min",
+   "sources": [
+    "SY-M07010_09_service_record L12-15"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701013",
+   "service_date": "2026-01-21",
+   "service_dates": [
+    "2026-01-21"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": null,
+   "patient_present": [
+    "09:00-09:45"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:45 present (45 min) = 45 min",
+   "sources": [
+    "SY-M07010_09_service_record L17-20"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701014",
+   "service_date": "2026-01-26",
+   "service_dates": [
+    "2026-01-26"
+   ],
+   "service_type": "individual_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 50,
+   "minutes_high": 50,
+   "scheduled": "15:00-15:50 (50 min)",
+   "patient_present": [
+    "15:00-15:50"
+   ],
+   "excluded": [],
+   "calculation": "15:00-15:50 present (50 min) = 50 min",
+   "sources": [
+    "SY-M07010_10_service_record L6-8"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701015",
+   "service_date": "2026-01-27",
+   "service_dates": [
+    "2026-01-27"
+   ],
+   "service_type": "family_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 45,
+   "minutes_high": 45,
+   "scheduled": "09:00-09:45 (45 min)",
+   "patient_present": [
+    "09:00-09:45"
+   ],
+   "excluded": [],
+   "calculation": "09:00-09:45 present (45 min) = 45 min",
+   "sources": [
+    "SY-M07010_12_service_record L5-9"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "2026-01-29 assessment_review",
+   "service_date": "2026-01-29",
+   "service_dates": [
+    "2026-01-29"
+   ],
+   "service_type": "assessment_review",
+   "modality": "unknown",
+   "status": "not_documented",
+   "counts_as_therapy": "no",
+   "reason": "assessment review does not count toward the plan goal",
+   "minutes_low": 0,
+   "minutes_high": 0,
+   "scheduled": null,
+   "patient_present": [],
+   "excluded": [],
+   "calculation": "assessment review does not count toward the plan goal",
+   "sources": [
+    "SY-M07010_11_questionnaire_review L5-6",
+    "SY-M07010_11_questionnaire_review L8-9"
+   ],
+   "flags": []
+  },
+  {
+   "encounter": "SY-E0701016",
+   "service_date": "2026-01-30",
+   "service_dates": [
+    "2026-01-30"
+   ],
+   "service_type": "group_psychotherapy",
+   "modality": "in_person",
+   "status": "attended",
+   "counts_as_therapy": "yes",
+   "reason": "patient-present psychotherapy of a counted type",
+   "minutes_low": 75,
+   "minutes_high": 75,
+   "scheduled": "10:00-11:30 (90 min)",
+   "patient_present": [
+    "10:00-11:30"
+   ],
+   "excluded": [
+    "break 10:45-11:00 = 15 min (SY-M07010_12_service_record L15)"
+   ],
+   "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07010_12_service_record L15) = 75 min",
+   "sources": [
+    "SY-M07010_12_service_record L11-16"
+   ],
+   "flags": []
+  }
+ ],
+ "plans": [
+  {
+   "effective_date": "2026-01-05",
+   "effective_end": "2026-01-30",
+   "min_days_per_week": 3,
+   "min_minutes_per_week": 150,
+   "week_start_day": 0,
+   "counted_service_types": [
+    "individual_psychotherapy",
+    "group_psychotherapy",
+    "family_psychotherapy"
+   ],
+   "sources": [
+    "SY-M07010_01_treatment_plan L5-7"
+   ],
+   "version": 1
+  }
+ ],
+ "assessments": [
+  {
+   "instrument": "PHQ-9",
+   "completed_on": "2026-01-05",
+   "total_score": 12,
+   "copies": [],
+   "sources": [
+    "SY-M07010_02_questionnaire_review L5-7"
+   ],
+   "note": null
+  },
+  {
+   "instrument": "PHQ-9",
+   "completed_on": "2026-01-29",
+   "total_score": 4,
+   "copies": [],
+   "sources": [
+    "SY-M07010_11_questionnaire_review L5-7"
+   ],
+   "note": null
+  }
+ ],
+ "observations": [
+  {
+   "observed_on": "2026-01-05",
+   "category": "anxiety",
+   "text": "Presenting need: worry about daily tasks.",
+   "sources": [
+    "SY-M07010_01_treatment_plan L8"
+   ]
+  },
+  {
+   "observed_on": "2026-01-05",
+   "category": "mood",
+   "text": "Presenting need: low mood.",
+   "sources": [
+    "SY-M07010_01_treatment_plan L8"
+   ]
+  },
+  {
+   "observed_on": "2026-01-05",
+   "category": "mood",
+   "text": "Patient-completed PHQ-9 total score was 12.",
+   "sources": [
+    "SY-M07010_02_questionnaire_review L6-7"
+   ]
+  },
+  {
+   "observed_on": "2026-01-05",
+   "category": "reason_for_contact",
+   "text": "Contact was a medication review only; no psychotherapy was provided.",
+   "sources": [
+    "SY-M07010_03_service_record L8"
+   ]
+  },
+  {
+   "observed_on": "2026-01-05",
+   "category": "sleep",
+   "text": "Presenting need: irregular sleep.",
+   "sources": [
+    "SY-M07010_01_treatment_plan L8"
+   ]
+  },
+  {
+   "observed_on": "2026-01-16",
+   "category": "reason_for_contact",
+   "text": "Medication review only; no psychotherapy was provided.",
+   "sources": [
+    "SY-M07010_08_service_record L8"
+   ]
+  }
+ ],
+ "charges": [],
+ "flags": [],
+ "coverage_notes": [],
+ "incomplete": [],
+ "weeks": [
+  {
+   "week_start": "2026-01-05",
+   "week_end": "2026-01-11",
+   "therapy_days_low": 2,
+   "therapy_days_high": 2,
+   "minutes_low": 80,
+   "minutes_high": 80,
+   "status": "not_met",
+   "explanation": "2 therapy days and 80 minutes miss the goal of 3 therapy days and 150 minutes (2 therapy days < 3; 80 minutes < 150)",
+   "plan_version": 1,
+   "encounters": [
+    "SY-E0701002",
+    "SY-E0701004"
+   ]
+  },
+  {
+   "week_start": "2026-01-12",
+   "week_end": "2026-01-18",
+   "therapy_days_low": 4,
+   "therapy_days_high": 4,
+   "minutes_low": 230,
+   "minutes_high": 230,
+   "status": "met",
+   "explanation": "4 therapy days and 230 minutes meet the goal of 3 therapy days and 150 minutes",
+   "plan_version": 1,
+   "encounters": [
+    "SY-E0701006",
+    "SY-E0701007",
+    "SY-E0701008",
+    "SY-E0701009"
+   ]
+  },
+  {
+   "week_start": "2026-01-19",
+   "week_end": "2026-01-25",
+   "therapy_days_low": 2,
+   "therapy_days_high": 2,
+   "minutes_low": 160,
+   "minutes_high": 160,
+   "status": "not_met",
+   "explanation": "2 therapy days and 160 minutes miss the goal of 3 therapy days and 150 minutes (2 therapy days < 3)",
+   "plan_version": 1,
+   "encounters": [
+    "SY-E0701011",
+    "SY-E0701012",
+    "SY-E0701013"
+   ]
+  },
+  {
+   "week_start": "2026-01-26",
+   "week_end": "2026-01-30",
+   "therapy_days_low": 3,
+   "therapy_days_high": 3,
+   "minutes_low": 170,
+   "minutes_high": 170,
+   "status": "met",
+   "explanation": "3 therapy days and 170 minutes meet the goal of 3 therapy days and 150 minutes; partial week (2026-01-26 to 2026-01-30) inside the review period",
+   "plan_version": 1,
+   "encounters": [
+    "SY-E0701014",
+    "SY-E0701015",
+    "SY-E0701016"
+   ]
+  }
+ ],
+ "consecutive_weeks_below_goal": {
+  "run_length": 2,
+  "established": [],
+  "depends_on_unresolved_records": []
+ },
+ "plan_versions_compared": {
+  "versions": [
+   {
+    "plan_version": 1,
+    "start": "2026-01-05",
+    "end": "2026-01-30",
+    "weeks": 3.71,
+    "goal_days": 3,
+    "goal_minutes": 150,
+    "sources": [
+     "SY-M07010_01_treatment_plan L5-7"
+    ],
+    "sessions_low": 12,
+    "sessions_high": 12,
+    "therapy_days_low": 11,
+    "therapy_days_high": 11,
+    "minutes_low": 640,
+    "minutes_high": 640,
+    "by_service_type": {
+     "individual_psychotherapy": {
+      "sessions_low": 4,
+      "sessions_high": 4,
+      "minutes_low": 185,
+      "minutes_high": 185
+     },
+     "family_psychotherapy": {
+      "sessions_low": 4,
+      "sessions_high": 4,
+      "minutes_low": 165,
+      "minutes_high": 165
+     },
+     "group_psychotherapy": {
+      "sessions_low": 4,
+      "sessions_high": 4,
+      "minutes_low": 290,
+      "minutes_high": 290
+     }
+    },
+    "minutes_per_week_low": 172.3,
+    "minutes_per_week_high": 172.3
+   }
+  ],
+  "note": "Only one treatment-plan version is documented, so there is no before and after change."
+ },
+ "built_with": {
+  "model": "claude-haiku-5-5",
+  "extractor_version": "44447ececf95",
+  "documents_extracted": 12,
+  "documents_pending": 0
+ }
+}
