@@ -167,6 +167,22 @@ def test_possible_omission_names_the_line():
     assert "11:40 and 11:45" in omissions[0]["text"]
 
 
+def test_possible_omission_only_inside_a_session_window():
+    # D1 books group E1 for 10:00-11:30. A stray 10:45 sits inside that window; a signature time and a date do not.
+    extra = "Room check 10:45\nSigned by the scheduler at 12:40\nRebooked for 2026-02-02\n"
+    docs = [replace(doc, text=doc.text + extra) if doc.doc_id == "D1" else doc for doc in mini_patient_docs()]
+    patient = build_patient("T-M001", docs)
+    omissions = [flag for flag in patient["flags"] if flag["kind"] == "possible_omission"]
+    assert [(flag["encounter"], flag["citations"]) for flag in omissions] == [("E1", ["D1 L4"])]
+    assert "10:45" in omissions[0]["text"]
+    # Every unreferenced value stays visible to a reviewer, flagged or not.
+    assert patient["coverage_notes"] == [
+        {"citation": "D1 L4", "value": "10:45"},
+        {"citation": "D1 L5", "value": "12:40"},
+        {"citation": "D1 L6", "value": "2026-02-02"},
+    ]
+
+
 def test_absent_words_in_a_note_marked_attended_hold_it_disputed():
     def contradicted(doc):
         event = doc.extraction.service_events[0].model_copy(update={"lines": [1, 3, 5]})
