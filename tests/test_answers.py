@@ -84,6 +84,9 @@ def test_executors_respect_filters_on_the_mini_patient(mini_store):
     assert "3 therapy sessions" in sessions[0][1]  # E1, E2, E3 count; E4 is a no-show
     missed = answers.run(mini_store, plan_for("sessions", attendance="missed_by_patient"))
     assert "1 missed" in missed[0][1] and "E4" in missed[0][1] and "E1" not in missed[0][1]
+    # A partner-only collateral call the patient did not join is not a session the patient missed.
+    assert not answers._matches({"status": "patient_absent", "service_type": "collateral_contact", "counts_as_therapy": "no"}, "missed_by_patient")
+    assert answers._matches({"status": "no_show", "service_type": "group_psychotherapy", "counts_as_therapy": "no"}, "missed_by_patient")
     group = answers.run(mini_store, plan_for("sessions", service_type="group_psychotherapy"))[0][1]
     assert "1 therapy session " in group and "E2" not in group and "E3" not in group
     week = DateRange(date(2026, 1, 19), date(2026, 1, 25), "2026-01-19 to 2026-01-25")

@@ -1,0 +1,1011 @@
+{
+  "claude": {
+    "total_usd": 0.16860960000000005,
+    "entries": [
+      {
+        "at": "2026-10-17T20:45:55+00:00",
+        "usd": 0.0004643,
+        "note": "extract SY-M07001_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:45:58+00:00",
+        "usd": 0.0007176,
+        "note": "extract SY-M07001_06_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:45:58+00:00",
+        "usd": 0.0008137999999999999,
+        "note": "extract SY-M07001_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:45:58+00:00",
+        "usd": 0.0008162,
+        "note": "extract SY-M07001_03_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:45:58+00:00",
+        "usd": 0.0008298,
+        "note": "extract SY-M07001_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:45:58+00:00",
+        "usd": 0.0008571000000000001,
+        "note": "extract SY-M07001_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:45:59+00:00",
+        "usd": 0.0008459,
+        "note": "extract SY-M07001_04_correction"
+      },
+      {
+        "at": "2026-10-17T20:46:00+00:00",
+        "usd": 0.0010355999999999998,
+        "note": "extract SY-M07001_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:00+00:00",
+        "usd": 0.0007415,
+        "note": "extract SY-M07001_09_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:01+00:00",
+        "usd": 0.0004937,
+        "note": "extract SY-M07002_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:03+00:00",
+        "usd": 0.0007683,
+        "note": "extract SY-M07002_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:04+00:00",
+        "usd": 0.0008746,
+        "note": "extract SY-M07001_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:04+00:00",
+        "usd": 0.0009042999999999999,
+        "note": "extract SY-M07002_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:05+00:00",
+        "usd": 0.0007888,
+        "note": "extract SY-M07002_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:05+00:00",
+        "usd": 0.0007093,
+        "note": "extract SY-M07002_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:06+00:00",
+        "usd": 0.0004738,
+        "note": "extract SY-M07002_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:06+00:00",
+        "usd": 0.0013072000000000001,
+        "note": "extract SY-M07001_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:07+00:00",
+        "usd": 0.0004072,
+        "note": "extract SY-M07002_12_addendum"
+      },
+      {
+        "at": "2026-10-17T20:46:08+00:00",
+        "usd": 0.0012637,
+        "note": "extract SY-M07002_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:08+00:00",
+        "usd": 0.0007295,
+        "note": "extract SY-M07002_08_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:09+00:00",
+        "usd": 0.00046960000000000003,
+        "note": "extract SY-M07002_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:10+00:00",
+        "usd": 0.0008372999999999999,
+        "note": "extract SY-M07002_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:10+00:00",
+        "usd": 0.0016972,
+        "note": "extract SY-M07002_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:11+00:00",
+        "usd": 0.0006777,
+        "note": "extract SY-M07002_13_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:46:11+00:00",
+        "usd": 0.0004727,
+        "note": "extract SY-M07003_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:11+00:00",
+        "usd": 0.0009111,
+        "note": "extract SY-M07002_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:13+00:00",
+        "usd": 0.0008361,
+        "note": "extract SY-M07003_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:14+00:00",
+        "usd": 0.0007126,
+        "note": "extract SY-M07003_04_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:14+00:00",
+        "usd": 0.0008948,
+        "note": "extract SY-M07003_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:14+00:00",
+        "usd": 0.0004642,
+        "note": "extract SY-M07003_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:16+00:00",
+        "usd": 0.0007395,
+        "note": "extract SY-M07003_06_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:46:18+00:00",
+        "usd": 0.0005319,
+        "note": "extract SY-M07004_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:19+00:00",
+        "usd": 0.0007838,
+        "note": "extract SY-M07003_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:19+00:00",
+        "usd": 0.0014864000000000001,
+        "note": "extract SY-M07003_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:20+00:00",
+        "usd": 0.0009993,
+        "note": "extract SY-M07003_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:21+00:00",
+        "usd": 0.0015830999999999998,
+        "note": "extract SY-M07003_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:22+00:00",
+        "usd": 0.001181,
+        "note": "extract SY-M07003_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:22+00:00",
+        "usd": 0.0018857000000000001,
+        "note": "extract SY-M07002_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:22+00:00",
+        "usd": 0.0013265,
+        "note": "extract SY-M07003_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:23+00:00",
+        "usd": 0.0004666,
+        "note": "extract SY-M07004_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:24+00:00",
+        "usd": 0.0004714,
+        "note": "extract SY-M07004_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:24+00:00",
+        "usd": 0.0007687000000000001,
+        "note": "extract SY-M07004_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:24+00:00",
+        "usd": 0.000475,
+        "note": "extract SY-M07004_07_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:24+00:00",
+        "usd": 0.0007994,
+        "note": "extract SY-M07004_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:25+00:00",
+        "usd": 0.0004966,
+        "note": "extract SY-M07004_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:25+00:00",
+        "usd": 0.0010027,
+        "note": "extract SY-M07004_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:26+00:00",
+        "usd": 0.0006062999999999999,
+        "note": "extract SY-M07004_09_addendum"
+      },
+      {
+        "at": "2026-10-17T20:46:27+00:00",
+        "usd": 0.0007318,
+        "note": "extract SY-M07004_10_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:46:28+00:00",
+        "usd": 0.0005364,
+        "note": "extract SY-M07005_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:28+00:00",
+        "usd": 0.0006874,
+        "note": "extract SY-M07004_11_correction"
+      },
+      {
+        "at": "2026-10-17T20:46:29+00:00",
+        "usd": 0.0007237999999999999,
+        "note": "extract SY-M07004_15_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:30+00:00",
+        "usd": 0.0008433,
+        "note": "extract SY-M07004_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:30+00:00",
+        "usd": 0.0008462000000000001,
+        "note": "extract SY-M07004_14_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:31+00:00",
+        "usd": 0.0008075,
+        "note": "extract SY-M07005_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:32+00:00",
+        "usd": 0.0011289000000000002,
+        "note": "extract SY-M07004_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:32+00:00",
+        "usd": 0.00048560000000000004,
+        "note": "extract SY-M07005_07_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:46:33+00:00",
+        "usd": 0.0006961000000000001,
+        "note": "extract SY-M07005_05_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:46:33+00:00",
+        "usd": 0.0008315,
+        "note": "extract SY-M07005_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:34+00:00",
+        "usd": 0.0011496,
+        "note": "extract SY-M07005_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:35+00:00",
+        "usd": 0.0008206,
+        "note": "extract SY-M07005_06_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:46:37+00:00",
+        "usd": 0.0007578,
+        "note": "extract SY-M07005_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:37+00:00",
+        "usd": 0.0005339,
+        "note": "extract SY-M07006_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:38+00:00",
+        "usd": 0.000821,
+        "note": "extract SY-M07005_12_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:39+00:00",
+        "usd": 0.00114,
+        "note": "extract SY-M07005_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:40+00:00",
+        "usd": 0.0004715,
+        "note": "extract SY-M07006_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:40+00:00",
+        "usd": 0.0011446,
+        "note": "extract SY-M07005_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:40+00:00",
+        "usd": 0.0015174000000000001,
+        "note": "extract SY-M07005_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:40+00:00",
+        "usd": 0.0007956,
+        "note": "extract SY-M07006_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:41+00:00",
+        "usd": 0.0011632,
+        "note": "extract SY-M07005_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:42+00:00",
+        "usd": 0.0007626,
+        "note": "extract SY-M07006_04_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:43+00:00",
+        "usd": 0.0005821,
+        "note": "extract SY-M07006_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:44+00:00",
+        "usd": 0.0009644,
+        "note": "extract SY-M07006_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:44+00:00",
+        "usd": 0.0006538,
+        "note": "extract SY-M07006_08_correction"
+      },
+      {
+        "at": "2026-10-17T20:46:45+00:00",
+        "usd": 0.0008493,
+        "note": "extract SY-M07006_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:46+00:00",
+        "usd": 0.0007685,
+        "note": "extract SY-M07006_07_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:46:46+00:00",
+        "usd": 0.0008476,
+        "note": "extract SY-M07006_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:47+00:00",
+        "usd": 0.0010731,
+        "note": "extract SY-M07006_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:47+00:00",
+        "usd": 0.0005323,
+        "note": "extract SY-M07007_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:50+00:00",
+        "usd": 0.0011145999999999999,
+        "note": "extract SY-M07006_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:50+00:00",
+        "usd": 0.0008331,
+        "note": "extract SY-M07006_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:51+00:00",
+        "usd": 0.0011409,
+        "note": "extract SY-M07006_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:51+00:00",
+        "usd": 0.0008996000000000001,
+        "note": "extract SY-M07007_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:52+00:00",
+        "usd": 0.0007361000000000001,
+        "note": "extract SY-M07007_06_correction"
+      },
+      {
+        "at": "2026-10-17T20:46:52+00:00",
+        "usd": 0.0008248999999999999,
+        "note": "extract SY-M07007_05_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:46:54+00:00",
+        "usd": 0.000497,
+        "note": "extract SY-M07007_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:54+00:00",
+        "usd": 0.0011768,
+        "note": "extract SY-M07007_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:55+00:00",
+        "usd": 0.0013899000000000001,
+        "note": "extract SY-M07007_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:56+00:00",
+        "usd": 0.0004921,
+        "note": "extract SY-M07008_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:58+00:00",
+        "usd": 0.0010045,
+        "note": "extract SY-M07007_09_draft_and_charge"
+      },
+      {
+        "at": "2026-10-17T20:46:58+00:00",
+        "usd": 0.0012749,
+        "note": "extract SY-M07007_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:58+00:00",
+        "usd": 0.0008631,
+        "note": "extract SY-M07007_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:58+00:00",
+        "usd": 0.001288,
+        "note": "extract SY-M07007_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:59+00:00",
+        "usd": 0.00048330000000000004,
+        "note": "extract SY-M07008_04_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:00+00:00",
+        "usd": 0.0012,
+        "note": "extract SY-M07007_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.0009457000000000001,
+        "note": "extract SY-M07008_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.0004702,
+        "note": "extract SY-M07008_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.000494,
+        "note": "extract SY-M07008_08_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:02+00:00",
+        "usd": 0.0003993,
+        "note": "extract SY-M07008_10_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:02+00:00",
+        "usd": 0.0006967999999999999,
+        "note": "extract SY-M07008_05_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:47:03+00:00",
+        "usd": 0.0007432000000000001,
+        "note": "extract SY-M07008_06_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:47:04+00:00",
+        "usd": 0.0005339,
+        "note": "extract SY-M07009_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:05+00:00",
+        "usd": 0.0008891,
+        "note": "extract SY-M07008_09_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:05+00:00",
+        "usd": 0.0003997,
+        "note": "extract SY-M07009_04_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:05+00:00",
+        "usd": 0.0016928,
+        "note": "extract SY-M07008_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:06+00:00",
+        "usd": 0.0008562,
+        "note": "extract SY-M07008_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:07+00:00",
+        "usd": 0.00048330000000000004,
+        "note": "extract SY-M07009_06_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:07+00:00",
+        "usd": 0.0004715,
+        "note": "extract SY-M07009_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:08+00:00",
+        "usd": 0.0008446,
+        "note": "extract SY-M07009_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:08+00:00",
+        "usd": 0.0008484,
+        "note": "extract SY-M07009_03_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:09+00:00",
+        "usd": 0.00040090000000000004,
+        "note": "extract SY-M07009_09_addendum"
+      },
+      {
+        "at": "2026-10-17T20:47:10+00:00",
+        "usd": 0.0015375999999999999,
+        "note": "extract SY-M07008_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:11+00:00",
+        "usd": 0.0004893,
+        "note": "extract SY-M07010_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:11+00:00",
+        "usd": 0.0007292,
+        "note": "extract SY-M07009_08_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:12+00:00",
+        "usd": 0.0007716,
+        "note": "extract SY-M07009_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:13+00:00",
+        "usd": 0.0004624,
+        "note": "extract SY-M07010_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:13+00:00",
+        "usd": 0.0004708,
+        "note": "extract SY-M07010_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:15+00:00",
+        "usd": 0.0008056000000000001,
+        "note": "extract SY-M07010_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:16+00:00",
+        "usd": 0.0016862000000000001,
+        "note": "extract SY-M07009_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:17+00:00",
+        "usd": 0.0007209,
+        "note": "extract SY-M07010_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:18+00:00",
+        "usd": 0.0020628,
+        "note": "extract SY-M07008_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:18+00:00",
+        "usd": 0.0016483,
+        "note": "extract SY-M07009_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:18+00:00",
+        "usd": 0.0008124,
+        "note": "extract SY-M07010_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:19+00:00",
+        "usd": 0.0011125999999999998,
+        "note": "extract SY-M07010_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:20+00:00",
+        "usd": 0.0004723,
+        "note": "extract SY-M07010_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:21+00:00",
+        "usd": 0.0004921,
+        "note": "extract SY-M07011_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:21+00:00",
+        "usd": 0.00148,
+        "note": "extract SY-M07010_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:22+00:00",
+        "usd": 0.0004732,
+        "note": "extract SY-M07011_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:23+00:00",
+        "usd": 0.0012527999999999999,
+        "note": "extract SY-M07010_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:24+00:00",
+        "usd": 0.0008476,
+        "note": "extract SY-M07010_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:25+00:00",
+        "usd": 0.0007782,
+        "note": "extract SY-M07011_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:25+00:00",
+        "usd": 0.000683,
+        "note": "extract SY-M07011_04_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:26+00:00",
+        "usd": 0.001126,
+        "note": "extract SY-M07010_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:27+00:00",
+        "usd": 0.0006862999999999999,
+        "note": "extract SY-M07011_07_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:28+00:00",
+        "usd": 0.0019107,
+        "note": "extract SY-M07009_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:28+00:00",
+        "usd": 0.0008447999999999999,
+        "note": "extract SY-M07011_06_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:47:29+00:00",
+        "usd": 0.0012817,
+        "note": "extract SY-M07011_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:30+00:00",
+        "usd": 0.0005348,
+        "note": "extract SY-M07012_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.00047840000000000003,
+        "note": "extract SY-M07012_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.0009712999999999999,
+        "note": "extract SY-M07011_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.0011067,
+        "note": "extract SY-M07011_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.0007977,
+        "note": "extract SY-M07011_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:32+00:00",
+        "usd": 0.0011048,
+        "note": "extract SY-M07011_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:34+00:00",
+        "usd": 0.0008415,
+        "note": "extract SY-M07012_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:34+00:00",
+        "usd": 0.0004739,
+        "note": "extract SY-M07012_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:34+00:00",
+        "usd": 0.0004739,
+        "note": "extract SY-M07012_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:34+00:00",
+        "usd": 0.0006839,
+        "note": "extract SY-M07012_05_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:35+00:00",
+        "usd": 0.0008566,
+        "note": "extract SY-M07012_04_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:37+00:00",
+        "usd": 0.0008233,
+        "note": "extract SY-M07012_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:37+00:00",
+        "usd": 0.0008377,
+        "note": "extract SY-M07012_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:37+00:00",
+        "usd": 0.0004739,
+        "note": "extract SY-M07012_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:38+00:00",
+        "usd": 0.0010524,
+        "note": "extract SY-M07012_06_resent_copy"
+      },
+      {
+        "at": "2026-10-17T20:47:40+00:00",
+        "usd": 0.0005323999999999999,
+        "note": "extract SY-M07013_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:40+00:00",
+        "usd": 0.0008196,
+        "note": "extract SY-M07012_15_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:41+00:00",
+        "usd": 0.00047290000000000006,
+        "note": "extract SY-M07013_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:41+00:00",
+        "usd": 0.000944,
+        "note": "extract SY-M07012_13_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:41+00:00",
+        "usd": 0.0010204,
+        "note": "extract SY-M07012_11_draft_and_charge"
+      },
+      {
+        "at": "2026-10-17T20:47:41+00:00",
+        "usd": 0.0011077,
+        "note": "extract SY-M07012_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:42+00:00",
+        "usd": 0.0007407000000000001,
+        "note": "extract SY-M07013_03_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:47:43+00:00",
+        "usd": 0.0004768,
+        "note": "extract SY-M07013_06_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:43+00:00",
+        "usd": 0.00040280000000000003,
+        "note": "extract SY-M07013_08_addendum"
+      },
+      {
+        "at": "2026-10-17T20:47:43+00:00",
+        "usd": 0.0009367000000000001,
+        "note": "extract SY-M07013_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:45+00:00",
+        "usd": 0.0005347,
+        "note": "extract SY-M07014_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:45+00:00",
+        "usd": 0.0006535,
+        "note": "extract SY-M07013_07_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:45+00:00",
+        "usd": 0.0004708,
+        "note": "extract SY-M07014_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:46+00:00",
+        "usd": 0.0008282000000000001,
+        "note": "extract SY-M07013_09_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:47+00:00",
+        "usd": 0.0009995,
+        "note": "extract SY-M07013_05_draft_and_charge"
+      },
+      {
+        "at": "2026-10-17T20:47:47+00:00",
+        "usd": 0.0003999,
+        "note": "extract SY-M07014_06_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:47+00:00",
+        "usd": 0.00048510000000000003,
+        "note": "extract SY-M07014_05_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:49+00:00",
+        "usd": 0.0004646,
+        "note": "extract SY-M07014_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:49+00:00",
+        "usd": 0.0008927999999999999,
+        "note": "extract SY-M07014_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:49+00:00",
+        "usd": 0.0009292,
+        "note": "extract SY-M07014_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:50+00:00",
+        "usd": 0.0004708,
+        "note": "extract SY-M07014_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:50+00:00",
+        "usd": 0.0004738,
+        "note": "extract SY-M07014_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:51+00:00",
+        "usd": 0.0007918,
+        "note": "extract SY-M07014_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:53+00:00",
+        "usd": 0.0017638,
+        "note": "extract SY-M07013_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:53+00:00",
+        "usd": 0.0010187,
+        "note": "extract SY-M07014_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:54+00:00",
+        "usd": 0.0006963,
+        "note": "extract SY-M07014_15_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:55+00:00",
+        "usd": 0.0008108,
+        "note": "extract SY-M07014_13_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 0.0008142000000000001,
+        "note": "extract SY-M07015_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 0.0009632999999999999,
+        "note": "extract SY-M07014_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 0.0010783,
+        "note": "extract SY-M07014_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 0.0009399,
+        "note": "extract SY-M07015_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 0.0004713,
+        "note": "extract SY-M07015_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 0.0007877,
+        "note": "extract SY-M07015_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 0.0010697999999999999,
+        "note": "extract SY-M07015_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 0.0007361000000000001,
+        "note": "extract SY-M07015_08_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 0.0008482,
+        "note": "extract SY-M07015_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 0.0012790999999999998,
+        "note": "extract SY-M07015_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 0.0008252,
+        "note": "extract SY-M07015_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 0.0007247999999999999,
+        "note": "extract SY-M07015_10_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:48:04+00:00",
+        "usd": 0.0005323999999999999,
+        "note": "extract SY-M07016_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:48:05+00:00",
+        "usd": 0.0004714,
+        "note": "extract SY-M07016_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:06+00:00",
+        "usd": 0.0003991,
+        "note": "extract SY-M07016_06_correction"
+      },
+      {
+        "at": "2026-10-17T20:48:07+00:00",
+        "usd": 0.0008944,
+        "note": "extract SY-M07015_12_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:07+00:00",
+        "usd": 0.0025653000000000004,
+        "note": "extract SY-M07013_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:07+00:00",
+        "usd": 0.0011729000000000002,
+        "note": "extract SY-M07015_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:08+00:00",
+        "usd": 0.0009047,
+        "note": "extract SY-M07016_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:48:09+00:00",
+        "usd": 0.0008709,
+        "note": "extract SY-M07016_05_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:48:09+00:00",
+        "usd": 0.0004649,
+        "note": "extract SY-M07016_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:48:09+00:00",
+        "usd": 0.001033,
+        "note": "extract SY-M07016_03_service_record"
+      }
+    ]
+  },
+  "jev": {
+    "total_usd": 0.0,
+    "entries": []
+  }
+}

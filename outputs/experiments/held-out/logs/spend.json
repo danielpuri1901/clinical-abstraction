@@ -310,7 +310,7 @@
     ]
   },
   "jev": {
-    "total_usd": 0.0034432440000000003,
+    "total_usd": 0.003486924,
     "entries": [
       {
         "at": "2026-10-17T20:27:17+00:00",
@@ -611,6 +611,11 @@
         "at": "2026-10-17T20:41:24+00:00",
         "usd": 5.6322e-05,
         "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:19+00:00",
+        "usd": 4.368e-05,
+        "note": "jev metric, attendance, service_type, group_by"
       }
     ]
   }

@@ -91,11 +91,16 @@ def _flag_line(flag) -> str:
 # ---- Sessions, minutes, and days ----
 
 
+# Contacts the patient is not expected to attend in person: a partner-only collateral call or a care-coordination call is
+# not a session the patient "missed", even when the record marks the patient absent.
+NOT_PATIENT_APPOINTMENTS = {"collateral_contact", "care_coordination", "outreach_or_scheduling_call", "administrative", "assessment_review"}
+
+
 def _matches(row: dict, attendance: str) -> bool:
     if attendance == "attended":
         return row["counts_as_therapy"] != "no"
     if attendance == "missed_by_patient":
-        return row["status"] in MISSED
+        return row["status"] in MISSED and row["service_type"] not in NOT_PATIENT_APPOINTMENTS
     if attendance == "cancelled_by_clinic":
         return row["status"] == "cancelled_by_clinic"
     return True

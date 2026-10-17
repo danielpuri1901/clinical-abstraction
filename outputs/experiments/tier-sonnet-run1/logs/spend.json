@@ -1,0 +1,1777 @@
+{
+  "claude": {
+    "total_usd": 1.5188659999999994,
+    "entries": [
+      {
+        "at": "2026-10-17T20:46:34+00:00",
+        "usd": 0.007087,
+        "note": "extract SY-M07001_04_correction"
+      },
+      {
+        "at": "2026-10-17T20:46:34+00:00",
+        "usd": 0.008565,
+        "note": "extract SY-M07001_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:34+00:00",
+        "usd": 0.008973,
+        "note": "extract SY-M07001_03_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:46:35+00:00",
+        "usd": 0.008935,
+        "note": "extract SY-M07001_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:35+00:00",
+        "usd": 0.008991,
+        "note": "extract SY-M07001_06_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:46:35+00:00",
+        "usd": 0.009251,
+        "note": "extract SY-M07001_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:35+00:00",
+        "usd": 0.009585,
+        "note": "extract SY-M07001_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:35+00:00",
+        "usd": 0.010981,
+        "note": "extract SY-M07001_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:38+00:00",
+        "usd": 0.008569,
+        "note": "extract SY-M07001_09_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:39+00:00",
+        "usd": 0.008695,
+        "note": "extract SY-M07002_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:39+00:00",
+        "usd": 0.009341,
+        "note": "extract SY-M07001_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:39+00:00",
+        "usd": 0.009315,
+        "note": "extract SY-M07002_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:39+00:00",
+        "usd": 0.009673,
+        "note": "extract SY-M07002_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:40+00:00",
+        "usd": 0.011563,
+        "note": "extract SY-M07002_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:41+00:00",
+        "usd": 0.016113,
+        "note": "extract SY-M07001_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:42+00:00",
+        "usd": 0.008785,
+        "note": "extract SY-M07002_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:42+00:00",
+        "usd": 0.008629,
+        "note": "extract SY-M07002_08_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:43+00:00",
+        "usd": 0.008485,
+        "note": "extract SY-M07002_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:43+00:00",
+        "usd": 0.008525,
+        "note": "extract SY-M07002_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:43+00:00",
+        "usd": 0.009315,
+        "note": "extract SY-M07002_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:44+00:00",
+        "usd": 0.010881,
+        "note": "extract SY-M07002_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:45+00:00",
+        "usd": 0.023703,
+        "note": "extract SY-M07002_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:46+00:00",
+        "usd": 0.009243,
+        "note": "extract SY-M07002_12_addendum"
+      },
+      {
+        "at": "2026-10-17T20:46:46+00:00",
+        "usd": 0.009043,
+        "note": "extract SY-M07002_13_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:46:46+00:00",
+        "usd": 0.008491,
+        "note": "extract SY-M07002_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:46+00:00",
+        "usd": 0.008821,
+        "note": "extract SY-M07003_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:47+00:00",
+        "usd": 0.009345,
+        "note": "extract SY-M07003_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:48+00:00",
+        "usd": 0.008503,
+        "note": "extract SY-M07003_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:48+00:00",
+        "usd": 0.008591,
+        "note": "extract SY-M07003_04_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:49+00:00",
+        "usd": 0.007549,
+        "note": "extract SY-M07003_06_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:46:50+00:00",
+        "usd": 0.008223,
+        "note": "extract SY-M07003_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:51+00:00",
+        "usd": 0.013817,
+        "note": "extract SY-M07003_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:51+00:00",
+        "usd": 0.011329,
+        "note": "extract SY-M07003_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:51+00:00",
+        "usd": 0.011169,
+        "note": "extract SY-M07003_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:52+00:00",
+        "usd": 0.014191,
+        "note": "extract SY-M07003_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:52+00:00",
+        "usd": 0.009295,
+        "note": "extract SY-M07003_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:53+00:00",
+        "usd": 0.009587,
+        "note": "extract SY-M07004_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:46:53+00:00",
+        "usd": 0.011495,
+        "note": "extract SY-M07003_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:54+00:00",
+        "usd": 0.009303,
+        "note": "extract SY-M07004_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:46:55+00:00",
+        "usd": 0.008947,
+        "note": "extract SY-M07004_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:55+00:00",
+        "usd": 0.008451,
+        "note": "extract SY-M07004_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:56+00:00",
+        "usd": 0.008497,
+        "note": "extract SY-M07004_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:56+00:00",
+        "usd": 0.008569,
+        "note": "extract SY-M07004_07_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:46:56+00:00",
+        "usd": 0.013283,
+        "note": "extract SY-M07004_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:57+00:00",
+        "usd": 0.007165,
+        "note": "extract SY-M07004_09_addendum"
+      },
+      {
+        "at": "2026-10-17T20:46:57+00:00",
+        "usd": 0.009111,
+        "note": "extract SY-M07004_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:46:58+00:00",
+        "usd": 0.007077,
+        "note": "extract SY-M07004_11_correction"
+      },
+      {
+        "at": "2026-10-17T20:46:58+00:00",
+        "usd": 0.008985,
+        "note": "extract SY-M07004_10_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:46:59+00:00",
+        "usd": 0.008575,
+        "note": "extract SY-M07004_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:00+00:00",
+        "usd": 0.009263,
+        "note": "extract SY-M07004_14_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:00+00:00",
+        "usd": 0.008535,
+        "note": "extract SY-M07004_15_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.009677,
+        "note": "extract SY-M07005_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.009339,
+        "note": "extract SY-M07005_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.011417,
+        "note": "extract SY-M07004_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:01+00:00",
+        "usd": 0.008509,
+        "note": "extract SY-M07005_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:02+00:00",
+        "usd": 0.008441,
+        "note": "extract SY-M07005_05_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:47:03+00:00",
+        "usd": 0.013091,
+        "note": "extract SY-M07005_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:03+00:00",
+        "usd": 0.007551,
+        "note": "extract SY-M07005_06_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:47:04+00:00",
+        "usd": 0.008141,
+        "note": "extract SY-M07005_07_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:05+00:00",
+        "usd": 0.008815,
+        "note": "extract SY-M07005_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:06+00:00",
+        "usd": 0.011259,
+        "note": "extract SY-M07005_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:06+00:00",
+        "usd": 0.011101,
+        "note": "extract SY-M07005_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:07+00:00",
+        "usd": 0.009359,
+        "note": "extract SY-M07005_12_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:08+00:00",
+        "usd": 0.016287,
+        "note": "extract SY-M07005_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:08+00:00",
+        "usd": 0.009627,
+        "note": "extract SY-M07006_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:08+00:00",
+        "usd": 0.009331,
+        "note": "extract SY-M07006_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:09+00:00",
+        "usd": 0.008479,
+        "note": "extract SY-M07006_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:09+00:00",
+        "usd": 0.013383,
+        "note": "extract SY-M07005_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:10+00:00",
+        "usd": 0.008501,
+        "note": "extract SY-M07006_04_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:10+00:00",
+        "usd": 0.009055,
+        "note": "extract SY-M07006_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:11+00:00",
+        "usd": 0.010897,
+        "note": "extract SY-M07006_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:11+00:00",
+        "usd": 0.007105,
+        "note": "extract SY-M07006_08_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:12+00:00",
+        "usd": 0.009039,
+        "note": "extract SY-M07006_07_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:13+00:00",
+        "usd": 0.011351,
+        "note": "extract SY-M07006_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:13+00:00",
+        "usd": 0.009301,
+        "note": "extract SY-M07006_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:14+00:00",
+        "usd": 0.010911,
+        "note": "extract SY-M07006_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:14+00:00",
+        "usd": 0.010691,
+        "note": "extract SY-M07006_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:15+00:00",
+        "usd": 0.008825,
+        "note": "extract SY-M07007_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:15+00:00",
+        "usd": 0.008941,
+        "note": "extract SY-M07006_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:15+00:00",
+        "usd": 0.011337,
+        "note": "extract SY-M07006_13_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:17+00:00",
+        "usd": 0.009251,
+        "note": "extract SY-M07007_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:18+00:00",
+        "usd": 0.009007,
+        "note": "extract SY-M07007_05_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:18+00:00",
+        "usd": 0.011805,
+        "note": "extract SY-M07007_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:19+00:00",
+        "usd": 0.007101,
+        "note": "extract SY-M07007_06_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:19+00:00",
+        "usd": 0.014697,
+        "note": "extract SY-M07007_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:20+00:00",
+        "usd": 0.011319,
+        "note": "extract SY-M07007_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:20+00:00",
+        "usd": 0.011529,
+        "note": "extract SY-M07007_09_draft_and_charge"
+      },
+      {
+        "at": "2026-10-17T20:47:21+00:00",
+        "usd": 0.009099,
+        "note": "extract SY-M07007_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:22+00:00",
+        "usd": 0.009271,
+        "note": "extract SY-M07007_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:23+00:00",
+        "usd": 0.009671,
+        "note": "extract SY-M07008_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:23+00:00",
+        "usd": 0.009303,
+        "note": "extract SY-M07008_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:24+00:00",
+        "usd": 0.008135,
+        "note": "extract SY-M07008_04_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:24+00:00",
+        "usd": 0.013757,
+        "note": "extract SY-M07007_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:24+00:00",
+        "usd": 0.013549,
+        "note": "extract SY-M07007_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:24+00:00",
+        "usd": 0.007525,
+        "note": "extract SY-M07008_05_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:47:25+00:00",
+        "usd": 0.008473,
+        "note": "extract SY-M07008_06_cancellation_notice"
+      },
+      {
+        "at": "2026-10-17T20:47:27+00:00",
+        "usd": 0.008513,
+        "note": "extract SY-M07008_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:27+00:00",
+        "usd": 0.007105,
+        "note": "extract SY-M07008_10_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:27+00:00",
+        "usd": 0.008669,
+        "note": "extract SY-M07008_08_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:27+00:00",
+        "usd": 0.008891,
+        "note": "extract SY-M07008_09_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:28+00:00",
+        "usd": 0.009343,
+        "note": "extract SY-M07008_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:29+00:00",
+        "usd": 0.023345,
+        "note": "extract SY-M07008_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:29+00:00",
+        "usd": 0.008807,
+        "note": "extract SY-M07009_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:30+00:00",
+        "usd": 0.007113,
+        "note": "extract SY-M07009_04_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.015511,
+        "note": "extract SY-M07008_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.009271,
+        "note": "extract SY-M07009_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.009027,
+        "note": "extract SY-M07009_03_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:31+00:00",
+        "usd": 0.008095,
+        "note": "extract SY-M07009_06_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:33+00:00",
+        "usd": 0.008479,
+        "note": "extract SY-M07009_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:33+00:00",
+        "usd": 0.008603,
+        "note": "extract SY-M07009_08_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:34+00:00",
+        "usd": 0.007167,
+        "note": "extract SY-M07009_09_addendum"
+      },
+      {
+        "at": "2026-10-17T20:47:35+00:00",
+        "usd": 0.009331,
+        "note": "extract SY-M07009_10_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:35+00:00",
+        "usd": 0.008765,
+        "note": "extract SY-M07010_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:36+00:00",
+        "usd": 0.009251,
+        "note": "extract SY-M07010_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:36+00:00",
+        "usd": 0.021533,
+        "note": "extract SY-M07009_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:37+00:00",
+        "usd": 0.008487,
+        "note": "extract SY-M07010_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:37+00:00",
+        "usd": 0.008565,
+        "note": "extract SY-M07010_04_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:38+00:00",
+        "usd": 0.018465,
+        "note": "extract SY-M07009_11_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:39+00:00",
+        "usd": 0.008947,
+        "note": "extract SY-M07010_06_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:39+00:00",
+        "usd": 0.008487,
+        "note": "extract SY-M07010_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:40+00:00",
+        "usd": 0.011831,
+        "note": "extract SY-M07010_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:40+00:00",
+        "usd": 0.008485,
+        "note": "extract SY-M07010_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:41+00:00",
+        "usd": 0.016269,
+        "note": "extract SY-M07010_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:41+00:00",
+        "usd": 0.009251,
+        "note": "extract SY-M07010_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:42+00:00",
+        "usd": 0.013745,
+        "note": "extract SY-M07010_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:43+00:00",
+        "usd": 0.008851,
+        "note": "extract SY-M07011_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:43+00:00",
+        "usd": 0.011379,
+        "note": "extract SY-M07010_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:43+00:00",
+        "usd": 0.009303,
+        "note": "extract SY-M07011_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:44+00:00",
+        "usd": 0.008513,
+        "note": "extract SY-M07011_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:44+00:00",
+        "usd": 0.008669,
+        "note": "extract SY-M07011_04_cotherapist_record"
+      },
+      {
+        "at": "2026-10-17T20:47:45+00:00",
+        "usd": 0.007525,
+        "note": "extract SY-M07011_06_imported_result"
+      },
+      {
+        "at": "2026-10-17T20:47:45+00:00",
+        "usd": 0.008135,
+        "note": "extract SY-M07011_07_plan_update"
+      },
+      {
+        "at": "2026-10-17T20:47:46+00:00",
+        "usd": 0.013763,
+        "note": "extract SY-M07011_05_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:48+00:00",
+        "usd": 0.010685,
+        "note": "extract SY-M07011_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:48+00:00",
+        "usd": 0.011183,
+        "note": "extract SY-M07011_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:48+00:00",
+        "usd": 0.009303,
+        "note": "extract SY-M07011_11_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:48+00:00",
+        "usd": 0.008825,
+        "note": "extract SY-M07012_01_treatment_plan"
+      },
+      {
+        "at": "2026-10-17T20:47:49+00:00",
+        "usd": 0.013465,
+        "note": "extract SY-M07011_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:49+00:00",
+        "usd": 0.009379,
+        "note": "extract SY-M07012_02_questionnaire_review"
+      },
+      {
+        "at": "2026-10-17T20:47:49+00:00",
+        "usd": 0.008527,
+        "note": "extract SY-M07012_03_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:50+00:00",
+        "usd": 0.009051,
+        "note": "extract SY-M07012_04_attendance_record"
+      },
+      {
+        "at": "2026-10-17T20:47:51+00:00",
+        "usd": 0.007117,
+        "note": "extract SY-M07012_05_correction"
+      },
+      {
+        "at": "2026-10-17T20:47:52+00:00",
+        "usd": 0.008953,
+        "note": "extract SY-M07012_07_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:52+00:00",
+        "usd": 0.008527,
+        "note": "extract SY-M07012_08_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:52+00:00",
+        "usd": 0.009627,
+        "note": "extract SY-M07012_06_resent_copy"
+      },
+      {
+        "at": "2026-10-17T20:47:53+00:00",
+        "usd": 0.008955,
+        "note": "extract SY-M07012_09_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:53+00:00",
+        "usd": 0.008527,
+        "note": "extract SY-M07012_10_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:54+00:00",
+        "usd": 0.011487,
+        "note": "extract SY-M07012_11_draft_and_charge"
+      },
+      {
+        "at": "2026-10-17T20:47:55+00:00",
+        "usd": 0.011193,
+        "note": "extract SY-M07012_12_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 0.009001,
+        "note": "extract SY-M07012_15_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 0.008527,
+        "note": "extract SY-M07012_14_service_record"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 0.009379,
+        "note": "extract SY-M07012_13_questionnaire_review"
+      }
+    ]
+  },
+  "jev": {
+    "total_usd": 0.01161153000000001,
+    "entries": [
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.3592000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.867400000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.7834e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.8044e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.7372000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.867400000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.905200000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.9220000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.754000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:56+00:00",
+        "usd": 5.905200000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.8884e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.9220000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.796e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.754000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.8548e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7876000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7918000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7876000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.5440000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7876000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.838e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.959800000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7876000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.3676e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.8212000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.7372000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.9136000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.9556000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.9556000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:57+00:00",
+        "usd": 5.9472e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.5146000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.9556000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7876000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7918000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.8632000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.8506e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.8506e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7288000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7372000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.9010000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7414e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.796e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.8800000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.754000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.3508e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7288000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.8884e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.3592000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.796e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.796e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7582e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:58+00:00",
+        "usd": 5.8926000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8044e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8884e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.4474e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8926000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.796e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7666000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8044e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7834e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.9178e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.9220000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.9556000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8422000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.439e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8422000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8926000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8422000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.9514e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.9346000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.3508e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8884e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.9514e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:47:59+00:00",
+        "usd": 5.8422000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8128e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8632000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7918000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.9010000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.434800000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7288000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8716e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.3508e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7414e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.867400000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7372000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.6868000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.796e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7414e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.905200000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.5314e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7288000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.8128e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.9430000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.9136000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:00+00:00",
+        "usd": 5.9010000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7666000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8716e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7582e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7834e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7624e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.9346000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.733000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7918000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.3508e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7918000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8590000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8758e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8002000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8842000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7792e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.9346000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8758e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7414e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.8926000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.7918000000000003e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:01+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9346000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.8086000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.8002000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.8002000000000005e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.7414e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.7456e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.8422000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9346000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.7414e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.7582e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.8758e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.8044e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.355000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9094e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.3634e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9556000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.7498000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 6.1488e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:02+00:00",
+        "usd": 5.9010000000000006e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.9346000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.938800000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.867400000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.7708000000000004e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.9514e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.3634e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.8968e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.775000000000001e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      },
+      {
+        "at": "2026-10-17T20:48:03+00:00",
+        "usd": 5.7666000000000007e-05,
+        "note": "jev record_role, attendance, service_type, copy_or_draft"
+      }
+    ]
+  }
+}
