@@ -333,11 +333,6 @@ def rule_candidates(question: str) -> dict[str, set[str]]:
     return candidates
 
 
-def choose(question: str, jev: Jev | None) -> dict[str, ChoiceAnswer]:
-    """The decision model's reading of all four enum fields, asked in one request. No model gives no reading."""
-    return jev.ask(question, JEV_QUESTIONS) if jev else {}
-
-
 def _agreed(answer: ChoiceAnswer, candidates: set[str]) -> bool:
     return answer.choice in candidates or (not candidates and answer.confidence >= AGREEMENT_CONFIDENCE)
 
@@ -347,7 +342,7 @@ def plan_question(question: str, known_patients: list[tuple[str, str]], default_
     patients = parse_patients(question, known_patients)
     date_range = parse_dates(question, default_year)
     candidates = rule_candidates(question)
-    answers = choose(question, jev)  # after the code checks, so a refused question costs nothing
+    answers = jev.ask(question, JEV_QUESTIONS) if jev else {}  # after the code checks, so a refused question costs nothing
     if answers:
         values = {field: answers[field].choice for field in ENUMS}
         warnings = [

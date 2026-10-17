@@ -105,7 +105,7 @@ def _jev_alone(question: str, known: list[tuple[str, str]], year: int, jev: read
     """
     patients = answer.parse_patients(question, known)
     date_range = answer.parse_dates(question, year)
-    answers = answer.choose(question, jev)  # after the code checks, so a refused question costs nothing
+    answers = jev.ask(question, answer.JEV_QUESTIONS)  # after the code checks, so a refused question costs nothing
     used = [field for field in answer.ENUMS if field == "metric" or answers["metric"].choice in answer.FILTERED_METRICS]
     unsure = [
         f"{field} {answers[field].confidence:.2f}" for field in used if answers[field].confidence < answer.AGREEMENT_CONFIDENCE
