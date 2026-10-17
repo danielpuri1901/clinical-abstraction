@@ -2,7 +2,7 @@
 
 The extraction model is untrusted. It fills these fields from a single document
 and cites the 1-based line numbers that state each value. The trusted code in
-verify.py checks every cited line and value against the source text before any
+reconcile.py checks every cited line and value against the source text before any
 claim is used, and drops what it cannot confirm.
 """
 

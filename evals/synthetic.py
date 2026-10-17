@@ -3,7 +3,7 @@
 The truth comes first. For each patient a seeded generator draws the treatment plan, every encounter with its real
 patient-present intervals, breaks, disconnects, and partner-only minutes, the PHQ-9 administrations, and the hazards.
 Documents are rendered from that truth, and the gold file is computed from it with this module's own small arithmetic
-(minutes_present and goal_status, never calculate.weekly), so every gold number is known before any document exists
+(minutes_present and goal_status, never reconcile.weekly), so every gold number is known before any document exists
 and the scorer stays independent of the reconciler.
 
 truth_extractions() returns what a perfect extractor reports for each document, citing the lines that hold each

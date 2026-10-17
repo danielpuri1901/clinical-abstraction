@@ -1,4 +1,4 @@
-"""A ten-document patient written by hand. Every value sits on the line its extraction cites, so verify.admit keeps all of it.
+"""A ten-document patient written by hand. Every value sits on the line its extraction cites, so reconcile.admit keeps all of it.
 
 D1 schedule listing for group E1 on 2026-01-19, 10:00-11:30.
 D2 signed attendance record for E1: arrival 10:00, departure 11:30, break 10:45-11:00.

@@ -83,7 +83,7 @@ _MONTH = (  # "May" only capitalized, so the verb "may" is no month; the lookahe
 )
 _YEAR = r"(?:19|20)\d{2}(?!\d)"
 _DAY = r"\d{1,2}(?:st|nd|rd|th)?(?!\d)"
-_DATE = (  # one date as written; verify.normalize_date reads it, so questions and the referee accept the same forms
+_DATE = (  # one date as written; reconcile.normalize_date reads it, so questions and the referee accept the same forms
     rf"(?<![\w/.-]){_YEAR}[-/]\d{{1,2}}[-/]\d{{1,2}}(?![\d/])"  # 2026-01-19
     rf"|(?<![\w/.-])\d{{1,2}}/\d{{1,2}}(?:/{_YEAR})?(?![\d/])"  # 1/19 or 01/19/2026, month first
     rf"|(?<![\w:./-])\d{{1,2}}(?:st|nd|rd|th)?\s+(?:of\s+)?{_MONTH}(?:,?\s+{_YEAR})?"  # 30 January 2026, 22nd of January

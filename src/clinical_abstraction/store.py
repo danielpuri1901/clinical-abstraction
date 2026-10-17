@@ -560,7 +560,7 @@ def ingest(
 ) -> dict:
     """Register the files, extract what is missing, rebuild the patients that changed, and export them. Returns a summary.
 
-    `extractor(doc_id, text)` stands in for extract.extract_document in tests. `jev`, when given, second-reads the four
+    `extractor(doc_id, text)` stands in for read.extract_document in tests. `jev`, when given, second-reads the four
     counting labels of every extracted document that has no label check yet (see backfill_label_checks); the disputes are stored
     and are part of the patient's fingerprint, so a new or changed check rebuilds the patient.
     """
