@@ -413,10 +413,6 @@ def test_record_mirrors_the_local_scores_into_a_dataset_run_and_never_raises(tmp
         assert [call[0] for call in langfuse.calls] == ["create_dataset", "create_dataset_item"]
         assert [r.item.id for r in langfuse.result.item_results] == ["Q1"]
 
-        # Results saved before they named a dataset are placed by their keys, so the files already in outputs/ can be recorded.
-        saved_earlier = [{"dataset": "other"}, {"questions": "evals/questions.json"}, {"manifest": "synthetic/manifest.json"}]
-        assert [experiments.dataset_of(saved) for saved in saved_earlier] == ["other", "routing", "extraction-tier"]
-
         # A Langfuse failure, before or while the dataset is filled, must not stop the eval that produced the scores.
         langfuse.calls.clear()
         langfuse.down = True

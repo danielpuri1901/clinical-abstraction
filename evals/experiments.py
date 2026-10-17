@@ -639,15 +639,10 @@ def _langfuse_keys() -> bool:
     return bool(os.environ.get("LANGFUSE_PUBLIC_KEY") and os.environ.get("LANGFUSE_SECRET_KEY") and host)
 
 
-def dataset_of(result: dict) -> str:
-    """The Langfuse dataset a result belongs to. It names one; results saved before they did are told apart by their keys."""
-    return result.get("dataset") or (TIER_DATASET if "manifest" in result else ROUTING_DATASET)
-
-
 def record(result: dict, name: str) -> str | None:
     """Mirror a result into Langfuse as a run on a dataset, so the run carries exactly the local scores. Returns the run name.
 
-    The dataset (see dataset_of) is created when it does not exist, and holds one item per local item, upserted by id. Every
+    The result's dataset is created when it does not exist, and holds one item per local item, upserted by id. Every
     arm or model that is recorded runs over the same items, so the Experiments view can compare the runs. The task of a run
     returns the output the local run stored, and one evaluator per local score returns that item's stored value, so nothing is
     computed again and no model is called. A score an item has no value for is not sent. Only fictional and synthetic records
@@ -658,7 +653,7 @@ def record(result: dict, name: str) -> str | None:
     try:
         from langfuse import Evaluation, get_client  # imported late: without keys nothing of Langfuse starts
 
-        dataset_name = dataset_of(result)
+        dataset_name = result["dataset"]
         by_id = {item["id"]: item for item in result["items"]}
 
         def task(*, item, **_):  # item is the dataset item, whose id is the local item's
