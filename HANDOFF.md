@@ -1,35 +1,78 @@
 # Handoff
 
-Updated 2026-10-17 at the start of the rebuild.
+Updated 2026-10-17 at the end of the rebuild.
+The system is complete and verified.
+Daniel confirms the gold labels and sends the submission.
 
-## State (updated after the first real run)
+## What exists
 
-- Merged into main: referee (Task 1), model clients with budget ledger and Jev (Task 2), reconciler and weeks (Task 3), store and pipeline with fingerprint rebuilds and label-check backfill (Task 4), question planner (Task 5a), synthetic patients (Task 6).
-- In progress: answers and CLI (Task 5b, branch task5), evals and benchmark with Langfuse recording (Task 7, branch task7).
-- First real run, 2026-10-17: `abstraction ingest documents/ --model claude-haiku-5-5` read 31 documents in 46 s for $0.042 (33 calls, 0 failures, 0 repair turns); gold 95 of 95; weeks 140, 120, 180, 145 to 155 with the last "cannot_determine". Jev second reads: 16 disputes at the 0.7 bar, 3 at the 0.9 bar with specific labels only (two are the decision model reading a cancellation notice and a no-show row as outreach calls; harmless, counts unchanged).
-- Held-out patient with Haiku 5.5 into `outputs/experiments/held-out/`: 14 new documents, 1 duplicate recognized, 14.7 s, $0.018, gold 53 of 53.
-- Synthetic set (seed 7, 25 patients, 319 documents) generated into `outputs/experiments/synthetic/`; first Haiku 5.5 pass into `outputs/experiments/tier-haiku-run1/`: 252 s, $0.28, 20 of 25 patients perfect (1,813 of 1,841 checks). Two root causes: addendum corrections labelled `other` were not applied, and a signed note with stated minutes but no interval did not establish delivery. Both fixed in the reconciler; rebuilt from the same extractions at zero cost: 25 of 25 (1,841 of 1,841), with the real records still 95 of 95 and 53 of 53. The extraction prompt is being tightened for the same two cases (new extractor version; all stores must be re-extracted once it lands).
-- Prompt tightened (new extractor versions `d6d18c7eb1e3` Haiku, `0c78c0f988fd` Sonnet); every set re-extracted with Haiku 5.5: 95 of 95, 53 of 53, synthetic 25 of 25, no correction left labelled `other`.
-- Variance: three Haiku 5.5 passes over the 319 synthetic documents (`tier-haiku-run1` to `run3`), each 25 of 25 patients and 1,841 of 1,841 checks, about $0.27 and 235 s each.
-- Frontier tier: Sonnet 5.5 on the supplied record (main store, 95 of 95, $0.53, 23 s) and on 12 synthetic patients (`tier-sonnet-run1`, 877 of 877, $1.52, 93 s). Both tiers pass every gate; Haiku costs about one eleventh per document.
-- Answers: `answer-questions questions.json` on the main store with the real Jev gave five COMPUTED answers (DEV-04 with a visible attendance warning), about 0.3 s and $0.00005 each; `verify-answers` exits 0.
-- Spend so far across every ledger (`outputs/**/logs/spend.json`): $3.29 Claude, $0.10 Jev.
-
-## Earlier state
-
-- Repository scaffolded: schema, gold files, supplied documents, examples, agent instructions, plan.
-- Task 1 (referee) merged into main: `verify.py` with line citations, date and time normalization, admit, coverage; 102 tests.
-- Task 6 (synthetic patients) merged into main: `evals/synthetic.py`, three templates, hazards with fixed rates, deterministic by seed; `python -m evals.synthetic` generates a set; the truth-replay test skips until the reconciler lands.
-- Tasks 2 (model clients) and 3 (reconciler and weeks) are in progress on branches `task2` and `task3` under `.worktrees/`; a Task 6 follow-up (conflicts that straddle the weekly goal) is in progress on `task6`.
-- Previous attempt (reference only): `/Users/danielpuri/Desktop/Projects/backbone-clinical-abstraction`, with its review and research under `research_notes/` and `reports/` there.
+- Code: 14 modules in `src/clinical_abstraction/` (see the README repository map).
+  The plan is `docs/plans/2026-10-17-rebuild.md`, and every decision is in `docs/decisions.md`.
+- Main store: `outputs/abstraction.db`, built with Sonnet 5.5 (extractor version `0c78c0f988fd`).
+  It holds 31 documents for 1 patient (HG-M042), 25 encounters, 4 weeks, 3 PHQ-9 administrations, and 6 flags.
+  It also keeps the earlier Haiku extractions (`44447ececf95`, `d6d18c7eb1e3`) and 6 saved answers (the five development answers and one agent answer).
+- Exports: `outputs/abstraction/HG-M042.json` and `.md`.
+  Answers: `outputs/answers/DEV-01.md` to `DEV-05.md`, and `answers.json`.
+- Experiments: `outputs/experiments/` holds the held-out, new-document, and three synthetic Haiku stores, one synthetic Sonnet store, the tier and routing results, and the synthetic set (`synthetic/`, seed 7).
+- Benchmark: `outputs/benchmarks.json` (stores of 1, 2,000, and 20,000 patients).
+- Submission documents: `README.md`, `docs/design.md` (rules and why), `docs/experiments.md` (every run with its log path).
+- Spend so far: $3.36 Claude and $0.10 Jev at list prices, against caps of $10 and $0.50.
+- Nothing is pushed or sent.
+  The repository has no remote.
+- The previous attempt is at `/Users/danielpuri/Desktop/Projects/backbone-clinical-abstraction` (reference only).
 
 ## Last verified
 
-- On main at `bd2a62b`: `uv run --frozen pytest -q` gives 102 passed; `ruff check .` passes.
+On main at `203741e`, 2026-10-17:
+
+- `uv run --frozen ruff check .`: all checks passed.
+- `uv run --frozen pytest -q`: 202 passed in about 5 s.
+- `abstraction verify-answers`, run on a copy of the store and the answers file: exit 0.
+  DEV-01, DEV-02, DEV-03, and DEV-05 are COMPUTED.
+  DEV-04 is COMPUTED WITH WARNING (attendance and service type readings).
+- Gold gates, rebuilt from the saved extractions with the current code and no model call: the supplied record scores 95 of 95 for all three extractor versions.
+  The held-out store scores 95 of 95 and 53 of 53 for both Haiku versions.
+- Synthetic truth, scored from the saved stores: Haiku passes 1 and 3 score 25 of 25 patients and 1,841 of 1,841 checks.
+  Sonnet scores 12 of 12 patients and 877 of 877 checks.
+  The first-pass extractions, rebuilt with the fixed reconciler, score 25 of 25.
+- The synthetic set regenerates byte for byte from seed 7.
+  The rules arm of the routing study replays to the saved scores (0.519, 0.481, 0.574).
+- Offline commands on a copy of the store: `ask` without keys gives a rules-only answer with its warning, and it refuses an unknown patient, a week number, and an impossible date.
+  `report` and `source` print the saved abstraction and source lines.
+- `evals.benchmark --patients 50 --db outputs/abstraction.db --out <folder>` finishes in about 5 s with no model call.
 
 ## Open
 
-- Merge Tasks 2, 3, 6 when their branches land; run the synthetic truth-replay test after Task 3 is in.
-- Then Task 4 (store and pipeline with fingerprint rebuilds), Task 5 (question plans and answers), Task 7 (evals and benchmark), the real runs, and the documents.
-- Known referee limits from Task 1: a date without a year matches any year; bare `HHMM` times are accepted but not counted by coverage; `authored_at` is not checked against the text.
-- Budget: Claude API cap $10, Jev cap $0.50; spend ledger at `outputs/logs/spend.json` once runs start.
+1. Daniel confirms the gold labels for the supplied record with `docs/gold-checklist.md` (24 rows).
+   Until then, 95 of 95 means agreement with the coding assistant's labels.
+2. Daniel sends the submission.
+   The brief names manan@backbonesystems.ai and andrew@backbonesystems.ai, and asks for a ZIP file or a GitHub link.
+   No agent pushes, publishes, or emails.
+3. The aggregation override in `questions.plan` has no unit test.
+   The routing result for PARAPHRASE-15 is its only check.
+   Add a test first if the rule changes.
+4. The one-document ingest costs 2.4 s at 620,000 documents.
+   Profile it, then replace the pending-work scans in `pipeline.extract_missing` and `pipeline.backfill_label_checks` with a pending table.
+   Move the budget ledger and the Jev cache to SQLite or append-only lines.
+5. Confirm in the Langfuse project `backbone` that the dataset runs exist (datasets `routing` and `extraction-tier`).
+   The saved result files do not store the run names.
+6. The question interface misreads attendance on 7 of 54 questions, and every plan carries a warning (README, observed limitation).
+7. Known referee limits: a date with no year matches any year, bare `HHMM` times are not scanned for omissions, and `authored_at` is not checked against the text.
+8. CI (`.github/workflows/ci.yml`) has never run, because the repository has no remote.
+   The first push shows whether ruff, pytest, `verify-answers`, and the image build pass there.
+9. Clean up after the submission: the worktrees `.worktrees/task1` to `task7` and the branches `task1` to `task7` are merged into main, and can go.
+
+## How to continue
+
+- Read `AGENTS.md`, then run the gates: `ruff check .`, `pytest -q`, `abstraction verify-answers`, and the gold gates.
+- Use `uv run --frozen` for every command.
+  Every command and key rule is in the README.
+- A new document: work on a copy of the store, and ingest with the model that built it.
+  If a new format loses facts, add the format to `verify.py` with a test first.
+- A new prompt or model: it gets a new extractor version, and the old rows stay.
+  Score it with `evals.experiments tier --store`, compare with `docs/experiments.md`, and add a dated entry to `docs/decisions.md`.
+- A new rule: write the failing test, implement the minimum, update `docs/design.md`, and re-measure the numbers it touches.
+- Every number in a document comes from a file in `outputs/`.
+  Label estimates as estimates.
+- For the follow-up call, plan a five-minute narrative and three deep dives (decision D6.3): the question interface with two readers, incremental ingestion with fingerprints and incompleteness, and accuracy at scale with synthetic truth and the cheap tier.
+  Live checks: `abstraction source "BH-D103 L7"`, `abstraction ask "..."`, and an ingest of `examples/new_document/` into a copy of the store.
