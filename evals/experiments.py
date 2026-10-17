@@ -398,13 +398,17 @@ TEMPLATE_DOCUMENTS = (
 COUNTED_TABLES = ("documents", "extractions", "label_checks", "patients", *store.PATIENT_TABLES)
 
 
+def _seconds(samples: list[float]) -> dict:
+    return {"median_seconds": round(statistics.median(samples), 4), "max_seconds": round(max(samples), 4), "runs": len(samples)}
+
+
 def _timed(function, repeat: int) -> dict:
     samples = []
     for _ in range(repeat):
         started = time.perf_counter()
         function()
         samples.append(time.perf_counter() - started)
-    return {"median_seconds": round(statistics.median(samples), 4), "max_seconds": round(max(samples), 4), "runs": repeat}
+    return _seconds(samples)
 
 
 def _ingest_runs(out: Path) -> list[dict]:
@@ -525,6 +529,10 @@ def _one_document_ingest(db: Path, template: dict, count: int, folder: Path) -> 
         raise ValueError("no document of the template patient prints its MRN, so a new one could not be filed under a patient")
     extraction = DocumentExtraction.model_validate_json(donor["payload"].replace(mrn_of_template, target))
     budget = read.Budget(folder / "ingest-spend.json", {"claude": 0.0, "jev": 0.0})  # a cap of zero: a model call would raise
+
+    def replay(doc_id: str, text: str) -> read.Extracted:
+        return extraction.model_copy(deep=True), [], {}
+
     samples = []
     for number in range(REPEAT):
         new = folder / f"new-{number}"
@@ -533,24 +541,11 @@ def _one_document_ingest(db: Path, template: dict, count: int, folder: Path) -> 
             donor["text"].replace(mrn_of_template, target) + f"Filed again for the benchmark: copy {number}.\n"
         )
         started = time.perf_counter()
-        summary = store.ingest(
-            [new],
-            db,
-            folder / "ingest",
-            template["model"],
-            1,
-            extractor=lambda doc_id, text: (extraction.model_copy(deep=True), [], {}),
-            budget=budget,
-        )
+        summary = store.ingest([new], db, folder / "ingest", template["model"], 1, extractor=replay, budget=budget)
         samples.append(time.perf_counter() - started)
         if summary["new_documents"] != 1 or summary["rebuilt"] != [target]:
             raise RuntimeError(f"a one-document ingest should rebuild {target} only, but it rebuilt {summary['rebuilt']}")
-    return {
-        "median_seconds": round(statistics.median(samples), 4),
-        "max_seconds": round(max(samples), 4),
-        "runs": REPEAT,
-        "patients_rebuilt": 1,
-    }
+    return _seconds(samples) | {"patients_rebuilt": 1}
 
 
 def _answer_row(connection, model: str, budget: read.Budget, item: dict, count: int) -> dict:
