@@ -5,7 +5,7 @@ It then answers questions about that care from the record, with the source line 
 A language model reads each document once.
 Code does everything else: it checks what the model read, merges the documents, counts, and writes the answers.
 
-On the supplied record, all 95 expected values are correct with the cheap model (Haiku 5.5, $0.04) and with the larger model (Sonnet 5.5, $0.53).
+On the supplied record, all 95 expected values are correct with the cheap model (Haiku 5.5, $0.03) and with the larger model (Sonnet 5.5, $0.55).
 The five development answers are in [outputs/answers](outputs/answers).
 
 ## The five answers
@@ -80,11 +80,11 @@ A changed prompt or model gets a new version; `ingest` then reads every document
 |---|---|
 | Supplied record, 95 expected values, 31 documents | 95 of 95 with Sonnet 5.5 and with Haiku 5.5 |
 | Held-out patient in another document format, 53 expected values | 53 of 53 with Haiku 5.5, first run |
-| 25 synthetic patients with known truth, 1,841 expected values | 25 of 25 patients in each of three Haiku 5.5 runs; 12 of 12 patients with Sonnet 5.5 |
-| Reading the meaning of 54 questions | Two readers: 93 percent of metrics right, 87 percent of filters right, 0 wrong answers printed as plain COMPUTED |
+| 25 synthetic patients with known truth, 1,841 expected values | 25 of 25 patients in each of three Haiku 5.5 runs on the final prompt (in two runs one document failed validation and passed on the next ingest); 12 of 12 patients with Sonnet 5.5 |
+| Reading the meaning of 54 questions | Two readers: 94 percent of metrics right, 94 percent of filters right, 0 wrong answers printed as plain COMPUTED |
 | Five development answers | All computed by code in 0.3 s each; the replay finds no change |
 | Tests | 203 pass, none calls a model |
-| Spend for the whole build, at list prices | $3.36 Claude, $0.10 Jev |
+| Spend for the whole build, at list prices | $6.30 Claude, $0.12 Jev |
 
 The expected values for the supplied record were derived by the coding assistant, not by a person.
 `docs/gold-checklist.md` prints every cited source line under each value so a person can confirm them.
@@ -100,29 +100,42 @@ An addendum that settled two conflicting notes was labelled as a correction of "
 One signed record stated minutes without times, so two contacts were not counted.
 Both were gaps in code and in the prompt, not in the model.
 After the fix, the same readings scored 25 of 25 with no new model call.
-Three fresh Haiku runs on the new prompt each scored 25 of 25.
-Sonnet 5.5 scored 12 of 12 on the same patients for $1.52 where Haiku cost $0.13.
+Three fresh Haiku runs on the tightened prompt each scored 25 of 25.
+Sonnet 5.5 scored 12 of 12 on the same patients for $1.53 where Haiku cost $0.09.
 
 What I learned: both tiers pass, so the cheap model can read when code checks and decides.
 The held-out patient, written before the program saw it, passed on the first run.
 The production store uses Sonnet; at scale I would run Haiku behind the same checks.
 
-Second test: how to read a question.
+Second test: the prompt, rewritten after the official prompting guidance (XML sections, five worked examples, a forced tool call on Haiku, effort set to low because extraction copies values and needs no long thinking).
+Same model, same documents, exact checks:
+
+| Haiku 5.5 | Previous prompt | Rewritten prompt |
+|---|---|---|
+| Supplied record, 31 documents | 95 of 95; $0.042; 41 s; 59,499 output tokens | 95 of 95; $0.030; 16 s; 30,107 output tokens |
+| Synthetic set, 311 documents | 25 of 25; $0.27; 235 s; 471,781 output tokens | 25 of 25; $0.19; 125 s; 275,049 output tokens |
+
+The first draft of the rewrite lost 2 of 1,934 facts (a "no show" row read as absent, a "Visit #" id dropped); two sentences in the rules fixed both.
+Thinking is on by default and counts toward `max_tokens`, which is where the cut-offs and the extra output tokens came from.
+Sonnet 5.5 rejects a forced tool call, so it keeps the automatic choice; it scored 95 of 95 and 12 of 12 on the rewritten prompt too.
+
+Third test: how to read a question.
 
 | Reader | Metric right | Filter right | Wrong answers printed as plain COMPUTED |
 |---|---|---|---|
-| Keyword rules alone | 52 percent | 48 percent | 0 (but 22 of 50 questions refused) |
+| Keyword rules alone | 54 percent | 50 percent | 0 (but 22 of 50 questions refused) |
 | Decision model alone | 57 percent | 57 percent | 1 |
-| Both readers | 93 percent | 87 percent | 0 |
+| Both readers | 94 percent | 94 percent | 0 |
 
 Each reader alone refuses almost half of the questions.
-Together they answer all of them, and each of the 7 misread plans carries a warning that shows both readings.
+Together they answer all of them, and each of the 3 misread plans carries a warning that shows both readings.
+A question that names no filter takes the plain reading (every contact when listing sessions, attended ones when counting minutes) and says so in its first line: `any attendance (default)`.
 
 ## What does not work well yet
 
 Reading the question is the weak point.
-7 of 54 questions get a different filter than expected, mostly questions that name no filter, such as "What happened on January 19?".
-All 7 print a warning with both readings, and none prints a plain answer.
+3 of 54 questions get a different reading than expected: DEV-04 (the two readers disagree on whether "therapy contacts" means attended ones), REVIEW-18 ("fewer than 3 therapy days" read as a day count rather than a goal check), and REVIEW-21 (an attendance question about a plan change).
+All 3 print a warning with both readings, and none prints a plain answer.
 
 What I would do next:
 
@@ -144,10 +157,10 @@ Other gaps:
 
 | Measure | Result |
 |---|---|
-| Read the 31 supplied documents, 8 workers | Sonnet 5.5: 23 s, $0.53. Haiku 5.5: 41 s, $0.04 |
-| Read 311 synthetic documents, Haiku 5.5 | about 235 s, $0.27 per run |
+| Read the 31 supplied documents, 8 workers | Sonnet 5.5: 22 s, $0.55. Haiku 5.5: 16 s, $0.03 |
+| Read 311 synthetic documents, Haiku 5.5 | about 125 s, $0.19 per run |
 | Run again with nothing new | 0.009 s, 0 model calls |
-| Add one document (an addendum) | 5.0 s, 1 model call, $0.03 |
+| Add one document (an addendum), Sonnet 5.5 on the previous prompt | 5.0 s, 1 model call, $0.03 |
 | Code time to add one document, after the model | 0.05 s with 31 documents; 0.09 s with 62,000; 2.4 s with 620,000 |
 | Question about one patient | 0.3 s with the decision model; 1 to 32 ms of code |
 | Question across 2,000 patients | 30 ms |
@@ -161,17 +174,17 @@ Reading is the first bottleneck: one model call per document (`read.extract_docu
 
 | For 1,000,000 documents | Haiku 5.5 | Sonnet 5.5 |
 |---|---|---|
-| Measured cost per document | $0.0009 to $0.0014 | $0.010 to $0.017 |
-| Cost at list price, estimate | $900 to $1,400 | $10,000 to $17,000 |
-| Measured speed with 8 workers | 1.3 documents per second | 1.6 documents per second |
-| Time with 8 workers, estimate | about 9 days | about 7 days |
+| Measured cost per document (synthetic set to supplied record) | $0.0006 to $0.0010 | $0.010 to $0.018 |
+| Cost at list price, estimate | $600 to $1,000 | $10,000 to $18,000 |
+| Measured speed with 8 workers | 2.5 documents per second | 1.8 documents per second |
+| Time with 8 workers, estimate | about 5 days | about 7 days |
 
 Changes, in order: make the model write less, use the cheapest model that passes the checks, run backfills as batch jobs at half price, then add workers up to the account's token limit.
 After that: the code that looks for pending work scans every document (`store.extract_missing`), which is why one document costs 2.4 s at 620,000 documents; it needs a pending-work table, then Postgres when more than one process writes.
 
 ## Models, settings, and help from AI
 
-- Reading: `claude-sonnet-5-5` built the saved store; `claude-haiku-5-5` is the cheap tier. Both through the Anthropic API, one tool call per document checked by Pydantic, cached system prompt, `max_tokens` 3,000 with one retry at 8,000, one repair turn when the check rejects a value, 8 worker threads.
+- Reading: `claude-sonnet-5-5` built the saved store; `claude-haiku-5-5` is the cheap tier. Both through the Anthropic API, one tool call per document checked by Pydantic, cached system prompt (XML sections, 15 rules, five worked examples), effort `low` (`EXTRACT_EFFORT`), a forced tool call on Haiku (Sonnet 5.5 rejects forced tool choice and keeps automatic), `max_tokens` 3,000 with one retry at 8,000, one repair turn when the check rejects a value, 8 worker threads.
 - Decision model: Jev `jev-latest` (answers report `jev-1.13.0`) at `https://api.typesafe.ai/v1/systemone`, with a disk cache; agreement and dispute bars 0.9.
 - Open questions: Claude Sonnet 5.5 with 4 read-only tools and at most 8 calls.
 - List prices on 2026-10-17 per million tokens: Sonnet 5.5 $2 in and $10 out; Haiku 5.5 $0.10 and $0.50; Jev $0.042 in.

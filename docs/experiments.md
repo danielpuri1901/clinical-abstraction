@@ -187,7 +187,42 @@ Where a later run overwrote a result file, the earlier numbers come from git his
   DEV-01 stays at 7,419 characters.
 - Collection question REVIEW-10 at 2,000 patients: 0.0299 s median, 0.3022 s maximum, 824 characters.
 - Saved abstraction: `abstraction.db` 516,096 bytes (31 documents, 93 extractions, 25 encounters, 6 flags, 75 observations), 35,624 bytes of abstraction JSON per patient.
-- Spend, sum of the seven ledgers: $3.361363 Claude and $0.100375 Jev.
+- Spend, sum of the seven ledgers at that point: $3.361363 Claude and $0.100375 Jev. After Runs 15 to 19: $6.30 Claude and $0.12 Jev.
+
+## Run 15 (2026-10-18, 00:30): the rewritten extraction prompt, first draft, Haiku 5.5
+
+- Prompt rewritten after the official prompting guidance: XML sections, 15 rules, five worked examples, the document inside a `<document id>` tag, a forced `record_extraction` tool call, and `output_config.effort` set to `low`.
+  Extractor version `d00b22a464cc` for Haiku.
+- Supplied record: 32 calls, $0.0295, 16.0 s, 29,041 output tokens (the previous prompt: $0.042, 41 s, 59,499). Gold 94 of 95: the BH-D108 row "No show; patient did not attend" was read as `patient_absent`.
+- Synthetic set: 319 calls, $0.1811, 121 s, 261,837 output tokens (the previous prompt: $0.27, 235 s, 471,781). 24 of 25 patients, 1,838 of 1,839 checks: a "Visit #" id was dropped on one collateral row of SY-M07024.
+- Logs: `outputs/logs/ingest-20261018-*.jsonl` and `outputs/experiments/tier-haiku-run1/logs/`.
+
+## Run 16 (2026-10-18, 00:45): the rewritten prompt, second draft, Haiku 5.5
+
+- Two sentences added: `no_show` when the document says no show or did not attend even if the group ran for others, `patient_absent` only for a contact held on the patient's behalf; `encounter_id` is whatever identifier the document prints (Encounter, Visit #, Record #).
+  Extractor version `c05e76740919` for Haiku; this is the final prompt.
+- Supplied record: 33 calls, $0.0304, 15.9 s, 30,107 output tokens, 247,250 cache-read tokens. Gold 95 of 95.
+- Synthetic set: 328 calls, $0.1911, 125 s, 275,049 output tokens. 25 of 25 patients, 1,841 of 1,841 checks.
+- Held-out patient: 53 of 53.
+
+## Run 17 (2026-10-18, 01:00): Sonnet 5.5 on the final prompt
+
+- First attempt failed on every document: the API answered 400, `tool_choice: type "tool" and "any" are not supported for this model`. The patient was rebuilt as incomplete with 31 pending documents and no week was reported as met. The forced tool call is now sent to Haiku only (`read.extract_request_options`); Sonnet keeps the automatic choice and the prompt's instruction to call the tool once. Extractor version `76dd8605fc7e` for Sonnet.
+- Supplied record: 31 calls, $0.5475, 21.9 s, 28,254 output tokens. Gold 95 of 95. This is the build in `outputs/abstraction.db`.
+- Synthetic subset, 12 patients, 152 documents: $1.5286, 86.6 s, 124,798 output tokens. 12 of 12, 877 of 877.
+
+## Run 18 (2026-10-18, 01:05): two more Haiku passes on the final prompt
+
+- Run 2: 325 calls, $0.1891, 128 s, one document (`SY-M07021_14_service_record`) failed validation after 3 attempts, so SY-M07021 was rebuilt as incomplete and scored 24 of 25. The next ingest re-read that one document for $0.0009 and the set scored 25 of 25, 1,841 of 1,841.
+- Run 3: 326 calls, $0.1855, 130 s, the same for `SY-M07013_10_service_record`; after the retry 25 of 25, 1,841 of 1,841.
+- The retry is the designed path: a failed document stays pending, the patient is marked incomplete, and the next ingest reads it again.
+
+## Run 19 (2026-10-18, 00:20 to 01:10): the question interface after the default-filter rule
+
+- When the rules propose nothing for a filter and the decision model is below 0.9, the filter takes its plain default and the interpretation line says `(default)` instead of a warning.
+  Comparison words ("fewer than 3 days") propose `goal_status` alone, and authorization questions propose `other`.
+- 54 questions, real Jev, three arms (`outputs/experiments/routing-*.json`): rules alone 0.537 metric, 0.500 attendance, 0.593 dates; Jev alone 0.574, 0.574, 0.593 with one wrong plain COMPUTED; both readers 0.944, 0.944, 1.000, zero wrong plain COMPUTED, 3 misses (DEV-04, REVIEW-18, REVIEW-21), all with a warning, 4 correct refusals.
+- The five development answers were regenerated on the Sonnet build (`outputs/answers/`); `verify-answers` exits 0.
 
 ## What failed and what changed
 
@@ -198,6 +233,9 @@ Where a later run overwrote a result file, the earlier numbers come from git his
 | An average question answered as plain minutes | Run 13 | Aggregation words route to the open path | Wrong plain `COMPUTED`: 1 to 0 |
 | Haiku replies cut off at 3,000 tokens | Runs 1, 4, 6, 7, 10 | None. The retry at 8,000 handles it | 2 to 4 percent of synthetic documents need a second call |
 | One new document costs 2.4 s at 620,000 documents | Run 14 | Not fixed. See the README | Open |
+| The rewritten prompt lost 2 facts of 1,934 | Run 15 | Two rule sentences (no show, Visit # ids) | 95 of 95, 25 of 25 in Run 16 |
+| Sonnet 5.5 rejects a forced tool call | Run 17 | Forced choice for Haiku only | 95 of 95, 12 of 12 |
+| One Haiku document per pass fails validation after 3 attempts | Run 18 | None. The next ingest re-reads it | 25 of 25 after the retry |
 
 ## Not measured
 

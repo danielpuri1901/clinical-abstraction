@@ -128,3 +128,17 @@ Decided 2026-10-18.
 - Rejected: a shared helper module beside the six, and one module per old file.
 - Check: `docs/ponytail-audit.md` lists every cut.
   After each commit, ruff and pytest pass, the stores rebuilt from the saved extractions score 95 of 95 and 53 of 53 and match the previous build row for row, and `verify-answers` exits 0.
+
+### Round 8: the extraction prompt (2026-10-18)
+
+- D8.1 The system prompt follows the official prompting guidance: XML sections (role, input, rules, examples, output), 15 numbered rules, five worked examples that show source lines and the items they produce, and the document in a `<document id>` tag in the user turn. The prompt and the tool schema are one cached prefix.
+- D8.2 Extraction runs at effort `low` (`EXTRACT_EFFORT`), because extraction copies values and needs no long thinking, and thinking counts toward `max_tokens`. Measured on Haiku 5.5 with exact checks: same accuracy (95 of 95, 25 of 25), 30 percent lower cost, 2.5 times faster, half the output tokens.
+- D8.3 The tool call is forced on Haiku 5.5, as its prompting page recommends when a call is required; Sonnet 5.5 rejects forced tool choice (400), so it keeps the automatic choice. The request options are part of the extractor version, per model.
+- Rejected: keeping the old free-text prompt (twice the output tokens for the same accuracy); disabling thinking entirely (not measured; effort low already removed the cut-offs).
+- Check: Runs 15 to 18 in docs/experiments.md.
+
+### Round 9: unread filters (2026-10-18)
+
+- D9.1 When the keyword rules propose nothing for a filter and the decision model is below the 0.9 bar, the filter takes its plain default: every contact when listing sessions, attended contacts when counting minutes or days, any service type, no grouping. The interpretation line marks it `(default)`; the verdict stays plain COMPUTED. A disputed metric still warns.
+- D9.2 Comparison words ("fewer than 3 days", "below 150 minutes") make the rules propose `goal_status` alone, and authorization questions propose `other`, so the open path wins over a confident but wrong count.
+- Check: Run 19; misread plans fell from 7 to 3 with every miss still flagged, and no wrong plain COMPUTED answer.
