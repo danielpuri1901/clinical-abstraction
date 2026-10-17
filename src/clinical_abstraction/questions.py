@@ -351,6 +351,11 @@ def plan(question: str, known_patients: list[tuple[str, str]], default_year: int
             proposed = [value for value in get_args(ENUMS[field]) if value in candidates[field]]
             values[field] = proposed[0] if proposed else default
         warnings = ["rules only, no decision model"]
+    if "other" in candidates["metric"] and values["metric"] != "other":
+        # The question asks for an aggregation no renderer computes (an average, a ratio). A rendered table would
+        # silently omit it, so the open path wins over the decision model's metric, and the dispute stays visible.
+        warnings.append(f"rules read an aggregation the renderers do not compute; routed as an open question instead of {values['metric']}")
+        values["metric"] = "other"
     if values["metric"] not in FILTERED_METRICS:
         values |= NEUTRAL
     readings = {
