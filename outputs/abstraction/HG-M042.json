@@ -64,9 +64,7 @@
     "BH-D005 L13",
     "BH-D006 L11"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "2026-01-08 outreach_or_scheduling_call",
@@ -90,9 +88,7 @@
     "BH-D015 L15",
     "BH-D015 L17"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E103",
@@ -151,9 +147,7 @@
     "BH-D015 L13",
     "BH-D015 L15"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E105",
@@ -260,9 +254,7 @@
     "BH-D016 L13",
     "BH-D016 L15"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E108",
@@ -313,9 +305,7 @@
     "BH-D013 L9",
     "BH-D013 L15"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "2026-01-16 other",
@@ -337,9 +327,7 @@
    "sources": [
     "BH-D016 L13"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E109",
@@ -490,9 +478,7 @@
     "BH-D108 L9",
     "BH-D108 L14"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E114",
@@ -572,9 +558,7 @@
    "sources": [
     "BH-D108 L16"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E116",
@@ -628,9 +612,7 @@
     "BH-D108 L11",
     "BH-D108 L18"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E118",
@@ -684,9 +666,7 @@
     "BH-D115 L14",
     "BH-D115 L16"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "HG-E119",
@@ -1505,170 +1485,6 @@
   },
   {
    "kind": "label_disputed",
-   "encounter": "2026-01-08 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D015 L13 as attendance attended (confidence 0.86); the extraction says not_stated. That reading would not change whether 2026-01-08 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D015 L13"
-   ],
-   "settles": "A reviewer reading BH-D015 L13, or a signed record stating the attendance of 2026-01-08 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-08 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D015 L13 as attendance patient_absent (confidence 0.81); the extraction says not_stated. That reading would not change whether 2026-01-08 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D015 L13"
-   ],
-   "settles": "A reviewer reading BH-D015 L13, or a signed record stating the attendance of 2026-01-08 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-08 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D015 L13 as record_role clinical_note (confidence 0.78); the extraction says other.",
-   "citations": [
-    "BH-D015 L13"
-   ],
-   "settles": "A reviewer reading BH-D015 L13, or a signed record stating the record type of 2026-01-08 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-08 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D015 L15, BH-D015 L17 as attendance attended (confidence 0.86); the extraction says not_stated. That reading would not change whether 2026-01-08 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D015 L15",
-    "BH-D015 L17"
-   ],
-   "settles": "A reviewer reading BH-D015 L15, BH-D015 L17, or a signed record stating the attendance of 2026-01-08 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-08 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D015 L15, BH-D015 L17 as attendance patient_absent (confidence 0.81); the extraction says not_stated. That reading would not change whether 2026-01-08 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D015 L15",
-    "BH-D015 L17"
-   ],
-   "settles": "A reviewer reading BH-D015 L15, BH-D015 L17, or a signed record stating the attendance of 2026-01-08 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-08 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D015 L15, BH-D015 L17 as record_role clinical_note (confidence 0.78); the extraction says other.",
-   "citations": [
-    "BH-D015 L15",
-    "BH-D015 L17"
-   ],
-   "settles": "A reviewer reading BH-D015 L15, BH-D015 L17, or a signed record stating the record type of 2026-01-08 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-15 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D016 L11 as attendance cancelled_by_clinic (confidence 0.99); the extraction says not_stated. That reading would not change whether 2026-01-15 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D016 L11"
-   ],
-   "settles": "A reviewer reading BH-D016 L11, or a signed record stating the attendance of 2026-01-15 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-15 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D016 L13, BH-D016 L15 as attendance cancelled_by_clinic (confidence 0.99); the extraction says not_stated. That reading would not change whether 2026-01-15 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D016 L13",
-    "BH-D016 L15"
-   ],
-   "settles": "A reviewer reading BH-D016 L13, BH-D016 L15, or a signed record stating the attendance of 2026-01-15 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-16 assessment_review",
-   "text": "The decision model reads BH-D013 L9, BH-D013 L15 as attendance patient_absent (confidence 0.78); the extraction says not_stated. That reading would not change whether 2026-01-16 assessment_review counts.",
-   "citations": [
-    "BH-D013 L9",
-    "BH-D013 L15"
-   ],
-   "settles": "A reviewer reading BH-D013 L9, BH-D013 L15, or a signed record stating the attendance of 2026-01-16 assessment_review, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-16 other",
-   "text": "The decision model reads BH-D016 L13 as attendance cancelled_by_clinic (confidence 0.99); the extraction says not_stated. That reading would not change whether 2026-01-16 other counts.",
-   "citations": [
-    "BH-D016 L13"
-   ],
-   "settles": "A reviewer reading BH-D016 L13, or a signed record stating the attendance of 2026-01-16 other, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-27 outreach_or_scheduling_call",
-   "text": "The decision model reads BH-D108 L16 as attendance patient_absent (confidence 0.80); the extraction says not_stated. That reading would not change whether 2026-01-27 outreach_or_scheduling_call counts.",
-   "citations": [
-    "BH-D108 L16"
-   ],
-   "settles": "A reviewer reading BH-D108 L16, or a signed record stating the attendance of 2026-01-27 outreach_or_scheduling_call, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "2026-01-30 assessment_review",
-   "text": "The decision model reads BH-D115 L5, BH-D115 L8, BH-D115 L14, BH-D115 L16 as attendance attended (confidence 0.91); the extraction says not_stated. That reading would not change whether 2026-01-30 assessment_review counts.",
-   "citations": [
-    "BH-D115 L5",
-    "BH-D115 L8",
-    "BH-D115 L14",
-    "BH-D115 L16"
-   ],
-   "settles": "A reviewer reading BH-D115 L5, BH-D115 L8, BH-D115 L14, BH-D115 L16, or a signed record stating the attendance of 2026-01-30 assessment_review, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E102",
-   "text": "The decision model reads BH-D006 L11 as copy_or_draft draft_or_template (confidence 0.73); the extraction says original.",
-   "citations": [
-    "BH-D006 L11"
-   ],
-   "settles": "A reviewer reading BH-D006 L11, or a signed record stating the record status of HG-E102, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E102",
-   "text": "The decision model reads BH-D006 L11 as record_role attendance_record (confidence 0.86); the extraction says schedule_listing.",
-   "citations": [
-    "BH-D006 L11"
-   ],
-   "settles": "A reviewer reading BH-D006 L11, or a signed record stating the record type of HG-E102, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E104",
-   "text": "The decision model reads BH-D015 L13, BH-D015 L15 as attendance attended (confidence 0.86); the extraction says not_stated. That reading would not change whether HG-E104 counts.",
-   "citations": [
-    "BH-D015 L13",
-    "BH-D015 L15"
-   ],
-   "settles": "A reviewer reading BH-D015 L13, BH-D015 L15, or a signed record stating the attendance of HG-E104, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E104",
-   "text": "The decision model reads BH-D015 L13, BH-D015 L15 as attendance patient_absent (confidence 0.81); the extraction says not_stated. That reading would not change whether HG-E104 counts.",
-   "citations": [
-    "BH-D015 L13",
-    "BH-D015 L15"
-   ],
-   "settles": "A reviewer reading BH-D015 L13, BH-D015 L15, or a signed record stating the attendance of HG-E104, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E108",
-   "text": "The decision model reads BH-D006 L17, BH-D006 L20 as copy_or_draft draft_or_template (confidence 0.70); the extraction says original.",
-   "citations": [
-    "BH-D006 L17",
-    "BH-D006 L20"
-   ],
-   "settles": "A reviewer reading BH-D006 L17, BH-D006 L20, or a signed record stating the record status of HG-E108, would settle it."
-  },
-  {
-   "kind": "label_disputed",
    "encounter": "HG-E108",
    "text": "The decision model reads BH-D016 L6, BH-D016 L9, BH-D016 L15 as service_type outreach_or_scheduling_call (confidence 1.00); the extraction says group_psychotherapy. That reading would not change whether HG-E108 counts.",
    "citations": [
@@ -1693,16 +1509,6 @@
   },
   {
    "kind": "label_disputed",
-   "encounter": "HG-E113",
-   "text": "The decision model reads BH-D108 L9, BH-D108 L14 as copy_or_draft copy_or_retransmission (confidence 0.70); the extraction says original.",
-   "citations": [
-    "BH-D108 L9",
-    "BH-D108 L14"
-   ],
-   "settles": "A reviewer reading BH-D108 L9, BH-D108 L14, or a signed record stating the record status of HG-E113, would settle it."
-  },
-  {
-   "kind": "label_disputed",
    "encounter": "HG-E116",
    "text": "The decision model reads BH-D108 L10, BH-D108 L16 as service_type outreach_or_scheduling_call (confidence 0.98); the extraction says group_psychotherapy. That reading would not change whether HG-E116 counts.",
    "citations": [
@@ -1710,26 +1516,6 @@
     "BH-D108 L16"
    ],
    "settles": "A reviewer reading BH-D108 L10, BH-D108 L16, or a signed record stating the service type of HG-E116, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E117",
-   "text": "The decision model reads BH-D108 L11, BH-D108 L18 as record_role schedule_listing (confidence 0.77); the extraction says attendance_record.",
-   "citations": [
-    "BH-D108 L11",
-    "BH-D108 L18"
-   ],
-   "settles": "A reviewer reading BH-D108 L11, BH-D108 L18, or a signed record stating the record type of HG-E117, would settle it."
-  },
-  {
-   "kind": "label_disputed",
-   "encounter": "HG-E117",
-   "text": "The decision model reads BH-D108 L11, BH-D108 L18 as service_type outreach_or_scheduling_call (confidence 0.84); the extraction says individual_psychotherapy. That reading would not change whether HG-E117 counts.",
-   "citations": [
-    "BH-D108 L11",
-    "BH-D108 L18"
-   ],
-   "settles": "A reviewer reading BH-D108 L11, BH-D108 L18, or a signed record stating the service type of HG-E117, would settle it."
   },
   {
    "kind": "possible_omission",

@@ -2,7 +2,14 @@
 
 Updated 2026-10-17 at the start of the rebuild.
 
-## State
+## State (updated after the first real run)
+
+- Merged into main: referee (Task 1), model clients with budget ledger and Jev (Task 2), reconciler and weeks (Task 3), store and pipeline with fingerprint rebuilds and label-check backfill (Task 4), question planner (Task 5a), synthetic patients (Task 6).
+- In progress: answers and CLI (Task 5b, branch task5), evals and benchmark with Langfuse recording (Task 7, branch task7).
+- First real run, 2026-10-17: `abstraction ingest documents/ --model claude-haiku-5-5` read 31 documents in 46 s for $0.042 (33 calls, 0 failures, 0 repair turns); gold 95 of 95; weeks 140, 120, 180, 145 to 155 with the last "cannot_determine". Jev second reads: 16 disputes at the 0.7 bar, 3 at the 0.9 bar with specific labels only (two are the decision model reading a cancellation notice and a no-show row as outreach calls; harmless, counts unchanged).
+- Spend so far: $0.042 Claude, $0.003 Jev.
+
+## Earlier state
 
 - Repository scaffolded: schema, gold files, supplied documents, examples, agent instructions, plan.
 - Task 1 (referee) merged into main: `verify.py` with line citations, date and time normalization, admit, coverage; 102 tests.

@@ -1,0 +1,33 @@
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D002", "sha": "f8f098cac0e3", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D103", "sha": "674440968b5d", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D005", "sha": "6f205f89f8d3", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D001", "sha": "48581411f872", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D012", "sha": "432c973d1a4d", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D102", "sha": "514ca20809f6", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D004", "sha": "f074a9edd66e", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D014", "sha": "85e2c780abde", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D010", "sha": "95debafd3a72", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D101", "sha": "05a234a8adc9", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D015", "sha": "4521a120a4d7", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D008", "sha": "ad416fbda806", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D006", "sha": "0bf056f3769e", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D007", "sha": "924dee06b05c", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D009", "sha": "ab9db1ec4f6d", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D011", "sha": "8c2fbaf5bb45", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D013", "sha": "300a30dbe42b", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D003", "sha": "3b3f50db40b3", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D104", "sha": "f3f25065559f", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D106", "sha": "09c946a2248a", "disputes": 1}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D016", "sha": "5f3375f11c85", "disputes": 1}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D109", "sha": "069ea4112779", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D110", "sha": "4b64c46a13b8", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D108", "sha": "805b2c69c7fa", "disputes": 1}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D105", "sha": "91fd8e8b1b31", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D111", "sha": "d03451942797", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D115", "sha": "4a3859fd81fc", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D113", "sha": "36764827bcb3", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D112", "sha": "b4390ed6b672", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D114", "sha": "9942bd886fcd", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "label_checked", "doc": "BH-D107", "sha": "c5953bcb242e", "disputes": 0}
+{"at": "2026-10-17T20:26:21+00:00", "event": "rebuilt", "mrn": "HG-M042", "documents": 31, "pending": 0, "encounters": 26, "flags": 7}
+{"at": "2026-10-17T20:26:21+00:00", "event": "ingest_finished", "new_documents": 0, "duplicate_or_known_files": 31, "extraction": {"documents": 0, "extracted": 0, "failed": 0, "calls": 0, "cost_usd": 0, "repair_turns": 0, "unrepaired_problems": 0, "input_tokens": 0, "output_tokens": 0, "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0, "errors": []}, "label_checks": {"documents": 31, "stored": 31, "failed": 0}, "rebuilt": ["HG-M042"], "incomplete": {}, "unassigned": [], "stopped": null, "total_seconds": 0.059, "log": "outputs/logs/ingest-20261017-222621.jsonl"}
