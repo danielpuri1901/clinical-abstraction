@@ -13,6 +13,7 @@ import pytest
 from clinical_abstraction import read
 from clinical_abstraction.reconcile import Problem
 from clinical_abstraction.schema import Attendance, DocumentExtraction, RecordRole, ServiceEvent, ServiceType
+from tests import fixtures
 
 # conftest replaces read.call_anthropic for every test. This keeps the real function for the one test that checks its request.
 REAL_CALL_ANTHROPIC = read.call_anthropic
@@ -26,50 +27,13 @@ USAGE = {"input_tokens": 10, "output_tokens": 5}  # 3.5e-06 USD on claude-haiku-
 
 
 def event(**fields) -> ServiceEvent:
-    return ServiceEvent(
-        **{
-            "encounter_id": "E1",
-            "appointment_ids": [],
-            "service_date": "2026-01-19",
-            "service_type": "group_psychotherapy",
-            "modality": "in_person",
-            "scheduled_start": None,
-            "scheduled_end": None,
-            "attendance": "attended",
-            "patient_arrival": "10:00",
-            "patient_departure": "11:15",
-            "patient_present_intervals": [],
-            "stated_patient_minutes": None,
-            "excluded_intervals": [],
-            "record_role": "attendance_record",
-            "signed": True,
-            "clinicians": [],
-            "lines": [2, 3],
-            **fields,
-        }
-    )
+    """The E1 row of DOC_TEXT: a group session attended from 10:00 to 11:15, citing lines 2 and 3."""
+    row = {"encounter_id": "E1", "patient_arrival": "10:00", "patient_departure": "11:15", "record_role": "attendance_record"}
+    return fixtures.service_event(**{**row, "lines": [2, 3], **fields})
 
 
-def extraction(*events: ServiceEvent, is_copy_or_retransmission: bool = False) -> DocumentExtraction:
-    return DocumentExtraction(
-        document_id="D1",
-        patient_name=None,
-        patient_dob=None,
-        patient_mrn=None,
-        document_type="attendance roster",
-        authored_at=None,
-        received_at=None,
-        is_copy_or_retransmission=is_copy_or_retransmission,
-        copy_lines=[],
-        final_or_signed=True,
-        service_events=list(events),
-        corrections=[],
-        plan_requirements=[],
-        assessments=[],
-        authorizations=[],
-        charges=[],
-        observations=[],
-    )
+def extraction(*events: ServiceEvent, **fields) -> DocumentExtraction:
+    return fixtures.extraction(service_events=list(events), **fields)
 
 
 def tool_use(*events: ServiceEvent, tool_id: str = "toolu_01") -> dict:

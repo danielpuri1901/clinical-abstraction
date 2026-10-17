@@ -72,33 +72,21 @@ def _phq9(score: int, completed_on: str, line: int, copy: bool = False) -> Asses
     )
 
 
+def extraction(**fields) -> DocumentExtraction:
+    """An extraction of document D1 that names no patient and lists nothing, with the given fields replaced."""
+    empty = ("service_events", "corrections", "plan_requirements", "assessments", "authorizations", "charges", "observations")
+    defaults = {"document_id": "D1", "document_type": "test record", "is_copy_or_retransmission": False, "copy_lines": []}
+    nulls = dict.fromkeys(("patient_name", "patient_dob", "patient_mrn", "authored_at", "received_at"))
+    return DocumentExtraction(**{**defaults, **nulls, "final_or_signed": True, **{name: [] for name in empty}, **fields})
+
+
 def document(
     doc_id: str, lines: list[str], document_type: str, authored_at: str | None, received_at: str | None = None, **parts
 ) -> Doc:
     text = "\n".join(lines) + "\n"
-    extraction = DocumentExtraction(
-        **{
-            "document_id": doc_id,
-            "patient_name": "Rowan Hale",
-            "patient_dob": None,
-            "patient_mrn": "T-M001",
-            "document_type": document_type,
-            "authored_at": authored_at,
-            "received_at": received_at,
-            "is_copy_or_retransmission": False,
-            "copy_lines": [],
-            "final_or_signed": True,
-            "service_events": [],
-            "corrections": [],
-            "plan_requirements": [],
-            "assessments": [],
-            "authorizations": [],
-            "charges": [],
-            "observations": [],
-            **parts,
-        }
-    )
-    return Doc(doc_id, _sha(text), text, extraction, authored_at, received_at)
+    header = {"document_id": doc_id, "patient_name": "Rowan Hale", "patient_mrn": "T-M001", "document_type": document_type}
+    found = extraction(**{**header, "authored_at": authored_at, "received_at": received_at, **parts})
+    return Doc(doc_id, _sha(text), text, found, authored_at, received_at)
 
 
 def mini_patient_docs() -> list[Doc]:

@@ -17,42 +17,18 @@ from clinical_abstraction.schema import (
     Authorization,
     Charge,
     Correction,
-    DocumentExtraction,
     ExcludedInterval,
     Interval,
     ItemScore,
     Observation,
     PlanRequirement,
-    ServiceEvent,
 )
-from tests.fixtures import PATIENT_LINE, document, mini_patient_docs, replace_service_date, service_event
+from tests.fixtures import PATIENT_LINE, document, extraction, mini_patient_docs, replace_service_date, service_event
 
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def event(**fields) -> ServiceEvent:
-    return ServiceEvent(
-        **{
-            "encounter_id": None,
-            "appointment_ids": [],
-            "service_date": "2026-01-19",
-            "service_type": "group_psychotherapy",
-            "modality": "in_person",
-            "scheduled_start": None,
-            "scheduled_end": None,
-            "attendance": "attended",
-            "patient_arrival": None,
-            "patient_departure": None,
-            "patient_present_intervals": [],
-            "stated_patient_minutes": None,
-            "excluded_intervals": [],
-            "record_role": "attendance_record",
-            "signed": True,
-            "clinicians": [],
-            "lines": [1],
-            **fields,
-        }
-    )
+event = service_event  # a group session on 2026-01-19 citing line 1; the referee never reads its labels
 
 
 def correction(**fields) -> Correction:
@@ -131,31 +107,6 @@ def plan(**fields) -> PlanRequirement:
             "not_counted_service_types": [],
             "requires_patient_present": True,
             "lines": [1],
-            **fields,
-        }
-    )
-
-
-def extraction(**fields) -> DocumentExtraction:
-    return DocumentExtraction(
-        **{
-            "document_id": "D1",
-            "patient_name": None,
-            "patient_dob": None,
-            "patient_mrn": None,
-            "document_type": "test record",
-            "authored_at": None,
-            "received_at": None,
-            "is_copy_or_retransmission": False,
-            "copy_lines": [],
-            "final_or_signed": True,
-            "service_events": [],
-            "corrections": [],
-            "plan_requirements": [],
-            "assessments": [],
-            "authorizations": [],
-            "charges": [],
-            "observations": [],
             **fields,
         }
     )
