@@ -1,222 +1,187 @@
 # Clinical abstraction for behavioral-health records
 
-Code answers the five development questions from a saved abstraction, in about 0.3 s each, and cites source lines for every number.
-A model reads each document once and cites line numbers.
-Code checks every cited value, merges the records into one row per real contact, keeps conflicts as ranges, and does all the counting.
-On the supplied record, 95 of 95 gold checks pass with a cheap model (Haiku 5.5, $0.04) and with a larger model (Sonnet 5.5, $0.525).
+This program reads a folder of clinical documents about a patient and builds one clear record of the care the patient received.
+It then answers questions about that care from the record, with the source line behind every number.
+A language model reads each document once.
+Code does everything else: it checks what the model read, merges the documents, counts, and writes the answers.
 
-## Results (measured)
-
-| Measure | Result | Evidence |
-|---|---|---|
-| Gold checks, supplied record (1 patient, 31 documents) | 95 of 95 with Sonnet 5.5, and with Haiku 5.5 on both prompt versions | `outputs/abstraction.db` |
-| Gold checks, held-out patient (15 files, another format) | 53 of 53 with Haiku 5.5, on the first run | `outputs/experiments/held-out/` |
-| Synthetic truth (25 patients, 319 files, 311 unique) | Haiku 5.5: 25 of 25 patients and 1,841 of 1,841 checks in each of three passes, after a first pass that scored 20 of 25 (1,813 of 1,841). Sonnet 5.5 on 12 patients: 877 of 877 | `outputs/experiments/tier-*.json`, `docs/experiments.md` run 4 |
-| Five development answers | All computed by code, 0.27 to 0.39 s each. `verify-answers` replays them with no model | `outputs/answers/` |
-| A new document arrives (an addendum) | 1 model call, $0.029, 5.0 s, 1 patient rebuilt. Week 4 changes from cannot be determined to not met | `outputs/experiments/new-document/` |
-| Meaning of 54 questions | Two readers: metric right 0.926, attendance right 0.870. Keyword rules alone: 0.519 and 0.481. Decision model alone: 0.574 and 0.574 | `outputs/experiments/routing-*.json` |
-| Spend for the whole build | $3.36 Claude and $0.10 Jev, at list prices | `outputs/benchmarks.json` |
-
-A gold check compares one value in the abstraction with a label written in advance (`evals/gold/`).
-The coding assistant derived the gold labels for the supplied record, and the builder of the pipeline wrote the synthetic truth, so neither is independent yet.
+On the supplied record, all 95 expected values are correct with the cheap model (Haiku 5.5, $0.04) and with the larger model (Sonnet 5.5, $0.53).
+The five development answers are in [outputs/answers](outputs/answers).
 
 ## The five answers
 
-- [DEV-01](outputs/answers/DEV-01.md): 12 therapy sessions on 11 distinct days (5 individual, 5 group, 2 family), with 13 other records listed and explained.
-- [DEV-02](outputs/answers/DEV-02.md): 585 to 595 minutes (9.75 to 9.92 hours), and by week 140, 120, 180, and 145 to 155.
-- [DEV-03](outputs/answers/DEV-03.md): weeks 1 and 2 not met, week 3 met, week 4 cannot be determined (145 to 155 minutes against a goal of 150).
-- [DEV-04](outputs/answers/DEV-04.md): January 19 has 2 contacts and 90 minutes, January 21 has 1 video contact and 45 minutes, and a warning notes that the two readers disagree on attendance.
-- [DEV-05](outputs/answers/DEV-05.md): the PHQ-9 total fell 8 points across 3 distinct administrations (18, 14, 10), the later import is a copy, and causation and treatment response are not supported.
+- [DEV-01](outputs/answers/DEV-01.md): 12 therapy sessions on 11 different days (5 individual, 5 group, 2 family).
+- [DEV-02](outputs/answers/DEV-02.md): 585 to 595 minutes of therapy. By week: 140, 120, 180, and 145 to 155.
+- [DEV-03](outputs/answers/DEV-03.md): weeks 1 and 2 did not meet the plan, week 3 met it, week 4 cannot be determined (145 to 155 minutes against a goal of 150).
+- [DEV-04](outputs/answers/DEV-04.md): January 19 had 2 contacts and 90 minutes. January 21 had 1 video contact and 45 minutes.
+- [DEV-05](outputs/answers/DEV-05.md): the PHQ-9 score fell 8 points over 3 administrations (18, 14, 10). One later copy is not a new administration.
 
-## How it works
+Why a range such as "145 to 155"?
+Two signed notes disagree about one start time, and no document settles it.
+The program keeps both values instead of picking one.
+A week is "met" only if the lowest value meets the goal, and "not met" only if the highest value misses it.
 
-```mermaid
-flowchart LR
-    A["1. Read<br/>a model reads each document once<br/>and cites line numbers"] --> B["2. Check<br/>code confirms every cited value<br/>in the cited lines"]
-    B --> C["3. Reconcile and count<br/>code merges records, applies corrections,<br/>keeps conflicts as ranges, counts"]
-    C --> D["4. Store<br/>SQLite: versioned extractions<br/>and one abstraction per patient"]
-    D --> E["5. Answer<br/>code reads patients and dates,<br/>two readers pick the meaning,<br/>code computes and cites"]
-```
+## What happens, step by step
 
-Code does all checking, merging, counting, ranges, rendering, and replay, so the same extractions give the same numbers on every run.
-Models read documents (Claude), second-read four labels and read each question next to the keyword rules (Jev, the decision model), and answer open questions through read-only tools (a Claude agent).
+Each step says who does the work: the model or code.
 
-Work is reused across questions and runs:
+1. **Register (code).** Each file gets a fingerprint of its text. A second copy of the same document is recognized and skipped. The patient id (`MRN`) is read from the text.
+2. **Read (model).** The model gets one document with numbered lines. It fills a form: contacts, times, corrections, plan rules, scores, charges. For every value it writes the line numbers that state it. One model call per document.
+3. **Check (code).** Code opens the cited lines. A time, a score, or a minute count that is not on its cited lines is dropped. Dates may be anywhere in the document. Nothing is repaired by code; the model gets one chance to fix its own citations. Code also lists every time in the document that no value cites, so a missed break shows up.
+4. **Second opinion on labels (decision model, Jev).** Jev reads the same lines and picks the type of record, the attendance, the type of service, and whether the document is a copy or a draft. When Jev is sure (0.9 or more) and disagrees with the model, the contact gets a flag.
+5. **Merge and count (code).** All records about the same contact become one row. A later correction wins by the time it was written, not by the time it arrived. Breaks and disconnects are subtracted. Drafts, copies, and schedules never prove that care happened. Disagreements stay as ranges. Weeks are counted against the plan that was in force.
+6. **Store (code).** Everything goes into one SQLite file: documents, the model's readings by prompt version, and one record per patient with tables for contacts, weeks, flags, and assessments. A patient is rebuilt only when its documents or readings changed.
+7. **Answer a question (code, with Jev for the meaning).** Code reads the patient names and dates from the question. Two readers pick the meaning: keyword rules propose, Jev chooses. If they disagree, the answer says so. Code then computes the answer from the stored tables and cites the lines. The first line of every answer says how the question was read.
+8. **Open questions (model agent).** A question that no table answers, for example "who wrote the January 22 note", goes to a model that can only read the stored record and the source lines. Every number it writes is checked against what it read.
 
-- A question reads the saved tables, never the documents.
-- A re-run or a duplicate file makes 0 model calls and rebuilds nothing (0.009 s for a re-run).
-- A new document is read once, and only its patient is rebuilt.
-- A new prompt or model adds extraction rows under a new version, and the old rows stay.
+The model never counts, never decides across documents, and never answers a question that code can answer.
 
-## How to run
+## How to run it
 
 ```bash
-uv sync --frozen                                    # Python 3.12, locked dependencies
-uv run --frozen abstraction ingest documents/       # Sonnet 5.5 (--model claude-haiku-5-5 for the cheap tier); the saved store has nothing new
-uv run --frozen abstraction source "BH-D103 L7"     # print the source lines behind a citation
+uv sync --frozen                                   # Python 3.12 and the locked dependencies
+uv run --frozen abstraction ingest documents/      # read the documents (0 model calls now: the saved store already holds them)
 uv run --frozen abstraction ask "How many minutes of therapy did Rowan receive in the week of January 12?"
-uv run --frozen abstraction answer-questions questions.json   # write outputs/answers/
-uv run --frozen abstraction verify-answers          # replay saved answers with no model
-uv run --frozen python -m evals.benchmark --patients 50 --db outputs/abstraction.db --out outputs/quick   # about 5 s
-uv run --frozen pytest -q && uv run --frozen ruff check .
+uv run --frozen abstraction answer-questions questions.json    # write the five answers to outputs/answers
+uv run --frozen abstraction verify-answers         # replay the saved answers with no model
+uv run --frozen pytest -q                          # 203 tests, none calls a model
 ```
 
-Without flags, the benchmark builds 1, 2,000, and 20,000 patients (4 GB, minutes) and overwrites `outputs/benchmarks.json`.
-To add a document, work on a copy of the store, and use the model that built it.
-Another model reads every document again under a new version.
+Keys: put `ANTHROPIC_API_KEY=...` in `~/.config/backbone-take-home/anthropic.env` and `JEV_API_KEY=...` in `jev.env`, or export them.
+Without a Jev key, `ask` still works on the keyword rules alone and says so in every answer.
+Without an Anthropic key, everything that does not read new documents still works.
+Spend caps: `MODEL_BUDGET_USD` (default 10) and `JEV_BUDGET_USD` (default 0.50).
 
-```bash
-cp outputs/abstraction.db outputs/demo.db
-uv run --frozen abstraction --db outputs/demo.db --out outputs/demo ingest examples/new_document/
-```
+### How to rerun one step
 
-To run the experiments:
+| Step | Command | Model calls | Cost |
+|---|---|---|---|
+| Read new documents | `abstraction ingest <folder>` | one per new document | about $0.001 (Haiku) to $0.017 (Sonnet) per document |
+| Read with the cheap model | `abstraction ingest <folder> --model claude-haiku-5-5` | one per new document | about $0.001 per document |
+| Re-check, merge, and count again, no reading | `abstraction ingest <folder> --rebuild-all` | 0 | $0 |
+| Add one document | `cp outputs/abstraction.db outputs/demo.db` then `abstraction --db outputs/demo.db --out outputs/demo ingest examples/new_document/` | 1 | $0.03, 5 s |
+| Show the record | `abstraction report --patient HG-M042` | 0 | $0 |
+| Show the lines behind a citation | `abstraction source "BH-D103 L7"` | 0 | $0 |
+| Answer a question | `abstraction ask "..."` | 1 Jev call | $0.00005, 0.3 s |
+| Answer an open question | `abstraction ask "..."` (routed to the agent automatically, or `--agent`) | a few | about $0.04 |
+| Replay saved answers | `abstraction verify-answers` | 0 | $0 |
+| Run the tests | `pytest -q` | 0 | $0 |
+| Make synthetic patients with known truth | `python -m evals.synthetic --seed 7 --patients 25 --out outputs/experiments/synthetic` | 0 | $0 |
+| Score a saved extraction run against the truth | `python -m evals.experiments tier --model claude-haiku-5-5 --store outputs/experiments/tier-haiku-run1/abstraction.db` | 0 | $0 |
+| Measure how well questions are read | `python -m evals.experiments routing --arm agreement --db outputs/experiments/held-out/abstraction.db` | 54 Jev calls | $0.003 |
+| Quick benchmark | `python -m evals.benchmark --patients 50 --db outputs/abstraction.db --out outputs/quick` | 0 | $0, about 5 s |
 
-```bash
-uv run --frozen python -m evals.synthetic --seed 7 --patients 25 --out outputs/experiments/synthetic
-uv run --frozen python -m evals.experiments routing --arm agreement --db outputs/experiments/held-out/abstraction.db   # arms: rules, jev, agreement; the store needs both example patients
-uv run --frozen python -m evals.experiments tier --model claude-haiku-5-5 --store outputs/experiments/tier-haiku-run1/abstraction.db
-```
+Prefix each command with `uv run --frozen`.
+A changed prompt or model gets a new version; `ingest` then reads every document again, and the old readings stay in the store.
 
-- No key needed: `report`, `source`, `verify-answers`, `pytest`, `ruff`, `evals.benchmark`, `evals.synthetic`, `routing --arm rules`, `tier --store`.
-- `ask` runs without a key on keyword rules alone, and every answer says so.
-- `ANTHROPIC_API_KEY`: `ingest`, open questions (`ask --agent`), `tier` without `--store`.
-- `JEV_API_KEY`: the second read inside `ingest`, `ask`, `answer-questions`, `routing --arm jev`, and `routing --arm agreement`.
-- Keys come from the environment, or from `~/.config/backbone-take-home/anthropic.env` and `jev.env` (`KEY=value` lines).
-- Spend caps are `MODEL_BUDGET_USD` (default 10) and `JEV_BUDGET_USD` (default 0.50).
+## Results (measured)
 
-## Design decision tested: cheap tier or frontier tier
+| Check | Result |
+|---|---|
+| Supplied record, 95 expected values, 31 documents | 95 of 95 with Sonnet 5.5 and with Haiku 5.5 |
+| Held-out patient in another document format, 53 expected values | 53 of 53 with Haiku 5.5, first run |
+| 25 synthetic patients with known truth, 1,841 expected values | 25 of 25 patients in each of three Haiku 5.5 runs; 12 of 12 patients with Sonnet 5.5 |
+| Reading the meaning of 54 questions | Two readers: 93 percent of metrics right, 87 percent of filters right, 0 wrong answers printed as plain COMPUTED |
+| Five development answers | All computed by code in 0.3 s each; the replay finds no change |
+| Tests | 203 pass, none calls a model |
+| Spend for the whole build, at list prices | $3.36 Claude, $0.10 Jev |
 
-Question: can the cheap tier (Haiku 5.5, about 11 times cheaper) read documents well enough when code checks and decides?
-The frontier tier is Sonnet 5.5, the larger model.
-Test: 25 synthetic patients with known truth (seed 7, 3 templates, hazards at fixed rates), with exact checks.
+The expected values for the supplied record were derived by the coding assistant, not by a person.
+`docs/gold-checklist.md` prints every cited source line under each value so a person can confirm them.
+The synthetic truth and the program have the same author, so a blind spot could sit in both.
 
-The first Haiku pass scored 20 of 25 patients (1,813 of 1,841 checks).
-Two causes explain all 28 failing checks:
+## What I tested: cheap model or large model?
 
-- An addendum settled two conflicting notes, but its correction was labelled `other`, so code did not apply it (4 patients).
-- One signed record stated minutes for two contacts but gave no times, so neither counted (1 patient; 10 of 12 sessions counted).
+Question: is the cheap model (Haiku 5.5, about 11 times cheaper) good enough to read documents when code checks and decides?
 
-Code now applies time corrections labelled `other` and counts stated minutes, and the prompt names both cases.
-Rebuilding the first pass with the new code, with no model call, scored 25 of 25.
-Three Haiku passes on the new prompt each scored 25 of 25 (1,841 of 1,841), at about $0.27 and 235 s.
-Sonnet scored 877 of 877 on 12 of the patients for $1.52, and Haiku cost $0.13 for the same 12.
+The first Haiku run on 25 synthetic patients scored 20 of 25.
+All 28 wrong values had two causes.
+An addendum that settled two conflicting notes was labelled as a correction of "other", so code did not apply it.
+One signed record stated minutes without times, so two contacts were not counted.
+Both were gaps in code and in the prompt, not in the model.
+After the fix, the same readings scored 25 of 25 with no new model call.
+Three fresh Haiku runs on the new prompt each scored 25 of 25.
+Sonnet 5.5 scored 12 of 12 on the same patients for $1.52 where Haiku cost $0.13.
 
-What the test showed: both tiers pass, so the cheap tier is enough for reading when code checks values and decides.
-The gaps sat in the reconciler and the prompt.
-Model skill was not the cause.
-Sonnet wrote half the output tokens on the supplied record (29,779 against 59,499) and never needed a second call.
-Haiku needed a second call for 2 of 31 supplied documents and for 7 to 12 of 311 synthetic documents per pass, mostly after a cut-off at 3,000 tokens.
+What I learned: both tiers pass, so the cheap model can read when code checks and decides.
+The held-out patient, written before the program saw it, passed on the first run.
+The production store uses Sonnet; at scale I would run Haiku behind the same checks.
 
-Honest notes: the same builder wrote the generator and the pipeline, so one blind spot can sit in both.
-The 25 of 25 scores come after tuning on this set.
-The held-out patient (another format, written before the pipeline saw it) passed 53 of 53 on the first run, before the fixes.
+Second test: how to read a question.
 
-Second measured decision: two readers for the meaning of a question.
-54 questions (5 development, 34 from the review of the previous attempt, 15 paraphrases) were read by each reader alone and by both.
-A refusal counts as a miss, except for the 4 questions that should be refused.
+| Reader | Metric right | Filter right | Wrong answers printed as plain COMPUTED |
+|---|---|---|---|
+| Keyword rules alone | 52 percent | 48 percent | 0 (but 22 of 50 questions refused) |
+| Decision model alone | 57 percent | 57 percent | 1 |
+| Both readers | 93 percent | 87 percent | 0 |
 
-| Reader | Metric right | Attendance right | Dates right | Wrong plan printed as plain COMPUTED |
-|---|---|---|---|---|
-| Keyword rules alone | 0.519 | 0.481 | 0.574 | 0 (rules alone never print plain COMPUTED) |
-| Decision model alone | 0.574 | 0.574 | 0.593 | 1 |
-| Both readers | 0.926 | 0.870 | 1.000 | 0 |
+Each reader alone refuses almost half of the questions.
+Together they answer all of them, and each of the 7 misread plans carries a warning that shows both readings.
 
-Each reader alone refuses 22 to 23 of the 50 answerable questions.
-Together they answer all 50, and each of the 7 wrong plans carries a warning.
-The study found one real failure: the decision model alone answered "average weekly therapy time per patient" as plain minutes.
-Words such as average and ratio now send a question to the open path, because no renderer computes an average.
+## What does not work well yet
 
-## Observed limitation: reading the question
+Reading the question is the weak point.
+7 of 54 questions get a different filter than expected, mostly questions that name no filter, such as "What happened on January 19?".
+All 7 print a warning with both readings, and none prints a plain answer.
 
-7 of the 54 plans differ from the expected reading (DEV-04, REVIEW-03, REVIEW-18, REVIEW-21, REVIEW-27, REVIEW-34, PARAPHRASE-04).
-All 7 print COMPUTED WITH WARNING with both readings, and none prints a plain COMPUTED.
-All 7 misread the attendance filter, and 4 also misread the metric.
-Questions that name no filter are the weak spot: "What happened on Jan. 19?" reads attendance as not applicable at 0.51.
-One warning points at the wrong field: REVIEW-34 asks about authorizations, both readers agreed on sessions, and only attendance raised the warning.
+What I would do next:
 
-Next steps:
-
-1. Collect real reviewer questions.
-   The 54 come from the builder and from a review of the previous attempt.
+1. Collect real reviewer questions; the 54 here come from the builder and from a review of an earlier attempt.
 2. Run them through the routing experiment, locally and in Langfuse.
-3. Tune the criteria text and the 0.9 bar on that set before trusting a new value.
-4. When the readers disagree, ask a clarifying question instead of computing with a warning (not built).
+3. Tune the criteria text and the 0.9 bar on that set.
+4. When the two readers disagree, ask the user instead of answering with a warning.
 
-## Other gaps
+Other gaps:
 
-- A week number ("week 2") is refused, because weeks differ by patient, and a clinician name is refused as an unknown patient.
-- A date with no year matches any year in the referee, and a question date takes the year of the earliest service in the store.
-- Coverage notes are noisy: one of the six flags on the supplied record is a false alarm (BH-D015 L9 is the time reception saw a no-show).
-- A correction of a date, service type, or other field raises `correction_not_applied` and is not applied.
-- A failed second read is repeated by the next ingest, not inside one run.
-- Patient ids are found by labels (`MRN`, `Record #`, `Medical record`), so a document with no id stays unassigned and `ingest` exits 1.
-- Partial weeks are judged against the full weekly goal (week 4 of the supplied record runs Monday to Friday).
-- Only one real patient exists, so collection results come from synthetic or copied patients.
+- "Week 2" is refused, because week numbers differ by patient. Ask with a date.
+- A clinician name in a question is refused as an unknown patient.
+- A date without a year matches any year.
+- Corrections of dates or service types are flagged, not applied.
+- A document with no patient id stays unassigned and `ingest` exits with code 1.
+- The last week of the supplied record is partial (Monday to Friday) and is judged against the full weekly goal.
 
-## Performance (measured)
+## Speed and cost (measured)
 
 | Measure | Result |
 |---|---|
-| Initial processing, 31 supplied documents, 8 workers | Sonnet 5.5: 23.4 s, 31 calls, $0.525. Haiku 5.5: 41.4 s, 33 calls, $0.042 |
-| Initial processing, 311 synthetic documents, Haiku 5.5 | 229 to 240 s in three passes (1.3 documents/s), $0.27 to $0.28 |
-| Re-run with nothing new | 0.009 s, 0 model calls, 0 patients rebuilt |
-| New document (addendum), Sonnet 5.5 | 5.0 s, 1 call, $0.029, 1 patient rebuilt |
-| One new document, code only, median of 5 | 0.05 s at 31 documents; 0.09 s at 62,000; 2.4 s at 620,000 |
-| Individual-patient question, code only (decision model faked) | 0.5 to 1.5 ms at 1 patient; 9 ms at 2,000 patients (slowest of 3 runs: 1.1 s) |
-| Individual-patient question, with the decision model | 0.27 to 0.39 s, about $0.00005 |
-| Collection question, 2,000 patients (two weeks below goal) | 30 ms median, 824 characters; a question that names no patient lists at most 50 patients, then a count |
-| Saved abstraction, supplied record | SQLite 516 KB (31 documents, 3 extractor versions); abstraction JSON 41 KB; Markdown 18 KB |
-| Store size, copies of one patient, one extractor version | 412 MB at 62,000 documents; 4.1 GB at 620,000 |
+| Read the 31 supplied documents, 8 workers | Sonnet 5.5: 23 s, $0.53. Haiku 5.5: 41 s, $0.04 |
+| Read 311 synthetic documents, Haiku 5.5 | about 235 s, $0.27 per run |
+| Run again with nothing new | 0.009 s, 0 model calls |
+| Add one document (an addendum) | 5.0 s, 1 model call, $0.03 |
+| Code time to add one document, after the model | 0.05 s with 31 documents; 0.09 s with 62,000; 2.4 s with 620,000 |
+| Question about one patient | 0.3 s with the decision model; 1 to 32 ms of code |
+| Question across 2,000 patients | 30 ms |
+| Size of the saved store | 516 KB for the supplied record; 412 MB at 62,000 documents |
 
-The 2,000 and 20,000 patients are copies of the one real patient with new ids (sources: `outputs/benchmarks.json`, `outputs/answers/answers.json`).
+The 2,000 and 20,000 patients are copies of the one real patient with new ids (`outputs/benchmarks.json`).
 
-## First bottleneck at one million documents: extraction
+## At one million documents (estimates from the measured numbers)
 
-One model call reads each document (`extract.extract_document`, run by the worker pool in `pipeline.extract_missing`).
-Output tokens are most of the cost: 70 percent for Haiku and 57 percent for Sonnet on the supplied record.
+Reading is the first bottleneck: one model call per document (`extract.extract_document`, run by `pipeline.extract_missing`).
 
 | For 1,000,000 documents | Haiku 5.5 | Sonnet 5.5 |
 |---|---|---|
-| Measured cost per document (synthetic set to supplied record) | $0.0009 to $0.0014 | $0.0100 to $0.0169 |
-| Cost at list price, no batch discount (estimate) | $900 to $1,400 | $10,000 to $17,000 |
-| Measured throughput, 8 workers | 1.3 documents/s | 1.6 documents/s |
-| Time at 8 workers (estimate) | 8.8 days | 7.1 days |
+| Measured cost per document | $0.0009 to $0.0014 | $0.010 to $0.017 |
+| Cost at list price, estimate | $900 to $1,400 | $10,000 to $17,000 |
+| Measured speed with 8 workers | 1.3 documents per second | 1.6 documents per second |
+| Time with 8 workers, estimate | about 9 days | about 7 days |
 
-Changes, in order: cut what the model writes, use the cheapest tier that passes the gold gate, run backfills as batch inference at half price (not tested), then add workers.
-The Jev second read adds about $0.00008 per document (estimate: $77 per million).
+Changes, in order: make the model write less, use the cheapest model that passes the checks, run backfills as batch jobs at half price, then add workers up to the account's token limit.
+After that: the code that looks for pending work scans every document (`pipeline.extract_missing`), which is why one document costs 2.4 s at 620,000 documents; it needs a pending-work table, then Postgres when more than one process writes.
 
-The next two limits:
+## Models, settings, and help from AI
 
-1. The tokens-per-minute quota comes next: at 8 workers the Haiku passes used about 119,000 output and 36,000 uncached input tokens per minute (measured).
-   A one-day run needs about 70 workers and 1 million output tokens per minute (estimate), and the quota of the account was not measured.
-   The change is a queue with per-minute token accounting around `llm.call_anthropic` and the pool in `pipeline.extract_missing`.
-2. The write path comes after: one new document costs 0.09 s of code at 62,000 documents and 2.4 s at 620,000 (measured, no model, not profiled).
-   `pipeline.extract_missing` and `pipeline.backfill_label_checks` scan every document and extraction row to find pending work, and `store.connect` gives SQLite one writer per file.
-   The change is a pending-work table, then Postgres when more than one process writes.
-   `llm.Budget.charge` and `jev.Jev.ask` also rewrite a whole JSON file on every call, about 155 MB per call at a million ledger entries (estimate), so both should move into SQLite.
+- Reading: `claude-sonnet-5-5` built the saved store; `claude-haiku-5-5` is the cheap tier. Both through the Anthropic API, one tool call per document checked by Pydantic, cached system prompt, `max_tokens` 3,000 with one retry at 8,000, one repair turn when the check rejects a value, 8 worker threads.
+- Decision model: Jev `jev-latest` (answers report `jev-1.13.0`) at `https://api.typesafe.ai/v1/systemone`, with a disk cache; agreement and dispute bars 0.9.
+- Open questions: Claude Sonnet 5.5 with 4 read-only tools and at most 8 calls.
+- List prices on 2026-10-17 per million tokens: Sonnet 5.5 $2 in and $10 out; Haiku 5.5 $0.10 and $0.50; Jev $0.042 in.
+- Coding assistance: Claude Code. The orchestrating session ran Claude Fable 5.1 and Claude Opus 5.5. Implementers ran Claude Sonnet 5.5 and Claude Opus 5.5 on test-first tasks. Research subagents ran Claude Sonnet 5.5.
+- Runtime and cost of the whole build: see the tables above and the ledgers in `outputs/**/logs/spend.json`.
 
-## Models, settings, and coding assistance
+## Where things are
 
-- Extraction: `claude-sonnet-5-5` built the main store and `claude-haiku-5-5` is the cheap tier, both through the Anthropic API.
-- Settings: one `record_extraction` tool call per document, checked by Pydantic, with a cached system prompt and the temperature not set (API default).
-- Limits: `max_tokens` 3,000 with one retry at 8,000 after a cut-off, 3 tries to match the schema, one repair turn when the referee rejects values, 8 worker threads, and 4 SDK retries.
-- Decision model: Jev `jev-latest` (every cached answer reports `jev-1.13.0`) at `https://api.typesafe.ai/v1/systemone`, with an on-disk cache and agreement and dispute bars of 0.9.
-- Open questions: Claude Sonnet 5.5 with 4 read-only tools and at most 8 calls, and code checks every number against the tool results.
-- List prices (2026-10-17), per million tokens: Sonnet 5.5 $2 input and $10 output; Haiku 5.5 $0.10 and $0.50; Jev $0.042 input.
-- Coding assistance: Claude Code.
-  The orchestrating session ran Claude Fable 5.1 and Claude Opus 5.5.
-  Implementers ran Claude Sonnet 5.5 and Claude Opus 5.5 on test-first tasks, and research subagents ran Claude Sonnet 5.5.
-- The coding assistant derived the gold labels for the supplied record, and a person has not confirmed them yet.
-  `docs/gold-checklist.md` prints every cited source line under each of its 24 rows.
-- Runtime and cost: see the two tables above, and the ledgers `outputs/**/logs/spend.json` with caps of $10 and $0.50.
-
-## Repository map
-
-- `src/clinical_abstraction/`: `schema`, `verify` (the referee), `extract`, `jev`, `llm` (calls, prices, budget), `reconcile`, `calculate`, `store`, `pipeline`, `render`, `questions`, `answers`, `agent`, `cli`.
-- `evals/`: gold files, `score.py`, `synthetic.py`, `experiments.py` (routing and tier), `benchmark.py`, `questions.json` (54 questions).
-- `tests/`: 202 tests, and none calls a model.
-- `documents/`, `questions.json`, `examples/`: the supplied record (31 documents), the five development questions, a held-out patient (15 files), and one new addendum (the examples are synthetic).
-- `outputs/`: the saved store, abstraction exports, answers, logs, experiments, and `benchmarks.json`.
-- `docs/`, `AGENTS.md`, `HANDOFF.md`: rules and why (`design.md`), every run (`experiments.md`), decisions, the gold checklist, plans, working rules, and the state at hand-over.
-- `Dockerfile`, `.github/workflows/ci.yml`: the image builds in CI, never on a laptop.
+- `src/clinical_abstraction/`: `extract` (read), `verify` (check), `jev` (second opinion), `reconcile` and `calculate` (merge and count), `store` and `pipeline` (store), `questions` and `answers` (answer), `agent` (open questions), `cli`.
+- `outputs/`: the saved store, the patient record (`abstraction/HG-M042.md`), the five answers, logs, experiments, `benchmarks.json`.
+- `evals/`: expected values, the scorer, the synthetic patient generator, the experiments, the benchmark, the 54 questions.
+- `docs/`: [design.md](docs/design.md) (every rule and why), [experiments.md](docs/experiments.md) (every run), [decisions.md](docs/decisions.md), the gold checklist.
+- `documents/`, `questions.json`, `examples/`: the supplied record, the five questions, a held-out patient and an addendum (both synthetic).
