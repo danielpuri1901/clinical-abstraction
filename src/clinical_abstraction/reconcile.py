@@ -1441,24 +1441,26 @@ def summarize(encounters: list[dict]) -> dict:
     }
 
 
-def _bounded(low: int, high: int) -> str:
+def range_text(low, high) -> str:
+    """A value with its bounds: "40" when they agree, else "40-50"."""
     return str(low) if low == high else f"{low}-{high}"
 
 
-def _therapy_days(low: int, high: int) -> str:
-    return f"{_bounded(low, high)} therapy day{'' if (low, high) == (1, 1) else 's'}"
+def count_text(low: int, high: int, noun: str) -> str:
+    """A count with its bounds and its noun: "1 therapy day", "2-3 therapy days"."""
+    return f"{range_text(low, high)} {noun}{'' if low == high == 1 else 's'}"
 
 
 def goal_status(plan: dict | None, days_low: int, days_high: int, minutes_low: int, minutes_high: int) -> tuple[str, str]:
     if plan is None or (plan["min_days_per_week"] is None and plan["min_minutes_per_week"] is None):
         return "cannot_determine", "no measurable treatment-plan goal is documented for this week"
     need_days, need_minutes = plan["min_days_per_week"] or 0, plan["min_minutes_per_week"] or 0
-    goal = f"goal of {_therapy_days(need_days, need_days)} and {need_minutes} minutes"
-    stated = f"{_therapy_days(days_low, days_high)} and {_bounded(minutes_low, minutes_high)} minutes"
+    goal = f"goal of {count_text(need_days, need_days, "therapy day")} and {need_minutes} minutes"
+    stated = f"{count_text(days_low, days_high, "therapy day")} and {range_text(minutes_low, minutes_high)} minutes"
     if days_low >= need_days and minutes_low >= need_minutes:
         return "met", f"{stated} meet the {goal}"
     if days_high < need_days or minutes_high < need_minutes:
-        misses = [f"{_therapy_days(days_high, days_high)} < {need_days}"] if days_high < need_days else []
+        misses = [f"{count_text(days_high, days_high, "therapy day")} < {need_days}"] if days_high < need_days else []
         misses += [f"{minutes_high} minutes < {need_minutes}"] if minutes_high < need_minutes else []
         return "not_met", f"{stated} miss the {goal} ({'; '.join(misses)})"
     return "cannot_determine", (

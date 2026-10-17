@@ -613,15 +613,11 @@ def to_json(abstraction: dict) -> str:
     return json.dumps(abstraction, indent=1) + "\n"
 
 
-def _range(low: int, high: int) -> str:
-    return str(low) if low == high else f"{low}-{high}"
-
-
 def _cell(value) -> str:
     return "-" if value is None or value == "" else str(value).replace("|", "/").replace("\n", " ")
 
 
-def _table(headers: list[str], rows: list[list]) -> list[str]:
+def table_lines(headers: list[str], rows: list[list]) -> list[str]:
     if not rows:
         return ["None.", ""]
     return [
@@ -632,7 +628,7 @@ def _table(headers: list[str], rows: list[list]) -> list[str]:
     ]
 
 
-def _runs(runs: list[list[str]]) -> str:
+def runs_text(runs: list[list[str]]) -> str:
     return "; ".join(" and ".join(run) for run in runs) or "none"
 
 
@@ -659,19 +655,19 @@ def markdown(abstraction: dict) -> str:
     weeks = [
         [
             f"{w['week_start']} to {w['week_end']}",
-            _range(w["therapy_days_low"], w["therapy_days_high"]),
-            _range(w["minutes_low"], w["minutes_high"]),
+            reconcile.range_text(w["therapy_days_low"], w["therapy_days_high"]),
+            reconcile.range_text(w["minutes_low"], w["minutes_high"]),
             w["status"],
             w["explanation"],
         ]
         for w in abstraction["weeks"]
     ]
-    lines += _table(["Week", "Therapy days", "Minutes", "Status", "Why"], weeks)
+    lines += table_lines(["Week", "Therapy days", "Minutes", "Status", "Why"], weeks)
     shortfalls = abstraction["consecutive_weeks_below_goal"]
     lines += [
         (
-            f"Runs of {shortfalls['run_length']} weeks below goal, established: {_runs(shortfalls['established'])}. "
-            f"Depending on unresolved records: {_runs(shortfalls['depends_on_unresolved_records'])}."
+            f"Runs of {shortfalls['run_length']} weeks below goal, established: {runs_text(shortfalls['established'])}. "
+            f"Depending on unresolved records: {runs_text(shortfalls['depends_on_unresolved_records'])}."
         ),
         "",
     ]
@@ -684,12 +680,12 @@ def markdown(abstraction: dict) -> str:
             f"{e['service_type']} ({e['modality']})",
             e["status"],
             e["counts_as_therapy"],
-            _range(e["minutes_low"], e["minutes_high"]),
+            reconcile.range_text(e["minutes_low"], e["minutes_high"]),
             ", ".join(e["sources"]),
         ]
         for e in abstraction["encounters"]
     ]
-    lines += _table(["Date", "Encounter", "Type", "Status", "Counted", "Minutes", "Sources"], encounters)
+    lines += table_lines(["Date", "Encounter", "Type", "Status", "Counted", "Minutes", "Sources"], encounters)
 
     lines += ["## Flags", ""]
     for flag in abstraction["flags"]:
@@ -703,7 +699,7 @@ def markdown(abstraction: dict) -> str:
         [a["completed_on"], a["instrument"], a["total_score"], ", ".join(a["sources"]), ", ".join(a["copies"])]
         for a in abstraction["assessments"]
     ]
-    lines += _table(["Completed", "Instrument", "Total", "Sources", "Copies"], assessments)
+    lines += table_lines(["Completed", "Instrument", "Total", "Sources", "Copies"], assessments)
 
     lines += ["## Plan versions", ""]
     compared = abstraction["plan_versions_compared"]
@@ -717,15 +713,16 @@ def markdown(abstraction: dict) -> str:
                 f"{plan['effective_date'] or 'not stated'} to {plan['effective_end'] or 'open'}",
                 f"{plan['min_days_per_week']} days, {plan['min_minutes_per_week']} minutes",
                 ", ".join(plan["counted_service_types"]),
-                _range(row["minutes_per_week_low"], row["minutes_per_week_high"]) if row else None,
+                reconcile.range_text(row["minutes_per_week_low"], row["minutes_per_week_high"]) if row else None,
                 ", ".join(plan["sources"]),
             ]
         )
-    lines += _table(["Version", "Effective", "Goal per week", "Counted types", "Delivered minutes per week", "Sources"], plans)
+    headers = ["Version", "Effective", "Goal per week", "Counted types", "Delivered minutes per week", "Sources"]
+    lines += table_lines(headers, plans)
     if compared["note"]:
         lines += [compared["note"], ""]
 
     lines += ["## Observations", ""]
     observations = [[o["observed_on"], o["category"], o["text"], ", ".join(o["sources"])] for o in abstraction["observations"]]
-    lines += _table(["Date", "Category", "Statement", "Sources"], observations)
+    lines += table_lines(["Date", "Category", "Statement", "Sources"], observations)
     return "\n".join(lines).rstrip("\n") + "\n"

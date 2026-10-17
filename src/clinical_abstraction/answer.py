@@ -20,8 +20,8 @@ from typing import Literal, get_args
 
 from clinical_abstraction import read, reconcile, store
 from clinical_abstraction.read import Choice, ChoiceAnswer, Jev
-from clinical_abstraction.reconcile import normalize_date
-from clinical_abstraction.store import _range, _runs, _table
+from clinical_abstraction.reconcile import count_text, normalize_date, range_text
+from clinical_abstraction.store import runs_text, table_lines
 
 # 1. Plans ======================================================================================================================
 # Code parses what code is good at: patients (MRN or name, matched against the store) and dates. An unknown patient or an
@@ -446,10 +446,6 @@ def _hours(minutes: int) -> str:
     return f"{minutes / 60:.2f}".rstrip("0").rstrip(".")
 
 
-def _count(low: int, high: int, noun: str) -> str:
-    return f"{_range(low, high)} {noun}{'' if low == high == 1 else 's'}"
-
-
 def _cites(citations: list[str]) -> str:
     return f"[{', '.join(citations)}]" if citations else ""
 
@@ -490,25 +486,26 @@ def _matches(row: dict, attendance: str) -> bool:
 def _headline(plan: Plan, rows: list[dict]) -> str:
     totals = reconcile.summarize(rows)
     low, high = totals["minutes_low"], totals["minutes_high"]
-    minutes = f"{_range(low, high)} minutes ({_range(_hours(low), _hours(high))} hours)"
-    sessions = _count(totals["sessions_low"], totals["sessions_high"], "therapy session")
+    minutes = f"{range_text(low, high)} minutes ({range_text(_hours(low), _hours(high))} hours)"
+    sessions = count_text(totals["sessions_low"], totals["sessions_high"], "therapy session")
     if plan.metric == "minutes":
         return f"**{minutes}** of patient-present therapy"
     if plan.metric == "days":
-        return f"**{_count(totals['therapy_days_low'], totals['therapy_days_high'], 'distinct therapy day')}** ({sessions}, {minutes})"
+        days = count_text(totals["therapy_days_low"], totals["therapy_days_high"], "distinct therapy day")
+        return f"**{days}** ({sessions}, {minutes})"
     if plan.attendance == "attended":
         by_type = ", ".join(
-            f"{_range(row['sessions_low'], row['sessions_high'])} {kind.replace('_psychotherapy', '')} "
-            f"({_range(row['minutes_low'], row['minutes_high'])} min)"
+            f"{range_text(row['sessions_low'], row['sessions_high'])} {kind.replace('_psychotherapy', '')} "
+            f"({range_text(row['minutes_low'], row['minutes_high'])} min)"
             for kind, row in totals["by_service_type"].items()
         )
-        days = _count(totals["therapy_days_low"], totals["therapy_days_high"], "distinct day")
+        days = count_text(totals["therapy_days_low"], totals["therapy_days_high"], "distinct day")
         return f"**{sessions} on {days}**" + (f" ({by_type})" if by_type else "")
     if plan.attendance == "missed_by_patient":
-        return f"**{_count(len(rows), len(rows), 'missed session')}** (no-show, absent, or cancelled by the patient)"
+        return f"**{count_text(len(rows), len(rows), 'missed session')}** (no-show, absent, or cancelled by the patient)"
     if plan.attendance == "cancelled_by_clinic":
-        return f"**{_count(len(rows), len(rows), 'session')} cancelled by the clinic**"
-    return f"**{_count(len(rows), len(rows), 'session record')}**, of which {sessions} count toward the plan, with {minutes}"
+        return f"**{count_text(len(rows), len(rows), 'session')} cancelled by the clinic**"
+    return f"**{count_text(len(rows), len(rows), 'session record')}**, of which {sessions} count toward the plan, with {minutes}"
 
 
 def _groups(connection, plan: Plan, mrn: str, rows: list[dict]) -> list[tuple[str, list[dict]]]:
@@ -539,10 +536,10 @@ def _group_row(label: str, rows: list[dict]) -> list:
     return [
         label,
         len(rows),
-        _range(totals["sessions_low"], totals["sessions_high"]),
-        _range(totals["therapy_days_low"], totals["therapy_days_high"]),
-        _range(low, high),
-        _range(_hours(low), _hours(high)),
+        range_text(totals["sessions_low"], totals["sessions_high"]),
+        range_text(totals["therapy_days_low"], totals["therapy_days_high"]),
+        range_text(low, high),
+        range_text(_hours(low), _hours(high)),
     ]
 
 
@@ -566,7 +563,7 @@ def _filtered(connection, plan: Plan, mrn: str) -> str:
         heading = {"week": "Week", "day": "Date", "service_type": "Service type", "plan_version": "Plan version"}[plan.group_by]
         groups = _groups(connection, plan, mrn, matching)
         headers = [heading, "Records", "Therapy sessions", "Therapy days", "Minutes", "Hours"]
-        parts.append("\n".join(_table(headers, [_group_row(label, group) for label, group in groups])).strip())
+        parts.append("\n".join(table_lines(headers, [_group_row(label, group) for label, group in groups])).strip())
     # A sessions answer also lists what did not count, and why, so a reviewer sees every ineligible record.
     listed = rows if plan.metric == "sessions" and plan.attendance == "attended" else matching
     if not listed:
@@ -579,14 +576,14 @@ def _filtered(connection, plan: Plan, mrn: str) -> str:
             f"{row['service_type']} ({row['modality']})",
             row["status"],
             row["counts_as_therapy"],
-            _range(row["minutes_low"], row["minutes_high"]),
+            range_text(row["minutes_low"], row["minutes_high"]),
             calculations.get(row["encounter"]),
             ", ".join(row["sources"]),
         ]
         for row in listed
     ]
     headers = ["Date", "Encounter", "Service", "Status", "Counted", "Minutes", "Calculation or reason", "Sources"]
-    parts.append("\n".join(_table(headers, table)).strip())
+    parts.append("\n".join(table_lines(headers, table)).strip())
     counted = {row["encounter"]: row["counts_as_therapy"] for row in listed}
     flags = [
         _flag_line(flag)
@@ -603,8 +600,8 @@ def _filtered(connection, plan: Plan, mrn: str) -> str:
 def _goal_text(plan_row: dict, short: bool = False) -> str:
     days, minutes = plan_row["min_days_per_week"], plan_row["min_minutes_per_week"]
     if short:
-        return f"{'-' if days is None else _count(days, days, 'day')}, {'-' if minutes is None else minutes} min"
-    parts = [_count(days, days, "therapy day")] if days is not None else []
+        return f"{'-' if days is None else count_text(days, days, 'day')}, {'-' if minutes is None else minutes} min"
+    parts = [count_text(days, days, "therapy day")] if days is not None else []
     parts += [f"{minutes} patient-present minutes"] if minutes is not None else []
     return " and ".join(parts) or "no measurable amount"
 
@@ -631,17 +628,17 @@ def _goal(connection, plan: Plan, mrn: str) -> str:
         [
             number,
             f"{week['week_start']} to {week['week_end']}",
-            _range(week["therapy_days_low"], week["therapy_days_high"]),
-            _range(week["minutes_low"], week["minutes_high"]),
+            range_text(week["therapy_days_low"], week["therapy_days_high"]),
+            range_text(week["minutes_low"], week["minutes_high"]),
             goals.get(week["plan_version"], "none documented"),
             f"**{STATUS_WORDS[week['status']]}**",
         ]
         for number, week in numbered
     ]
-    lines += ["", "\n".join(_table(["Week", "Dates", "Therapy days", "Minutes", "Goal", "Status"], table)).strip(), ""]
+    lines += ["", "\n".join(table_lines(["Week", "Dates", "Therapy days", "Minutes", "Goal", "Status"], table)).strip(), ""]
     lines += [f"- Week {number}: {week['explanation'].rstrip('.')}." for number, week in numbered]
     runs = reconcile.consecutive_shortfalls([week for _, week in numbered])
-    established, depending = _runs(runs["established"]), _runs(runs["depends_on_unresolved_records"])
+    established, depending = runs_text(runs["established"]), runs_text(runs["depends_on_unresolved_records"])
     lines += ["", f"Consecutive weeks below goal: established {established}; depending on unresolved records {depending}."]
     return "\n".join(lines)
 
@@ -656,8 +653,8 @@ def _collection(connection, plan: Plan) -> str:
     depending = sorted(mrn for mrn in possible if mrn not in established)
     reviewed = len(plan.patients)
     counts = (
-        f"{_count(reviewed, reviewed, 'patient')} reviewed: {len(established)} with 2 consecutive weeks below goal established "
-        f"by the record, {len(depending)} whose inclusion depends on unresolved records, "
+        f"{count_text(reviewed, reviewed, 'patient')} reviewed: {len(established)} with 2 consecutive weeks below goal "
+        f"established by the record, {len(depending)} whose inclusion depends on unresolved records, "
         f"{reviewed - len(established) - len(depending)} not included."
     )
     lines = [
@@ -688,19 +685,19 @@ def _plan_change(connection, plan: Plan, mrn: str) -> str:
             f"{row['plan_version']} {_cites(row['sources'])}",
             f"{row['start']} to {row['end']} ({row['weeks']} weeks)",
             f"{row['goal_days']} days, {row['goal_minutes']} min",
-            _range(row["sessions_low"], row["sessions_high"]),
-            _range(row["minutes_low"], row["minutes_high"]),
-            _range(row["minutes_per_week_low"], row["minutes_per_week_high"]),
+            range_text(row["sessions_low"], row["sessions_high"]),
+            range_text(row["minutes_low"], row["minutes_high"]),
+            range_text(row["minutes_per_week_low"], row["minutes_per_week_high"]),
             ", ".join(
-                f"{kind}: {_count(item['sessions_low'], item['sessions_high'], 'session')}, "
-                f"{_range(item['minutes_low'], item['minutes_high'])} min"
+                f"{kind}: {count_text(item['sessions_low'], item['sessions_high'], 'session')}, "
+                f"{range_text(item['minutes_low'], item['minutes_high'])} min"
                 for kind, item in row["by_service_type"].items()
             ),
         ]
         for row in compared["versions"]
     ]
     headers = ["Plan version", "Dates", "Goal", "Sessions", "Minutes", "Minutes per week", "By service type"]
-    parts = ["\n".join(_table(headers, rows)).strip()] if rows else []
+    parts = ["\n".join(table_lines(headers, rows)).strip()] if rows else []
     return "\n\n".join(parts + ([compared["note"]] if compared["note"] else []))
 
 
@@ -774,7 +771,7 @@ def _progress(connection, plan: Plan, mrn: str) -> str:
     if len({row["instrument"] for row in administrations}) <= 1:
         unsupported.append("a measured change in anxiety or sleep: no instrument for them is recorded, only narrative notes")
     lines = [f"{len(administrations)} distinct administrations; repeats and imports are merged into the original.", ""]
-    lines += ["\n".join(_table(["Completed", "Instrument", "Total", "Band", "Source", "Copies"], table)).strip()]
+    lines += ["\n".join(table_lines(["Completed", "Instrument", "Total", "Band", "Source", "Copies"], table)).strip()]
     lines += ["", "Can be supported:", ""] + ([f"- {item}." for item in supported] or ["- nothing measured."])
     lines += ["", "Cannot be supported:", ""] + [f"- {item}." for item in unsupported]
     observations = [
@@ -815,7 +812,7 @@ def _integrity(connection, plan: Plan, mrn: str) -> str:
     ).fetchall()
     if not flags:
         return "No billing or documentation-integrity findings."
-    count = _count(len(flags), len(flags), "billing or documentation-integrity finding")
+    count = count_text(len(flags), len(flags), "billing or documentation-integrity finding")
     return f"{count}:\n\n" + "\n".join(_flag_line(flag) for flag in flags)
 
 
@@ -859,7 +856,7 @@ def _header(connection, plan: Plan) -> tuple[list[str], list[str]]:
     )
     pending = [(mrn, item) for mrn, incomplete in rows for item in json.loads(incomplete)]
     if pending:
-        count = f"{_count(len(pending), len(pending), 'document')} pending"
+        count = f"{count_text(len(pending), len(pending), 'document')} pending"
         named = "; ".join(f"{item['doc_id']} for {mrn}: {item['reason']}" for mrn, item in pending[:PENDING_LISTED])
         more = f"; and {len(pending) - PENDING_LISTED} more" if len(pending) > PENDING_LISTED else ""
         lines.append(f"Incomplete: {count} ({named}{more})")
@@ -875,7 +872,7 @@ def _render(connection, plan: Plan) -> tuple[str, list[str], list[str]]:
     broken = broken_citations(connection, text)
     if broken:
         warnings.append(
-            f"{_count(len(broken), len(broken), 'citation')} not found in the stored documents ({', '.join(broken[:10])})"
+            f"{count_text(len(broken), len(broken), 'citation')} not found in the stored documents ({', '.join(broken[:10])})"
         )
     return text, warnings, broken
 
