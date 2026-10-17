@@ -10,29 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-26 assessment_review",
-   "service_date": "2026-01-26",
-   "service_dates": [
-    "2026-01-26"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07012_02_questionnaire_review L2",
-    "SY-M07012_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-V0701201",
    "service_date": "2026-01-26",
    "service_dates": [
@@ -228,35 +205,13 @@
    "calculation": "not delivered (no show)",
    "sources": [
     "SY-M07012_12_service_record L10-12",
-    "SY-M07012_11_draft_and_charge L7-11"
+    "SY-M07012_11_draft_and_charge L5",
+    "SY-M07012_11_draft_and_charge L8-11"
    ],
    "flags": [
     "charge_for_undelivered_service",
     "unsupported_record_for_undelivered_service"
    ]
-  },
-  {
-   "encounter": "2026-02-17 assessment_review",
-   "service_date": "2026-02-17",
-   "service_dates": [
-    "2026-02-17"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07012_13_questionnaire_review L5",
-    "SY-M07012_13_questionnaire_review L8-9"
-   ],
-   "flags": []
   },
   {
    "encounter": "SY-V0701209",
@@ -290,7 +245,7 @@
    ],
    "service_type": "family_psychotherapy",
    "modality": "in_person",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
@@ -352,42 +307,10 @@
  "observations": [
   {
    "observed_on": "2026-01-26",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
+   "category": "reason_for_contact",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07012_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07012_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 depression questionnaire with a total score of 14.",
-   "sources": [
-    "SY-M07012_02_questionnaire_review L5-7"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07012_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-17",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 11.",
-   "sources": [
-    "SY-M07012_13_questionnaire_review L6-7"
    ]
   }
  ],
@@ -411,22 +334,28 @@
    "citations": [
     "SY-M07012_11_draft_and_charge L14-17",
     "SY-M07012_12_service_record L10-12",
-    "SY-M07012_11_draft_and_charge L7-11"
+    "SY-M07012_11_draft_and_charge L5",
+    "SY-M07012_11_draft_and_charge L8-11"
    ],
    "settles": null
   },
   {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "SY-V0701208",
-   "text": "SY-M07012_11_draft_and_charge L7-11 (labelled draft or template) exists for SY-V0701208, which the signed records show as no show; it is not evidence that care was delivered.",
+   "text": "SY-M07012_11_draft_and_charge L5, SY-M07012_11_draft_and_charge L8-11 (labelled draft or template) exists for SY-V0701208, which the signed records show as no show; it is not evidence that care was delivered.",
    "citations": [
-    "SY-M07012_11_draft_and_charge L7-11",
+    "SY-M07012_11_draft_and_charge L5",
+    "SY-M07012_11_draft_and_charge L8-11",
     "SY-M07012_12_service_record L10-12"
    ],
    "settles": null
   }
  ],
  "coverage_notes": [
+  {
+   "citation": "SY-M07012_11_draft_and_charge L7",
+   "value": "08:00"
+  },
   {
    "citation": "SY-M07012_11_draft_and_charge L15",
    "value": "18:06"
@@ -556,7 +485,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 15,
   "documents_pending": 0
  }

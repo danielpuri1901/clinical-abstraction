@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-05 assessment_review",
-   "service_date": "2026-01-05",
-   "service_dates": [
-    "2026-01-05"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07008_02_questionnaire_review L9-10"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700801",
    "service_date": "2026-01-05",
    "service_dates": [
@@ -229,7 +207,8 @@
    "excluded": [],
    "calculation": "14:00-14:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07008_12_service_record L6-9"
+    "SY-M07008_12_service_record L6-7",
+    "SY-M07008_12_service_record L9"
    ],
    "flags": []
   },
@@ -251,11 +230,10 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07008_06_cancellation_notice L6-9"
+    "SY-M07008_06_cancellation_notice L6-7",
+    "SY-M07008_06_cancellation_notice L9"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0700810",
@@ -270,7 +248,7 @@
    "reason": "collateral contact does not count toward the plan goal",
    "minutes_low": 0,
    "minutes_high": 0,
-   "scheduled": "14:00-14:40 (40 min)",
+   "scheduled": null,
    "patient_present": [],
    "excluded": [],
    "calculation": "collateral contact does not count toward the plan goal",
@@ -360,28 +338,6 @@
    "flags": []
   },
   {
-   "encounter": "2026-01-30 assessment_review",
-   "service_date": "2026-01-30",
-   "service_dates": [
-    "2026-01-30"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07008_11_questionnaire_review L9-10"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700814",
    "service_date": "2026-01-30",
    "service_dates": [
@@ -459,7 +415,7 @@
    "total_score": 15,
    "copies": [],
    "sources": [
-    "SY-M07008_11_questionnaire_review L6-9"
+    "SY-M07008_11_questionnaire_review L6-8"
    ],
    "note": null
   }
@@ -468,7 +424,7 @@
   {
    "observed_on": "2026-01-05",
    "category": "anxiety",
-   "text": "Presenting need includes worry about daily tasks.",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07008_01_treatment_plan L9"
    ]
@@ -476,7 +432,7 @@
   {
    "observed_on": "2026-01-05",
    "category": "mood",
-   "text": "Presenting need includes low mood.",
+   "text": "Presenting needs include low mood.",
    "sources": [
     "SY-M07008_01_treatment_plan L9"
    ]
@@ -484,31 +440,14 @@
   {
    "observed_on": "2026-01-05",
    "category": "sleep",
-   "text": "Presenting need includes irregular sleep.",
+   "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07008_01_treatment_plan L9"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "reason_for_contact",
-   "text": "The treatment team adjusted the intensity of care after the first two weeks.",
-   "sources": [
-    "SY-M07008_04_plan_update L8"
    ]
   }
  ],
  "charges": [],
  "flags": [
-  {
-   "kind": "label_disputed",
-   "encounter": "SY-E0700809",
-   "text": "The decision model reads SY-M07008_06_cancellation_notice L6-9 as service_type outreach_or_scheduling_call (confidence 0.94); the extraction says group_psychotherapy. That reading would not change whether SY-E0700809 counts.",
-   "citations": [
-    "SY-M07008_06_cancellation_notice L6-9"
-   ],
-   "settles": "A reviewer reading SY-M07008_06_cancellation_notice L6-9, or a signed record stating the service type of SY-E0700809, would settle it."
-  },
   {
    "kind": "possible_omission",
    "encounter": "SY-E0700803",
@@ -573,16 +512,12 @@
    "value": "11:05"
   },
   {
-   "citation": "SY-M07008_03_service_record L36",
-   "value": "15:05"
-  },
-  {
-   "citation": "SY-M07008_05_imported_result L9",
-   "value": "09:17"
-  },
-  {
    "citation": "SY-M07008_12_service_record L9",
    "value": "15:35"
+  },
+  {
+   "citation": "SY-M07008_12_service_record L12",
+   "value": "14:40"
   },
   {
    "citation": "SY-M07008_12_service_record L13",
@@ -591,10 +526,6 @@
   {
    "citation": "SY-M07008_12_service_record L18",
    "value": "11:50"
-  },
-  {
-   "citation": "SY-M07008_12_service_record L22",
-   "value": "18:05"
   }
  ],
  "incomplete": [],
@@ -746,7 +677,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }

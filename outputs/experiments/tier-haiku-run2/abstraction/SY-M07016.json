@@ -10,29 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-02-16 assessment_review",
-   "service_date": "2026-02-16",
-   "service_dates": [
-    "2026-02-16"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07016_02_questionnaire_review L5-6",
-    "SY-M07016_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0701601",
    "service_date": "2026-02-16",
    "service_dates": [
@@ -52,7 +29,7 @@
    "excluded": [],
    "calculation": "15:00-15:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07016_03_service_record L5-9"
+    "SY-M07016_03_service_record L6-9"
    ],
    "flags": []
   },
@@ -76,7 +53,7 @@
    "excluded": [],
    "calculation": "16:00-16:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07016_03_service_record L11-14"
+    "SY-M07016_03_service_record L12-14"
    ],
    "flags": []
   },
@@ -100,7 +77,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07016_04_service_record L6-8"
+    "SY-M07016_04_service_record L5-8"
    ],
    "flags": []
   },
@@ -126,7 +103,7 @@
    ],
    "calculation": "14:10-14:50 present (40 min), minus patient not present 14:00-14:10 = 10 min (SY-M07016_07_service_record L8) = 40 min",
    "sources": [
-    "SY-M07016_07_service_record L5-10"
+    "SY-M07016_07_service_record L6-10"
    ],
    "flags": []
   },
@@ -152,8 +129,7 @@
    ],
    "calculation": "10:10-11:30 present (80 min), minus break 10:45-11:05 = 20 min (SY-M07016_05_attendance_record L9) = 60 min; arrival time 10:00 corrected to 10:10 (SY-M07016_06_correction L5-6)",
    "sources": [
-    "SY-M07016_05_attendance_record L5-8",
-    "SY-M07016_05_attendance_record L10",
+    "SY-M07016_05_attendance_record L6-10",
     "SY-M07016_06_correction L5-6"
    ],
    "flags": []
@@ -178,7 +154,8 @@
    "excluded": [],
    "calculation": "14:00-14:25 present (25 min) = 25 min",
    "sources": [
-    "SY-M07016_07_service_record L12-16"
+    "SY-M07016_07_service_record L13-14",
+    "SY-M07016_07_service_record L16"
    ],
    "flags": []
   },
@@ -294,32 +271,8 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07016_09_cancellation_notice L5-8"
-   ],
-   "flags": [
-    "label_disputed"
-   ]
-  },
-  {
-   "encounter": "2026-03-09 assessment_review",
-   "service_date": "2026-03-09",
-   "service_dates": [
-    "2026-03-09"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07016_10_questionnaire_review L5-6",
-    "SY-M07016_10_questionnaire_review L8-9"
+    "SY-M07016_09_cancellation_notice L5-6",
+    "SY-M07016_09_cancellation_notice L8"
    ],
    "flags": []
   },
@@ -369,7 +322,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07016_12_service_record L9) = 75 min",
    "sources": [
-    "SY-M07016_12_service_record L5-10"
+    "SY-M07016_12_service_record L6-10"
    ],
    "flags": []
   },
@@ -511,14 +464,6 @@
   },
   {
    "observed_on": "2026-02-16",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 14.",
-   "sources": [
-    "SY-M07016_02_questionnaire_review L5-7"
-   ]
-  },
-  {
-   "observed_on": "2026-02-16",
    "category": "sleep",
    "text": "Presenting needs include irregular sleep.",
    "sources": [
@@ -527,17 +472,7 @@
   }
  ],
  "charges": [],
- "flags": [
-  {
-   "kind": "label_disputed",
-   "encounter": "SY-E0701611",
-   "text": "The decision model reads SY-M07016_09_cancellation_notice L5-8 as service_type outreach_or_scheduling_call (confidence 0.91); the extraction says group_psychotherapy. That reading would not change whether SY-E0701611 counts.",
-   "citations": [
-    "SY-M07016_09_cancellation_notice L5-8"
-   ],
-   "settles": "A reviewer reading SY-M07016_09_cancellation_notice L5-8, or a signed record stating the service type of SY-E0701611, would settle it."
-  }
- ],
+ "flags": [],
  "coverage_notes": [],
  "incomplete": [],
  "weeks": [
@@ -666,7 +601,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 13,
   "documents_pending": 0
  }

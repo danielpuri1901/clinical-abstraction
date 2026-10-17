@@ -281,24 +281,25 @@ RECORD_TOOL = {
 EXTRACT_EFFORT = os.environ.get("EXTRACT_EFFORT", "low")  # extraction copies values; it needs no long thinking
 # The tool call is forced and the effort fixed: the official Haiku 5.5 guidance for a required tool call, and the lowest
 # thinking budget, because thinking counts toward max_tokens and was behind the cut-offs at 3,000 tokens.
-EXTRACT_REQUEST_OPTIONS = {
-    "tool_choice": {"type": "tool", "name": "record_extraction"},
-    "output_config": {"effort": EXTRACT_EFFORT},
-}
 USER_TURN_FORMAT = "document tag with numbered lines, v4"
 
 # What shapes an extraction. A change to any of these re-extracts documents (see extractor_version).
-EXTRACTOR_VERSION_INPUTS = {
-    "system_prompt": SYSTEM_PROMPT,
-    "tool": RECORD_TOOL,
-    "request_options": EXTRACT_REQUEST_OPTIONS,
-    "user_turn": USER_TURN_FORMAT,
-}
+EXTRACTOR_VERSION_INPUTS = {"system_prompt": SYSTEM_PROMPT, "tool": RECORD_TOOL, "user_turn": USER_TURN_FORMAT}
+
+
+def extract_request_options(model: str) -> dict:
+    """The forced tool call is accepted by Haiku 5.5 and refused by Sonnet 5.5 ('tool_choice: type "tool" and "any" are not
+    supported for this model'), so Sonnet keeps the automatic choice and the prompt's instruction to call the tool once."""
+    options = {"output_config": {"effort": EXTRACT_EFFORT}}
+    if model.startswith("claude-haiku"):
+        options["tool_choice"] = {"type": "tool", "name": "record_extraction"}
+    return options
 
 
 def extractor_version(model: str) -> str:
-    """Twelve hex characters of sha256 over the system prompt, the tool definition with its schema, and the model."""
-    material = json.dumps({**EXTRACTOR_VERSION_INPUTS, "model": model}, sort_keys=True)
+    """Twelve hex characters of sha256 over the system prompt, the tool definition with its schema, the request options,
+    and the model."""
+    material = json.dumps({**EXTRACTOR_VERSION_INPUTS, "request_options": extract_request_options(model), "model": model}, sort_keys=True)
     return hashlib.sha256(material.encode()).hexdigest()[:12]
 
 
@@ -335,7 +336,7 @@ def extract_document(document_id: str, text: str, model: str, budget: Budget, ca
     messages = [{"role": "user", "content": f'<document id="{document_id}">\n{reconcile.numbered(text)}\n</document>'}]
 
     def ask(max_tokens: int) -> dict:
-        response = call(model, SYSTEM_PROMPT, list(messages), [RECORD_TOOL], max_tokens=max_tokens, **EXTRACT_REQUEST_OPTIONS)
+        response = call(model, SYSTEM_PROMPT, list(messages), [RECORD_TOOL], max_tokens=max_tokens, **extract_request_options(model))
         cost = usage_cost(model, response["usage"])
         budget.charge("claude", cost, f"extract {document_id}")
         usage["calls"] += 1

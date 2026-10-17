@@ -10,29 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-12 assessment_review",
-   "service_date": "2026-01-12",
-   "service_dates": [
-    "2026-01-12"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07025_02_questionnaire_review L6",
-    "SY-M07025_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0702501",
    "service_date": "2026-01-12",
    "service_dates": [
@@ -54,7 +31,7 @@
    ],
    "calculation": "13:15-14:30 present (75 min), minus break 13:40-13:50 = 10 min (SY-M07025_03_attendance_record L9) = 65 min; arrival time 13:00 corrected to 13:15 (SY-M07025_04_correction L5-6)",
    "sources": [
-    "SY-M07025_03_attendance_record L6-10",
+    "SY-M07025_03_attendance_record L5-10",
     "SY-M07025_04_correction L5-6"
    ],
    "flags": []
@@ -79,7 +56,7 @@
    "excluded": [],
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07025_05_service_record L6-8"
+    "SY-M07025_05_service_record L5-8"
    ],
    "flags": []
   },
@@ -198,8 +175,8 @@
    "excluded": [],
    "calculation": "16:15-16:50 present (35 min) = 35 min; arrival time 16:00 corrected to 16:15 (SY-M07025_12_addendum L5-6)",
    "sources": [
-    "SY-M07025_10_service_record L6-8",
-    "SY-M07025_11_cotherapist_record L6-8",
+    "SY-M07025_10_service_record L5-8",
+    "SY-M07025_11_cotherapist_record L5-8",
     "SY-M07025_12_addendum L5-6"
    ],
    "flags": []
@@ -224,29 +201,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07025_14_service_record L5-9"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-02-03 assessment_review",
-   "service_date": "2026-02-03",
-   "service_dates": [
-    "2026-02-03"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07025_13_questionnaire_review L8-9"
+    "SY-M07025_14_service_record L6-9"
    ],
    "flags": []
   },
@@ -272,7 +227,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-14:00 = 20 min (SY-M07025_14_service_record L15) = 70 min",
    "sources": [
-    "SY-M07025_14_service_record L11-16"
+    "SY-M07025_14_service_record L12-16"
    ],
    "flags": []
   },
@@ -298,7 +253,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:50 = 10 min (SY-M07025_14_service_record L22) = 80 min",
    "sources": [
-    "SY-M07025_14_service_record L18-23"
+    "SY-M07025_14_service_record L19-23"
    ],
    "flags": []
   }
@@ -362,18 +317,26 @@
  "observations": [
   {
    "observed_on": "2026-01-12",
-   "category": "reason_for_contact",
-   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
+   "category": "anxiety",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07025_01_treatment_plan L8"
    ]
   },
   {
-   "observed_on": "2026-01-26",
-   "category": "reason_for_contact",
-   "text": "Treatment team adjusted intensity of care after the first two weeks.",
+   "observed_on": "2026-01-12",
+   "category": "mood",
+   "text": "Presenting needs include low mood.",
    "sources": [
-    "SY-M07025_07_plan_update L7"
+    "SY-M07025_01_treatment_plan L8"
+   ]
+  },
+  {
+   "observed_on": "2026-01-12",
+   "category": "sleep",
+   "text": "Presenting needs include irregular sleep.",
+   "sources": [
+    "SY-M07025_01_treatment_plan L8"
    ]
   }
  ],
@@ -536,7 +499,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 14,
   "documents_pending": 0
  }

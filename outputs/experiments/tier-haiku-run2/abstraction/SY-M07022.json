@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-02-09 assessment_review",
-   "service_date": "2026-02-09",
-   "service_dates": [
-    "2026-02-09"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07022_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0702201",
    "service_date": "2026-02-10",
    "service_dates": [
@@ -49,10 +27,10 @@
     "14:00-15:00"
    ],
    "excluded": [],
-   "calculation": "range 30-60 min: SY-M07022_03_service_record L5-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L5-8 gives 14:30-15:00 = 30 min",
+   "calculation": "range 30-60 min: SY-M07022_03_service_record L6-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L6-8 gives 14:30-15:00 = 30 min",
    "sources": [
-    "SY-M07022_03_service_record L5-8",
-    "SY-M07022_04_cotherapist_record L5-8"
+    "SY-M07022_03_service_record L6-8",
+    "SY-M07022_04_cotherapist_record L6-8"
    ],
    "flags": [
     "unresolved_minutes_conflict"
@@ -182,28 +160,6 @@
    "flags": []
   },
   {
-   "encounter": "2026-03-02 assessment_review",
-   "service_date": "2026-03-02",
-   "service_dates": [
-    "2026-03-02"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07022_08_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0702207",
    "service_date": "2026-03-02",
    "service_dates": [
@@ -299,7 +255,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07022_10_service_record L9) = 75 min",
    "sources": [
-    "SY-M07022_10_service_record L5-10"
+    "SY-M07022_10_service_record L6-10"
    ],
    "flags": []
   },
@@ -323,7 +279,7 @@
    "excluded": [],
    "calculation": "15:00-15:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07022_10_service_record L12-16"
+    "SY-M07022_10_service_record L13-16"
    ],
    "flags": []
   }
@@ -371,43 +327,10 @@
  "observations": [
   {
    "observed_on": "2026-02-09",
-   "category": "anxiety",
-   "text": "Presenting need: worry about daily tasks.",
-   "sources": [
-    "SY-M07022_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
-   "category": "mood",
-   "text": "Presenting need: low mood.",
-   "sources": [
-    "SY-M07022_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-09",
-   "category": "sleep",
-   "text": "Presenting need: irregular sleep.",
-   "sources": [
-    "SY-M07022_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-25",
    "category": "reason_for_contact",
-   "text": "Collateral session with partner Alex held while the client did not attend.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07022_07_service_record L12"
-   ]
-  },
-  {
-   "observed_on": "2026-03-06",
-   "category": "reason_for_contact",
-   "text": "Visit was a medication review only; no psychotherapy was provided.",
-   "sources": [
-    "SY-M07022_10_service_record L13",
-    "SY-M07022_10_service_record L15"
+    "SY-M07022_01_treatment_plan L8"
    ]
   }
  ],
@@ -416,10 +339,10 @@
   {
    "kind": "unresolved_minutes_conflict",
    "encounter": "SY-E0702201",
-   "text": "Signed records of SY-E0702201 disagree on patient-present minutes: SY-M07022_03_service_record L5-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L5-8 gives 14:30-15:00 = 30 min. No correction or addendum resolves it, so SY-E0702201 is carried as a range 30-60 min.",
+   "text": "Signed records of SY-E0702201 disagree on patient-present minutes: SY-M07022_03_service_record L6-8 gives 14:00-15:00 = 60 min; SY-M07022_04_cotherapist_record L6-8 gives 14:30-15:00 = 30 min. No correction or addendum resolves it, so SY-E0702201 is carried as a range 30-60 min.",
    "citations": [
-    "SY-M07022_03_service_record L5-8",
-    "SY-M07022_04_cotherapist_record L5-8"
+    "SY-M07022_03_service_record L6-8",
+    "SY-M07022_04_cotherapist_record L6-8"
    ],
    "settles": "An addendum or signed note stating the start time of SY-E0702201 would settle it."
   }
@@ -544,7 +467,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 10,
   "documents_pending": 0
  }

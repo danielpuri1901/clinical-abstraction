@@ -10,29 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-19 assessment_review",
-   "service_date": "2026-01-19",
-   "service_dates": [
-    "2026-01-19"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07019_02_questionnaire_review L5-6",
-    "SY-M07019_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0701901",
    "service_date": "2026-01-19",
    "service_dates": [
@@ -55,8 +32,7 @@
    ],
    "calculation": "16:00-16:20, 16:25-16:50 present (45 min), minus disconnect 16:20-16:25 = 5 min (SY-M07019_03_service_record L9) = 45 min",
    "sources": [
-    "SY-M07019_03_service_record L5-8",
-    "SY-M07019_03_service_record L10-11"
+    "SY-M07019_03_service_record L6-11"
    ],
    "flags": []
   },
@@ -80,7 +56,8 @@
    "excluded": [],
    "calculation": "16:00-16:25 present (25 min) = 25 min",
    "sources": [
-    "SY-M07019_05_service_record L6-9"
+    "SY-M07019_05_service_record L6-7",
+    "SY-M07019_05_service_record L9"
    ],
    "flags": []
   },
@@ -128,7 +105,8 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07019_04_cancellation_notice L5-8"
+    "SY-M07019_04_cancellation_notice L5-6",
+    "SY-M07019_04_cancellation_notice L8"
    ],
    "flags": []
   },
@@ -224,7 +202,7 @@
    "excluded": [],
    "calculation": "15:00-15:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07019_10_service_record L5-9"
+    "SY-M07019_10_service_record L6-9"
    ],
    "flags": []
   },
@@ -246,11 +224,11 @@
     "14:15-14:50"
    ],
    "excluded": [
-    "patient not present 14:00-14:15 = 15 min (SY-M07019_10_service_record L13-14)"
+    "patient not present 14:00-14:15 = 15 min (SY-M07019_10_service_record L14)"
    ],
-   "calculation": "14:15-14:50 present (35 min), minus patient not present 14:00-14:15 = 15 min (SY-M07019_10_service_record L13-14) = 35 min",
+   "calculation": "14:15-14:50 present (35 min), minus patient not present 14:00-14:15 = 15 min (SY-M07019_10_service_record L14) = 35 min",
    "sources": [
-    "SY-M07019_10_service_record L11-16"
+    "SY-M07019_10_service_record L12-16"
    ],
    "flags": []
   },
@@ -274,31 +252,9 @@
    "excluded": [],
    "calculation": "09:15-09:45 present (30 min) = 30 min; arrival time 09:00 corrected to 09:15 (SY-M07019_09_addendum L5-6)",
    "sources": [
-    "SY-M07019_06_service_record L5-8",
+    "SY-M07019_06_service_record L6-8",
     "SY-M07019_07_cotherapist_record L6-8",
     "SY-M07019_09_addendum L5-6"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-02-09 assessment_review",
-   "service_date": "2026-02-09",
-   "service_dates": [
-    "2026-02-09"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07019_08_questionnaire_review L8-9"
    ],
    "flags": []
   },
@@ -322,7 +278,7 @@
    "excluded": [],
    "calculation": "09:00-09:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07019_10_service_record L18-22"
+    "SY-M07019_10_service_record L19-22"
    ],
    "flags": []
   },
@@ -346,7 +302,7 @@
    "excluded": [],
    "calculation": "09:00-09:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07019_10_service_record L24-28"
+    "SY-M07019_10_service_record L25-28"
    ],
    "flags": []
   },
@@ -368,11 +324,11 @@
     "16:10-16:50"
    ],
    "excluded": [
-    "patient not present 16:00-16:10 = 10 min (SY-M07019_11_service_record L7-8)"
+    "patient not present 16:00-16:10 = 10 min (SY-M07019_11_service_record L8)"
    ],
-   "calculation": "16:10-16:50 present (40 min), minus patient not present 16:00-16:10 = 10 min (SY-M07019_11_service_record L7-8) = 40 min",
+   "calculation": "16:10-16:50 present (40 min), minus patient not present 16:00-16:10 = 10 min (SY-M07019_11_service_record L8) = 40 min",
    "sources": [
-    "SY-M07019_11_service_record L6-10"
+    "SY-M07019_11_service_record L5-10"
    ],
    "flags": []
   },
@@ -396,7 +352,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07019_11_service_record L13-15"
+    "SY-M07019_11_service_record L12-15"
    ],
    "flags": []
   }
@@ -460,26 +416,10 @@
   },
   {
    "observed_on": "2026-01-19",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 17.",
-   "sources": [
-    "SY-M07019_02_questionnaire_review L6-7"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
    "category": "sleep",
    "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07019_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-29",
-   "category": "reason_for_contact",
-   "text": "Collateral contact with partner Frankie only; the client did not attend.",
-   "sources": [
-    "SY-M07019_05_service_record L32-33"
    ]
   }
  ],
@@ -606,7 +546,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 11,
   "documents_pending": 0
  }

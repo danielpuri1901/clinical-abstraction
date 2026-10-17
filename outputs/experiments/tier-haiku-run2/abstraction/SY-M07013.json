@@ -10,29 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-26 assessment_review",
-   "service_date": "2026-01-26",
-   "service_dates": [
-    "2026-01-26"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07013_02_questionnaire_review L5-6",
-    "SY-M07013_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0701301",
    "service_date": "2026-01-26",
    "service_dates": [
@@ -74,11 +51,10 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07013_03_cancellation_notice L5-8"
+    "SY-M07013_03_cancellation_notice L5-6",
+    "SY-M07013_03_cancellation_notice L8"
    ],
-   "flags": [
-    "label_disputed"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-E0701303",
@@ -224,7 +200,7 @@
    "sources": [
     "SY-M07013_10_service_record L34-36",
     "SY-M07013_05_draft_and_charge L5",
-    "SY-M07013_05_draft_and_charge L7-11"
+    "SY-M07013_05_draft_and_charge L8-11"
    ],
    "flags": [
     "charge_for_undelivered_service",
@@ -253,7 +229,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:40-11:00 = 20 min (SY-M07013_10_service_record L42) = 70 min",
    "sources": [
-    "SY-M07013_10_service_record L39-43"
+    "SY-M07013_10_service_record L38-43"
    ],
    "flags": []
   },
@@ -303,7 +279,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:45-13:55 = 10 min (SY-M07013_10_service_record L54) = 80 min",
    "sources": [
-    "SY-M07013_10_service_record L51-55"
+    "SY-M07013_10_service_record L50-55"
    ],
    "flags": []
   },
@@ -329,29 +305,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-14:00 = 20 min (SY-M07013_10_service_record L61) = 70 min",
    "sources": [
-    "SY-M07013_10_service_record L58-62"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-02-18 assessment_review",
-   "service_date": "2026-02-18",
-   "service_dates": [
-    "2026-02-18"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07013_09_questionnaire_review L8-9"
+    "SY-M07013_10_service_record L57-62"
    ],
    "flags": []
   },
@@ -465,42 +419,10 @@
  "observations": [
   {
    "observed_on": "2026-01-26",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07013_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07013_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 17.",
-   "sources": [
-    "SY-M07013_02_questionnaire_review L5-7"
-   ]
-  },
-  {
-   "observed_on": "2026-01-26",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07013_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-19",
    "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07013_10_service_record L67"
+    "SY-M07013_01_treatment_plan L8"
    ]
   }
  ],
@@ -525,26 +447,17 @@
     "SY-M07013_05_draft_and_charge L14-17",
     "SY-M07013_10_service_record L34-36",
     "SY-M07013_05_draft_and_charge L5",
-    "SY-M07013_05_draft_and_charge L7-11"
+    "SY-M07013_05_draft_and_charge L8-11"
    ],
    "settles": null
   },
   {
-   "kind": "label_disputed",
-   "encounter": "SY-E0701302",
-   "text": "The decision model reads SY-M07013_03_cancellation_notice L5-8 as service_type outreach_or_scheduling_call (confidence 0.91); the extraction says group_psychotherapy. That reading would not change whether SY-E0701302 counts.",
-   "citations": [
-    "SY-M07013_03_cancellation_notice L5-8"
-   ],
-   "settles": "A reviewer reading SY-M07013_03_cancellation_notice L5-8, or a signed record stating the service type of SY-E0701302, would settle it."
-  },
-  {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "SY-E0701308",
-   "text": "SY-M07013_05_draft_and_charge L5, SY-M07013_05_draft_and_charge L7-11 (labelled draft or template) exists for SY-E0701308, which the signed records show as no show; it is not evidence that care was delivered.",
+   "text": "SY-M07013_05_draft_and_charge L5, SY-M07013_05_draft_and_charge L8-11 (labelled draft or template) exists for SY-E0701308, which the signed records show as no show; it is not evidence that care was delivered.",
    "citations": [
     "SY-M07013_05_draft_and_charge L5",
-    "SY-M07013_05_draft_and_charge L7-11",
+    "SY-M07013_05_draft_and_charge L8-11",
     "SY-M07013_10_service_record L34-36"
    ],
    "settles": null
@@ -695,7 +608,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 10,
   "documents_pending": 0
  }

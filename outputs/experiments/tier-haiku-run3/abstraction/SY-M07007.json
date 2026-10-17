@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-19 assessment_review",
-   "service_date": "2026-01-19",
-   "service_dates": [
-    "2026-01-19"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07007_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700701",
    "service_date": "2026-01-20",
    "service_dates": [
@@ -53,7 +31,7 @@
    ],
    "calculation": "09:10-09:50 present (40 min), minus patient not present 09:00-09:10 = 10 min (SY-M07007_03_service_record L8) = 40 min",
    "sources": [
-    "SY-M07007_03_service_record L5-10"
+    "SY-M07007_03_service_record L6-10"
    ],
    "flags": []
   },
@@ -79,7 +57,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:50 = 10 min (SY-M07007_03_service_record L16) = 80 min",
    "sources": [
-    "SY-M07007_03_service_record L12-17"
+    "SY-M07007_03_service_record L13-17"
    ],
    "flags": []
   },
@@ -105,7 +83,7 @@
    ],
    "calculation": "13:20-14:30 present (70 min), minus break 13:45-13:55 = 10 min (SY-M07007_03_service_record L23) = 60 min",
    "sources": [
-    "SY-M07007_03_service_record L19-24"
+    "SY-M07007_03_service_record L20-24"
    ],
    "flags": []
   },
@@ -131,7 +109,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:50 = 10 min (SY-M07007_04_service_record L9) = 80 min",
    "sources": [
-    "SY-M07007_04_service_record L5-10"
+    "SY-M07007_04_service_record L6-10"
    ],
    "flags": []
   },
@@ -157,7 +135,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:55 = 15 min (SY-M07007_04_service_record L16) = 75 min",
    "sources": [
-    "SY-M07007_04_service_record L12-17"
+    "SY-M07007_04_service_record L13-17"
    ],
    "flags": []
   },
@@ -183,8 +161,7 @@
    ],
    "calculation": "13:15-14:30 present (75 min), minus break 13:40-14:00 = 20 min (SY-M07007_05_attendance_record L9) = 55 min; arrival time 13:00 corrected to 13:15 (SY-M07007_06_correction L5-6)",
    "sources": [
-    "SY-M07007_05_attendance_record L5-8",
-    "SY-M07007_05_attendance_record L10",
+    "SY-M07007_05_attendance_record L5-10",
     "SY-M07007_06_correction L5-6"
    ],
    "flags": []
@@ -235,8 +212,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:40-10:50 = 10 min (SY-M07007_07_service_record L15) = 80 min",
    "sources": [
-    "SY-M07007_07_service_record L11-14",
-    "SY-M07007_07_service_record L16"
+    "SY-M07007_07_service_record L11-16"
    ],
    "flags": []
   },
@@ -262,7 +238,7 @@
    ],
    "calculation": "13:10-14:30 present (80 min), minus break 13:40-13:55 = 15 min (SY-M07007_08_service_record L9) = 65 min",
    "sources": [
-    "SY-M07007_08_service_record L5-10"
+    "SY-M07007_08_service_record L6-10"
    ],
    "flags": []
   },
@@ -286,7 +262,7 @@
    "excluded": [],
    "calculation": "16:00-16:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07007_08_service_record L12-16"
+    "SY-M07007_08_service_record L13-16"
    ],
    "flags": []
   },
@@ -310,7 +286,7 @@
    "excluded": [],
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07007_08_service_record L18-21"
+    "SY-M07007_08_service_record L19-21"
    ],
    "flags": []
   },
@@ -337,7 +313,7 @@
    ],
    "calculation": "09:00-09:20, 09:30-09:50 present (40 min), minus disconnect 09:20-09:30 = 10 min (SY-M07007_10_service_record L9) = 40 min",
    "sources": [
-    "SY-M07007_10_service_record L6-11"
+    "SY-M07007_10_service_record L5-11"
    ],
    "flags": []
   },
@@ -360,8 +336,8 @@
    "calculation": "not delivered (no show)",
    "sources": [
     "SY-M07007_12_service_record L5-8",
-    "SY-M07007_09_draft_and_charge L8-11",
-    "SY-M07007_09_draft_and_charge L14-17"
+    "SY-M07007_09_draft_and_charge L5",
+    "SY-M07007_09_draft_and_charge L8-11"
    ],
    "flags": [
     "charge_for_undelivered_service",
@@ -389,28 +365,6 @@
    "calculation": "16:00-16:50 present (50 min) = 50 min",
    "sources": [
     "SY-M07007_12_service_record L10-14"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-02-11 assessment_review",
-   "service_date": "2026-02-11",
-   "service_dates": [
-    "2026-02-11"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07007_11_questionnaire_review L8-9"
    ],
    "flags": []
   },
@@ -484,34 +438,10 @@
  "observations": [
   {
    "observed_on": "2026-01-19",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07007_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07007_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07007_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-30",
    "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07007_07_service_record L8"
+    "SY-M07007_01_treatment_plan L8"
    ]
   }
  ],
@@ -535,6 +465,7 @@
    "citations": [
     "SY-M07007_09_draft_and_charge L14-17",
     "SY-M07007_12_service_record L5-8",
+    "SY-M07007_09_draft_and_charge L5",
     "SY-M07007_09_draft_and_charge L8-11"
    ],
    "settles": null
@@ -542,10 +473,10 @@
   {
    "kind": "unsupported_record_for_undelivered_service",
    "encounter": "SY-E0700713",
-   "text": "SY-M07007_09_draft_and_charge L8-11; SY-M07007_09_draft_and_charge L14-17 (labelled billing charge, draft or template) exists for SY-E0700713, which the signed records show as no show; it is not evidence that care was delivered.",
+   "text": "SY-M07007_09_draft_and_charge L5, SY-M07007_09_draft_and_charge L8-11 (labelled draft or template) exists for SY-E0700713, which the signed records show as no show; it is not evidence that care was delivered.",
    "citations": [
+    "SY-M07007_09_draft_and_charge L5",
     "SY-M07007_09_draft_and_charge L8-11",
-    "SY-M07007_09_draft_and_charge L14-17",
     "SY-M07007_12_service_record L5-8"
    ],
    "settles": null
@@ -671,7 +602,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }

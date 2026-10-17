@@ -6,7 +6,7 @@
  "review_period": {
   "start": "2026-02-02",
   "end": "2026-02-20",
-  "basis": "treatment plan dates (NF_care_plan_2026-02-02 L7-8)"
+  "basis": "treatment plan dates (NF_care_plan_2026-02-02 L4, NF_care_plan_2026-02-02 L7-8)"
  },
  "encounters": [
   {
@@ -55,10 +55,12 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:45-14:00 = 15 min (NF_skills_group_2026-02-04 L6) = 75 min",
    "sources": [
-    "NF_skills_group_2026-02-04 L3-6",
+    "NF_skills_group_2026-02-04 L4-6",
     "NF_skills_group_2026-02-04 L8"
    ],
-   "flags": []
+   "flags": [
+    "label_disputed"
+   ]
   },
   {
    "encounter": "NF-V3103",
@@ -80,8 +82,7 @@
    "excluded": [],
    "calculation": "09:30-09:45 present (15 min) = 15 min",
    "sources": [
-    "NF_prescriber_visit_2026-02-06 L3-4",
-    "NF_prescriber_visit_2026-02-06 L6"
+    "NF_prescriber_visit_2026-02-06 L3-4"
    ],
    "flags": []
   },
@@ -105,7 +106,7 @@
    "excluded": [],
    "calculation": "10:00-10:45 present (45 min) = 45 min",
    "sources": [
-    "NF_progress_note_2026-02-09 L3-5"
+    "NF_progress_note_2026-02-09 L4-5"
    ],
    "flags": []
   },
@@ -131,10 +132,11 @@
    ],
    "calculation": "13:20-14:30 present (70 min), minus break 13:45-14:00 = 15 min (NF_skills_group_2026-02-11 L6) = 55 min",
    "sources": [
-    "NF_skills_group_2026-02-11 L3-6",
-    "NF_skills_group_2026-02-11 L8"
+    "NF_skills_group_2026-02-11 L4-6"
    ],
-   "flags": []
+   "flags": [
+    "label_disputed"
+   ]
   },
   {
    "encounter": "NF-V3106",
@@ -177,11 +179,11 @@
     "10:00-10:50"
    ],
    "excluded": [],
-   "calculation": "range 35-50 min: NF_cotherapist_note_2026-02-16 L3-4, NF_cotherapist_note_2026-02-16 L6 gives 10:15-10:50 = 35 min; NF_progress_note_2026-02-16_primary L3-5 gives 10:00-10:50 = 50 min",
+   "calculation": "range 35-50 min: NF_cotherapist_note_2026-02-16 L3-4, NF_cotherapist_note_2026-02-16 L6 gives 10:15-10:50 = 35 min; NF_progress_note_2026-02-16_primary L4-5 gives 10:00-10:50 = 50 min",
    "sources": [
     "NF_cotherapist_note_2026-02-16 L3-4",
     "NF_cotherapist_note_2026-02-16 L6",
-    "NF_progress_note_2026-02-16_primary L3-5"
+    "NF_progress_note_2026-02-16_primary L4-5"
    ],
    "flags": [
     "unresolved_minutes_conflict"
@@ -195,7 +197,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
@@ -212,7 +214,9 @@
    "sources": [
     "NF_video_session_2026-02-17 L3-5"
    ],
-   "flags": []
+   "flags": [
+    "label_disputed"
+   ]
   },
   {
    "encounter": "NF-V3109",
@@ -222,7 +226,7 @@
    ],
    "service_type": "group_psychotherapy",
    "modality": "in_person",
-   "status": "attended_partial",
+   "status": "attended",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 60,
@@ -234,12 +238,13 @@
    "excluded": [
     "break 13:45-14:00 = 15 min (NF_group_note_2026-02-18 L5)"
    ],
-   "calculation": "13:00-14:15 present (75 min), minus break 13:45-14:00 = 15 min (NF_group_note_2026-02-18 L5) = 60 min; departure time 14:30 corrected to 14:15 (NF_signin_correction_2026-02-19 L3-5)",
+   "calculation": "13:00-14:15 present (75 min), minus break 13:45-14:00 = 15 min (NF_group_note_2026-02-18 L5) = 60 min; departure time 14:30 corrected to 14:15 (NF_signin_correction_2026-02-19 L3)",
    "sources": [
     "NF_group_note_2026-02-18 L3-5",
     "NF_group_note_2026-02-18 L7",
     "NF_group_signin_2026-02-18 L3-4",
-    "NF_signin_correction_2026-02-19 L3-5"
+    "NF_signin_correction_2026-02-19 L3",
+    "NF_signin_correction_2026-02-19 L5"
    ],
    "flags": []
   }
@@ -257,6 +262,7 @@
     "family_psychotherapy"
    ],
    "sources": [
+    "NF_care_plan_2026-02-02 L4",
     "NF_care_plan_2026-02-02 L7-8"
    ],
    "version": 1
@@ -294,7 +300,7 @@
   {
    "observed_on": "2026-02-02",
    "category": "anxiety",
-   "text": "Problems listed include panic symptoms on public transport.",
+   "text": "Problems include panic symptoms on public transport and avoidance of a planned job interview.",
    "sources": [
     "NF_care_plan_2026-02-02 L10"
    ]
@@ -302,31 +308,7 @@
   {
    "observed_on": "2026-02-02",
    "category": "anxiety",
-   "text": "Jordan described panic symptoms when riding the bus.",
-   "sources": [
-    "NF_progress_note_2026-02-02 L7"
-   ]
-  },
-  {
-   "observed_on": "2026-02-02",
-   "category": "avoidance",
-   "text": "Problems listed include avoidance of a planned job interview.",
-   "sources": [
-    "NF_care_plan_2026-02-02 L10"
-   ]
-  },
-  {
-   "observed_on": "2026-02-02",
-   "category": "avoidance",
-   "text": "Jordan has postponed a job interview twice.",
-   "sources": [
-    "NF_progress_note_2026-02-02 L7"
-   ]
-  },
-  {
-   "observed_on": "2026-02-02",
-   "category": "mood",
-   "text": "PHQ-9 administered today totaled 16.",
+   "text": "Client described panic symptoms when riding the bus and has postponed a job interview twice.",
    "sources": [
     "NF_progress_note_2026-02-02 L7"
    ]
@@ -334,7 +316,7 @@
   {
    "observed_on": "2026-02-02",
    "category": "safety",
-   "text": "Jordan denied thoughts of self-harm.",
+   "text": "Client denied thoughts of self-harm.",
    "sources": [
     "NF_progress_note_2026-02-02 L7"
    ]
@@ -342,7 +324,7 @@
   {
    "observed_on": "2026-02-02",
    "category": "sleep",
-   "text": "Problems listed include irregular sleep.",
+   "text": "Irregular sleep is a listed problem.",
    "sources": [
     "NF_care_plan_2026-02-02 L10"
    ]
@@ -350,33 +332,9 @@
   {
    "observed_on": "2026-02-04",
    "category": "anxiety",
-   "text": "Anxiety rated 4 out of 7 after repetition of the spinning exercise, down from 7.",
+   "text": "Jordan practiced a spinning exercise and rated anxiety from 7 to 4 after repetition.",
    "sources": [
     "NF_skills_group_2026-02-04 L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-04",
-   "category": "functioning",
-   "text": "Jordan was engaged and supportive of peers in the group.",
-   "sources": [
-    "NF_skills_group_2026-02-04 L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-04",
-   "category": "reason_for_contact",
-   "text": "Skills group on interoceptive exposure; Jordan practiced a spinning exercise.",
-   "sources": [
-    "NF_skills_group_2026-02-04 L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-06",
-   "category": "reason_for_contact",
-   "text": "Medication review visit with a prescriber; no psychotherapy was provided.",
-   "sources": [
-    "NF_prescriber_visit_2026-02-06 L6"
    ]
   },
   {
@@ -398,7 +356,7 @@
   {
    "observed_on": "2026-02-09",
    "category": "avoidance",
-   "text": "Fear hierarchy reviewed and a short bus ride planned with a support person.",
+   "text": "Clinician reviewed the fear hierarchy and planned a short bus ride with a support person.",
    "sources": [
     "NF_progress_note_2026-02-09 L7"
    ]
@@ -406,34 +364,9 @@
   {
    "observed_on": "2026-02-09",
    "category": "reason_for_contact",
-   "text": "Panic episodes increased after the client missed the rescheduled interview, so the team increased the intensity of care.",
+   "text": "Panic episodes increased after the client missed the rescheduled interview; the team increased the intensity of care.",
    "sources": [
     "NF_care_plan_update_2026-02-09 L6"
-   ]
-  },
-  {
-   "observed_on": "2026-02-11",
-   "category": "functioning",
-   "text": "Jordan joined late after a bus delay and contributed an example about a missed interview.",
-   "sources": [
-    "NF_skills_group_2026-02-11 L5",
-    "NF_skills_group_2026-02-11 L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-11",
-   "category": "reason_for_contact",
-   "text": "Group focused on cognitive restructuring of catastrophic predictions.",
-   "sources": [
-    "NF_skills_group_2026-02-11 L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-13",
-   "category": "reason_for_contact",
-   "text": "Session with spouse Sam Reyes, without Jordan, on how Sam can support exposure practice without reassurance seeking.",
-   "sources": [
-    "NF_partner_session_2026-02-13 L6"
    ]
   },
   {
@@ -446,18 +379,10 @@
   },
   {
    "observed_on": "2026-02-16",
-   "category": "functioning",
-   "text": "Completed a two-stop bus ride with Sam; exposure log reviewed and a solo ride planned.",
+   "category": "reason_for_contact",
+   "text": "Reviewed the exposure log and planned a solo bus ride.",
    "sources": [
     "NF_progress_note_2026-02-16_primary L7"
-   ]
-  },
-  {
-   "observed_on": "2026-02-16",
-   "category": "reason_for_contact",
-   "text": "Session with Jordan included exposure planning, led by the co-therapist.",
-   "sources": [
-    "NF_cotherapist_note_2026-02-16 L6"
    ]
   },
   {
@@ -469,17 +394,17 @@
    ]
   },
   {
-   "observed_on": "2026-02-18",
-   "category": "functioning",
-   "text": "Jordan described the solo bus ride as a turning point and left before the closing review for a scheduled appointment.",
+   "observed_on": "2026-02-17",
+   "category": "sleep",
+   "text": "Sleep routine was reviewed.",
    "sources": [
-    "NF_group_note_2026-02-18 L7"
+    "NF_video_session_2026-02-17 L7"
    ]
   },
   {
    "observed_on": "2026-02-18",
    "category": "reason_for_contact",
-   "text": "Group session on relapse prevention planning.",
+   "text": "Group covered relapse prevention planning; client described the solo bus ride as a turning point.",
    "sources": [
     "NF_group_note_2026-02-18 L7"
    ]
@@ -488,13 +413,41 @@
  "charges": [],
  "flags": [
   {
+   "kind": "label_disputed",
+   "encounter": "NF-V3102",
+   "text": "The decision model reads NF_skills_group_2026-02-04 L4-6, NF_skills_group_2026-02-04 L8 as record_role clinical_note (confidence 0.98); the extraction says attendance_record.",
+   "citations": [
+    "NF_skills_group_2026-02-04 L4-6",
+    "NF_skills_group_2026-02-04 L8"
+   ],
+   "settles": "A reviewer reading NF_skills_group_2026-02-04 L4-6, NF_skills_group_2026-02-04 L8, or a signed record stating the record type of NF-V3102, would settle it."
+  },
+  {
+   "kind": "label_disputed",
+   "encounter": "NF-V3105",
+   "text": "The decision model reads NF_skills_group_2026-02-11 L4-6 as record_role clinical_note (confidence 0.94); the extraction says attendance_record.",
+   "citations": [
+    "NF_skills_group_2026-02-11 L4-6"
+   ],
+   "settles": "A reviewer reading NF_skills_group_2026-02-11 L4-6, or a signed record stating the record type of NF-V3105, would settle it."
+  },
+  {
+   "kind": "label_disputed",
+   "encounter": "NF-V3108",
+   "text": "The decision model reads NF_video_session_2026-02-17 L3-5 as attendance attended (confidence 0.98); the extraction says attended_partial. That reading would not change whether NF-V3108 counts.",
+   "citations": [
+    "NF_video_session_2026-02-17 L3-5"
+   ],
+   "settles": "A reviewer reading NF_video_session_2026-02-17 L3-5, or a signed record stating the attendance of NF-V3108, would settle it."
+  },
+  {
    "kind": "unresolved_minutes_conflict",
    "encounter": "NF-V3107",
-   "text": "Signed records of NF-V3107 disagree on patient-present minutes: NF_cotherapist_note_2026-02-16 L3-4, NF_cotherapist_note_2026-02-16 L6 gives 10:15-10:50 = 35 min; NF_progress_note_2026-02-16_primary L3-5 gives 10:00-10:50 = 50 min. No correction or addendum resolves it, so NF-V3107 is carried as a range 35-50 min.",
+   "text": "Signed records of NF-V3107 disagree on patient-present minutes: NF_cotherapist_note_2026-02-16 L3-4, NF_cotherapist_note_2026-02-16 L6 gives 10:15-10:50 = 35 min; NF_progress_note_2026-02-16_primary L4-5 gives 10:00-10:50 = 50 min. No correction or addendum resolves it, so NF-V3107 is carried as a range 35-50 min.",
    "citations": [
     "NF_cotherapist_note_2026-02-16 L3-4",
     "NF_cotherapist_note_2026-02-16 L6",
-    "NF_progress_note_2026-02-16_primary L3-5"
+    "NF_progress_note_2026-02-16_primary L4-5"
    ],
    "settles": "An addendum or signed note stating the start time of NF-V3107 would settle it."
   }
@@ -553,7 +506,7 @@
    "minutes_low": 140,
    "minutes_high": 155,
    "status": "cannot_determine",
-   "explanation": "3 therapy days and 140-155 minutes: the goal of 3 therapy days and 150 minutes is met at the high bound but not at the low bound, so it depends on an unresolved record; partial week (2026-02-16 to 2026-02-20) inside the review period. An addendum or signed note stating the start time of NF-V3107 would settle it.",
+   "explanation": "3 therapy days and 140-155 minutes: the goal of 3 therapy days and 150 minutes is met at the high bound but not at the low bound, so it depends on an unresolved record; partial week (2026-02-16 to 2026-02-20) inside the review period. An addendum or signed note stating the start time of NF-V3107 would settle it. A reviewer reading NF_video_session_2026-02-17 L3-5, or a signed record stating the attendance of NF-V3108, would settle it.",
    "plan_version": 2,
    "encounters": [
     "NF-V3107",
@@ -582,6 +535,7 @@
     "goal_days": 2,
     "goal_minutes": 120,
     "sources": [
+     "NF_care_plan_2026-02-02 L4",
      "NF_care_plan_2026-02-02 L7-8"
     ],
     "sessions_low": 2,
@@ -645,7 +599,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 14,
   "documents_pending": 0
  }

@@ -27,8 +27,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
-    "SY-M07006_02_questionnaire_review L6",
-    "SY-M07006_02_questionnaire_review L8-9"
+    "SY-M07006_02_questionnaire_review L5-9"
    ],
    "flags": []
   },
@@ -115,7 +114,7 @@
    ],
    "service_type": "individual_psychotherapy",
    "modality": "video",
-   "status": "attended",
+   "status": "attended_partial",
    "counts_as_therapy": "yes",
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 40,
@@ -181,7 +180,8 @@
    "excluded": [],
    "calculation": "09:00-09:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07006_09_service_record L5-8"
+    "SY-M07006_09_service_record L5-6",
+    "SY-M07006_09_service_record L8"
    ],
    "flags": []
   },
@@ -209,9 +209,7 @@
    "sources": [
     "SY-M07006_09_service_record L10-13"
    ],
-   "flags": [
-    "possible_omission"
-   ]
+   "flags": []
   },
   {
    "encounter": "SY-V0700608",
@@ -233,7 +231,8 @@
    "excluded": [],
    "calculation": "09:00-09:25 present (25 min) = 25 min",
    "sources": [
-    "SY-M07006_10_service_record L5-8"
+    "SY-M07006_10_service_record L5-6",
+    "SY-M07006_10_service_record L8"
    ],
    "flags": []
   },
@@ -257,29 +256,8 @@
    "excluded": [],
    "calculation": "16:00-16:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07006_10_service_record L10-13"
-   ],
-   "flags": []
-  },
-  {
-   "encounter": "2026-03-04 assessment_review",
-   "service_date": "2026-03-04",
-   "service_dates": [
-    "2026-03-04"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07006_11_questionnaire_review L8-9"
+    "SY-M07006_10_service_record L10-11",
+    "SY-M07006_10_service_record L13"
    ],
    "flags": []
   },
@@ -450,39 +428,14 @@
   {
    "observed_on": "2026-02-09",
    "category": "reason_for_contact",
-   "text": "Presenting needs include low mood, worry about daily tasks, and irregular sleep.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
     "SY-M07006_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-02-16",
-   "category": "reason_for_contact",
-   "text": "Visit was a medication review only; no psychotherapy was provided.",
-   "sources": [
-    "SY-M07006_05_service_record L11"
-   ]
-  },
-  {
-   "observed_on": "2026-02-19",
-   "category": "reason_for_contact",
-   "text": "Visit was a medication review only, with no psychotherapy provided.",
-   "sources": [
-    "SY-M07006_09_service_record L7"
    ]
   }
  ],
  "charges": [],
  "flags": [
-  {
-   "kind": "possible_omission",
-   "encounter": "SY-V0700607",
-   "text": "SY-M07006_09_service_record L8 states 10:10, inside the session window of SY-V0700607, which no extracted item carries; a break or a time may be missing.",
-   "citations": [
-    "SY-M07006_09_service_record L8"
-   ],
-   "settles": null
-  },
   {
    "kind": "unresolved_minutes_conflict",
    "encounter": "SY-V0700602",
@@ -496,24 +449,12 @@
  ],
  "coverage_notes": [
   {
-   "citation": "SY-M07006_05_service_record L7",
-   "value": "10:10"
-  },
-  {
    "citation": "SY-M07006_05_service_record L12",
    "value": "10:35"
   },
   {
-   "citation": "SY-M07006_09_service_record L8",
-   "value": "10:10"
-  },
-  {
    "citation": "SY-M07006_09_service_record L13",
    "value": "12:45"
-  },
-  {
-   "citation": "SY-M07006_10_service_record L8",
-   "value": "10:40"
   },
   {
    "citation": "SY-M07006_10_service_record L13",
@@ -522,14 +463,6 @@
   {
    "citation": "SY-M07006_12_service_record L7",
    "value": "10:30"
-  },
-  {
-   "citation": "SY-M07006_12_service_record L11",
-   "value": "16:20"
-  },
-  {
-   "citation": "SY-M07006_13_service_record L8",
-   "value": "15:05"
   },
   {
    "citation": "SY-M07006_13_service_record L12",
@@ -653,7 +586,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 14,
   "documents_pending": 0
  }

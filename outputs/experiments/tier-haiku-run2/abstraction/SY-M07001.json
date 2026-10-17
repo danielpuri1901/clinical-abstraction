@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-12 assessment_review",
-   "service_date": "2026-01-12",
-   "service_dates": [
-    "2026-01-12"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07001_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700101",
    "service_date": "2026-01-12",
    "service_dates": [
@@ -53,10 +31,8 @@
    ],
    "calculation": "13:10-14:30 present (80 min), minus break 13:45-14:00 = 15 min (SY-M07001_03_attendance_record L9) = 65 min; arrival time 13:00 corrected to 13:10 (SY-M07001_04_correction L5-6)",
    "sources": [
-    "SY-M07001_03_attendance_record L5-8",
-    "SY-M07001_03_attendance_record L10",
-    "SY-M07001_04_correction L5-6",
-    "SY-M07001_04_correction L8"
+    "SY-M07001_03_attendance_record L5-10",
+    "SY-M07001_04_correction L5-6"
    ],
    "flags": []
   },
@@ -82,7 +58,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:55 = 15 min (SY-M07001_05_service_record L9) = 75 min",
    "sources": [
-    "SY-M07001_05_service_record L6-10"
+    "SY-M07001_05_service_record L5-10"
    ],
    "flags": []
   },
@@ -99,7 +75,7 @@
    "reason": "patient-present psychotherapy of a counted type",
    "minutes_low": 45,
    "minutes_high": 45,
-   "scheduled": "09:00-09:45 (45 min)",
+   "scheduled": null,
    "patient_present": [
     "09:00-09:45"
    ],
@@ -128,7 +104,8 @@
    "excluded": [],
    "calculation": "not delivered (cancelled by clinic)",
    "sources": [
-    "SY-M07001_06_cancellation_notice L5-8"
+    "SY-M07001_06_cancellation_notice L5-6",
+    "SY-M07001_06_cancellation_notice L8"
    ],
    "flags": []
   },
@@ -176,7 +153,7 @@
    "excluded": [],
    "calculation": "15:00-15:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07001_11_service_record L6-8"
+    "SY-M07001_11_service_record L5-8"
    ],
    "flags": []
   },
@@ -202,7 +179,7 @@
    ],
    "calculation": "10:30-11:30 present (60 min), minus break 10:45-10:55 = 10 min (SY-M07001_11_service_record L14) = 50 min",
    "sources": [
-    "SY-M07001_11_service_record L11-15"
+    "SY-M07001_11_service_record L10-15"
    ],
    "flags": []
   },
@@ -224,10 +201,10 @@
     "09:00-09:50"
    ],
    "excluded": [],
-   "calculation": "range 35-50 min: SY-M07001_08_service_record L6-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L5-8 gives 09:15-09:50 = 35 min",
+   "calculation": "range 35-50 min: SY-M07001_08_service_record L6-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L6-8 gives 09:15-09:50 = 35 min",
    "sources": [
     "SY-M07001_08_service_record L6-8",
-    "SY-M07001_09_cotherapist_record L5-8"
+    "SY-M07001_09_cotherapist_record L6-8"
    ],
    "flags": [
     "unresolved_minutes_conflict"
@@ -275,6 +252,7 @@
    "excluded": [],
    "calculation": "assessment review does not count toward the plan goal",
    "sources": [
+    "SY-M07001_10_questionnaire_review L5-6",
     "SY-M07001_10_questionnaire_review L8-9"
    ],
    "flags": []
@@ -299,7 +277,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07001_11_service_record L24-26"
+    "SY-M07001_11_service_record L23-26"
    ],
    "flags": []
   }
@@ -347,8 +325,8 @@
  "observations": [
   {
    "observed_on": "2026-01-12",
-   "category": "anxiety",
-   "text": "Presenting need includes worry about daily tasks.",
+   "category": "functioning",
+   "text": "Presenting needs include worry about daily tasks.",
    "sources": [
     "SY-M07001_01_treatment_plan L8"
    ]
@@ -356,23 +334,15 @@
   {
    "observed_on": "2026-01-12",
    "category": "mood",
-   "text": "Presenting need includes low mood.",
+   "text": "Presenting needs include low mood.",
    "sources": [
     "SY-M07001_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-12",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 22.",
-   "sources": [
-    "SY-M07001_02_questionnaire_review L6-7"
    ]
   },
   {
    "observed_on": "2026-01-12",
    "category": "sleep",
-   "text": "Presenting need includes irregular sleep.",
+   "text": "Presenting needs include irregular sleep.",
    "sources": [
     "SY-M07001_01_treatment_plan L8"
    ]
@@ -383,10 +353,10 @@
   {
    "kind": "unresolved_minutes_conflict",
    "encounter": "SY-E0700108",
-   "text": "Signed records of SY-E0700108 disagree on patient-present minutes: SY-M07001_08_service_record L6-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L5-8 gives 09:15-09:50 = 35 min. No correction or addendum resolves it, so SY-E0700108 is carried as a range 35-50 min.",
+   "text": "Signed records of SY-E0700108 disagree on patient-present minutes: SY-M07001_08_service_record L6-8 gives 09:00-09:50 = 50 min; SY-M07001_09_cotherapist_record L6-8 gives 09:15-09:50 = 35 min. No correction or addendum resolves it, so SY-E0700108 is carried as a range 35-50 min.",
    "citations": [
     "SY-M07001_08_service_record L6-8",
-    "SY-M07001_09_cotherapist_record L5-8"
+    "SY-M07001_09_cotherapist_record L6-8"
    ],
    "settles": "An addendum or signed note stating the start time of SY-E0700108 would settle it."
   }
@@ -520,7 +490,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 11,
   "documents_pending": 0
  }

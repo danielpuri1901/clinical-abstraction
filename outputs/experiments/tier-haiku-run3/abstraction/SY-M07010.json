@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-05 assessment_review",
-   "service_date": "2026-01-05",
-   "service_dates": [
-    "2026-01-05"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07010_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0701001",
    "service_date": "2026-01-05",
    "service_dates": [
@@ -51,7 +29,8 @@
    "excluded": [],
    "calculation": "09:00-09:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07010_03_service_record L5-9"
+    "SY-M07010_03_service_record L6-7",
+    "SY-M07010_03_service_record L9"
    ],
    "flags": []
   },
@@ -99,7 +78,7 @@
    "excluded": [],
    "calculation": "09:00-09:20 present (20 min) = 20 min",
    "sources": [
-    "SY-M07010_05_service_record L5-9"
+    "SY-M07010_05_service_record L6-9"
    ],
    "flags": []
   },
@@ -173,7 +152,7 @@
    "excluded": [],
    "calculation": "09:00-09:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07010_05_service_record L24-28"
+    "SY-M07010_05_service_record L25-28"
    ],
    "flags": []
   },
@@ -199,7 +178,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07010_06_service_record L9) = 75 min",
    "sources": [
-    "SY-M07010_06_service_record L5-10"
+    "SY-M07010_06_service_record L6-10"
    ],
    "flags": []
   },
@@ -225,7 +204,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:45-14:05 = 20 min (SY-M07010_07_service_record L9) = 70 min",
    "sources": [
-    "SY-M07010_07_service_record L5-10"
+    "SY-M07010_07_service_record L6-10"
    ],
    "flags": []
   },
@@ -251,7 +230,7 @@
    ],
    "calculation": "09:15-09:50 present (35 min), minus patient not present 09:00-09:15 = 15 min (SY-M07010_07_service_record L15) = 35 min",
    "sources": [
-    "SY-M07010_07_service_record L12-17"
+    "SY-M07010_07_service_record L13-17"
    ],
    "flags": []
   },
@@ -275,7 +254,8 @@
    "excluded": [],
    "calculation": "16:00-16:15 present (15 min) = 15 min",
    "sources": [
-    "SY-M07010_08_service_record L6-9"
+    "SY-M07010_08_service_record L6-7",
+    "SY-M07010_08_service_record L9"
    ],
    "flags": []
   },
@@ -373,7 +353,7 @@
    "excluded": [],
    "calculation": "15:00-15:50 present (50 min) = 50 min",
    "sources": [
-    "SY-M07010_10_service_record L5-8"
+    "SY-M07010_10_service_record L6-8"
    ],
    "flags": []
   },
@@ -397,7 +377,7 @@
    "excluded": [],
    "calculation": "09:00-09:45 present (45 min) = 45 min",
    "sources": [
-    "SY-M07010_12_service_record L5-9"
+    "SY-M07010_12_service_record L6-9"
    ],
    "flags": []
   },
@@ -446,8 +426,7 @@
    ],
    "calculation": "10:00-11:30 present (90 min), minus break 10:45-11:00 = 15 min (SY-M07010_12_service_record L15) = 75 min",
    "sources": [
-    "SY-M07010_12_service_record L11-14",
-    "SY-M07010_12_service_record L16"
+    "SY-M07010_12_service_record L12-16"
    ],
    "flags": []
   }
@@ -495,34 +474,10 @@
  "observations": [
   {
    "observed_on": "2026-01-05",
-   "category": "anxiety",
-   "text": "Client presents with worry about daily tasks.",
-   "sources": [
-    "SY-M07010_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-05",
-   "category": "mood",
-   "text": "Client presents with low mood.",
-   "sources": [
-    "SY-M07010_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-05",
-   "category": "sleep",
-   "text": "Client presents with irregular sleep.",
-   "sources": [
-    "SY-M07010_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-16",
    "category": "reason_for_contact",
-   "text": "Medication review visit; no psychotherapy was provided.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07010_08_service_record L8"
+    "SY-M07010_01_treatment_plan L8"
    ]
   }
  ],
@@ -647,7 +602,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }

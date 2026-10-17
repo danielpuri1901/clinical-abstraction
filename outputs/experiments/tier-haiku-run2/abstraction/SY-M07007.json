@@ -10,28 +10,6 @@
  },
  "encounters": [
   {
-   "encounter": "2026-01-19 assessment_review",
-   "service_date": "2026-01-19",
-   "service_dates": [
-    "2026-01-19"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07007_02_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700701",
    "service_date": "2026-01-20",
    "service_dates": [
@@ -131,8 +109,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:50 = 10 min (SY-M07007_04_service_record L9) = 80 min",
    "sources": [
-    "SY-M07007_04_service_record L5-8",
-    "SY-M07007_04_service_record L10"
+    "SY-M07007_04_service_record L6-10"
    ],
    "flags": []
   },
@@ -158,8 +135,7 @@
    ],
    "calculation": "13:00-14:30 present (90 min), minus break 13:40-13:55 = 15 min (SY-M07007_04_service_record L16) = 75 min",
    "sources": [
-    "SY-M07007_04_service_record L12-15",
-    "SY-M07007_04_service_record L17"
+    "SY-M07007_04_service_record L13-17"
    ],
    "flags": []
   },
@@ -185,8 +161,7 @@
    ],
    "calculation": "13:15-14:30 present (75 min), minus break 13:40-14:00 = 20 min (SY-M07007_05_attendance_record L9) = 55 min; arrival time 13:00 corrected to 13:15 (SY-M07007_06_correction L5-6)",
    "sources": [
-    "SY-M07007_05_attendance_record L5-8",
-    "SY-M07007_05_attendance_record L10",
+    "SY-M07007_05_attendance_record L5-10",
     "SY-M07007_06_correction L5-6"
    ],
    "flags": []
@@ -263,8 +238,7 @@
    ],
    "calculation": "13:10-14:30 present (80 min), minus break 13:40-13:55 = 15 min (SY-M07007_08_service_record L9) = 65 min",
    "sources": [
-    "SY-M07007_08_service_record L6-8",
-    "SY-M07007_08_service_record L10"
+    "SY-M07007_08_service_record L6-10"
    ],
    "flags": []
   },
@@ -395,28 +369,6 @@
    "flags": []
   },
   {
-   "encounter": "2026-02-11 assessment_review",
-   "service_date": "2026-02-11",
-   "service_dates": [
-    "2026-02-11"
-   ],
-   "service_type": "assessment_review",
-   "modality": "unknown",
-   "status": "not_documented",
-   "counts_as_therapy": "no",
-   "reason": "assessment review does not count toward the plan goal",
-   "minutes_low": 0,
-   "minutes_high": 0,
-   "scheduled": null,
-   "patient_present": [],
-   "excluded": [],
-   "calculation": "assessment review does not count toward the plan goal",
-   "sources": [
-    "SY-M07007_11_questionnaire_review L8-9"
-   ],
-   "flags": []
-  },
-  {
    "encounter": "SY-E0700715",
    "service_date": "2026-02-12",
    "service_dates": [
@@ -486,42 +438,10 @@
  "observations": [
   {
    "observed_on": "2026-01-19",
-   "category": "anxiety",
-   "text": "Presenting needs include worry about daily tasks.",
-   "sources": [
-    "SY-M07007_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "mood",
-   "text": "Presenting needs include low mood.",
-   "sources": [
-    "SY-M07007_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "mood",
-   "text": "Patient completed the PHQ-9 questionnaire with a total score of 14.",
-   "sources": [
-    "SY-M07007_02_questionnaire_review L5-7"
-   ]
-  },
-  {
-   "observed_on": "2026-01-19",
-   "category": "sleep",
-   "text": "Presenting needs include irregular sleep.",
-   "sources": [
-    "SY-M07007_01_treatment_plan L8"
-   ]
-  },
-  {
-   "observed_on": "2026-01-30",
    "category": "reason_for_contact",
-   "text": "Medication review only; no psychotherapy was provided.",
+   "text": "Presenting needs are low mood, worry about daily tasks, and irregular sleep.",
    "sources": [
-    "SY-M07007_07_service_record L8"
+    "SY-M07007_01_treatment_plan L8"
    ]
   }
  ],
@@ -682,7 +602,7 @@
  },
  "built_with": {
   "model": "claude-haiku-5-5",
-  "extractor_version": "d6d18c7eb1e3",
+  "extractor_version": "c05e76740919",
   "documents_extracted": 12,
   "documents_pending": 0
  }
