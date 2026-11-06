@@ -36,12 +36,7 @@ Prefix each command with `uv run --frozen`.
 | Show the lines behind a citation | `abstraction source "BH-D103 L7"` | 0 | $0 |
 | Answer a question | `abstraction ask "..."` | 1 Jev call | $0.00005, 0.3 s |
 | Answer an open question | `abstraction ask "..."` (routed to the agent automatically, or `--agent`) | a few | about $0.04 |
-| Replay saved answers | `abstraction verify-answers` | 0 | $0 |
 | Run the tests | `pytest -q` | 0 | $0 |
-| Make synthetic patients with known truth | `python -m evals.synthetic --seed 7 --patients 25 --out outputs/experiments/synthetic` | 0 | $0 |
-| Score a saved extraction run against the truth | `python -m evals.experiments tier --model claude-haiku-5-5 --store outputs/experiments/tier-haiku-run1/abstraction.db` | 0 | $0 |
-| Measure how well questions are read | `python -m evals.experiments routing --arm agreement --db outputs/experiments/held-out/abstraction.db` | 54 Jev calls | $0.003 |
-| Quick benchmark | `python -m evals.experiments benchmark --patients 50 --db outputs/abstraction.db --out outputs/quick` | 0 | $0, about 5 s |
 
 A changed prompt or model gets a new extractor version; `ingest` then reads every document again, and the old readings stay in the store.
 Without flags, the benchmark builds 1, 2,000, and 20,000 patients (4 GB of temporary disk, minutes) and overwrites `outputs/benchmarks.json`.

@@ -1,4 +1,4 @@
-"""Shared fakes for tests and evals. Nothing here calls a model."""
+"""Shared fakes for tests. Nothing here calls a model."""
 
 from clinical_abstraction.answer import NEUTRAL  # the value of each plan field that reads nothing
 from clinical_abstraction.read import Choice, ChoiceAnswer

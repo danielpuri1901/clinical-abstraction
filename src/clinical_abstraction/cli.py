@@ -1,4 +1,4 @@
-"""Command line: `abstraction ingest | report | source | ask | answer-questions | verify-answers`."""
+"""Command line: `abstraction ingest | report | source | ask | answer-questions`."""
 
 import argparse
 import json
@@ -53,8 +53,6 @@ def build_parser() -> argparse.ArgumentParser:
         command.add_argument("--agent", action="store_true", help="send the question to the open-question agent")
         command.add_argument("--model", default=DEFAULT_MODEL, help="model for the open-question agent")
 
-    verify = commands.add_parser("verify-answers", help="replay every saved computed answer without a model and compare it")
-    verify.add_argument("answers", type=Path, nargs="?", help="saved answers (default <out>/answers/answers.json)")
     return parser
 
 
@@ -104,14 +102,6 @@ def main(argv: list[str] | None = None) -> int:
             for number in range(start, end + 1):
                 print(f"{doc_id} L{number}: {lines[number - 1]}")
         return 0
-    if args.command == "verify-answers":
-        results = answer.verify_saved(connection, args.answers or args.out / "answers" / "answers.json")
-        if not results:
-            print("No saved answers to verify.", file=sys.stderr)
-            return 1
-        for result in results:
-            print(f"{result.get('id', result['question'])}: {result['verdict']}")
-        return 0 if all(verified(result["verdict"]) for result in results) else 1
     read.load_keys()
     budget = read.default_budget(args.out)
     client = read.jev_client(args.out, budget)

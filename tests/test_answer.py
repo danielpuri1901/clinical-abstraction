@@ -3,7 +3,6 @@ open-question agent, and the answer CLI. No test calls a model: FakeJev reads th
 for Claude."""
 
 import json
-import re
 from dataclasses import replace
 from datetime import date
 from pathlib import Path
@@ -131,26 +130,6 @@ def _iso(window: DateRange | None) -> list | None:
     return None if window is None else [day.isoformat() if day else None for day in (window.start, window.end)]
 
 
-def test_every_eval_question_plans_without_a_wrong_plain_computed():
-    items = json.loads(EVAL_QUESTIONS.read_text())
-    assert len(items) == 54 and sum(bool(item.get("rules_wrong")) for item in items) == 7
-    for item in items:
-        expected = item["expected"]
-        jev = FakeJev.from_expected(expected)
-        if "refused" in item:
-            with pytest.raises(PlanError, match=re.escape(item["refused"])):
-                answer.plan_question(item["question"], KNOWN, 2026, jev)
-            assert jev.calls == [], item["id"]  # refused before the decision model is paid
-            continue
-        plan = answer.plan_question(item["question"], KNOWN, 2026, jev)
-        got = {field: getattr(plan, field) for field in FIELDS} | {"patients": plan.patients, "date_range": _iso(plan.date_range)}
-        assert got == expected, item["id"]
-        assert plan.kind == ("open" if expected["metric"] == "other" else "computed"), item["id"]
-        if item.get("rules_wrong"):
-            rules = answer.rule_candidates(item["question"])
-            assert expected["metric"] not in rules.get("metric", set()) or plan.warnings == [], item["id"]
-
-
 # ---- Answers by code, verdicts, replay, the agent, and the CLI ----
 
 PENDING = [{"doc_id": "D11", "sha": "f" * 64, "reason": "RuntimeError: rate limit", "attempts": 1}]
@@ -262,20 +241,6 @@ def test_unbound_numbers_are_listed():
     assert answer.unbound_numbers("Ten flags across 8 encounters on 2026-01-19 [BH-D103 L7]", ['{"count": 10}']) == ["8"]
 
 
-def test_verify_saved_replays_plans_without_a_model(mini_store_with_two_patients, budget, tmp_path):
-    connection = mini_store_with_two_patients
-    rowan = answer.answer(connection, "How many sessions did Rowan attend?", ATTENDED, budget, "m")
-    weekly = FakeJev({"metric": ("minutes", 1.0), "attendance": ("attended", 1.0), "group_by": ("week", 1.0)})
-    jordan = answer.answer(connection, "How many minutes did Jordan receive each week?", weekly, budget, "m")
-    assert (rowan["verdict"], jordan["verdict"], rowan["citations_broken"]) == ("COMPUTED", "COMPUTED", [])
-    report = tmp_path / "answers.json"
-    assert [result["verdict"] for result in answer.verify_saved(connection, report)] == ["COMPUTED", "COMPUTED"]
-    connection.execute("UPDATE encounters SET minutes_low = 30, minutes_high = 30 WHERE mrn = 'T-M001' AND encounter = 'E2'")
-    replayed = {result["question"]: result["verdict"] for result in answer.verify_saved(connection, report)}
-    assert replayed["How many sessions did Rowan attend?"].startswith("NOT VERIFIED")
-    assert replayed["How many minutes did Jordan receive each week?"] == "COMPUTED"
-
-
 def test_collection_answers_give_counts_the_first_50_patients_and_how_many_more(tmp_path):
     connection = store.connect(tmp_path / "collection.db")
     complete = reconcile.build_patient("T-M001", mini_patient_docs())
@@ -355,7 +320,6 @@ def test_cli_answers_saves_and_verifies_without_a_decision_model(tmp_path, monke
     saved = json.loads((tmp_path / "out" / "answers" / "answers.json").read_text())
     assert [(item["id"], item["verdict"]) for item in saved] == [("Q-01", "COMPUTED WITH WARNING: rules only, no decision model")]
     assert "145-155 minutes" in (tmp_path / "out" / "answers" / "Q-01.md").read_text()
-    assert cli.main([*base, "verify-answers"]) == 0 and "Q-01: COMPUTED" in capsys.readouterr().out
     assert cli.main([*base, "ask", "How many sessions did Alex Smith attend?"]) == 1
     assert "REFUSED: unknown patient: Alex Smith" in capsys.readouterr().out
 

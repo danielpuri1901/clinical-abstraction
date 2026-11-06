@@ -33,7 +33,6 @@ uv sync --frozen
 uv run --frozen abstraction ingest documents/            # read documents; 0 model calls now, the saved store already holds them
 uv run --frozen abstraction ask "How many minutes of therapy did Rowan receive in the week of January 12?"
 uv run --frozen abstraction answer-questions questions.json
-uv run --frozen abstraction verify-answers                # replay the saved answers with no model
 uv run --frozen pytest -q
 ```
 
@@ -86,4 +85,4 @@ A question about one patient takes 0.3 s with the decision model and 6 to 26 ms 
 
 ## Where things are
 
-`src/clinical_abstraction/` (`read`, `reconcile`, `store`, `answer`, `schema`, `cli`), `outputs/` (store, abstraction, answers, logs, experiments, benchmark), `evals/` (expected values, synthetic patients, experiments), `docs/` ([design.md](docs/design.md) every rule and why, [experiments.md](docs/experiments.md) every run, [decisions.md](docs/decisions.md), [how-to-run.md](docs/how-to-run.md)), `documents/` and `questions.json` (supplied), `examples/` (a held-out patient and an addendum, both synthetic).
+`src/clinical_abstraction/` (`read`, `reconcile`, `store`, `answer`, `schema`, `cli`), `outputs/` (store, abstraction, answers, logs, experiments, benchmark), `docs/` ([design.md](docs/design.md) every rule and why, [experiments.md](docs/experiments.md) every run, [decisions.md](docs/decisions.md), [how-to-run.md](docs/how-to-run.md)), `documents/` and `questions.json` (supplied), `examples/` (a held-out patient and an addendum, both synthetic).

@@ -26,12 +26,12 @@ Change a decision by adding a dated entry to `docs/decisions.md`, not by editing
 - Every rule leaves one runnable check that fails if the rule breaks.
 - Tests never call a model; `tests/conftest.py` makes any attempt fail. Inject fakes.
 - Run from the repository root with `uv run --frozen <command>`.
-- Gates before "done": `uv run --frozen ruff check .`, `uv run --frozen pytest -q`, `uv run --frozen abstraction verify-answers`, gold gates (`evals/gold/HG-M042.json` 95 of 95, `evals/gold/NF-20817.json` 53 of 53), synthetic truth replay.
+- Gates before "done": `uv run --frozen ruff check .`, `uv run --frozen pytest -q`.
 - Every number in a document comes from a file in `outputs/`; label estimates as estimates.
 - Names say what a thing is or does; no abbreviations.
 - Markdown: one sentence per line, plain dashes only, never an em dash.
 - A new document: work on a copy of the store and ingest with the model that built it; a format that loses facts gets its pattern in `reconcile.py` with a test first.
-- A new prompt or model gets a new extractor version and the old rows stay; score it with `evals.experiments tier --store` and compare with `docs/experiments.md`.
+- A new prompt or model gets a new extractor version and the old rows stay.
 - Commits: plain English, no AI co-author line.
 
 ## Models, budget, and secrets

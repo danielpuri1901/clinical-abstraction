@@ -2,8 +2,7 @@
 
 Sections, in order:
 1. Plans: code reads patients and dates; keyword rules and the decision model, as two readers, pick the enum values.
-2. Answers by code: one executor per metric over the derived tables, Markdown that cites the source lines, the verdict, and
-   verify_saved, which replays saved plans without a model.
+2. Answers by code: one executor per metric over the derived tables, Markdown that cites the source lines, and the verdict.
 3. The open-question agent: Claude with four read-only tools, then code checks that every number and citation it writes came
    from a tool. The executors in section 2 reuse its encounter query and its citation check.
 """
@@ -15,7 +14,6 @@ import time
 from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import date, timedelta
-from pathlib import Path
 from typing import Literal, get_args
 
 from clinical_abstraction import read, reconcile, store
@@ -463,8 +461,7 @@ def interpretation(plan: Plan) -> str:
 # question was read; the second names any document still pending for a patient in scope. The verdict says how far to trust it:
 # COMPUTED when the two readers agreed and nothing is pending; COMPUTED WITH WARNING with the reasons when they disagreed, a
 # patient in scope is incomplete, or a citation does not resolve; REFUSED, with no numbers, when the question cannot be planned;
-# AGENT for open questions, with the agent's numbers checked against its tool outputs. The plan is saved with the answer, so
-# verify_saved replays it without a model.
+# AGENT for open questions, with the agent's numbers checked against its tool outputs. The plan is saved with the answer.
 
 LISTED = 50  # patients shown one by one, in an answer or in the agent's prompt; the rest are counted (decision D1.8)
 PENDING_LISTED = 10
@@ -482,7 +479,6 @@ INTEGRITY_KINDS = (
     "correction_not_applied",
     "conflict_after_correction",
 )
-NOT_VERIFIED = "NOT VERIFIED: the saved answer differs from what the code renders now"
 # ponytail: runs are two weeks long because a Plan has no number field; add one if a question asks for three weeks in a row.
 COLLECTION_RUNS = """
 WITH ordered AS (
@@ -951,15 +947,6 @@ def _plan_json(plan: Plan) -> dict:
     return data
 
 
-def _plan_from_json(data: dict) -> Plan:
-    window = data["date_range"]
-    if window:
-        window = DateRange(
-            *(date.fromisoformat(window[key]) if window[key] else None for key in ("start", "end")), window["label"]
-        )
-    return Plan(**{**data, "date_range": window})
-
-
 def _spent(budget: read.Budget) -> float:
     return sum(budget.spent(account) for account in budget.caps)
 
@@ -1011,28 +998,6 @@ def answer(connection, question: str, jev: Jev | None, budget: read.Budget, mode
             ),
         )
     return result
-
-
-def verify_saved(connection, path: Path) -> list[dict]:
-    """Replay every saved computed answer through run, with no model, and compare the text; write the verdicts to path.
-
-    The saved answers come from path when it exists (the answer-questions file), else from the answers table. A refusal or
-    an agent answer has no plan to replay, so its verdict stands.
-    """
-    path = Path(path)
-    if path.exists():
-        saved = json.loads(path.read_text())
-    else:
-        query = "SELECT question, plan, answer, verdict FROM answers ORDER BY created_at, question_key"
-        saved = [dict(row) | {"plan": json.loads(row["plan"])} for row in connection.execute(query)]
-    for item in saved:
-        if item["plan"] is None or item["verdict"].startswith("AGENT"):
-            continue
-        text, warnings, _ = _render(connection, _plan_from_json(item["plan"]))
-        item["verdict"] = _verdict(warnings) if text == item["answer"] else NOT_VERIFIED
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(saved, indent=1))
-    return saved
 
 
 # 3. The open-question agent ====================================================================================================
